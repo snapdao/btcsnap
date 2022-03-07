@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "proposedName": "btcsnap",
+  "source": {
+    "shasum": "Gqn2bXotfEL6U+EBu1kYFaE2PNmSPTQMOE0A8iybL2w=",
+    "location": {
+      "npm": {
+        "filePath": "build/bundle.js",
+        "packageName": "btcsnap",
+        "registry": "https://registry.npmjs.org"
+      }
+    }
+  },
+  "initialPermissions": {
+    "snap_confirm": {}
+  },
+  "manifestVersion": "0.1"
+}

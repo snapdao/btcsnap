@@ -1,0 +1,28 @@
+{
+  "name": "btcsnap",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "aaronisme <aarondongchen@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/snap.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test:snap": "mm-snap serve",
+    "build:snap": "mm-snap build",
+    "build:tx": "tsdx build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@metamask/snaps-cli": "^0.9.0"
+  },
+  "devDependencies": {
+    "tsdx": "^0.14.1"
+  }
+}

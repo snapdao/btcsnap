@@ -1,0 +1,14 @@
+0 silly argv { _: [ 'create' ], lernaVersion: '4.0.0', '$0': 'lerna', name: 'snap' }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/chendong/keystone/btcsnap
+3 warn ENOREMOTE No git remote found, skipping repository property
+4 error Error: canceled
+4 error     at Interface.<anonymous> (/Users/chendong/keystone/btcsnap/node_modules/read/lib/read.js:66:13)
+4 error     at Interface.emit (events.js:375:28)
+4 error     at Interface._ttyWrite (readline.js:910:16)
+4 error     at ReadStream.onkeypress (readline.js:235:10)
+4 error     at ReadStream.emit (events.js:375:28)
+4 error     at emitKeys (internal/readline/utils.js:358:14)
+4 error     at emitKeys.next (<anonymous>)
+4 error     at ReadStream.onData (readline.js:1179:36)
+4 error     at ReadStream.emit (events.js:375:28)

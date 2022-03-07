@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "ESNext",
         "lib": [
             "dom",
             "ES2017"
@@ -13,10 +13,6 @@
         "strictBindCallApply": true,
         "noImplicitThis": true,
         "noImplicitReturns": true,
-        "sourceMap": true,
-        "outDir": "./build",
-        "typeRoots": [
-            "./node_modules/@types",
-        ]
+        "sourceMap": true
     }
 }
