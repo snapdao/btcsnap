@@ -26,6 +26,7 @@
 
     <button class="connect">Connect</button>
     <button class="getPubKey">Get extended Public Key</button>
+    <div id="extendedPubKey" style="margin-top:5px"></div>
   </body>
 
   <script>
@@ -56,6 +57,8 @@
             method: 'btc_getPublicExtendedKey'
           }]
         })
+        const node = document.getElementById("extendedPubKey")
+        node.textContent = `extended public key: ${response}`
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)

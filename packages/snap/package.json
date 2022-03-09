@@ -14,13 +14,15 @@
     "lib"
   ],
   "scripts": {
+    "rebuild": "yarn build:tx && yarn build:snap && yarn test:snap",
     "test:snap": "mm-snap serve",
-    "build:snap": "mm-snap build",
-    "build:tx": "tsdx build",
+    "build:snap": "rm -rf build && mm-snap build",
+    "build:tx": "rm -rf dist && tsdx build",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@metamask/snaps-cli": "^0.9.0"
+    "@metamask/snaps-cli": "^0.9.0",
+    "bip32": "^2.0.6"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"
