@@ -1,8 +1,19 @@
 {
   "name": "root",
   "private": true,
+  "jest": {
+    "modulePathIgnorePatterns": [
+        "__data__"
+    ],
+    "testEnvironment": "node"
+},
   "devDependencies": {
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/jest": "^25.2.3",
     "lerna": "^4.0.0",
+    "jest": "^27.5.1",
+    "tsdx": "^0.14.1",
     "@types/node": "^12.12.35",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",

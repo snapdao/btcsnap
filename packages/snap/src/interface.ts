@@ -1,8 +1,15 @@
 export interface GetPublicExtendedKeyRequest{
     method: "btc_getPublicExtendedKey";
-  }
+}
 
-export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest
+export interface SignPsbt{
+  method: "btc_signPsbt";
+  params: {
+    psbt: string
+  }
+}
+
+export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt
 
 export type BTCMethodCallback = (
   originString: string,
@@ -11,7 +18,7 @@ export type BTCMethodCallback = (
 
 export interface Wallet {
   registerRpcMessageHandler: (fn: BTCMethodCallback) => unknown;
-request(options: {method: string; params?: unknown[]}): Promise<unknown>;
+  request(options: {method: string; params?: unknown[]}): Promise<unknown>;
 }
 
 

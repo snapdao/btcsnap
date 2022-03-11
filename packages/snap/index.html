@@ -26,6 +26,7 @@
 
     <button class="connect">Connect</button>
     <button class="getPubKey">Get extended Public Key</button>
+    <button class="signPsbt">Sign Psbt</button>
     <div id="extendedPubKey" style="margin-top:5px"></div>
   </body>
 
@@ -34,9 +35,11 @@
 
     const connectButton = document.querySelector('button.connect')
     const sendButton = document.querySelector('button.getPubKey')
+    const signButton = document.querySelector('button.signPsbt')
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', getPubKey)
+    signButton.addEventListener('click', signPsbt)
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -59,6 +62,23 @@
         })
         const node = document.getElementById("extendedPubKey")
         node.textContent = `extended public key: ${response}`
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function signPsbt () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_signPsbt',
+            params: {
+              psbt: "cHNidP8BAJwCAAAAAlVzsBWMfOCyW7PQz/c0Tjaco9vO4s5NiIhA//Sa4XzQAQAAAAD9////4BTcI2NIambjN7gC2nByKjIGX3qeT9Ta8OBnqjH45YkAAAAAAP3///8C948BAAAAAAAXqRSRWJI2amzfJK+m4cSA2yrYjGM3gIeYiVsAAAAAABepFJFYkjZqbN8kr6bhxIDbKtiMYzeAhwAAAAAAAQEg9Jg2AAAAAAAXqRSRWJI2amzfJK+m4cSA2yrYjGM3gIcBBBYAFOnPkTHZwCo6AtJGu0KXtWBsbLL5IgYC8yWoWQLSZNvLDL4UTpskY/glK9DFG8GWZvTIJGHkuqIYAQEBATEAAIAAAACAAAAAgAAAAAAAAAAAAAEBIIOEJgAAAAAAF6kUdFxWGQ0f6CdOfr6d1P4QyjSElZWHAQQWABQwB6va/o+HXD07cUQo53YUlKcfbCIGAvMlqFkC0mTbywy+FE6bJGP4JSvQxRvBlmb0yCRh5LqiGAEBAQExAACAAAAAgAAAAIAAAAAAAAAAAAAAAA=="
+            }
+          }]
+        })
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)

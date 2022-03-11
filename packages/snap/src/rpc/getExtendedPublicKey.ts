@@ -13,7 +13,6 @@ export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptTyp
             const bitcoin44node =  await wallet.request({
                 method: methodName
             }) as BIP44CoinTypeNode
-            console.log(bitcoin44node)
             const keyBuffer = Buffer.from(bitcoin44node.key, "base64")
             const privateKeyBuffer =keyBuffer.slice(0,32)
             const chainCodeBuffer = keyBuffer.slice(32,64)
