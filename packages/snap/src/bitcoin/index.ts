@@ -12,10 +12,26 @@ export class AccountSigner implements HDSigner {
         this.node = accountNode;
         this.publicKey = this.node.publicKey
         this.fingerprint = this.node.fingerprint
+        //@ts-ignore
+        this.node.__PARENT_FINGERPRINT = 0
     }
 
     derivePath(path: string): HDSigner {
-        const childNode = this.node.derivePath(path);
+        let splitPath = path.split('/');
+        if (splitPath[0] == 'm') {
+            splitPath = splitPath.slice(1)
+        }
+        const childNode = splitPath.reduce((prevHd, indexStr) => {
+            let index;
+            if (indexStr.slice(-1) === `'`) {
+                index = parseInt(indexStr.slice(0, -1), 10);
+                return prevHd.deriveHardened(index);
+            }
+            else {
+                index = parseInt(indexStr, 10);
+                return prevHd.derive(index);
+            }
+        }, this.node)
         return new AccountSigner(childNode)
     }
 
