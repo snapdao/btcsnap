@@ -3,7 +3,7 @@
   "description": "> TODO: description",
   "proposedName": "btcsnap",
   "source": {
-    "shasum": "yJoCICtgOzrD6ttHVx/hKZIbBXce2grrV6SUJu/zCS8=",
+    "shasum": "d8Umxeb9/9rEhJKpugMEHSVTY94HHD2W/uVIWPqNKx8=",
     "location": {
       "npm": {
         "filePath": "build/bundle.js",
@@ -14,7 +14,8 @@
   },
   "initialPermissions": {
     "snap_confirm": {},
-    "snap_getBip44Entropy_0": {}
+    "snap_getBip44Entropy_0": {},
+    "snap_getBip44Entropy_1": {}
   },
   "manifestVersion": "0.1"
 }

@@ -1,11 +1,15 @@
 export interface GetPublicExtendedKeyRequest{
     method: "btc_getPublicExtendedKey";
+    params: {
+      network: BitcoinNetwork
+    }
 }
 
 export interface SignPsbt{
   method: "btc_signPsbt";
   params: {
-    psbt: string
+    psbt: string,
+    network: BitcoinNetwork
   }
 }
 
@@ -24,6 +28,11 @@ export interface Wallet {
 
 export enum ScriptType {
     P2PKH = "P2PKH",
+}
+
+export enum BitcoinNetwork {
+  Main = "main",
+  Test = "test",
 }
 
 

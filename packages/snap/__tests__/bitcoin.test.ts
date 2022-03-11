@@ -91,7 +91,7 @@ describe('bitcoin test', () => {
                 }
             ]
         })
-
+        
         const tx = new BtcTx(psbtTx.toBase64())
         const { txId, txHex } = tx.signTx(signer)
         expect(txId).toBe("e2622d89aec4d1a97a416d9219017d7e6c79b418488f10a75386ea26f4ae9049")

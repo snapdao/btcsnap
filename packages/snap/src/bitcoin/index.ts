@@ -1,6 +1,8 @@
 import secp256k1 from 'secp256k1';
 import { BIP32Interface } from 'bip32';
-import { Psbt, HDSigner } from 'bitcoinjs-lib'
+import { Psbt, HDSigner, networks } from 'bitcoinjs-lib'
+
+import {BitcoinNetwork} from '../interface'
 
 
 export class AccountSigner implements HDSigner {
@@ -12,8 +14,6 @@ export class AccountSigner implements HDSigner {
         this.node = accountNode;
         this.publicKey = this.node.publicKey
         this.fingerprint = this.node.fingerprint
-        //@ts-ignore
-        this.node.__PARENT_FINGERPRINT = 0
     }
 
     derivePath(path: string): HDSigner {
@@ -94,30 +94,17 @@ export class BtcTx {
             throw new Error('signature verification failed')
         }
     }
-
 }
 
 
-
-
-
-export function validatePbst(psbt: string): boolean {
-    return true
+export function getNetwork(network: BitcoinNetwork) {
+    switch (network) {
+        case BitcoinNetwork.Main:
+            return networks.bitcoin
+        case BitcoinNetwork.Test:
+            return networks.regtest
+        default:
+            return networks.bitcoin
+    }
 }
 
-export function extractPsbtJson(psbt: string): object {
-    return {}
-}
-
-export function formatJsonString(psbtJson: object): string {
-    return JSON.stringify(psbtJson, null, 2)
-}
-
-export function signPsbt(psbt: string, key: Buffer): string {
-    return ""
-}
-
-
-export function extractRelatedKey(accountXpriv: string, requiredKeyPaths: string[]): string[] {
-    return []
-}
