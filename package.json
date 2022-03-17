@@ -6,7 +6,10 @@
         "__data__"
     ],
     "testEnvironment": "node"
-},
+  },
+  "scripts": {
+    "test": "lerna run test"
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",

@@ -2,7 +2,7 @@ import secp256k1 from 'secp256k1';
 import { BIP32Interface } from 'bip32';
 import { Psbt, HDSigner, networks } from 'bitcoinjs-lib'
 
-import {BitcoinNetwork} from '../interface'
+import { BitcoinNetwork } from '../interface'
 
 
 export class AccountSigner implements HDSigner {
@@ -17,22 +17,26 @@ export class AccountSigner implements HDSigner {
     }
 
     derivePath(path: string): HDSigner {
-        let splitPath = path.split('/');
-        if (splitPath[0] == 'm') {
-            splitPath = splitPath.slice(1)
+        try {
+            let splitPath = path.split('/');
+            if (splitPath[0] == 'm') {
+                splitPath = splitPath.slice(1)
+            }
+            const childNode = splitPath.reduce((prevHd, indexStr) => {
+                let index;
+                if (indexStr.slice(-1) === `'`) {
+                    index = parseInt(indexStr.slice(0, -1), 10);
+                    return prevHd.deriveHardened(index);
+                }
+                else {
+                    index = parseInt(indexStr, 10);
+                    return prevHd.derive(index);
+                }
+            }, this.node)
+            return new AccountSigner(childNode)
+        } catch (e) {
+            throw new Error('invaild path')
         }
-        const childNode = splitPath.reduce((prevHd, indexStr) => {
-            let index;
-            if (indexStr.slice(-1) === `'`) {
-                index = parseInt(indexStr.slice(0, -1), 10);
-                return prevHd.deriveHardened(index);
-            }
-            else {
-                index = parseInt(indexStr, 10);
-                return prevHd.derive(index);
-            }
-        }, this.node)
-        return new AccountSigner(childNode)
     }
 
     sign(hash: Buffer): Buffer {
