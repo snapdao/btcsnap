@@ -23,6 +23,6 @@ export async function signPsbt(wallet: Wallet, psbt: string, network: Network): 
     btcTx.validateTx(signer)
     return btcTx.signTx(signer)
   } else {
-    throw new Error('sign psbt failed')
+    throw new Error('user reject the sign request')
   }
 }
