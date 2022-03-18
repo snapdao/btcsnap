@@ -5,6 +5,7 @@
     "modulePathIgnorePatterns": [
         "__data__"
     ],
+    "testMatch": [ "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
     "testEnvironment": "node"
   },
   "scripts": {
@@ -17,6 +18,8 @@
     "lerna": "^4.0.0",
     "jest": "^27.5.1",
     "tsdx": "^0.14.1",
+    "sinon": "^9.0.1",
+    "@types/sinon": "^7.5.2",
     "@types/node": "^12.12.35",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",

@@ -36,9 +36,24 @@ export async function extractAccoutPrivateKey(wallet: Wallet, network: Network):
 export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptType, network: Network): Promise<string> {
     switch (scriptType) {
         case ScriptType.P2PKH:
-            let accountNode = await extractAccoutPrivateKey(wallet, network)
-            let accountPublicKey = accountNode.neutered();
-            return accountPublicKey.toBase58();
+            const result = await wallet.request({
+                method: 'snap_confirm',
+                params: [
+                  {
+                    prompt: 'Access your extened public Key?',
+                    description: 'Do you allow this app to access your extend public key?',
+                  },
+                ],
+            });
+
+            if(result) {
+                let accountNode = await extractAccoutPrivateKey(wallet, network)
+                let accountPublicKey = accountNode.neutered();
+                return accountPublicKey.toBase58();
+            } else {
+                throw new Error('User reject to access the key')
+            }
+            
         default:
             throw new Error('ScriptType is not supported.');
     }

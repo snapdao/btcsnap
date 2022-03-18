@@ -3,7 +3,7 @@
   "description": "> TODO: description",
   "proposedName": "btcsnap",
   "source": {
-    "shasum": "d8Umxeb9/9rEhJKpugMEHSVTY94HHD2W/uVIWPqNKx8=",
+    "shasum": "7nuVEC/BAXq41hgG11DNukqFszgAfbToj99JEz4THns=",
     "location": {
       "npm": {
         "filePath": "build/bundle.js",

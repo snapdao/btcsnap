@@ -13,6 +13,13 @@
   "files": [
     "lib"
   ],
+  "jest": {
+    "modulePathIgnorePatterns": [
+        "__data__"
+    ],
+    "testMatch": [ "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
+    "testEnvironment": "node"
+  },
   "scripts": {
     "rebuild": "yarn build:tx && yarn build:snap && yarn test:snap",
     "test:snap": "mm-snap serve",

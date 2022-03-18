@@ -73,7 +73,7 @@ export class BtcTx {
             })),
             outputs: this.tx.txOutputs.map(each => ({
                 script: each.script.toString('hex'),
-                index: each.value,
+                value: each.value,
                 address: each.address
             }))
         }
