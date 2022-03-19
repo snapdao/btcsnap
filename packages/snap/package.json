@@ -1,18 +1,20 @@
 {
   "name": "btcsnap",
-  "version": "1.0.0",
-  "description": "> TODO: description",
+  "version": "0.1.0",
+  "description": "btcsnap: Metamask snap to manage your bitcoin",
   "author": "aaronisme <aarondongchen@gmail.com>",
   "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KeystoneHQ/btcsnap"
+  },
   "license": "ISC",
-  "main": "lib/snap.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
-    "lib": "lib",
+    "lib": "build",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "jest": {
     "modulePathIgnorePatterns": [
         "__data__"
