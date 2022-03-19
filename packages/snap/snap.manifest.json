@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "btcsnap: Metamask snap to manage your bitcoin",
   "proposedName": "btcsnap",
   "repository": {
@@ -10,7 +10,7 @@
     "shasum": "WzJYAscqqqPaUZqloM7h8ibEXTBeWtiMmSovj59791U=",
     "location": {
       "npm": {
-        "filePath": "build/bundle.js",
+        "filePath": "dist/bundle.js",
         "packageName": "btcsnap",
         "registry": "https://registry.npmjs.org"
       }

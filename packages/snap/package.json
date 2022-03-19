@@ -1,6 +1,6 @@
 {
   "name": "btcsnap",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "btcsnap: Metamask snap to manage your bitcoin",
   "author": "aaronisme <aarondongchen@gmail.com>",
   "homepage": "",
@@ -11,10 +11,10 @@
   "license": "ISC",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "directories": {
-    "lib": "build",
-    "test": "__tests__"
-  },
+  "files": [
+    "dist/bundle.js",
+    "snap.manifest.json"
+  ],
   "jest": {
     "modulePathIgnorePatterns": [
         "__data__"
@@ -33,5 +33,9 @@
     "@metamask/snaps-cli": "^0.9.0",
     "bip32": "^2.0.6",
     "bitcoinjs-lib": "^6.0.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
