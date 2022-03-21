@@ -99,3 +99,6 @@ export const genreateAddresses = (extendedPubKey: string, fromIndex = 0, toIndex
 }
 
 
+export const queryUtxos = async (addresses: string[], includeHex = false) => {
+    
+}
