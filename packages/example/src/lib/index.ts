@@ -23,12 +23,12 @@ const networkAndScriptMap: networkAndScriptType = {
     "yprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2SH },
     "zpub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH },
     "zprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH },
-    "tpub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2PKH },
-    "tprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2PKH },
-    "upub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2SH },
-    "uprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2SH },
-    "vpub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH },
-    "vprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH },
+    "tpub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2PKH },
+    "tprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2PKH },
+    "upub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2SH },
+    "uprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2SH },
+    "vpub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2WPKH },
+    "vprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2WPKH },
 }
 
 const deteckNetworkAndScriptType = (extendedPubKey: string) => {
@@ -96,9 +96,4 @@ export const genreateAddresses = (extendedPubKey: string, fromIndex = 0, toIndex
         'change': batchGenerateAddreses(1)(node, network, scriptType, fromIndex, toIndex),
     }
 
-}
-
-
-export const queryUtxos = async (addresses: string[], includeHex = false) => {
-    
 }
