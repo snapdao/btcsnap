@@ -20,10 +20,24 @@ async function connect () {
   }
 
 
-export const Header = () => {
+type HeaderProps = {
+  setConnectStaus: (status: boolean) => void;
+  connected: boolean;
+}
+
+export const Header = (props: HeaderProps) => {
+    const {setConnectStaus, connected} = props
+    const connectWallet = async () => {
+      try {
+        await connect();
+        setConnectStaus(true);
+      } catch (e) {
+        setConnectStaus(false)
+      }
+    }
     return (
         <div>
-            <button onClick={connect}> Connect Wallet</button>
+            {connected ?<button onClick={connectWallet}> Connect Wallet</button> : <div>connected</div> }
         </div>
     )
 }
