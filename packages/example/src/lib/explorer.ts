@@ -23,6 +23,12 @@ export interface Exloper {
      * @param transactionHash 
      */
     getTransaction(transactionHash: string): Promise<string>
+
+    /**
+     * get the suggested fee rate
+     * returns the fee rate
+     */
+    getSuggestFeeRate(): Promise<number>
 }
 
 type BlockChairResponse = {
@@ -111,5 +117,18 @@ export class BlockChair implements Exloper {
 
         const responseJson = await resp.json();
         return responseJson['data'][transactionHash]["raw_transaction"]
+    }
+
+    async getSuggestFeeRate(): Promise<number> {
+        const host = `${this.genereateHost()}/stats`
+        const url = new URL(host);
+        const resp = await fetch(url.toString());
+
+        if (!resp.ok) {
+            throw new Error('fetch bitcoin transaction data error')
+        }
+
+        const responseJson = await resp.json();
+        return responseJson['data']['suggested_transaction_fee_per_byte_sat']
     }
 }

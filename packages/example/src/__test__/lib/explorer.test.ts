@@ -135,24 +135,41 @@ describe('lib', () => {
                 }
                 )
             })
-    
+
             fetchStub.onSecondCall().resolves({
                 ok: false,
                 json: () => Promise.resolve({})
             })
-    
+
             const key = 'test_key'
             const explorer = new BlockChair(key, BitcoinNetwork.Test)
             const addresses = [
                 'muokkQPLtEJ9fqMnMFMQsoxRosWxEEHd8i',
             ]
-    
+
             const result = await explorer.getUtxos(addresses, true)
             expect(result.length).toEqual(0)
         } catch (e) {
             expect(e).toEqual(new Error('fetch tx data error'))
         }
-        
+
+    })
+
+
+    it('should fetch suggested fee rat', async () => {
+        fetchStub.onFirstCall().resolves({
+            ok: true,
+            json: () => Promise.resolve({
+                data: {
+                    "suggested_transaction_fee_per_byte_sat": 5
+                }})
+        })
+        const key = 'test_key'
+        const explorer = new BlockChair(key, BitcoinNetwork.Test)
+
+        const result =  await explorer.getSuggestFeeRate()
+
+        expect(result).toBe(5)
     })
 
 
