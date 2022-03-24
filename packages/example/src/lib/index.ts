@@ -1,37 +1,31 @@
 import * as bip32 from 'bip32';
 import { payments, networks } from 'bitcoinjs-lib'
+import { BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface'
+import coinSelect from 'coinselect'
 
-export enum BitcoinNetwork {
-    Main,
-    Test
-}
-
-export enum BitcoinScriptType {
-    P2PKH,
-    P2SH,
-    P2WPKH
-}
 
 type networkAndScriptType = {
-    [key: string]: { network: BitcoinNetwork, scriptType: BitcoinScriptType }
+    [key: string]: { network: BitcoinNetwork, scriptType: BitcoinScriptType, config: { private: number, public: number } }
 }
 
-const networkAndScriptMap: networkAndScriptType = {
-    "xpub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2PKH },
-    "xprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2PKH },
-    "ypub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2SH },
-    "yprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2SH },
-    "zpub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH },
-    "zprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH },
-    "tpub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2PKH },
-    "tprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2PKH },
-    "upub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2SH },
-    "uprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2SH },
-    "vpub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2WPKH },
-    "vprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2WPKH },
+export const networkAndScriptMap: networkAndScriptType = {
+    "xpub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2PKH, config: { private: 0x0488ade4, public: 0x0488b21e } },
+    "xprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2PKH, config: { private: 0x0488ade4, public: 0x0488b21e } },
+    "ypub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2SH, config: { private: 0x049d7878, public: 0x049d7cb2 } },
+    "yprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2SH, config: { private: 0x049d7878, public: 0x049d7cb2 } },
+    "zpub": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH, config: { private: 0x04b2430c, public: 0x04b24746 } },
+    "zprv": { network: BitcoinNetwork.Main, scriptType: BitcoinScriptType.P2WPKH, config: { private: 0x04b2430c, public: 0x04b24746 } },
+    "tpub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2PKH, config: { private: 0x04358394, public: 0x043587cf } },
+    "tprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2PKH, config: { private: 0x04358394, public: 0x043587cf } },
+    "upub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2SH, config: { private: 0x044a4e28, public: 0x044a5262 } },
+    "uprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2SH, config: { private: 0x044a4e28, public: 0x044a5262 } },
+    "vpub": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2WPKH, config: { private: 0x045f18bc, public: 0x045f1cf6 } },
+    "vprv": { network: BitcoinNetwork.Test, scriptType: BitcoinScriptType.P2WPKH, config: { private: 0x045f18bc, public: 0x045f1cf6 } },
 }
 
-const deteckNetworkAndScriptType = (extendedPubKey: string) => {
+
+
+export const deteckNetworkAndScriptType = (extendedPubKey: string) => {
 
     const keyPrefix = Object.keys(networkAndScriptMap).find(each => extendedPubKey.slice(0, 4) === each)
 
@@ -76,7 +70,7 @@ const batchGenerateAddreses = (changeIndex: number) => (node: bip32.BIP32Interfa
     let result = []
     for (let i = fromIndex; i < toIndex; i++) {
         const childNode = node.derive(changeIndex).derive(i)
-        result.push(caculateBitcoinAddress(childNode.publicKey, network, scriptType))
+        result.push({ address: caculateBitcoinAddress(childNode.publicKey, network, scriptType), path: `m/${changeIndex}/${i}`, pubkey: childNode.publicKey })
     }
     return result
 }
@@ -96,4 +90,31 @@ export const genreateAddresses = (extendedPubKey: string, fromIndex = 0, toIndex
         'change': batchGenerateAddreses(1)(node, network, scriptType, fromIndex, toIndex),
     }
 
+}
+
+
+export const composePsbt = (traget: string, value: number, feeRate: number, utxos: Utxo[]): string => {
+
+    const targetObj = [{
+        address: traget,
+        value: value,
+    }]
+
+    const utxoList = utxos.map((each) => {
+        const formatedUxto: Record<string, any> = {
+            txId: each.transactionHash,
+            vout: each.index,
+            value: each.value
+        }
+        if (each.rawHex) {
+            formatedUxto["nonWitnessUtxo"] = Buffer.from(each.rawHex, 'hex')
+        }
+
+        return formatedUxto
+    }
+
+    )
+
+    let { inputs, outputs, fee } = coinSelect(utxoList, targetObj, feeRate)
+    return ""
 }

@@ -1,13 +1,7 @@
-import { BitcoinNetwork } from ".";
-
-type Utxo = {
-    address: string,
-    transactionHash: string,
-    index: number,
-    value: number,
-    rawHex?: string
-}
-
+import * as bip32 from 'bip32';
+import { BIP32Interface } from 'bip32';
+import { BitcoinNetwork, BitcoinScriptType, Utxo } from "../interface";
+import { deteckNetworkAndScriptType, networkAndScriptMap } from "./index"
 
 export interface Exloper {
     /**
@@ -16,7 +10,7 @@ export interface Exloper {
      * @param addresses 
      * @param includeHex 
      */
-    getUtxos(addresses: string[], includeHex: boolean): Promise<Utxo[]>
+    getStatus(xpub: string, includeHex: boolean): Promise<{ utxos: Utxo[], recieveMax: number, changeMax: number }>
 
     /**
      * Fetch the raw transaction hex by the transaction hash
@@ -33,8 +27,15 @@ export interface Exloper {
 
 type BlockChairResponse = {
     data: {
-        set: {},
-        utxo: BlockChairUxto[]
+        [xpub: string]: {
+            addresses: {
+                [address: string]: {
+                    path: string
+                }
+            },
+            utxo: BlockChairUxto[]
+        }
+
     }
 }
 
@@ -62,7 +63,7 @@ export class BlockChair implements Exloper {
     }
 
     private extractUtxo(response: BlockChairResponse) {
-        return response.data.utxo.map(each => ({
+        return Object.values(response.data)[0]["utxo"].map(each => ({
             address: each.address,
             transactionHash: each.transaction_hash,
             index: each.index,
@@ -70,26 +71,66 @@ export class BlockChair implements Exloper {
         }))
     }
 
+    private processAddressStatus(response: BlockChairResponse) {
+        const allPaths = Object.values(Object.values(response.data)[0]["addresses"]).map(each => each.path)
+        let recieveMax = 0;
+        let changeMax = 0;
+        allPaths.forEach(each => {
+            let [type, indexNumber] = each.split("/").map(path => parseInt(path))
+            if (type === 0 && indexNumber > recieveMax) {
+                recieveMax = indexNumber
+            } else if (type === 1 && indexNumber > changeMax) {
+                changeMax = indexNumber
+            }
+        })
+
+        return [recieveMax, changeMax]
+    }
 
 
-    async getUtxos(addresses: string[], includeHex: boolean = false): Promise<Utxo[]> {
-        const host = `${this.genereateHost()}/dashboards/addresses/${addresses.join(',')}`
+
+    private transferNode(extendedPubKey: string, prefix: string, config: { private: number, public: number }) {
+        const node = bip32.fromBase58(extendedPubKey, { bip32: config, wif: 0 })
+        let mainConfig = networkAndScriptMap[prefix]["config"]
+        const transferNode = bip32.fromPublicKey(node.publicKey, node.chainCode, { bip32: mainConfig, wif: 0 })
+        return transferNode.toBase58()
+    }
+
+    public convertPubKeyFormate(extendedPubKey: string) {
+        const { network, scriptType, config } = deteckNetworkAndScriptType(extendedPubKey)
+        if (network === BitcoinNetwork.Test) {
+            if (scriptType === BitcoinScriptType.P2PKH) {
+                return this.transferNode(extendedPubKey, "xpub", config)
+            } else if (scriptType === BitcoinScriptType.P2SH) {
+                return this.transferNode(extendedPubKey, "ypub", config)
+            } else {
+                return this.transferNode(extendedPubKey, "zpub", config)
+            }
+        } else {
+            return extendedPubKey
+        }
+    }
+
+
+    async getStatus(extendedPubKey: string, includeHex: boolean = false) {
+        const convertedPubKey = this.convertPubKeyFormate(extendedPubKey)
+
+        const host = `${this.genereateHost()}/dashboards/xpub/${convertedPubKey}`
         const url = new URL(host);
         const params = { limit: '5000', state: "latest", key: this.apiKey }
         url.search = new URLSearchParams(params).toString();
         const resp = await fetch(url.toString());
-
         if (!resp.ok) {
             // process error logic for 404 return []
             if (resp.status === 404) {
-                return []
+                return {utxos:[], recieveMax: 0, changeMax: 0}
             } else {
                 throw new Error('fetch utxo data error')
             }
         }
 
-
         const responseJson = await resp.json();
+        const [recieveMax, changeMax] = this.processAddressStatus(responseJson)
         const utxoList = this.extractUtxo(responseJson)
         if (includeHex) {
             const utxoListWithHex = []
@@ -97,9 +138,10 @@ export class BlockChair implements Exloper {
                 const rawHex = await this.getTransaction(each.transactionHash)
                 utxoListWithHex.push({ ...each, rawHex })
             }
-            return utxoListWithHex
+            return { utxos: utxoListWithHex, recieveMax, changeMax }
         }
-        return utxoList
+        return { utxos: utxoList, recieveMax, changeMax }
+
     }
 
     async getTransaction(transactionHash: string): Promise<string> {
