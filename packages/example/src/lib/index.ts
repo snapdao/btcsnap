@@ -75,7 +75,7 @@ const batchGenerateAddreses = (changeIndex: number) => (node: bip32.BIP32Interfa
     return result
 }
 
-export const genreateAddresses = (extendedPubKey: string, fromIndex = 0, toIndex = 10) => {
+const genreateAddresses = (type: number) => (extendedPubKey: string, fromIndex = 0, toIndex = 10) => {
     const { network, scriptType } = deteckNetworkAndScriptType(extendedPubKey);
     let networkConfig;
     if (network === BitcoinNetwork.Main) {
@@ -85,12 +85,11 @@ export const genreateAddresses = (extendedPubKey: string, fromIndex = 0, toIndex
     }
     const node = bip32.fromBase58(extendedPubKey, networkConfig);
 
-    return {
-        'recieve': batchGenerateAddreses(0)(node, network, scriptType, fromIndex, toIndex),
-        'change': batchGenerateAddreses(1)(node, network, scriptType, fromIndex, toIndex),
-    }
-
+    return batchGenerateAddreses(type)(node, network, scriptType, fromIndex, toIndex)
 }
+
+export const generateReceiveAddress = genreateAddresses(0)
+export const generateChangeAddress = genreateAddresses(1)
 
 
 export const composePsbt = (traget: string, value: number, feeRate: number, utxos: Utxo[]): string => {

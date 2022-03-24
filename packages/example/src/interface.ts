@@ -16,3 +16,9 @@ export type Utxo = {
     value: number,
     rawHex?: string
 }
+
+export type Address = {
+    address: string | undefined
+    path: string
+    pubkey: Buffer
+}
