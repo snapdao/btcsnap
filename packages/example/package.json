@@ -15,19 +15,19 @@
     "bip32": "^2.0.6",
     "bitcoinjs-lib": "^6.0.1",
     "buffer": "^6.0.3",
+    "coinselect": "^3.1.12",
     "crypto": "npm:crypto-browserify",
     "crypto-browserify": "^3.12.0",
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
-    "stream": "npm:stream-browserify",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "url": "^0.11.0",
-    "coinselect": "^3.1.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
+    "stream": "npm:stream-browserify",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "typescript": "^4.6.2",
+    "url": "^0.11.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -42,6 +42,16 @@
       "react-app/jest"
     ]
   },
+  "lint-staged": {
+       "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+         "prettier --write"
+       ]
+  },
+  "husky": {
+    "hooks": {
+          "pre-commit": "lint-staged"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -55,6 +65,9 @@
     ]
   },
   "devDependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
+    "prettier": "^2.6.1",
     "react-app-rewired": "^2.2.1"
   }
 }

@@ -191,11 +191,4 @@ describe('lib', () => {
         expect(converted3).toBe("zpub6jftahH18ngZxukwaV4zYQR49gz8o55Xj24xQJf2iSaq3n7FdEvL8LTSXWqNFs9QpMPXM5cyC8yQ6ADgPfqhLSAg6cBdW2Qiy4C5yJoioxW")
     })
 
-    // it.only('should work', async () => {
-    //     const test_key = "A___VmKhrQNcUYF3Q0DJZB5VWlHGS2Dt"
-    //     const explorer = new BlockChair(test_key, BitcoinNetwork.Test)
-    //     const result = await explorer.getStatus("tpubDDJbAqXq6EFowpDuCv4Q3Wa7WGHJjUCQyY3pxAFMrrna7FTLV8Q835J8kqPyFvNBE7oXtvES6jJsS51jNoYMpmG39kYBGG8Ps8XWccA16vB", true)
-    //     console.log(result);
-
-    // })
 })

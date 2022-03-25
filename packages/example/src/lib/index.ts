@@ -1,8 +1,18 @@
 import * as bip32 from 'bip32';
-import { payments, networks } from 'bitcoinjs-lib'
-import { BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface'
+import { payments, networks, Psbt, PsbtTxInput } from 'bitcoinjs-lib'
+import { BitcoinNetwork, BitcoinScriptType, Utxo, Address } from '../interface'
 import coinSelect from 'coinselect'
 
+interface Bip32Derivation {
+    masterFingerprint: Buffer;
+    pubkey: Buffer;
+    path: string;
+}
+
+interface PsbtInput extends PsbtTxInput {
+    nonWitnessUtxo?: Buffer;
+    bip32Derivation?: Bip32Derivation[]
+}
 
 type networkAndScriptType = {
     [key: string]: { network: BitcoinNetwork, scriptType: BitcoinScriptType, config: { private: number, public: number } }
@@ -92,18 +102,27 @@ export const generateReceiveAddress = genreateAddresses(0)
 export const generateChangeAddress = genreateAddresses(1)
 
 
-export const composePsbt = (traget: string, value: number, feeRate: number, utxos: Utxo[]): string => {
+const genreatePSBT = (targetObject: { address: string, value: number },
+    utxos: Utxo[],
+    feeRate: number,
+    sendInfo: { addressList: Address[], masterFingerprint: Buffer, changeAddress: string},
+   ) => {
+        const {inputs, outputs} = selectUtxos(targetObject.address, targetObject.value, feeRate, utxos)
+        return composePsbt(inputs, outputs, sendInfo.changeAddress, sendInfo.addressList, sendInfo.masterFingerprint)
+}
 
+
+const selectUtxos = (traget: string, value: number, feeRate: number, utxos: Utxo[]) => {
     const targetObj = [{
         address: traget,
         value: value,
     }]
-
     const utxoList = utxos.map((each) => {
         const formatedUxto: Record<string, any> = {
             txId: each.transactionHash,
             vout: each.index,
-            value: each.value
+            value: each.value,
+            address: each.address
         }
         if (each.rawHex) {
             formatedUxto["nonWitnessUtxo"] = Buffer.from(each.rawHex, 'hex')
@@ -114,6 +133,49 @@ export const composePsbt = (traget: string, value: number, feeRate: number, utxo
 
     )
 
-    let { inputs, outputs, fee } = coinSelect(utxoList, targetObj, feeRate)
-    return ""
+    return coinSelect(utxoList, targetObj, feeRate)
+}
+
+
+const findAddress = (address: string, addressList: Address[]) => {
+    return addressList.find(each => each.address === address)
+}
+
+const composePsbt = (inputs: any[], outputs: any[], changeAddress: string, addressList: Address[], masterFingerprint: Buffer) => {
+    let psbt = new Psbt();
+
+    inputs.forEach(each => {
+
+        let inputItem: PsbtInput = {
+            hash: each.txId,
+            index: each.vout
+        }
+
+        if (each.nonWitnessUtxo) {
+            inputItem["nonWitnessUtxo"] = Buffer.from(each.nonWitnessUtxo, "hex")
+        } else { }
+
+        const addressItem = findAddress(each.address, addressList)
+        if (addressItem) {
+            inputItem["bip32Derivation"] = [{
+                masterFingerprint,
+                path: addressItem.path,
+                pubkey: addressItem.pubkey
+            }]
+        }
+        psbt.addInput(inputItem);
+    })
+
+    outputs.forEach(output => {
+        if (!output.address) {
+            output.address = changeAddress
+        }
+
+        psbt.addOutput({
+            address: output.address,
+            value: output.value,
+        })
+    })
+
+    return psbt
 }
