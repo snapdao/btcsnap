@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Header,Icon } from 'semantic-ui-react'
 import { MetaMaskInpageProvider } from '@metamask/providers';
 
 declare global {
@@ -26,23 +27,8 @@ type HeaderProps = {
   connected: boolean;
 };
 
-export const Header = (props: HeaderProps) => {
-  const { setConnectStaus, connected } = props;
-  const connectWallet = async () => {
-    try {
-      await connect();
-      setConnectStaus(true);
-    } catch (e) {
-      setConnectStaus(false);
-    }
-  };
+export const PageHeader = () => {
   return (
-    <div>
-      {connected ? (
-        <button onClick={connectWallet}> Connect Wallet</button>
-      ) : (
-        <div>connected</div>
-      )}
-    </div>
+    <Icon name='home' size='large' />
   );
 };

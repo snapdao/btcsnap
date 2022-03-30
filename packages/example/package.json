@@ -5,6 +5,7 @@
   "dependencies": {
     "@metamask/example-snap": "^0.7.0",
     "@metamask/providers": "^8.1.1",
+    "@semantic-ui-react/css-patch": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -23,6 +24,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.1.2",
     "stream": "npm:stream-browserify",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
@@ -35,6 +38,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "lint": "yarn eslint && yarn prettier src --write",
+    "postinstall": "semantic-ui-css-patch",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
