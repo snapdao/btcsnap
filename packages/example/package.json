@@ -41,13 +41,6 @@
     "postinstall": "semantic-ui-css-patch",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "prettier"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",

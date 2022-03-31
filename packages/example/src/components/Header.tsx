@@ -1,5 +1,13 @@
 import React from 'react';
-import { Container, Header,Icon } from 'semantic-ui-react'
+import './Header.css';
+import {
+  Container,
+  Header,
+  Icon,
+  Button,
+  Grid,
+  Segment,
+} from 'semantic-ui-react';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 
 declare global {
@@ -29,6 +37,23 @@ type HeaderProps = {
 
 export const PageHeader = () => {
   return (
-    <Icon name='home' size='large' />
+    <Container>
+      <Grid columns="equal">
+        <Grid.Column width={12}>
+          <Header as="h1">
+            <Icon name="bitcoin" size="large" color="orange" />
+            <Header.Content>
+              BitcoinSnap
+              <Header.Subheader>
+                Manage your bitcoin with Metamask Flask and Btcsnap
+              </Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Grid.Column>
+        <Grid.Column>
+          <Button primary size="big">Connect Metamask</Button>
+        </Grid.Column>
+      </Grid>
+    </Container>
   );
 };
