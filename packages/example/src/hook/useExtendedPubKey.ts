@@ -1,4 +1,3 @@
-import { count } from 'console';
 import { useState, useEffect } from 'react';
 import { Address, BitcoinNetwork, Utxo } from '../interface';
 import { generateReceiveAddress, generateChangeAddress } from '../lib';

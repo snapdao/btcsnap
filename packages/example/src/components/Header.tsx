@@ -1,5 +1,4 @@
 import React from 'react';
-import './Header.css';
 import {
   Container,
   Header,
@@ -10,32 +9,12 @@ import {
 } from 'semantic-ui-react';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 
-declare global {
-  interface Window {
-    ethereum: MetaMaskInpageProvider;
-  }
-}
-
-const { ethereum } = window;
-const snapId = 'npm:btcsnap';
-
-async function connect() {
-  await ethereum.request({
-    method: 'wallet_enable',
-    params: [
-      {
-        wallet_snap: { 'npm:btcsnap': {} },
-      },
-    ],
-  });
-}
-
 type HeaderProps = {
-  setConnectStaus: (status: boolean) => void;
+  onConnect: Function;
   connected: boolean;
 };
 
-export const PageHeader = () => {
+export const PageHeader = ({ onConnect, connected }: HeaderProps) => {
   return (
     <Container>
       <Grid columns="equal">
@@ -45,13 +24,19 @@ export const PageHeader = () => {
             <Header.Content>
               BitcoinSnap
               <Header.Subheader>
-                Manage your bitcoin with Metamask Flask and Btcsnap
+                Manage your bitcoin with Metamask Flask and btcsnap
               </Header.Subheader>
             </Header.Content>
           </Header>
         </Grid.Column>
         <Grid.Column>
-          <Button primary size="big">Connect Metamask</Button>
+          <Button
+            primary={!connected}
+            disable={connected}
+            size="big"
+            onClick={(e) => onConnect()}>
+            {connected ? 'Connected' : 'Connect Metamask'}
+          </Button>
         </Grid.Column>
       </Grid>
     </Container>
