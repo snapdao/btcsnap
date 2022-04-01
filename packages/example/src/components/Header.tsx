@@ -32,7 +32,7 @@ export const PageHeader = ({ onConnect, connected }: HeaderProps) => {
         <Grid.Column>
           <Button
             primary={!connected}
-            disable={connected}
+            disabled={connected}
             size="big"
             onClick={(e) => onConnect()}>
             {connected ? 'Connected' : 'Connect Metamask'}
