@@ -1,8 +1,17 @@
 import { useState } from 'react';
-import { Table, Menu, Icon } from 'semantic-ui-react';
+import {
+  Table,
+  Menu,
+  Icon,
+  Dimmer,
+  Loader,
+  Segment,
+  Image,
+  Container,
+} from 'semantic-ui-react';
 
-type ListProps = {
-  items: { index: number; address: string; count: number }[];
+export type ListProps = {
+  items: { path: string; address: string; count: number }[];
   loading: boolean;
 };
 
@@ -18,14 +27,30 @@ const renderBody = (
       showList.push(items[i + pageCount * index]);
     }
   }
-  return showList.map((each) => (
-    <Table.Row key={each.index}>
-      <Table.Cell>{each.index}</Table.Cell>
-      <Table.Cell>{each.address}</Table.Cell>
-      <Table.Cell>{each.count}</Table.Cell>
-    </Table.Row>
-  ));
+  return (
+    <Table.Body>
+      {showList.map((each) => (
+        <Table.Row key={each.path}>
+          <Table.Cell>{each.address}</Table.Cell>
+          <Table.Cell>{each.path}</Table.Cell>
+          <Table.Cell>{each.count}</Table.Cell>
+        </Table.Row>
+      ))}
+    </Table.Body>
+  );
 };
+
+const renderLoading = () => (
+  <Container>
+    <Segment center>
+      <Dimmer active inverted>
+        <Loader size="large">Loading</Loader>
+      </Dimmer>
+
+      <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
+    </Segment>
+  </Container>
+);
 
 const renderFooter = (index: number, max: number, setIndex: Function) => {
   return (
@@ -55,34 +80,26 @@ const renderFooter = (index: number, max: number, setIndex: Function) => {
 };
 
 export const AddressList = (props: ListProps) => {
-
   const [index, setIndex] = useState(0);
-  const pageCount = 3;
+  const pageCount = 5;
 
   const shouldShowFooter = () => props.items.length > pageCount;
-
   const max = Math.floor(props.items.length / pageCount);
-
+  if (props.loading) {
+    return renderLoading();
+  }
   return (
     <Table>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Index</Table.HeaderCell>
           <Table.HeaderCell>Address</Table.HeaderCell>
+          <Table.HeaderCell>Path</Table.HeaderCell>
           <Table.HeaderCell>Utxo Count</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
-        {renderBody(props.items, pageCount, index, props.items.length)}
-      </Table.Body>
+      <Table.Body></Table.Body>
+      {renderBody(props.items, pageCount, index, props.items.length)}
       {shouldShowFooter() ? renderFooter(index, max, setIndex) : null}
     </Table>
   );
 };
-
-export const test = [
-  { index: 1, address: 'abc', count: 1 },
-  { index: 2, address: 'abc', count: 1 },
-  { index: 3, address: 'abc', count: 1 },
-  { index: 4, address: 'abc', count: 1 },
-];

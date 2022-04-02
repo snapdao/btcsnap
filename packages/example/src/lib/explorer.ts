@@ -140,6 +140,9 @@ export class BlockChair implements Exloper {
     }
 
     const responseJson = await resp.json();
+    if(responseJson.data.length === 0) {
+      return { utxos: [], recieveMax: 0, changeMax: 0}
+    }
     const [recieveMax, changeMax] = this.processAddressStatus(responseJson);
     const utxoList = this.extractUtxo(responseJson);
     if (includeHex) {

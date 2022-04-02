@@ -1,25 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from './lib/snap';
-import logo from './logo.svg';
+import { connect, getExtendedPublicKey } from './lib/snap';
+import { addressAggrator, countUtxo } from './lib/helper';
 import './App.css';
 import { PageHeader } from './components/Header';
-import { AddressList, test} from './components/AddressList'
+import { Address } from './components/Address';
 import { useExtendedPubKey } from './hook/useExtendedPubKey';
 import { BitcoinNetwork } from './interface';
 
 function App() {
   const [connected, setConnectStatus] = useState(false);
+  // const [pubKey, setPubKey] = useState('');
+  const [network, setNetwork] = useState<BitcoinNetwork>(BitcoinNetwork.Test);
+
   const connectCallback = () => setConnectStatus(true);
 
-  // const { utxoList, recieveAddressList, changeAddressList, setPubKey } =
-  //   useExtendedPubKey(
-  //     'tpubDDJbAqXq6EFowpDuCv4Q3Wa7WGHJjUCQyY3pxAFMrrna7FTLV8Q835J8kqPyFvNBE7oXtvES6jJsS51jNoYMpmG39kYBGG8Ps8XWccA16vB',
-  //     BitcoinNetwork.Test,
-  //   );
+  const {
+    utxoList,
+    recieveAddressList,
+    changeAddressList,
+    setPubKey,
+    loading,
+  } = useExtendedPubKey('', network);
+  
+  
 
-  // console.log('utxo:', utxoList);
-  // console.log('rlist:', recieveAddressList);
-  // console.log('clist', changeAddressList);
+  const utxoMap = countUtxo(utxoList);
+  const address = addressAggrator(
+    recieveAddressList,
+    changeAddressList,
+    utxoMap,
+  );
+
+  console.log('utxo:', utxoList);
+  console.log('rlist:', recieveAddressList);
+  console.log('clist', changeAddressList);
 
   return (
     <div className="App">
@@ -27,7 +41,13 @@ function App() {
         connected={connected}
         onConnect={() => connect(connectCallback)}
       />
-      <AddressList items={test} loading />
+      <Address
+        onGetPubkey={() => getExtendedPublicKey(network, setPubKey)}
+        network={network}
+        setNetwork={setNetwork}
+        items={address}
+        loading={loading}
+      />
     </div>
   );
 }
