@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "cp config/dev.ts src/config/index.ts && react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "cp config/prod.ts src/config/index.ts && react-app-rewired build",
     "test": "react-app-rewired test",
     "lint": "yarn eslint && yarn prettier src --write",
     "postinstall": "semantic-ui-css-patch",
