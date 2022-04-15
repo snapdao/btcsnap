@@ -6,7 +6,13 @@
 }
 
 .App-Container {
+  opacity: 1;
   padding: 1rem
+}
+
+.Banner-link {
+  color: white;
+  text-decoration: none;
 }
 
 .Banner-container {
