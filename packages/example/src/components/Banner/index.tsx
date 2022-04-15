@@ -13,7 +13,7 @@ const Banner = () => {
           Installed for this example,{' '}
           <a
             href="https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk"
-            className="Banner-link"
+            id="bannerLink"
             target="_blank">
             {' '}
             Click here to install
