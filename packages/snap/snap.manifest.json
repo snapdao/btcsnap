@@ -1,0 +1,25 @@
+{
+  "version": "0.3.1",
+  "description": "btcsnap: Metamask snap to manage your bitcoin",
+  "proposedName": "btcsnap",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KeystoneHQ/btcsnap"
+  },
+  "source": {
+    "shasum": "PF7Gse881Hn/s34658UQ9lWfB8l8bdBpHDLQ7pTIOS4=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "packageName": "btcsnap",
+        "registry": "https://registry.npmjs.org"
+      }
+    }
+  },
+  "initialPermissions": {
+    "snap_confirm": {},
+    "snap_getBip44Entropy_0": {},
+    "snap_getBip44Entropy_1": {}
+  },
+  "manifestVersion": "0.1"
+}

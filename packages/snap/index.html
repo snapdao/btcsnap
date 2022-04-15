@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  </head>
+    <title>Hello, Snaps!</title>
+    <link rel="icon" type="image/svg" href="./images/icon.svg"/>
+  </head>
+
+  <body>
+    <h1>Hello, BTC Snaps!</h1>
+    <details>
+      <summary>Instructions</summary>
+      <ul>
+        <li>First, click "Connect". Then, try out the other buttons!</li>
+        <li>Please note that:</li>
+        <ul>
+          <li>
+            The <code>snap.manifest.json</code> and <code>package.json</code> must be located in located in the server root directory..
+          </li>
+          <li>
+            The Snap bundle must be hosted at the location specified by the <code>location</code> field of <code>snap.manifest.json</code>.
+          </li>
+        </ul>
+      </ul>
+    </details>
+    <br/>
+
+    <button class="connect">Connect</button>
+    <button class="getPubKey">Get extended Public Key</button>
+    <button class="signPsbt">Sign Psbt</button>
+    <div id="extendedPubKey" style="margin-top:5px"></div>
+    <div id="txId" style="margin-top:5px"></div>
+    <div id="txHex" style="margin-top:5px"></div>
+  </body>
+
+  <script>
+    const snapId = `local:${window.location.href}`;
+
+    const connectButton = document.querySelector('button.connect')
+    const sendButton = document.querySelector('button.getPubKey')
+    const signButton = document.querySelector('button.signPsbt')
+
+    connectButton.addEventListener('click', connect)
+    sendButton.addEventListener('click', getPubKey)
+    signButton.addEventListener('click', signPsbt)
+
+    // here we get permissions to interact with and install the snap
+    async function connect () {
+      await ethereum.request({
+        method: 'wallet_enable',
+        params: [{
+          wallet_snap: { [snapId]: {} },
+        }]
+      })
+    }
+
+    // here we call the snap's "hello" method
+    async function getPubKey () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_getPublicExtendedKey',
+            params: {
+              network: "test"
+            }
+          }]
+        })
+        const node1 = document.getElementById("extendedPubKey")
+        node1.textContent = `extended public key: ${response}`
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function signPsbt () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_signPsbt',
+            params: {
+              psbt: "cHNidP8BAFUCAAAAAT9MXJk0OEoyuubJXTnMqxo7Hj08Wv7yHJsw9URN/9a7AQAAAAD/////ARwlAAAAAAAAGXapFLW2YqzVecKrjOg8i5S0MDzxe/OmiKwAAAAAAAEA4QIAAAAAAQGGHEltyRyXjljtT3zc4tO1/4Y1U5zibwVdAl9QxaXdCQEAAAAA/v///wI1xv9wAAAAABYAFIWiDQ/MrBorRi/oI6gcJXZ8OlKRECcAAAAAAAAZdqkUtbZirNV5wquM6DyLlLQwPPF786aIrAJHMEQCICh8bgzVpHXdYRzjQKHwro1i8zZQWb9JF0C90qy2UbN+AiA6x4zrT04ZDicTqT2xUuFywc7e1H/BYwm69N1w6W6/wAEhA2ijz+sT/T1ycTtaI1/ZfCmtv5r8BkT52aFU1akQJlJHqmchACIGA5QpeTH0HwcDirFXCpKj+/v0ttc8sOP4PwSLUJRWIJiXDP0+QYsAAAAAAAAAAAAA",
+              network: "test"
+            }
+          }]
+        })
+        const node2 = document.getElementById("txId")
+        node2.textContent = `txId: ${response.txId}`
+        const node3 = document.getElementById("txHex")
+        node3.textContent = `txHex: ${response.txHex}`
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+  </script>
+</html>
