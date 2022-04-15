@@ -33,7 +33,7 @@ export const PageHeader = ({ onConnect, connected }: HeaderProps) => {
             disabled={connected}
             size="big"
             onClick={(e) => onConnect()}>
-            {connected ? 'Connected' : 'Connect Metamask'}
+            {connected ? 'Connected' : 'Connect Metamask Flask'}
           </Button>
         </Grid.Column>
       </Grid>
