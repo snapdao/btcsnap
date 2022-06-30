@@ -27,9 +27,9 @@ Check out this video of [sending an bitcoin testnet transaction with btcsnap](ht
 
 Test Btcsnap inside [our demo DAPP.](https://btcsnap.netlify.app/)
 
-##### Running Filsnap demo locally
+##### Running bitcoinsnap demo locally
 
-Start our demo locally by running:
+Go to the example folder under packages,Start our demo locally by running:
 
 - `yarn`
 - `yarn start`
