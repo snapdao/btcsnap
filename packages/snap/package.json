@@ -23,6 +23,7 @@
     "testEnvironment": "node"
   },
   "scripts": {
+    "build": "yarn build:tx && yarn build:snap",
     "rebuild": "yarn build:tx && yarn build:snap && yarn test:snap",
     "test:snap": "mm-snap serve",
     "build:snap": "rm -rf build && mm-snap build",
