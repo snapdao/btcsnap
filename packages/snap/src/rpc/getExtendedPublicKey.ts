@@ -19,9 +19,8 @@ export async function extractAccoutPrivateKey(wallet: Wallet, network: Network):
     const bitcoin44node = await wallet.request({
         method: methodName
     }) as BIP44CoinTypeNode
-    const keyBuffer = Buffer.from(bitcoin44node.key, "base64")
-    const privateKeyBuffer = keyBuffer.slice(0, 32)
-    const chainCodeBuffer = keyBuffer.slice(32, 64)
+    const privateKeyBuffer = Buffer.from(bitcoin44node.privateKey, "hex")
+    const chainCodeBuffer = Buffer.from(bitcoin44node.chainCode, "hex")
     let node: BIP32Interface = bip32.fromPrivateKey(privateKeyBuffer, chainCodeBuffer, network)
     //@ts-ignore 
     // ignore checking since no function to set depth for node
