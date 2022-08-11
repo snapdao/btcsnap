@@ -126,22 +126,6 @@
   transform: rotate(180deg);
 }
 
-.Menu-button{
-  width: 40px;
-  height: 40px;
-  background: #FFFFFF;
-  border: 1px solid #E1E6F0;
-  border-radius: 16px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Menu-button img {
-  width: 18px;
-  height: 18px;
-}
-
 .Tx-list-container {
   flex: 1;
   width: 100%;
