@@ -6,6 +6,10 @@
   align-items: center;
 }
 
+.Tx-container a {
+  width: 100%;
+}
+
 .Tx-detail-container {
   display: flex;
   justify-content: space-between;

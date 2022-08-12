@@ -33,6 +33,9 @@ const Menu = () => {
       {
         isPanelOpen && <MenuPanel close={closeMenuPanel} openSettingModal={openSettingModal} />
       }
+      {/*
+        TODO change with setting modal
+      */}
       <Modal
         onClose={closeSettingModal}
         open={isSettingModalOpen}
