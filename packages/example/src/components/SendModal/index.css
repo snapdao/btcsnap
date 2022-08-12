@@ -1,0 +1,115 @@
+.modal-trigger {
+    border-radius: 28px !important;
+    width: 96px;
+    height: 96px;
+}
+
+.colored-container {
+    background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
+}
+
+.modal-content-container {
+    padding: 28px;
+}
+
+.modal-section {
+    margin-top: 20px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.available-btc {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.text-secondary {
+    color: #9095A3;
+}
+
+.text-bold {
+    font-weight: 600;
+}
+
+.text-error {
+    color: #EB2F00;
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.amount-input-box {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.amount-input {
+    border: none;
+    font-size: 40px;
+    max-width: 200px;
+    background: transparent;
+}
+
+.to-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.to-input {
+    margin-top: 22px;
+    border: none;
+    width: 100%;
+}
+
+input:focus-visible {
+    outline: none;
+}
+
+::placeholder {
+    color: #C5CAD6;
+}
+
+.fee {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.actions-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 72px;
+}
+
+.action-button {
+    width: 176px;
+    border-radius: 16px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.action-button-secondary {
+    background-color: #F0F3FA;
+}
+
+.action-button-primary {
+    background-color: #111214;
+    color: white;
+}
+
+.action-button-disable {
+    background-color: #E1E6F0;
+    color: #9095A3;
+}

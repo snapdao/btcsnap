@@ -11,7 +11,6 @@ import './App.css';
 import { PageHeader } from './components/Header';
 import { PageFooter } from './components/Footer';
 import { Address } from './components/Address';
-import SendBox from './components/Send';
 import AddressBox from './components/AddressBox';
 import Banner from './components/Banner';
 import { TransactionList } from './components/TransactionList';
@@ -27,6 +26,8 @@ import {
   Segment,
   Button,
 } from 'semantic-ui-react';
+
+import SendModal from "./components/SendModal";
 
 function App() {
   const [connected, setConnectStatus] = useState(false);
@@ -107,15 +108,7 @@ function App() {
           <Segment>
             <Grid columns={2} relaxed="very" stackable>
               <Grid.Column>
-                <Header as="h3">Send Transaction</Header>
-                <SendBox
-                  feeRate={feeRate}
-                  value={value}
-                  target={target}
-                  setTarget={setTarget}
-                  setValue={setValue}
-                  onSendClick={onSendClick}
-                />
+                <SendModal utxos={utxoList} feeRate={feeRate} />
               </Grid.Column>
               <Grid.Column>
                 <Header as="h3">BTC Address</Header>
