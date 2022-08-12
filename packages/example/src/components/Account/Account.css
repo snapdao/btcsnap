@@ -18,7 +18,7 @@
 
 .Account-Powered-By {
   position: absolute;
-  bottom: 64px;
+  bottom: calc(50% - 640px / 2 - 12px - 48px);
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -70,6 +70,7 @@
   background: rgba(255, 108, 10, 0.2);
   border-radius: 8px;
   color: #FF6C0A;
+  cursor: default;
 }
 
 .Balance-container {
@@ -117,6 +118,11 @@
   align-items: center;
 }
 
+.Action-button-container:hover {
+  border-color: #F58300;
+  cursor: pointer;
+}
+
 .Action-container img {
   width: 25px;
   height: 25px;
@@ -147,26 +153,18 @@
   height: 400px;
 }
 
+.Tx-list-empty {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .Empty-tip {
   margin-top: 16px;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   color: #9095A3;
-}
-
-.Refresh-container {
-  width: 28px;
-  height: 28px;
-  background: #FFFFFF;
-  border: 1px solid #E1E6F0;
-  border-radius: 15px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Refresh-container img {
-  width: 15px;
-  height: 15px;
 }

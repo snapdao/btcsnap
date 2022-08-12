@@ -1,20 +1,19 @@
 import React from 'react';
-import Refresh from "./image/refresh.svg";
-import Transactions from "./image/transactions.svg";
 import Menu from "../Menu";
+import TxList from "./TxList";
+import RefreshIcon from "../Icons/RefreshIcon";
 
-const Aside = () => {
+export interface AsideProps {
+  txList: any[]
+}
+
+const Aside = ({txList}: AsideProps) => {
   return (
     <div className="Account-Aside">
       <div className="Account-Aside-Container">
         <Menu />
-        <div className="Tx-list-container">
-          <img src={Transactions} alt="transactions"/>
-          <p className="Empty-tip">No Transactions</p>
-        </div>
-        <div className="Refresh-container">
-          <img src={Refresh} alt="Refresh" />
-        </div>
+        <TxList txList={txList} />
+        <RefreshIcon />
       </div>
     </div>
   );

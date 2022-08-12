@@ -5,12 +5,17 @@
 .Menu-button{
   width: 40px;
   height: 40px;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   border: 1px solid #E1E6F0;
   border-radius: 16px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+}
+
+.Menu-button:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  cursor: pointer;
 }
 
 .Menu-button img {
