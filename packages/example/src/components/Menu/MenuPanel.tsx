@@ -4,6 +4,8 @@ import GitHub from "./image/github.svg"
 import Discord from "./image/discord.svg"
 import Disconnect from "./image/disconnect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
+import { setConnectedExtendedPublicKey } from "../../lib/connect";
+import { BitcoinNetwork } from "../../interface";
 
 interface MenuPanelProps {
   close: () => void;
@@ -15,7 +17,8 @@ const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
   useOutsideCallback(menuPanelRef, close);
 
   const disconnect = () => {
-    // TODO
+    // TODO use real network
+    setConnectedExtendedPublicKey("", BitcoinNetwork.Test)
     close()
   }
 
