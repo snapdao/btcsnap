@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { connect, getExtendedPublicKey, signPsbt } from './lib/snap';
 import {
   addressAggrator,
@@ -27,7 +27,7 @@ import {
   Button,
 } from 'semantic-ui-react';
 
-import SendModal from "./components/SendModal";
+import SendModal from './components/SendModal';
 
 function App() {
   const [connected, setConnectStatus] = useState(false);
@@ -48,12 +48,26 @@ function App() {
     pubKey,
   } = useExtendedPubKey('', network);
 
+  console.log(utxoList);
+
   const utxoMap = countUtxo(utxoList);
   const address = addressAggrator(
     recieveAddressList,
     changeAddressList,
     utxoMap,
   );
+
+  const sendInfo = useMemo(() => {
+    if (pubKey !== '' && changeAddressList.length)
+      return {
+        addressList: recieveAddressList.concat(changeAddressList),
+        masterFingerprint: getNodeFingerPrint(pubKey),
+        changeAddress: changeAddressList[changeAddressList.length - 1].address,
+      };
+    else {
+      return undefined;
+    }
+  }, [recieveAddressList, changeAddressList, pubKey]);
 
   const onSendClick = async () => {
     try {
@@ -108,7 +122,12 @@ function App() {
           <Segment>
             <Grid columns={2} relaxed="very" stackable>
               <Grid.Column>
-                <SendModal utxos={utxoList} feeRate={feeRate} />
+                <SendModal
+                  utxos={utxoList}
+                  feeRate={feeRate}
+                  sendInfo={sendInfo}
+                  network={network}
+                />
               </Grid.Column>
               <Grid.Column>
                 <Header as="h3">BTC Address</Header>

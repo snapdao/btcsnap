@@ -197,6 +197,12 @@ export const getNodeFingerPrint = (extendedPubKey: string) => {
 
 const DUST_THRESHOLD = 546;
 
+export type SendInfo = {
+  addressList: Address[];
+  masterFingerprint: Buffer;
+  changeAddress: string | undefined;
+}
+
 export const genreatePSBT = (
   targetObject: { address: string | undefined; value: number | undefined },
   utxos: Utxo[],
@@ -237,8 +243,6 @@ export const genreatePSBT = (
 };
 
 export const genreatePSBT2 = (
-    targetObject: { address: string | undefined; value: number | undefined },
-    utxos: Utxo[],
     feeRate: number,
     sendInfo: {
       addressList: Address[];
@@ -249,16 +253,8 @@ export const genreatePSBT2 = (
     inputs: any[],
     outputs: any[],
 ) => {
-  if (!targetObject.address || !targetObject.value) {
-    throw new Error('Target Address or value is empty');
-  }
-
   if (!sendInfo.changeAddress) {
     throw new Error('change address is empty');
-  }
-
-  if (targetObject.value <= DUST_THRESHOLD) {
-    throw new Error('Dust transaction is not allowed');
   }
 
   return composePsbt(

@@ -18,6 +18,26 @@
     padding-right: 4px;
 }
 
+.flex {
+    display: flex;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.vertical-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
 .available-btc {
     display: flex;
     flex-direction: row;
@@ -28,12 +48,24 @@
     color: #9095A3;
 }
 
-.text-bold {
+.text-error {
+    color: #EB2F00;
+}
+
+.text-size-large {
+    font-size: 36px;
+}
+
+.text-size-normal {
+    font-size: 16px;
+}
+
+.text-weight-bold {
     font-weight: 600;
 }
 
-.text-error {
-    color: #EB2F00;
+.text-weight-normal {
+    font-weight: 400;
 }
 
 .modal-header {
@@ -112,4 +144,8 @@ input:focus-visible {
 .action-button-disable {
     background-color: #E1E6F0;
     color: #9095A3;
+}
+
+.action-button-size-full-width {
+    width: 100%;
 }
