@@ -20,16 +20,14 @@ import { useFeeRate } from './hook/useBitcoinTx';
 import { useTransaction } from './hook/useTransaction';
 import { BitcoinNetwork } from './interface';
 import Account from "./components/Account";
+import Connect from "./components/Connect";
 
 function App() {
-  const [connected, setConnectStatus] = useState(false);
   const [network, setNetwork] = useState<BitcoinNetwork>(BitcoinNetwork.Test);
   const [target, setTarget] = useState(undefined);
   const [value, setValue] = useState(undefined);
   const { feeRate } = useFeeRate(network);
   const { txList, addTx, refresh } = useTransaction(network);
-
-  const connectCallback = () => setConnectStatus(true);
 
   const {
     utxoList,
@@ -84,12 +82,9 @@ function App() {
 
   return (
     <>
-      <PageHeader
-        connected={connected}
-        onConnect={() => connect(() => {
-          connectCallback()
-          getExtendedPublicKey(network, setPubKey)
-        })}
+      <Connect
+        network={network}
+        onXpubRevealed={setPubKey}
       />
       <Account
         balance={balance}
