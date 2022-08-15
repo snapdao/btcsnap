@@ -13,7 +13,7 @@ interface ConnectProps {
 const Connect = ({open, onConnected}: ConnectProps) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
-  const connectMM = useCallback(async () => {
+  const connectMetaMask = useCallback(async () => {
     connect(() => {
       onConnected();
       setIsConnecting(true);
@@ -34,7 +34,7 @@ const Connect = ({open, onConnected}: ConnectProps) => {
         What is a Snap
         <ArrowRight />
       </a>
-      <button className="Connect-button" disabled={isConnecting} onClick={connectMM}>
+      <button className="Connect-button" disabled={isConnecting} onClick={connectMetaMask}>
         <img src={MetaMaskIcon} alt="Install"/>
         <span>Connect MetaMask</span>
       </button>

@@ -1,6 +1,6 @@
 export enum BitcoinNetwork {
-  Main,
-  Test,
+  Main = "mainnet",
+  Test = "testnet",
 }
 
 export enum BitcoinScriptType {

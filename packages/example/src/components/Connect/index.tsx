@@ -1,37 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Install from "./Install";
 import Connect from "./Connect";
 import RevealXpub  from "./RevealXpub";
-import { getConnectedExtendedPublicKey } from "../../lib/connect";
-import { BitcoinNetwork } from "../../interface";
+import { useKeystoneStore } from "../../mobx";
 import "./index.css"
 
-interface Props {
-  network: BitcoinNetwork;
-  onXpubRevealed: (pubKey: string) => void;
-}
-
-const Index = ({network, onXpubRevealed}: Props) => {
-  const [hasInstalled, setHasInstalled] = useState<boolean>(false);
-  const [hasConnected, setHasConnected] = useState<boolean>(false);
-  const [hasRevealed, setHasRevealed] = useState<boolean>(false);
-
-  useEffect(() => {
-    setHasInstalled(!!window.ethereum);
-    const connectedXpub = getConnectedExtendedPublicKey(network);
-    if (connectedXpub) {
-      setHasConnected(true);
-      setHasRevealed(true);
-      onXpubRevealed(connectedXpub);
-    }
-  }, []);
+const Index = () => {
+  const { global: { bip44Xpub: pubKey }} = useKeystoneStore();
+  const hasInstalled = !!window.ethereum;
+  const [hasConnected, setHasConnected] = useState<boolean>(!!pubKey);
+  const [hasRevealed, setHasRevealed] = useState<boolean>(!!pubKey);
 
   const onConnected = useCallback(async () => {
     setHasConnected(true);
   }, [setHasConnected]);
   
-  const onRevealed = useCallback((pubkey) => {
-    onXpubRevealed(pubkey)
+  const onRevealed = useCallback(() => {
     setHasRevealed(true)
   }, [setHasRevealed])
 
@@ -39,10 +23,7 @@ const Index = ({network, onXpubRevealed}: Props) => {
     <>
       <Install open={!hasInstalled}/>
       <Connect open={hasInstalled && !hasConnected} onConnected={onConnected}/>
-      <RevealXpub 
-        open={hasConnected && !hasRevealed}
-        network={network}
-        onRevealed={onRevealed}/>
+      <RevealXpub open={hasConnected && !hasRevealed} onRevealed={onRevealed}/>
     </>
   );
 };

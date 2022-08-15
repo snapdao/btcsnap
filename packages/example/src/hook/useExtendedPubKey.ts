@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Address, BitcoinNetwork, Utxo } from '../interface';
+import { Address, Utxo } from '../interface';
 import { generateReceiveAddress, generateChangeAddress } from '../lib';
 import { BlockChair } from '../lib/explorer';
 import { BACKENDAPI } from '../config';
+import { useKeystoneStore } from "../mobx";
 
-export const useExtendedPubKey = (
-  extendedPubKey: string,
-  network: BitcoinNetwork,
-) => {
-  const [pubKey, setPubKey] = useState(extendedPubKey);
+export const useExtendedPubKey = () => {
+  const { global: { bip44Xpub: pubKey, network } } = useKeystoneStore();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
   const [utxoList, setUTXOList] = useState<Utxo[]>([]);
-  const [recieveAddressList, setRecieveList] = useState<Address[]>([]);
+  const [receiveAddressList, setReceiveAddressList] = useState<Address[]>([]);
   const [changeAddressList, setChangeList] = useState<Address[]>([]);
 
   const refresh = () => {
@@ -25,12 +23,16 @@ export const useExtendedPubKey = (
       const apiKey = BACKENDAPI;
       const explorer = new BlockChair(apiKey, network);
       setLoading(true);
+      setUTXOList([]);
+      setReceiveAddressList([]);
+      setChangeList([]);
+
       explorer
         .getStatus(pubKey, true)
         .then((data) => {
           setLoading(false);
           setUTXOList(data.utxos);
-          setRecieveList(
+          setReceiveAddressList(
             generateReceiveAddress(pubKey, 0, data.recieveMax + 1),
           );
           setChangeList(generateChangeAddress(pubKey, 0, data.changeMax + 1));
@@ -40,21 +42,13 @@ export const useExtendedPubKey = (
           setLoading(false);
         });
     }
-  }, [pubKey, count]);
-
-  useEffect(() => {
-    setUTXOList([]);
-    setRecieveList([]);
-    setChangeList([]);
-  }, [network]);
+  }, [pubKey, count, network]);
 
   return {
     utxoList,
-    recieveAddressList,
+    receiveAddressList,
     changeAddressList,
-    setPubKey,
     refresh,
     loading,
-    pubKey,
   };
 };
