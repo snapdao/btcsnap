@@ -1,14 +1,19 @@
 import React, { useCallback, useState } from 'react';
+import {observer} from 'mobx-react-lite';
 import Logo from "./image/logo.svg";
+import LogoTestnet from "./image/logo-testnet.svg";
 import Send from "./image/send.svg";
 import { Modal } from "semantic-ui-react";
+import { useKeystoneStore } from "../../mobx";
+import { BitcoinNetwork } from "../../interface";
 
 export interface MainProps {
   balance: number
-  address: string
+  receiveAddress: string
 }
 
-const Main = ({balance, address}: MainProps) => {
+const Main = observer(({balance, receiveAddress}: MainProps) => {
+  const { global: { network }} = useKeystoneStore();
   const [showSendModal, setShowSendModal] = useState<boolean>(false)
   const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false)
 
@@ -32,7 +37,7 @@ const Main = ({balance, address}: MainProps) => {
     <div className="Account-Main">
       <div className="Account-Main-Container">
         <div className="Logo-container">
-          <img src={Logo} alt="BitcoinSnap" className="Logo-img" />
+          <img src={network === BitcoinNetwork.Main ? Logo : LogoTestnet} alt="BitcoinSnap" className="Logo-img" />
           <span className="Logo-label">Alpha</span>
         </div>
         <div className="Balance-container">
@@ -67,7 +72,6 @@ const Main = ({balance, address}: MainProps) => {
         </Modal.Header>
         <Modal.Content>
           WIP: Address to QR Code
-          address: {address}
         </Modal.Content>
       </Modal>
 
@@ -82,11 +86,11 @@ const Main = ({balance, address}: MainProps) => {
           Receive
         </Modal.Header>
         <Modal.Content>
-          WIP: address: {address} to QR Code
+          WIP: address: {receiveAddress} to QR Code
         </Modal.Content>
       </Modal>
     </div>
   );
-};
+});
 
 export default Main;

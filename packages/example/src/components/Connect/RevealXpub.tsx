@@ -2,29 +2,28 @@ import React, { useCallback, useState } from 'react';
 import ConnectIcon from "./image/connect.svg"
 import MetaMaskIcon from "./image/MetaMask.svg"
 import Modal from "./Modal";
-import { BitcoinNetwork } from "../../interface";
 import { getExtendedPublicKey } from "../../lib/snap";
-import { setConnectedExtendedPublicKey } from "../../lib/connect";
+import { useKeystoneStore } from "../../mobx";
 
 export interface RevealXpubProps {
   open: boolean;
-  network: BitcoinNetwork;
-  onRevealed: (pubKey: string) => void;
+  onRevealed: () => void;
 }
 
-const RevealXpub = ({open, network, onRevealed}: RevealXpubProps) => {
+const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
+  const { global: { network, updateBip44Xpub }} = useKeystoneStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
     getExtendedPublicKey(network, (xpub: string) => {
-      setIsRevealing(false);
       if (xpub) {
-        onRevealed(xpub);
-        setConnectedExtendedPublicKey(xpub, network)
+        updateBip44Xpub(xpub);
+        onRevealed();
       }
+      setIsRevealing(false);
     })
-  }, [setIsRevealing, network])
+  }, [setIsRevealing, network, updateBip44Xpub])
 
   return (
     <Modal open={open}>
