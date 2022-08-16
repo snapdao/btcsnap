@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 import { makeAutoObservable, reaction } from 'mobx';
 import { BitcoinNetwork, Utxo } from '../../interface';
-import { genreatePSBT2, selectUtxos, SendInfo, sendTx } from '../../lib';
+import { genreatePSBT, selectUtxos, SendInfo, sendTx } from '../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
 import { BlockChair } from '../../lib/explorer';
@@ -192,7 +192,7 @@ class SendViewModel {
     if (this.sendInfo) {
       try {
         this.isSending = true;
-        const psbt = genreatePSBT2(
+        const psbt = genreatePSBT(
           this.feeRate,
           this.sendInfo,
           this.network,
