@@ -3,8 +3,12 @@ import MenuIcon from "./image/menu.svg";
 import MenuPanel from "./MenuPanel";
 import "./Menu.css"
 import { Modal } from "semantic-ui-react";
+import { useKeystoneStore } from "../../mobx";
+import { BitcoinNetwork } from "../../interface";
 
 const Menu = () => {
+  const keystoneStore = useKeystoneStore();
+  const { updateNetwork, network } = keystoneStore.global
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false);
 
@@ -44,7 +48,9 @@ const Menu = () => {
           Settings
         </Modal.Header>
         <Modal.Content>
-          WIP
+          <button onClick={() => {
+            updateNetwork(network === BitcoinNetwork.Main ? BitcoinNetwork.Test : BitcoinNetwork.Main)
+          }}>Change network</button>
         </Modal.Content>
       </Modal>
     </div>

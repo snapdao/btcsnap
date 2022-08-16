@@ -39,21 +39,24 @@ export async function getExtendedPublicKey(
 ) {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 
-  const result = await ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: [
-      snapId,
-      {
-        method: 'btc_getPublicExtendedKey',
-        params: {
-          network: networkParams,
+  let result = null;
+  try {
+    result = await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: [
+        snapId,
+        {
+          method: 'btc_getPublicExtendedKey',
+          params: {
+            network: networkParams,
+          },
         },
-      },
-    ],
-  });
-
-  if (cb) {
-    cb(result);
+      ],
+    });
+  } finally {
+    if (cb){
+      cb(result);
+    }
   }
 }
 
