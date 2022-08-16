@@ -1,10 +1,10 @@
-import {BigNumber} from 'bignumber.js';
-import {makeAutoObservable, reaction} from 'mobx';
-import {BitcoinNetwork, Utxo} from '../../interface';
-import {genreatePSBT2, selectUtxos, SendInfo, sendTx} from '../../lib';
-import validate, {Network} from 'bitcoin-address-validation';
-import {signPsbt} from '../../lib/snap';
-import {BlockChair} from '../../lib/explorer';
+import { BigNumber } from 'bignumber.js';
+import { makeAutoObservable, reaction } from 'mobx';
+import { BitcoinNetwork, Utxo } from '../../interface';
+import { genreatePSBT2, selectUtxos, SendInfo, sendTx } from '../../lib';
+import validate, { Network } from 'bitcoin-address-validation';
+import { signPsbt } from '../../lib/snap';
+import { BlockChair } from '../../lib/explorer';
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -22,7 +22,7 @@ const dealWithDigital = (text: string, precision = 2) => {
 };
 
 class SendViewModel {
-  public to: string;
+  public to: string = '';
   private sendAmountText = '';
   private decimal = 8;
   private decimalFactor = new BigNumber(10).pow(this.decimal);
@@ -47,7 +47,6 @@ class SendViewModel {
     private sendInfo?: SendInfo,
   ) {
     makeAutoObservable(this);
-    this.to = '';
     reaction(
       () => this.status,
       status => {
@@ -55,6 +54,17 @@ class SendViewModel {
       },
     );
   }
+
+  resetState = () => {
+    this.status = 'initial';
+    this.sendOpen = false;
+    this.confirmOpen = false;
+    this.txId = undefined;
+    this.errorMessage = '';
+    this.isSending = false;
+    this.to = '';
+    this.sendAmountText = '';
+  };
 
   setSendOpen = (flag: boolean) => {
     this.sendOpen = flag;
@@ -196,10 +206,9 @@ class SendViewModel {
         this.isSending = false;
       } catch (e) {
         console.error(e);
-        if(typeof e === 'string') {
+        if (typeof e === 'string') {
           this.errorMessage = e;
-        }
-        else if(e instanceof Error) {
+        } else if (e instanceof Error) {
           this.errorMessage = e.message;
         }
         this.status = 'failed';
