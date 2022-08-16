@@ -19,14 +19,7 @@ import { useExtendedPubKey } from './hook/useExtendedPubKey';
 import { useFeeRate } from './hook/useBitcoinTx';
 import { useTransaction } from './hook/useTransaction';
 import { BitcoinNetwork } from './interface';
-import {
-  Header,
-  Divider,
-  Icon,
-  Grid,
-  Segment,
-  Button,
-} from 'semantic-ui-react';
+import Account from "./components/Account";
 
 function App() {
   const [connected, setConnectStatus] = useState(false);
@@ -85,71 +78,25 @@ function App() {
       ? recieveAddressList[recieveAddressList.length - 1]
       : undefined;
 
+  const balance = satoshiToBTC(
+    utxoList.reduce((acc, current) => acc + current.value, 0),
+  )
+
   return (
-    <div className="App">
+    <>
       <PageHeader
         connected={connected}
-        onConnect={() => connect(connectCallback)}
+        onConnect={() => connect(() => {
+          connectCallback()
+          getExtendedPublicKey(network, setPubKey)
+        })}
       />
-      {connected ? (
-        <>
-          <Address
-            onGetPubkey={() => getExtendedPublicKey(network, setPubKey)}
-            network={network}
-            setNetwork={setNetwork}
-            items={address}
-            loading={loading}
-            balance={satoshiToBTC(
-              utxoList.reduce((acc, current) => acc + current.value, 0),
-            )}
-          />
-
-          <Segment>
-            <Grid columns={2} relaxed="very" stackable>
-              <Grid.Column>
-                <Header as="h3">Send Transaction</Header>
-                <SendBox
-                  feeRate={feeRate}
-                  value={value}
-                  target={target}
-                  setTarget={setTarget}
-                  setValue={setValue}
-                  onSendClick={onSendClick}
-                />
-              </Grid.Column>
-              <Grid.Column>
-                <Header as="h3">BTC Address</Header>
-                <AddressBox
-                  address={
-                    lastReceiveAddress ? lastReceiveAddress.address : undefined
-                  }
-                  path={
-                    lastReceiveAddress ? lastReceiveAddress.path : undefined
-                  }
-                />
-              </Grid.Column>
-            </Grid>
-            <Divider vertical>
-              <Icon name="bitcoin" color="orange" />
-            </Divider>
-          </Segment>
-          <Segment clearing>
-            <Header as="h3" floated="left">
-              Transactions
-            </Header>
-            <Header as="h3" floated="right">
-              <Button icon="refresh" onClick={refresh}>
-                <Icon name="refresh" />
-              </Button>
-            </Header>
-            <TransactionList items={txList} network={network} />
-          </Segment>
-        </>
-      ) : (
-        <Banner />
-      )}
-      <PageFooter />
-    </div>
+      <Account
+        balance={balance}
+        address={address?.[0]?.address || ""}
+        txList={txList}
+      />
+    </>
   );
 }
 
