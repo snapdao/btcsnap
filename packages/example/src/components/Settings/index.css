@@ -1,0 +1,84 @@
+.Setting-Container {
+  height: 600px;
+  padding: 20px;
+}
+
+.Setting-Header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Setting-Label {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+}
+
+.Setting-Label img {
+  width: 36px;
+  height: 36px;
+  margin: 0 4px 0 0;
+}
+
+.Setting-Label h3 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.Settings-Close {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Settings-Close:hover {
+  background: rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+}
+
+.Setting-Content {
+  margin: 40px 12px 0;
+}
+
+.Setting-Item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  color: #111214;
+}
+
+.Setting-Item span {
+  display: inline-flex;
+}
+
+.Setting-Item span:first-child {
+  color: #9095A3;
+}
+
+.Setting-Network:hover {
+  cursor: pointer;
+}
+
+.Setting-Network:hover svg:last-child path {
+  fill: #F58300;
+}
+
+.Setting-Network-Switcher {
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+.Setting-Network-Switcher span {
+  margin: 0 4px;
+}
