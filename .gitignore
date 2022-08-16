@@ -1,1 +1,4 @@
 node_modules
+packages/example/environments/.env.staging
+packages/example/environments/.env.production
+build/
