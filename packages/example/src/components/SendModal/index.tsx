@@ -1,14 +1,14 @@
-import { Button, Container, Divider, Modal } from 'semantic-ui-react';
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { Button, Modal } from 'semantic-ui-react';
+import React, { FunctionComponent, useEffect, useMemo } from 'react';
 
 import './index.css';
 import send from '../../assets/send.png';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 import {BitcoinNetwork, Utxo} from '../../interface';
-import { Network } from 'bitcoin-address-validation';
 import { SendInfo } from '../../lib';
 import Initial from './Initial';
+import Result from "./Result";
 
 type ContainerProps = {
   utxos: Utxo[];
@@ -40,7 +40,7 @@ const SendModal = observer((props: { model: SendViewModel }) => {
   const { model } = props;
   return (
     <Modal
-      style={{ width: 440 }}
+      className={"modal-container"}
       onOpen={() => model.setSendOpen(true)}
       onClose={() => model.setSendOpen(false)}
       open={model.sendOpen}
@@ -50,6 +50,7 @@ const SendModal = observer((props: { model: SendViewModel }) => {
         </Button>
       }>
       {model.status === 'initial' && <Initial model={model} />}
+      {model.status !== 'initial' && <Result model={model}  />}
     </Modal>
   );
 });

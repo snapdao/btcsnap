@@ -13,7 +13,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
   const { model } = props;
   return (
     <Modal
-      style={{ width: 440 }}
+      className={"modal-container"}
       onOpen={() => model.setConfirmOpen(true)}
       onClose={() => model.setConfirmOpen(false)}
       open={model.confirmOpen}

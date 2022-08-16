@@ -4,6 +4,11 @@
     height: 96px;
 }
 
+.modal-container {
+    width: 440px !important;
+    border-radius: 20px !important;
+}
+
 .colored-container {
     background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
 }
@@ -22,6 +27,10 @@
     display: flex;
 }
 
+.column {
+    flex-direction: column;
+}
+
 .row {
     flex-direction: row;
 }
@@ -30,13 +39,27 @@
     justify-content: space-between;
 }
 
+.space-around {
+    justify-content: space-around;
+}
+
+.horizontal-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .vertical-center {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-
+.all-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .available-btc {
     display: flex;
@@ -46,6 +69,10 @@
 
 .text-secondary {
     color: #9095A3;
+}
+
+.text-align-center {
+    text-align: center;
 }
 
 .text-error {
@@ -58,6 +85,10 @@
 
 .text-size-normal {
     font-size: 16px;
+}
+
+.text-line-height-normal {
+    line-height: 24px;
 }
 
 .text-weight-bold {
@@ -148,4 +179,15 @@ input:focus-visible {
 
 .action-button-size-full-width {
     width: 100%;
+}
+
+.account-tag {
+    height: 24px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+    padding: 0 6px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

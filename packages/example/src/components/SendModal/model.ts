@@ -1,9 +1,10 @@
-import { BigNumber } from 'bignumber.js';
-import { makeAutoObservable, reaction } from 'mobx';
-import { BitcoinNetwork, Utxo } from '../../interface';
-import { genreatePSBT2, selectUtxos, SendInfo } from '../../lib';
-import validate, { Network } from 'bitcoin-address-validation';
-import { signPsbt } from '../../lib/snap';
+import {BigNumber} from 'bignumber.js';
+import {makeAutoObservable, reaction} from 'mobx';
+import {BitcoinNetwork, Utxo} from '../../interface';
+import {genreatePSBT2, selectUtxos, SendInfo, sendTx} from '../../lib';
+import validate, {Network} from 'bitcoin-address-validation';
+import {signPsbt} from '../../lib/snap';
+import {BlockChair} from '../../lib/explorer';
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -29,9 +30,13 @@ class SendViewModel {
 
   public status: 'initial' | 'success' | 'failed' = 'initial';
 
+  public errorMessage = '';
+
   public sendOpen = false;
 
   public confirmOpen = false;
+
+  private txId?: string;
 
   constructor(
     private utxos: Utxo[],
@@ -68,6 +73,15 @@ class SendViewModel {
   setTo = (to: string) => {
     this.to = to;
   };
+
+  get formattedTo() {
+    if (this.to.length > 12) {
+      let head = this.to.slice(0, 6);
+      let tail = this.to.slice(this.to.length - 6);
+      return `${head}...${tail}`;
+    }
+    return this.to;
+  }
 
   get sendSatoshis() {
     return new BigNumber(this.sendAmountText).multipliedBy(this.decimalFactor);
@@ -164,7 +178,6 @@ class SendViewModel {
 
   send = async () => {
     if (this.sendInfo) {
-      console.log(this.selectedResult);
       try {
         const psbt = genreatePSBT2(
           this.feeRate,
@@ -174,15 +187,28 @@ class SendViewModel {
           this.selectedResult.outputs,
         );
         const { txId, txHex } = await signPsbt(psbt.toBase64(), this.network);
-        console.log(txHex);
-        // await sendTx(txHex, this.net);
+        this.txId = txId;
+        await sendTx(txHex, this.network);
         this.status = 'success';
       } catch (e) {
         console.error(e);
+        if(typeof e === 'string') {
+          this.errorMessage = e;
+        }
+        else if(e instanceof Error) {
+          this.errorMessage = e.message;
+        }
         this.status = 'failed';
       }
     }
   };
+
+  get transactionLink() {
+    if (this.txId) {
+      return BlockChair.getTransactionLink(this.txId, this.network);
+    }
+    return undefined;
+  }
 }
 
 export default SendViewModel;
