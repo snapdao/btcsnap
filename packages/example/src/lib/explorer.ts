@@ -69,23 +69,23 @@ type BlockChairUxto = {
 };
 
 export class BlockChair implements Exloper {
+  static host = 'https://api.blockchair.com';
+
   private apiKey: string;
-  private host: string;
   private network: BitcoinNetwork;
   constructor(apiKey: string, network: BitcoinNetwork) {
     this.apiKey = apiKey;
-    this.host = 'https://api.blockchair.com';
     this.network = network;
   }
 
   private genereateHost() {
     return this.network === BitcoinNetwork.Test
-      ? `${this.host}/bitcoin/testnet`
-      : `${this.host}/bitcoin`;
+      ? `${BlockChair.host}/bitcoin/testnet`
+      : `${BlockChair.host}/bitcoin`;
   }
 
   private extractUtxo(response: BlockChairResponse) {
-    return Object.values(response.data)[0]['utxo'].map((each) => ({
+    return Object.values(response.data)[0]['utxo'].map(each => ({
       address: each.address,
       transactionHash: each.transaction_hash,
       index: each.index,
@@ -96,11 +96,11 @@ export class BlockChair implements Exloper {
   private processAddressStatus(response: BlockChairResponse) {
     const allPaths = Object.values(
       Object.values(response.data)[0]['addresses'],
-    ).map((each) => each.path);
+    ).map(each => each.path);
     let recieveMax = 0;
     let changeMax = 0;
-    allPaths.forEach((each) => {
-      let [type, indexNumber] = each.split('/').map((path) => parseInt(path));
+    allPaths.forEach(each => {
+      let [type, indexNumber] = each.split('/').map(path => parseInt(path));
       if (type === 0 && indexNumber > recieveMax) {
         recieveMax = indexNumber;
       } else if (type === 1 && indexNumber > changeMax) {
@@ -126,8 +126,9 @@ export class BlockChair implements Exloper {
   }
 
   public convertPubKeyFormate(extendedPubKey: string) {
-    const { network, scriptType, config } =
-      deteckNetworkAndScriptType(extendedPubKey);
+    const { network, scriptType, config } = deteckNetworkAndScriptType(
+      extendedPubKey,
+    );
     if (network === BitcoinNetwork.Test) {
       if (scriptType === BitcoinScriptType.P2PKH) {
         return this.transferNode(extendedPubKey, 'xpub', config);
@@ -231,7 +232,9 @@ export class BlockChair implements Exloper {
     return responseJson['data']['transaction_hash'];
   }
 
-  async checkTxStatus(transactionHash: string): Promise<{txId: string, blockId: string | undefined}> {
+  async checkTxStatus(
+    transactionHash: string,
+  ): Promise<{ txId: string; blockId: string | undefined }> {
     const host = `${this.genereateHost()}/dashboards/transaction/${transactionHash}`;
     const url = new URL(host);
     const resp = await fetch(url.toString());
@@ -244,12 +247,22 @@ export class BlockChair implements Exloper {
       }
     }
 
-    const responseJson = (await resp.json());
-    const blockNumber = responseJson['data'][transactionHash]['transaction']['block_id'];
-    
+    const responseJson = await resp.json();
+    const blockNumber =
+      responseJson['data'][transactionHash]['transaction']['block_id'];
+
     return {
       txId: transactionHash,
       blockId: blockNumber > 0 ? blockNumber : undefined,
     };
+  }
+
+  static getTransactionLink(transactionHash: string, network: BitcoinNetwork) {
+    const blockchair = "https://blockchair.com";
+    const host =
+      network === BitcoinNetwork.Test
+        ? `${blockchair}/bitcoin/testnet`
+        : `${blockchair}/bitcoin`;
+    return `${host}/transaction/${transactionHash}`;
   }
 }
