@@ -28,7 +28,7 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
   return (
     <Modal open={open}>
       <img src={ConnectIcon} alt="MetaMaskFlask" className="Connect-flask-icon"/>
-      <h2>Reveal Addresses for Bitcoin Snap</h2>
+      <h2>Get Addresses for Bitcoin Snap</h2>
       <p style={{ marginBottom: 100}} className="Connect-install">Your Bitcoin account addresses will be created along with your MetaMask public key.</p>
       <button className="Connect-button" disabled={isRevealing} onClick={getXpub}>
         <img src={MetaMaskIcon} alt="Install"/>

@@ -4,7 +4,7 @@ import { BitcoinNetwork } from "../interface";
 
 export const storeInitialState = {
   global: {
-    network: BitcoinNetwork.Test,
+    network: BitcoinNetwork.Main,
     bip44Xpub: "",
   },
   _version: 0,

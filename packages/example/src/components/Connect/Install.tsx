@@ -1,6 +1,6 @@
 import React from 'react';
 import FlaskIcon from "./image/MetaMaskFlask.svg"
-import InstallIcon from "./image/install.svg"
+import MetaMaskIcon from "./image/MetaMask.svg"
 import Modal from "./Modal";
 
 const Install = ({open}: {open: boolean}) => {
@@ -16,7 +16,7 @@ const Install = ({open}: {open: boolean}) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={InstallIcon} alt="Install"/>
+        <img src={MetaMaskIcon} alt="Install"/>
         <span>Install MetaMask</span>
       </a>
     </Modal>
