@@ -204,45 +204,6 @@ export type SendInfo = {
 }
 
 export const genreatePSBT = (
-  targetObject: { address: string | undefined; value: number | undefined },
-  utxos: Utxo[],
-  feeRate: number,
-  sendInfo: {
-    addressList: Address[];
-    masterFingerprint: Buffer;
-    changeAddress: string | undefined;
-  },
-  network: BitcoinNetwork,
-) => {
-  if (!targetObject.address || !targetObject.value) {
-    throw new Error('Target Address or value is empty');
-  }
-
-  if (!sendInfo.changeAddress) {
-    throw new Error('change address is empty');
-  }
-
-  if (targetObject.value <= DUST_THRESHOLD) {
-    throw new Error('Dust transaction is not allowed');
-  }
-
-  const { inputs, outputs } = selectUtxos(
-    targetObject.address,
-    targetObject.value,
-    feeRate,
-    utxos,
-  );
-  return composePsbt(
-    inputs,
-    outputs,
-    sendInfo.changeAddress,
-    sendInfo.addressList,
-    sendInfo.masterFingerprint,
-    network,
-  );
-};
-
-export const genreatePSBT2 = (
     feeRate: number,
     sendInfo: {
       addressList: Address[];

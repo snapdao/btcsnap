@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 import { makeAutoObservable, reaction } from 'mobx';
 import { BitcoinNetwork, Utxo } from '../../interface';
-import { genreatePSBT2, selectUtxos, SendInfo, sendTx } from '../../lib';
+import { genreatePSBT, selectUtxos, SendInfo, sendTx } from '../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
 import { BlockChair } from '../../lib/explorer';
@@ -37,6 +37,8 @@ class SendViewModel {
   public confirmOpen = false;
 
   private txId?: string;
+
+  public isSending = false;
 
   constructor(
     private utxos: Utxo[],
@@ -189,7 +191,8 @@ class SendViewModel {
   send = async () => {
     if (this.sendInfo) {
       try {
-        const psbt = genreatePSBT2(
+        this.isSending = true;
+        const psbt = genreatePSBT(
           this.feeRate,
           this.sendInfo,
           this.network,
@@ -200,6 +203,7 @@ class SendViewModel {
         this.txId = txId;
         await sendTx(txHex, this.network);
         this.status = 'success';
+        this.isSending = false;
       } catch (e) {
         console.error(e);
         if (typeof e === 'string') {
@@ -208,6 +212,7 @@ class SendViewModel {
           this.errorMessage = e.message;
         }
         this.status = 'failed';
+        this.isSending = false;
       }
     }
   };
