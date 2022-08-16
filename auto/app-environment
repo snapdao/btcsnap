@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -eu
+
+cd $(dirname $0)/..
+
+. auto/setup-env
+
+docker-compose run example "$@"

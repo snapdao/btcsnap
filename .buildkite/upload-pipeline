@@ -1,0 +1,3 @@
+#!/bin/sh
+
+buildkite-agent pipeline upload
