@@ -48,8 +48,6 @@ function App() {
     pubKey,
   } = useExtendedPubKey('', network);
 
-  console.log(utxoList);
-
   const utxoMap = countUtxo(utxoList);
   const address = addressAggrator(
     recieveAddressList,
