@@ -14,9 +14,10 @@ const Connect = ({open, onConnected}: ConnectProps) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const connectMetaMask = useCallback(async () => {
+    setIsConnecting(true);
     connect(() => {
       onConnected();
-      setIsConnecting(true);
+      setIsConnecting(false);
     });
   }, [setIsConnecting, onConnected])
 

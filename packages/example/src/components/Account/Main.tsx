@@ -71,7 +71,7 @@ const Main = observer(({balance, receiveAddress}: MainProps) => {
           Send
         </Modal.Header>
         <Modal.Content>
-          WIP: Address to QR Code
+          WIP: Send to
         </Modal.Content>
       </Modal>
 

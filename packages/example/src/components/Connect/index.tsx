@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { observer } from "mobx-react-lite";
 import Install from "./Install";
 import Connect from "./Connect";
 import RevealXpub  from "./RevealXpub";
 import { useKeystoneStore } from "../../mobx";
 import "./index.css"
 
-const Index = () => {
+const Index = observer(() => {
   const { global: { bip44Xpub: pubKey }} = useKeystoneStore();
   const hasInstalled = !!window.ethereum;
   const [hasConnected, setHasConnected] = useState<boolean>(!!pubKey);
@@ -19,6 +20,13 @@ const Index = () => {
     setHasRevealed(true)
   }, [setHasRevealed])
 
+  useEffect(() => {
+    if(!pubKey) {
+      setHasConnected(false);
+      setHasRevealed(false);
+    }
+  }, [pubKey, setHasConnected, setHasRevealed])
+
   return (
     <>
       <Install open={!hasInstalled}/>
@@ -26,6 +34,6 @@ const Index = () => {
       <RevealXpub open={hasConnected && !hasRevealed} onRevealed={onRevealed}/>
     </>
   );
-};
+});
 
 export default Index;

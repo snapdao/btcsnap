@@ -41,6 +41,10 @@ export const useExtendedPubKey = () => {
           console.error(e);
           setLoading(false);
         });
+    } else {
+      setUTXOList([]);
+      setReceiveAddressList([]);
+      setChangeList([]);
     }
   }, [pubKey, count, network]);
 
