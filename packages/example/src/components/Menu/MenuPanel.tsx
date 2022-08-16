@@ -22,31 +22,29 @@ const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
   }
 
   return (
-    <>
-      <div ref={menuPanelRef} className="Menu-items-container">
-        <div className="Menu-item" onClick={openSettingModal}>
-          <img src={SettingIcon} alt="Settings"/>
-          <span>Settings</span>
-        </div>
-        <div className="Menu-item" onClick={close}>
-          <a href="https://github.com/KeystoneHQ/btcsnap" target="_blank" rel="noopener noreferrer">
-            <img src={GitHub} alt="GitHub"/>
-            <span>GitHub</span>
-          </a>
-        </div>
-        <div className="Menu-item" onClick={close}>
-          <a href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
-            <img src={Discord} alt="Discord"/>
-            <span>Feedback</span>
-          </a>
-        </div>
-        <hr className="Menu-divider"/>
-        <div className="Menu-item highlight" onClick={disconnect}>
-          <img src={Disconnect} alt="Disconnect"/>
-          <span>Disconnect</span>
-        </div>
+    <div ref={menuPanelRef} className="Menu-items-container">
+      <div className="Menu-item" onClick={openSettingModal}>
+        <img src={SettingIcon} alt="Settings"/>
+        <span>Settings</span>
       </div>
-    </>
+      <div className="Menu-item" onClick={close}>
+        <a href="https://github.com/KeystoneHQ/btcsnap" target="_blank" rel="noopener noreferrer">
+          <img src={GitHub} alt="GitHub"/>
+          <span>GitHub</span>
+        </a>
+      </div>
+      <div className="Menu-item" onClick={close}>
+        <a href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
+          <img src={Discord} alt="Discord"/>
+          <span>Feedback</span>
+        </a>
+      </div>
+      <hr className="Menu-divider"/>
+      <div className="Menu-item highlight" onClick={disconnect}>
+        <img src={Disconnect} alt="Disconnect"/>
+        <span>Disconnect</span>
+      </div>
+    </div>
   );
 };
 

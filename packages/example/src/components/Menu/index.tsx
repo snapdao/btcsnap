@@ -1,14 +1,10 @@
 import React, { useCallback, useState } from "react";
 import MenuIcon from "./image/menu.svg";
 import MenuPanel from "./MenuPanel";
-import "./Menu.css"
-import { Modal } from "semantic-ui-react";
-import { useKeystoneStore } from "../../mobx";
-import { BitcoinNetwork } from "../../interface";
+import Settings from "../Settings";
+import "./index.css"
 
 const Menu = () => {
-  const keystoneStore = useKeystoneStore();
-  const { updateNetwork, network } = keystoneStore.global
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false);
 
@@ -37,22 +33,7 @@ const Menu = () => {
       {
         isPanelOpen && <MenuPanel close={closeMenuPanel} openSettingModal={openSettingModal} />
       }
-      {/*
-        TODO change with setting modal
-      */}
-      <Modal
-        onClose={closeSettingModal}
-        open={isSettingModalOpen}
-      >
-        <Modal.Header>
-          Settings
-        </Modal.Header>
-        <Modal.Content>
-          <button onClick={() => {
-            updateNetwork(network === BitcoinNetwork.Main ? BitcoinNetwork.Test : BitcoinNetwork.Main)
-          }}>Change network</button>
-        </Modal.Content>
-      </Modal>
+      <Settings open={isSettingModalOpen} close={closeSettingModal} />
     </div>
   );
 };
