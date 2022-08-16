@@ -6,17 +6,16 @@ import { observer } from 'mobx-react-lite';
 import BTCValue from './BTCValue';
 
 import './index.css';
-import send_success from '../../assets/send_success.png';
-import send_failed from '../../assets/send_failed.png';
-import arrow_right from '../../assets/arrow_right.png';
-import close from '../../assets/close.png';
+import send_success from '../../assets/send_success.svg';
+import send_failed from '../../assets/send_failed.svg';
+import arrow_right from '../../assets/arrow_right.svg';
+import close from '../../assets/close.svg';
 
 export type SuccessProps = {
   model: SendViewModel;
 };
 
 const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
-  const result = model.status;
   return (
     <div>
       <Container className={'modal-content-container colored-container'}>

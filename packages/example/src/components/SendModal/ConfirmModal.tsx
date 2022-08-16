@@ -1,8 +1,8 @@
 import SendViewModel from './model';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import {Container, Divider, Loader, Modal} from 'semantic-ui-react';
-import close from '../../assets/close.png';
+import close from '../../assets/close.svg';
 import BTCValue from './BTCValue';
 
 export type ConfirmModalProps = {

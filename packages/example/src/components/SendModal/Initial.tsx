@@ -4,8 +4,8 @@ import { Container, Divider } from 'semantic-ui-react';
 import SendViewModel from './model';
 
 import './index.css';
-import send from '../../assets/send.png';
-import close from '../../assets/close.png';
+import send from '../../assets/send.svg'
+import close from '../../assets/close.svg';
 import ConfirmModal from "./ConfirmModal";
 
 export type InitialProps = {
@@ -24,7 +24,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
               alignItems: 'center',
             }}>
             <img src={send} width={24} alt={'send transaction'} />
-            <span>SEND</span>
+            <span style={{marginLeft: 4}}>SEND</span>
           </span>
           <img
             style={{ cursor: 'pointer' }}
