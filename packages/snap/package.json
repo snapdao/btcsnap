@@ -17,9 +17,11 @@
   ],
   "jest": {
     "modulePathIgnorePatterns": [
-        "__data__"
+      "__data__"
     ],
-    "testMatch": [ "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
+    ],
     "testEnvironment": "node"
   },
   "scripts": {
@@ -38,5 +40,8 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
   }
 }

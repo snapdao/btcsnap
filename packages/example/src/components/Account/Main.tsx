@@ -1,18 +1,25 @@
 import React, { useCallback, useState } from 'react';
 import {observer} from 'mobx-react-lite';
+import { Modal } from "semantic-ui-react";
+
+import { useKeystoneStore } from "../../mobx";
+import {BitcoinNetwork, Utxo} from "../../interface";
+import SendModal from '../SendModal';
+
 import Logo from "./image/logo.svg";
 import LogoTestnet from "./image/logo-testnet.svg";
 import Send from "./image/send.svg";
-import { Modal } from "semantic-ui-react";
-import { useKeystoneStore } from "../../mobx";
-import { BitcoinNetwork } from "../../interface";
+import {SendInfo} from "../../lib";
+
 
 export interface MainProps {
   balance: number
   receiveAddress: string
+  utxos: Utxo[],
+  sendInfo?: SendInfo,
 }
 
-const Main = observer(({balance, receiveAddress}: MainProps) => {
+const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) => {
   const { global: { network }} = useKeystoneStore();
   const [showSendModal, setShowSendModal] = useState<boolean>(false)
   const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false)
@@ -46,9 +53,7 @@ const Main = observer(({balance, receiveAddress}: MainProps) => {
         </div>
         <div>
           <div className="Action-container" onClick={onSend}>
-            <div className="Action-button-container">
-              <img src={Send} alt="Send" />
-            </div>
+            <SendModal network={network} utxos={utxos} sendInfo={sendInfo} />
             <p>send</p>
           </div>
           <div className="Action-container" onClick={onReceive}>
@@ -59,22 +64,6 @@ const Main = observer(({balance, receiveAddress}: MainProps) => {
           </div>
         </div>
       </div>
-
-      {/*
-        TODO change with SendModal
-      */}
-      <Modal
-        onClose={closeSendModal}
-        open={showSendModal}
-      >
-        <Modal.Header>
-          Send
-        </Modal.Header>
-        <Modal.Content>
-          WIP: Send to
-        </Modal.Content>
-      </Modal>
-
       {/*
         TODO change with ReceiveModal
       */}
