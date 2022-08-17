@@ -1,27 +1,24 @@
 import React from "react";
-import { TransactionStatus, TransactionType } from "./types";
+import { TransactionDetail, TransactionStatus, TransactionType } from "./types";
 import SendIcon from "./image/send.svg"
 import ReceiveIcon from "./image/receive.svg"
 import PendingIcon from "./image/pending.png"
 import "./index.css"
 
-export interface TxDetailCardProps {
-  ID: string;
-  type: TransactionType;
-  status: TransactionStatus;
-  amount: number | string;
-  address: string;
-  date: string;
+const formatDate = (date: number) => {
+  const txDate = new Date(date);
+  const addLeadingZero = (str:number| string) => str.toString().length === 2 ? str : `0${str}`
+  return `${addLeadingZero(txDate.getMonth() + 1)}-${addLeadingZero(txDate.getDate())} ${addLeadingZero(txDate.getHours())}:${addLeadingZero(txDate.getMinutes())}`
 }
 
-const TransactionCard = ({ID, type, status, amount, address, date}: TxDetailCardProps) => {
+const TransactionCard = ({ID, type, status, amount, address, date}: TransactionDetail) => {
   const isSendingTx = type === TransactionType.SEND;
   const isTxPending = status === TransactionStatus.PENDING;
   const addressDisplayed = `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
-  
+
   // TODO, links support on mainnet and testnet, status as pending or confirmed.
   return (
-    <div className="Tx-container" key={ID}>
+    <div className="Tx-container">
       <a href={`https://www.blockchain.com/btc-testnet/tx/${ID}`} target="_blank" rel="noopener noreferrer">
         <div className="Tx-detail-container">
           <div className="Tx-detail-img-container">
@@ -36,11 +33,11 @@ const TransactionCard = ({ID, type, status, amount, address, date}: TxDetailCard
               <span className={isSendingTx ? "highlight" : ""}>{`${isSendingTx ? "-" : "+"}${amount}`}</span>
             </div>
             <div className="Tx-secondary">
-              <span>
-                <span>{isSendingTx ? "From" : "To"}:</span>
+              <span className="Tx-address">
+                <span>{isSendingTx ? "To" : "From"}:</span>
                 <span className="highlight">{addressDisplayed}</span>
               </span>
-              <span>{date}</span>
+              <span>{formatDate(date)}</span>
             </div>
           </div>
         </div>

@@ -4,6 +4,15 @@ export enum TransactionType {
 }
 
 export enum TransactionStatus {
-  PENDING,
-  DONE
+  PENDING = "pending",
+  DONE = "done"
+}
+
+export interface TransactionDetail {
+  ID: string;
+  type: TransactionType;
+  status: TransactionStatus;
+  amount: string;
+  address: string;
+  date: number;
 }
