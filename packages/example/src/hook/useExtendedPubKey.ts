@@ -23,7 +23,6 @@ export const useExtendedPubKey = () => {
       const apiKey = BACKENDAPI;
       const explorer = new BlockChair(apiKey, network);
       setLoading(true);
-      setUTXOList([]);
       setReceiveAddressList([]);
       setChangeList([]);
 

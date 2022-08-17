@@ -5,7 +5,7 @@ export enum TransactionType {
 
 export enum TransactionStatus {
   PENDING = "pending",
-  DONE = "done"
+  CONFIRMED = "confirmed"
 }
 
 export interface TransactionDetail {

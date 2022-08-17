@@ -1,13 +1,20 @@
 .Tx-container {
   height: 80px;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0 16px;
+}
+
+.Tx-container:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
 }
 
 .Tx-container a {
   width: 100%;
+  height: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Tx-detail-container {

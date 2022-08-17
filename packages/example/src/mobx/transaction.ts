@@ -10,10 +10,5 @@ const Transaction = types
     address: types.string,
     date: types.number
   })
-  .actions((self) => ({
-    updateStatus: (status: TransactionStatus) => {
-      self.status = status;
-    },
-  }));
 
 export default Transaction;

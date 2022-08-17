@@ -4,6 +4,8 @@ import SendIcon from "./image/send.svg"
 import ReceiveIcon from "./image/receive.svg"
 import PendingIcon from "./image/pending.png"
 import "./index.css"
+import { BlockChair } from "../../lib/explorer";
+import { BitcoinNetwork } from "../../interface";
 
 const formatDate = (date: number) => {
   const txDate = new Date(date);
@@ -11,15 +13,18 @@ const formatDate = (date: number) => {
   return `${addLeadingZero(txDate.getMonth() + 1)}-${addLeadingZero(txDate.getDate())} ${addLeadingZero(txDate.getHours())}:${addLeadingZero(txDate.getMinutes())}`
 }
 
-const TransactionCard = ({ID, type, status, amount, address, date}: TransactionDetail) => {
+interface TransactionCardProps extends TransactionDetail {
+  network: BitcoinNetwork
+}
+
+const TransactionCard = ({ID, type, status, amount, address, date, network}: TransactionCardProps) => {
   const isSendingTx = type === TransactionType.SEND;
   const isTxPending = status === TransactionStatus.PENDING;
   const addressDisplayed = `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
-  // TODO, links support on mainnet and testnet, status as pending or confirmed.
   return (
     <div className="Tx-container">
-      <a href={`https://www.blockchain.com/btc-testnet/tx/${ID}`} target="_blank" rel="noopener noreferrer">
+      <a href={BlockChair.getTransactionLink(ID, network)} target="_blank" rel="noopener noreferrer">
         <div className="Tx-detail-container">
           <div className="Tx-detail-img-container">
             <img src={isSendingTx ? SendIcon : ReceiveIcon} alt={type} />

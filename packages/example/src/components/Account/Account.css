@@ -47,7 +47,11 @@
   justify-content: space-between;
   gap: 40px;
   align-items: flex-end;
-  padding: 40px 40px 40px 24px;
+  margin: 40px 24px;
+}
+
+.Account-Aside-Refresh {
+  margin-right: 16px;
 }
 
 .Logo-container {

@@ -3,18 +3,19 @@ import TransactionCard  from "../TransactionCard";
 import { TransactionDetail } from "../TransactionCard/types";
 import Transactions from "./image/transactions.svg";
 import { observer } from "mobx-react-lite";
+import { BitcoinNetwork } from "../../interface";
 
-// TODO transform tx data
 interface TxCardProps {
+  network: BitcoinNetwork
   txList: TransactionDetail[];
 }
 
-const TxList = observer(({txList}: TxCardProps) => (
+const TxList = observer(({txList, network}: TxCardProps) => (
   <div className="Tx-list-container">
     {
       txList.length > 0 ? (
         <div className="Tx-list-content">
-          {txList.map(tx => <TransactionCard key={tx.ID} {...tx} />)}
+          {txList.map(tx => <TransactionCard key={tx.ID} {...tx} network={network} />)}
         </div>
       ) : (
         <div className="Tx-list-empty">

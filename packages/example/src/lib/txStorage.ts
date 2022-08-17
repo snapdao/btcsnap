@@ -18,6 +18,10 @@ const getAllTransactions = (xpub: string): TxStorage => {
   };
 }
 
+export const getStoredTransactions = (xpub: string, network: BitcoinNetwork): TransactionDetail[] => {
+  return getAllTransactions(xpub)[network];
+}
+
 export const storeTransaction = (xpub: string, network: BitcoinNetwork, transaction: TransactionDetail) => {
   const localTxs = getAllTransactions(xpub);
   const newLocalTxs = {
@@ -30,10 +34,11 @@ export const storeTransaction = (xpub: string, network: BitcoinNetwork, transact
   localStorage.setItem(txListStorageKey(xpub), JSON.stringify(newLocalTxs));
 }
 
-export const getStoredTransactions = (xpub: string, network: BitcoinNetwork): TransactionDetail[] => {
-  const txListStr = localStorage.getItem(txListStorageKey(xpub));
-  if(txListStr) {
-    return JSON.parse(txListStr)[network]
-  }
-  return [];
+export const updateStoredTransactions = (xpub: string, network: BitcoinNetwork, transactions: TransactionDetail[]) => {
+  const localTxs = getAllTransactions(xpub);
+  const newLocalTxs = {
+    ...localTxs,
+    [network]: transactions
+  };
+  localStorage.setItem(txListStorageKey(xpub), JSON.stringify(newLocalTxs));
 }
