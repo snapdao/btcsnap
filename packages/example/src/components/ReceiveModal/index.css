@@ -1,0 +1,100 @@
+.modal-container {
+    width: 440px !important;
+    border-radius: 20px !important;
+    position: relative;
+}
+
+.colored-container {
+    background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
+    background-repeat: no-repeat;
+    background-size: 100% 226px;
+}
+
+.modal-content-container {
+    padding: 28px;
+}
+
+.actions-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 68px;
+}
+
+.action-button {
+    width: 376px;
+    border-radius: 16px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+.action-button:hover {
+    background-color: #F58300;
+}
+
+.action-button-primary {
+    background-color: #111214;
+    color: white;
+}
+
+.addressBox-container {
+    height: 268px;
+}
+.address-box {
+    width: 268px;
+    height: 268px;
+    display: flex;
+    margin: 40px auto;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to left, #F58300, #F58300) left top no-repeat,
+                linear-gradient(to bottom, #F58300, #F58300) left top no-repeat,
+                linear-gradient(to left, #F58300, #F58300) right top no-repeat,
+                linear-gradient(to bottom, #F58300, #F58300) right top no-repeat,
+                linear-gradient(to left, #F58300, #F58300) left bottom no-repeat,
+                linear-gradient(to bottom, #F58300, #F58300) left bottom no-repeat,
+                linear-gradient(to left, #F58300, #F58300) right bottom no-repeat,
+                linear-gradient(to left, #F58300, #F58300) right bottom no-repeat;
+    background-color: #FFFFFF;
+    background-size: 1.64px 9.84px, 9.84px 1.64px, 1.64px 9.84px, 9.84px 1.64px;
+}
+.address-label {
+    padding: 14px 24px;
+    border-radius: 16px;
+    background-color: #F7F9FC;
+}
+.addressCopied-message {
+    width: 184px;
+    height: 40px;
+    position: absolute;
+    top: 40px;
+    left: 128px;
+    text-align: center;
+    border-radius: 12px;
+    padding: 10px 16px 10px 14px;
+    background-color: #FFFFFF;
+}
+.addressCopied-message-span {
+    color: #21A35D;
+    line-height: 20px;
+    font-weight: 600;
+    vertical-align: middle;
+}
+.addressCopied-message-icon {
+    width: 15px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.modal-close-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-close-icon:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+}

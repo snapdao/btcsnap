@@ -27,7 +27,7 @@ const Account = observer(() => {
   );
 
   const balance = satoshiToBTC(utxoList.reduce((acc, current) => acc + current.value, 0));
-  const receiveAddress = addresses.find(address => address.path === "m/1/0")?.address || ""
+  const receiveAddress = receiveAddressList?.[0]?.address || ""
 
   const sendInfo = useMemo(() => {
     if (pubKey !== '' && changeAddressList.length)
