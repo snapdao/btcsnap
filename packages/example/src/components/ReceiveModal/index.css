@@ -87,14 +87,3 @@
     margin-right: 5px;
     vertical-align: middle;
 }
-.modal-close-icon {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.modal-close-icon:hover {
-    background: rgba(0, 0, 0, 0.04);
-    border-radius: 6px;
-}

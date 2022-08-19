@@ -2,8 +2,8 @@ import SendViewModel from './model';
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import {Container, Divider, Loader, Modal} from 'semantic-ui-react';
-import close from '../../assets/close.svg';
 import BTCValue from './BTCValue';
+import CloseIcon from "../Icons/CloseIcon";
 
 export type ConfirmModalProps = {
   model: SendViewModel;
@@ -33,13 +33,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
           <div className={'modal-header'}>
             <span />
             <span className={'text-weight-bold'}>Confirm Transaction</span>
-            <img
-                style={{ cursor: 'pointer' }}
-                src={close}
-                width={12}
-                alt={'close'}
-                onClick={() => model.setConfirmOpen(false)}
-            />
+            <CloseIcon onClick={() => model.setConfirmOpen(false)} />
           </div>
           <div className={'modal-section vertical-center'}>
           <span className={'text-weight-bold text-secondary'}>

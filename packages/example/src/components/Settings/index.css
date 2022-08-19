@@ -30,22 +30,6 @@
   text-transform: uppercase;
 }
 
-.Settings-Close {
-  width: 40px;
-  height: 40px;
-  border: 0;
-  background: white;
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Settings-Close:hover {
-  background: rgba(0, 0, 0, 0.04);
-  cursor: pointer;
-}
-
 .Setting-Content {
   margin: 40px 12px 0;
 }

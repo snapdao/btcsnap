@@ -5,8 +5,8 @@ import SendViewModel from './model';
 
 import './index.css';
 import send from '../../assets/send.svg'
-import close from '../../assets/close.svg';
 import ConfirmModal from "./ConfirmModal";
+import CloseIcon from "../Icons/CloseIcon";
 
 export type InitialProps = {
   model: SendViewModel;
@@ -26,13 +26,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
             <img src={send} width={24} alt={'send transaction'} />
             <span style={{marginLeft: 4}}>SEND</span>
           </span>
-          <img
-            style={{ cursor: 'pointer' }}
-            src={close}
-            width={12}
-            alt={'close'}
-            onClick={() => model.setSendOpen(false)}
-          />
+          <CloseIcon onClick={() => model.setSendOpen(false)} />
         </div>
         <div className={'modal-section'}>
           <span style={{ fontSize: 14, fontWeight: 600, color: '#9095A3' }}>

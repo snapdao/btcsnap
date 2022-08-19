@@ -4,8 +4,8 @@ import './index.css';
 import '../Account/Account.css';
 import receive from '../../assets/receive.svg'
 import vector from '../../assets/vector.svg'
-import closeIcon from '../../assets/close.svg';
 import AddressBox from './AddressBox';
+import CloseIcon from "../Icons/CloseIcon";
 
 type ReceiveModalProps = {
   address: string;
@@ -44,15 +44,7 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
               <img src={receive} width={24} alt={'receive transaction'} />
               <span style={{marginLeft: 4}}>RECEIVE</span>
             </span>
-            <div className={'modal-close-icon'}>
-              <img
-                style={{ cursor: 'pointer' }}
-                src={closeIcon}
-                width={12}
-                alt={'close'}
-                onClick={close}
-              />
-            </div>
+            <CloseIcon onClick={close} />
           </div>
           <div className={'addressBox-container'}>
             <AddressBox address={address} />

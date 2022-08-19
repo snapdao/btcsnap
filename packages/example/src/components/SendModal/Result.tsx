@@ -9,9 +9,9 @@ import './index.css';
 import send_success from '../../assets/send_success.svg';
 import send_failed from '../../assets/send_failed.svg';
 import arrow_right from '../../assets/arrow_right.svg';
-import close from '../../assets/close.svg';
 import { useKeystoneStore } from "../../mobx";
 import { storeTransaction } from "../../lib/txStorage";
+import CloseIcon from "../Icons/CloseIcon";
 
 export type SuccessProps = {
   model: SendViewModel;
@@ -33,13 +33,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
         <div className={'modal-header'}>
           <span />
           <span />
-          <img
-            style={{ cursor: 'pointer' }}
-            src={close}
-            width={12}
-            alt={'close'}
-            onClick={() => model.setSendOpen(false)}
-          />
+          <CloseIcon onClick={() => model.setSendOpen(false)} />
         </div>
         <div className={'modal-section vertical-center'}>
           {model.status === 'success' && (
