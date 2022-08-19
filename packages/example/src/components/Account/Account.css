@@ -132,10 +132,6 @@
   height: 25px;
 }
 
-.Action-container .rotate img {
-  transform: rotate(180deg);
-}
-
 .Tx-list-container {
   width: 100%;
   display: flex;

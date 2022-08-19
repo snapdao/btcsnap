@@ -10,7 +10,7 @@ import { SendInfo } from '../../lib';
 import Initial from './Initial';
 import Result from './Result';
 import { useFeeRate } from '../../hook/useBitcoinTx';
-import Send from "../Account/image/send.svg";
+import SendIcon from "../Icons/SendIcon";
 
 type ContainerProps = {
   utxos: Utxo[];
@@ -52,7 +52,7 @@ const SendModal = observer((props: { model: SendViewModel }) => {
       open={model.sendOpen}
       trigger={
         <div className="Action-button-container">
-          <img src={Send} alt="Send" />
+          <SendIcon size={48} />
         </div>
       }>
       {model.status === 'initial' && <Initial model={model} />}

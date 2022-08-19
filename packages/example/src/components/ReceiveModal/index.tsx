@@ -3,6 +3,7 @@ import { Container, Modal } from 'semantic-ui-react';
 import './index.css';
 import '../Account/Account.css';
 import receive from '../../assets/receive.svg'
+import ReceiveIcon from "../Icons/ReceiveIcon"
 import vector from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
 import CloseIcon from "../Icons/CloseIcon";
@@ -41,7 +42,7 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <img src={receive} width={24} alt={'receive transaction'} />
+              <ReceiveIcon size={36} />
               <span style={{marginLeft: 4}}>RECEIVE</span>
             </span>
             <CloseIcon onClick={close} />

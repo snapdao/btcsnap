@@ -7,9 +7,9 @@ import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
 
 import Logo from "./image/logo.svg";
-import Receive from "../Account/image/receive.svg";
 import LogoTestnet from "./image/logo-testnet.svg";
 import {SendInfo} from "../../lib";
+import ReceiveIcon from "../Icons/ReceiveIcon";
 
 
 export interface MainProps {
@@ -49,7 +49,7 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
           </div>
           <div className="Action-container" onClick={onReceive}>
             <div className="Action-button-container">
-              <img src={Receive} alt="Receive" />
+              <ReceiveIcon size={48} />
             </div>
             <p>receive</p>
           </div>
