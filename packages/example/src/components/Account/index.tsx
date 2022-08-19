@@ -4,7 +4,7 @@ import { Loader, Modal } from 'semantic-ui-react';
 import Main from "./Main";
 import Aside from "./Aside";
 import { useExtendedPubKey } from "../../hook/useExtendedPubKey";
-import { addressAggrator, countUtxo, satoshiToBTC } from "../../lib/helper";
+import { satoshiToBTC } from "../../lib/helper";
 import {getNodeFingerPrint} from "../../lib";
 import {useKeystoneStore} from "../../mobx";
 import "./Account.css"
@@ -18,13 +18,6 @@ const Account = observer(() => {
     changeAddressList,
     refresh: refreshBalance
   } = useExtendedPubKey();
-
-  const utxoMap = countUtxo(utxoList);
-  const addresses = addressAggrator(
-      receiveAddressList,
-      changeAddressList,
-      utxoMap,
-  );
 
   const balance = satoshiToBTC(utxoList.reduce((acc, current) => acc + current.value, 0));
   const receiveAddress = receiveAddressList?.[0]?.address || ""
