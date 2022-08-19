@@ -5,8 +5,8 @@ import Modal from "./Modal";
 import { observer } from "mobx-react-lite";
 import NetworkIcon from "../Icons/Network";
 import SwitchIcon from "../Icons/SwitchIcon";
+import CloseIcon from "../Icons/CloseIcon";
 import SettingsIcon from "./image/settings.svg";
-import CloseIcon from "./image/close.svg";
 import "./index.css";
 
 interface SettingProps {
@@ -30,9 +30,7 @@ const Settings = observer(({open, close}: SettingProps) => {
             <img src={SettingsIcon} alt="Settings" className="Connect-flask-icon"/>
             <h3>Settings</h3>
           </div>
-          <button className="Settings-Close" onClick={close}>
-            <img src={CloseIcon} alt="Close"/>
-          </button>
+          <CloseIcon onClick={close} />
         </div>
         <div className="Setting-Content">
           <div className="Setting-ItemList">

@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import {observer} from 'mobx-react-lite';
-import { Modal } from "semantic-ui-react";
 
 import { useKeystoneStore } from "../../mobx";
 import {BitcoinNetwork, Utxo} from "../../interface";
 import SendModal from '../SendModal';
+import ReceiveModal from '../ReceiveModal'
 
 import Logo from "./image/logo.svg";
 import LogoTestnet from "./image/logo-testnet.svg";
-import Send from "./image/send.svg";
 import {SendInfo} from "../../lib";
+import ReceiveIcon from "../Icons/ReceiveIcon";
 
 
 export interface MainProps {
@@ -48,27 +48,14 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
             <p>send</p>
           </div>
           <div className="Action-container" onClick={onReceive}>
-            <div className="Action-button-container rotate">
-              <img src={Send} alt="Receive" />
+            <div className="Action-button-container">
+              <ReceiveIcon size={48} />
             </div>
             <p>receive</p>
           </div>
         </div>
       </div>
-      {/*
-      TODO change with ReceiveModal
-    */}
-      <Modal
-          onClose={closeReceiveModal}
-          open={showReceiveModal}
-      >
-        <Modal.Header>
-          Receive
-        </Modal.Header>
-        <Modal.Content>
-          WIP: address: {receiveAddress} to QR Code
-        </Modal.Content>
-      </Modal>
+      <ReceiveModal address={receiveAddress} open={showReceiveModal} close={closeReceiveModal}/>
     </div>
   );
 });
