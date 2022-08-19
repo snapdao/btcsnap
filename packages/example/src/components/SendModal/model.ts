@@ -5,6 +5,7 @@ import { genreatePSBT, selectUtxos, SendInfo, sendTx } from '../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
 import { BlockChair } from '../../lib/explorer';
+import { TransactionStatus, TransactionType, TransactionDetail } from "../TransactionCard/types";
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -182,6 +183,17 @@ class SendViewModel {
       this.availableSatoshi.dividedBy(this.decimalFactor).toString(),
       this.limitedDecimal,
     );
+  }
+
+  get sentTx(): TransactionDetail {
+    return {
+      ID: this.txId as string,
+      type: TransactionType.SEND,
+      status: TransactionStatus.PENDING,
+      date: new Date().getTime(),
+      address: this.to,
+      amount: this.sendAmountText
+    }
   }
 
   handleSendInput = (btcValue: string) => {
