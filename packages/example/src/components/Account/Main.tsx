@@ -48,9 +48,9 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
             <p>send</p>
           </div>
           <div className="Action-container" onClick={onReceive}>
-            <div className="Action-button-container">
+            <button className="Action-button-container">
               <ReceiveIcon size={48} />
-            </div>
+            </button>
             <p>receive</p>
           </div>
         </div>

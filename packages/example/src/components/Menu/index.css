@@ -17,6 +17,7 @@
 .Menu-button:hover {
   background-color: rgba(0, 0, 0, 0.04);
   cursor: pointer;
+  transition: 0.25s;
 }
 
 .Menu-button img {
@@ -57,6 +58,7 @@
 .Menu-item:hover {
   background: rgba(0, 0, 0, 0.04);
   cursor: pointer;
+  transition: 0.25s;
 }
 
 .Menu-item img {

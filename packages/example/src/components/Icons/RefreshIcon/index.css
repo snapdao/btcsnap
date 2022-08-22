@@ -11,6 +11,7 @@
 
 .Refresh-container:hover {
   cursor: pointer;
+  transition: 0.25s;
 }
 
 .Refresh-container svg {

@@ -51,6 +51,7 @@
 
 .Setting-Network:hover {
   cursor: pointer;
+  transition: 0.25s;
 }
 
 .Setting-Network:hover svg:last-child path {

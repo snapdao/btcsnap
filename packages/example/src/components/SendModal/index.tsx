@@ -50,9 +50,9 @@ const SendModal = observer((props: { model: SendViewModel }) => {
       }}
       open={model.sendOpen}
       trigger={
-        <div className="Action-button-container">
+        <button className="Action-button-container">
           <SendIcon size={48} />
-        </div>
+        </button>
       }>
       {model.status === 'initial' && <Initial model={model} />}
       {model.status !== 'initial' && <Result model={model} />}

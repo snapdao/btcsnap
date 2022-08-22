@@ -6,4 +6,5 @@
 .ArrowRight-container:hover svg path {
   cursor: pointer;
   fill: #F58300;
+  transition: 0.25s;
 }
