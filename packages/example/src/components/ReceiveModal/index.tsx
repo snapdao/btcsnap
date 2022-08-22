@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Container, Modal } from 'semantic-ui-react';
 import './index.css';
 import '../Account/Account.css';
-import receive from '../../assets/receive.svg'
 import ReceiveIcon from "../Icons/ReceiveIcon"
-import vector from '../../assets/vector.svg'
+import { ReactComponent as Checked } from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
 import CloseIcon from "../Icons/CloseIcon";
 
@@ -63,7 +62,7 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
 
         {addressCopied &&
           <div className={'addressCopied-message'}>
-            <img className={'addressCopied-message-icon'} src={vector} alt="vector" />
+            <Checked className={'addressCopied-message-icon'} />
             <span className={'addressCopied-message-span'}>Copied to clipboard</span>
           </div>
         }

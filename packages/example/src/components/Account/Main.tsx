@@ -2,13 +2,13 @@ import React, { useCallback, useState } from 'react';
 import {observer} from 'mobx-react-lite';
 
 import { useKeystoneStore } from "../../mobx";
-import {BitcoinNetwork, Utxo} from "../../interface";
+import { BitcoinNetwork, Utxo } from "../../interface";
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
 
-import Logo from "./image/logo.svg";
-import LogoTestnet from "./image/logo-testnet.svg";
-import {SendInfo} from "../../lib";
+import { ReactComponent as Logo } from "./image/logo.svg";
+import { ReactComponent as LogoTestnet } from "./image/logo-testnet.svg";
+import { SendInfo } from "../../lib";
 import ReceiveIcon from "../Icons/ReceiveIcon";
 
 
@@ -35,7 +35,10 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
     <div className="Account-Main">
       <div className="Account-Main-Container">
         <div className="Logo-container">
-          <img src={network === BitcoinNetwork.Main ? Logo : LogoTestnet} alt="BitcoinSnap" className="Logo-img" />
+          {network === BitcoinNetwork.Main
+            ? <Logo />
+            : <LogoTestnet />
+          }
           <span className="Logo-label">Alpha</span>
         </div>
         <div className="Balance-container">

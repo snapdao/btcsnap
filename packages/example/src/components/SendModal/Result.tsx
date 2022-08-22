@@ -6,9 +6,9 @@ import { observer } from 'mobx-react-lite';
 import BTCValue from './BTCValue';
 
 import './index.css';
-import send_success from '../../assets/send_success.svg';
-import send_failed from '../../assets/send_failed.svg';
-import arrow_right from '../../assets/arrow_right.svg';
+import { ReactComponent as SendSuccess } from '../../assets/send_success.svg';
+import { ReactComponent as SendFailed } from '../../assets/send_failed.svg';
+import { ReactComponent as ArrowRight } from '../../assets/arrow_right.svg';
 import { useKeystoneStore } from "../../mobx";
 import { storeTransaction } from "../../lib/txStorage";
 import CloseIcon from "../Icons/CloseIcon";
@@ -38,7 +38,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
         <div className={'modal-section vertical-center'}>
           {model.status === 'success' && (
             <>
-              <img src={send_success} alt={'send success'} />
+              <SendSuccess />
               <span
                 className={'text-weight-bold'}
                 style={{ marginTop: 16, marginBottom: 24 }}>
@@ -48,7 +48,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
           )}
           {model.status === 'failed' && (
             <>
-              <img src={send_failed} alt={'send failed'} />
+              <SendFailed />
               <span
                 className={'text-weight-bold text-error'}
                 style={{ marginTop: 16, marginBottom: 24 }}>
@@ -65,7 +65,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
             style={{ marginTop: 24, width: '100%' }}
             className={'horizontal-center space-around'}>
             <span className={'account-tag'}>Your Account</span>
-            <img src={arrow_right} alt={'to'} />
+            <ArrowRight />
             <span className={'account-tag'}>{model.formattedTo}</span>
           </div>
         </div>

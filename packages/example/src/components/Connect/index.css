@@ -21,7 +21,7 @@
   margin-bottom: 64px;
 }
 
-.Connect-button{
+.Connect-button {
   width: 100%;
   height: 48px;
   background: #111214;
@@ -40,6 +40,7 @@
 .Connect-button:hover {
   background-color: #F58300;
   cursor: pointer;
+  color: #FFFFFF;
 }
 
 .Connect-button:disabled {

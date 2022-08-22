@@ -1,7 +1,7 @@
 import React from "react";
 import TransactionCard  from "../TransactionCard";
 import { TransactionDetail } from "../TransactionCard/types";
-import Transactions from "./image/transactions.svg";
+import { ReactComponent as Transactions } from "./image/transactions.svg";
 import { observer } from "mobx-react-lite";
 import { BitcoinNetwork } from "../../interface";
 
@@ -19,7 +19,7 @@ const TxList = observer(({txList, network}: TxCardProps) => (
         </div>
       ) : (
         <div className="Tx-list-empty">
-          <img src={Transactions} alt="transactions"/>
+          <Transactions />
           <p className="Empty-tip">No Transactions</p>
         </div>
       )

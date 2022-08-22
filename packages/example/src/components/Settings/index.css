@@ -16,10 +16,14 @@
   margin-top: 0;
 }
 
-.Setting-Label img {
+.Setting-Label svg {
   width: 36px;
   height: 36px;
   margin: 0 4px 0 0;
+}
+
+.Setting-Label svg path {
+  fill: #F58300;
 }
 
 .Setting-Label h3 {

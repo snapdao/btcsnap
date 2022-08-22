@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import NetworkIcon from "../Icons/Network";
 import SwitchIcon from "../Icons/SwitchIcon";
 import CloseIcon from "../Icons/CloseIcon";
-import SettingsIcon from "./image/settings.svg";
+import { ReactComponent as SettingsIcon } from "../../assets/settings.svg";
 import "./index.css";
 
 interface SettingProps {
@@ -27,7 +27,7 @@ const Settings = observer(({open, close}: SettingProps) => {
       <div className="Setting-Container">
         <div className="Setting-Header">
           <div className="Setting-Label">
-            <img src={SettingsIcon} alt="Settings" className="Connect-flask-icon"/>
+            <SettingsIcon />
             <h3>Settings</h3>
           </div>
           <CloseIcon onClick={close} />
