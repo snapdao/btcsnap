@@ -48,7 +48,6 @@ const SendModal = observer((props: { model: SendViewModel }) => {
         model.resetState();
         model.setSendOpen(true)
       }}
-      onClose={() => model.setSendOpen(false)}
       open={model.sendOpen}
       trigger={
         <div className="Action-button-container">

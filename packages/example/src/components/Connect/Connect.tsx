@@ -15,9 +15,11 @@ const Connect = ({open, onConnected}: ConnectProps) => {
 
   const connectMetaMask = useCallback(async () => {
     setIsConnecting(true);
-    connect(() => {
-      onConnected();
+    connect((connected: boolean) => {
       setIsConnecting(false);
+      if(connected) {
+        onConnected();
+      }
     });
   }, [setIsConnecting, onConnected])
 

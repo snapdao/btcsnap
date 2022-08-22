@@ -35,6 +35,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
           <div className={'amount-input-box'}>
             <label style={{ fontSize: 16, color: '#F58300' }}>
               <input
+                autoFocus
                 className={'amount-input'}
                 size={model.amountLength}
                 value={model.amountText}
