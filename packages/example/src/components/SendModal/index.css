@@ -205,16 +205,21 @@ input:focus-visible {
 
 .amount {
     display: inline-block;
-    font-size: 14;
+    font-size: 14px;
     font-weight: 600;
-    color: '#9095A3';
+    color: #9095A3;
 }
 
 .fee {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 16px;
     padding: 10px 0 20px;
+}
+
+.fee-amount, .available-amount {
+    color: #111214;
 }
 
 .send-actions-container {
@@ -250,6 +255,12 @@ input:focus-visible {
 
 .send-action-button:hover, .confirm-action-button:hover, .ok-action-button:hover {
     background-color: #F58300;
+}
+
+.action-button-primary, .action-button-secondary, .action-button-disable {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 .action-button-secondary {

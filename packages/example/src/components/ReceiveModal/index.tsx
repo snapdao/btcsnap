@@ -41,7 +41,7 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
               alignItems: 'center',
             }}>
             <ReceiveIcon size={36} />
-            <span style={{marginLeft: 4}}>RECEIVE</span>
+            <span style={{marginLeft: 4, fontWeight: 600}}>RECEIVE</span>
           </span>
           <CloseIcon onClick={close} />
         </div>

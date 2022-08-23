@@ -24,7 +24,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
               alignItems: 'center',
             }}>
             <SendIcon size={36} />
-            <span style={{marginLeft: 4}}>SEND</span>
+            <span style={{marginLeft: 4, fontWeight: 600 }}>SEND</span>
           </span>
           <CloseIcon onClick={() => model.setSendOpen(false)} />
         </div>
@@ -56,7 +56,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
             <div className={'fee'}>
               <span className={'text-secondary text-weight-bold'}>Fee</span>
               <span className={'text-secondary'}>
-                <span>{model.feeText}</span>
+                <span className={'fee-amount'}>{model.feeText}</span>
                 <span style={{ marginLeft: '1ch' }}>TBTC</span>
               </span>
             </div>
@@ -65,7 +65,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
           <div className={'modal-section available-btc'}>
             <span className={'text-secondary text-weight-bold'}>Available</span>
             <span className={'text-secondary'}>
-              <span>{model.availableBtc}</span>
+              <span className={'available-amount'}>{model.availableBtc}</span>
               <span style={{ marginLeft: '1ch' }}>TBTC</span>
             </span>
           </div>

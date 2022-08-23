@@ -14,6 +14,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
   return (
     <Modal
       className={"modal-container"}
+      style={{ marginTop: 32 }}
       onOpen={() => model.setConfirmOpen(true)}
       onClose={() => model.setConfirmOpen(false)}
       open={model.confirmOpen}
@@ -49,7 +50,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
             <span className={'text-weight-bold text-secondary confirm-middle-span'}>
               To
             </span>
-            <span>{model.to}</span>
+            <span style={{ fontWeight: 600 }}>{model.to}</span>
           </div>
         </Container>
         <Container className={'modal-confirm-section'}>

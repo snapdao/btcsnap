@@ -17,7 +17,11 @@ export const useTransaction = (network: BitcoinNetwork) => {
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const refresh = () => setCount(count + 1);
+  const refresh = () => {
+    if(!loading) {
+      setCount(count + 1);
+    }
+  }
 
   const addTxs = (txIds: string[]) => {
     const allPendingTxIds = txList.map(tx => tx.txId);
