@@ -28,7 +28,7 @@ export const storeTransaction = (xpub: string, network: BitcoinNetwork, transact
     ...localTxs,
     [network]: [
       transaction,
-      ...localTxs[network],
+      ...localTxs[network].filter(tx => tx.ID !== transaction.ID),
     ]
   };
   localStorage.setItem(txListStorageKey(xpub), JSON.stringify(newLocalTxs));
@@ -36,9 +36,10 @@ export const storeTransaction = (xpub: string, network: BitcoinNetwork, transact
 
 export const updateStoredTransactions = (xpub: string, network: BitcoinNetwork, transactions: TransactionDetail[]) => {
   const localTxs = getAllTransactions(xpub);
+  const uniqueNewTxIds = Array.from(new Set(transactions.map(tx => tx.ID)));
   const newLocalTxs = {
     ...localTxs,
-    [network]: transactions
+    [network]: uniqueNewTxIds.map(txId => transactions.find(tx => tx.ID === txId)).filter(tx => !!tx)
   };
   localStorage.setItem(txListStorageKey(xpub), JSON.stringify(newLocalTxs));
 }
