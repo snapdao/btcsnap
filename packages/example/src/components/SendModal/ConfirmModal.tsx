@@ -39,13 +39,13 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
             <span className={'text-weight-bold text-secondary confirm-top-span'}>
               You're Sending
             </span>
-            <span className={'confirm-btc-span'}>
+            <div className={'confirm-btc-box'}>
               <BTCValue
                 value={model.amountText}
                 size={'large'}
                 fontWeight={'normal'}
               />
-            </span>
+            </div>
             <span className={'text-weight-bold text-secondary confirm-middle-span'}>
               To
             </span>
@@ -85,7 +85,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
           <button
             style={{ marginTop: 72 }}
             className={
-              'action-button action-button-primary action-button-size-full-width'
+              'action-button action-button-primary action-button-size-full-width confirm-action-button'
             }
             onClick={model.send}>
             Confirm

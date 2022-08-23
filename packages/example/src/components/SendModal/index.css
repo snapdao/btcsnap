@@ -112,19 +112,14 @@
     padding-bottom: 20px;
 }
 
-.confirm-btc-span span:nth-child(1){
+.confirm-btc-box span:nth-child(1){
     display: inline-block;
     height: 48px;
 }
 
-.confirm-btc-span span:nth-child(1){
+.confirm-btc-box .btcValue-span span:nth-child(1) {
     display: inline-block;
     line-height: 48px;
-}
-
-.confirm-btc-span span:nth-child(2){
-    display: inline-block;
-    line-height: 24px;
 }
 
 .confirm-amount-section {
@@ -253,7 +248,7 @@ input:focus-visible {
     cursor: pointer;
 }
 
-.send-action-button:hover {
+.send-action-button:hover, .confirm-action-button:hover, .ok-action-button:hover {
     background-color: #F58300;
 }
 
@@ -284,8 +279,24 @@ input:focus-visible {
     display: flex;
     flex-direction: row;
     align-items: center;
+    font-size: 16px;
 }
 
 .result-content-container {
-    padding: 32px;
+    padding: 4px 32px 24px;
+}
+
+
+.result-failed-section {
+    width: 100%;
+    padding: 24px 32px 32px;
+}
+
+.result-sucess-p {
+    line-height: 24px;
+}
+
+.result-failed-p {
+    line-height: 24px;
+    margin-bottom: 10px;
 }
