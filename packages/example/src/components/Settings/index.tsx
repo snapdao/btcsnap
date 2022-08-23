@@ -15,11 +15,12 @@ interface SettingProps {
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
-  const { global: { network, updateNetwork }} = useKeystoneStore();
+  const { global: { network, updateNetwork, updateBip44Xpub }} = useKeystoneStore();
 
   const changeNetwork = () => {
     const targetNetwork = network === BitcoinNetwork.Main ? BitcoinNetwork.Test : BitcoinNetwork.Main
     updateNetwork(targetNetwork);
+    updateBip44Xpub("");
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { observer } from "mobx-react-lite";
 import Install from "./Install";
 import Connect from "./Connect";
@@ -11,6 +11,7 @@ const Index = observer(() => {
   const hasInstalled = !!window.ethereum;
   const [hasConnected, setHasConnected] = useState<boolean>(!!pubKey);
   const [hasRevealed, setHasRevealed] = useState<boolean>(!!pubKey);
+  const connectedBefore = useRef<boolean>(false);
 
   const onConnected = useCallback(async () => {
     setHasConnected(true);
@@ -21,9 +22,11 @@ const Index = observer(() => {
   }, [setHasRevealed])
 
   useEffect(() => {
-    if(!pubKey) {
-      setHasConnected(false);
+    if (!pubKey) {
+      setHasConnected(connectedBefore.current);
       setHasRevealed(false);
+    } else {
+      connectedBefore.current = true;
     }
   }, [pubKey, setHasConnected, setHasRevealed])
 

@@ -15,7 +15,7 @@ const Aside = observer(({refreshBalance}: {refreshBalance: () => void}) => {
 
   useEffect(() => {
     // Load local stored transactions
-    const storedTxs = getStoredTransactions(bip44Xpub, network);
+    const storedTxs = getStoredTransactions(bip44Xpub);
     transactionAmount.current = storedTxs.length;
     const pendingTxs = storedTxs.filter(tx => tx.status === TransactionStatus.PENDING).map(tx => tx.ID)
     pendingTxs.length && addTxs(pendingTxs);
@@ -30,7 +30,7 @@ const Aside = observer(({refreshBalance}: {refreshBalance: () => void}) => {
         status: confirmedTxs.find(tx => tx.txId === transaction.ID)?.status || transaction.status
       }))
       updateTransactions(updatedTxs);
-      updateStoredTransactions(bip44Xpub, network, updatedTxs);
+      updateStoredTransactions(bip44Xpub, updatedTxs);
     }
   }, [txList])
 

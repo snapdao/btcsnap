@@ -18,12 +18,12 @@ export type SuccessProps = {
 };
 
 const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
-  const { global: {bip44Xpub, network}, addTransaction } = useKeystoneStore();
+  const { global: {bip44Xpub}, addTransaction } = useKeystoneStore();
 
   useEffect(() => {
     if(model.status === 'success' && !!model.sentTx){
       addTransaction(model.sentTx)
-      storeTransaction(bip44Xpub, network, model.sentTx);
+      storeTransaction(bip44Xpub, model.sentTx);
     }
   }, [])
 

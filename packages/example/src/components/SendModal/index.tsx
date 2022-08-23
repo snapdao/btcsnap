@@ -28,7 +28,7 @@ const SendContainer: FunctionComponent<ContainerProps> = props => {
       props.network,
       props.sendInfo,
     );
-  }, []);
+  }, [props.network, props.sendInfo, props.utxos, feeRate]);
   useEffect(() => {
     model.setUtxos(props.utxos);
     model.setFeeRate(feeRate);
