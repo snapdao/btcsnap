@@ -6,7 +6,7 @@ import { TransactionDetail } from "../components/TransactionCard/types";
 
 export const storeInitialState = {
   global: {
-    network: BitcoinNetwork.Test,
+    network: BitcoinNetwork.Main,
     bip44Xpub: "",
   },
   transactions: [],
