@@ -61,6 +61,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
               value={model.amountText}
               size={'large'}
               fontWeight={'normal'}
+              unit={model.unit}
             />
           </div>
           <div

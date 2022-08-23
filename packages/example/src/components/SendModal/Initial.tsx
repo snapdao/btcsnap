@@ -45,7 +45,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
                   }}
                   placeholder="0"
                 />
-                TBTC
+                unit={model.unit}
               </label>
             </div>
             {!model.amountValid && (
@@ -57,7 +57,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
               <span className={'text-secondary text-weight-bold'}>Fee</span>
               <span className={'text-secondary'}>
                 <span className={'fee-amount'}>{model.feeText}</span>
-                <span style={{ marginLeft: '1ch' }}>TBTC</span>
+                <span style={{ marginLeft: '1ch' }}>{model.unit}</span>
               </span>
             </div>
           </div>
@@ -66,7 +66,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
             <span className={'text-secondary text-weight-bold'}>Available</span>
             <span className={'text-secondary'}>
               <span className={'available-amount'}>{model.availableBtc}</span>
-              <span style={{ marginLeft: '1ch' }}>TBTC</span>
+              <span style={{ marginLeft: '1ch' }}>{model.unit}</span>
             </span>
           </div>
         </div>

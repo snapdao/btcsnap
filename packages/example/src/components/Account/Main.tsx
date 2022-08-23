@@ -43,7 +43,7 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
         </div>
         <div className="Balance-container">
           <p className="Balance-label">current balance</p>
-          <p className="Balance">{balance} TBTC</p>
+          <p className="Balance">{balance} {network === BitcoinNetwork.Main ? "BTC" : "TBTC"}</p>
         </div>
         <div>
           <div className="Action-container">

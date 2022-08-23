@@ -114,6 +114,10 @@ class SendViewModel {
     return {};
   }
 
+  get unit () {
+    return this.network === BitcoinNetwork.Main ? "BTC" : "TBTC";
+  }
+
   get fee() {
     if (
       this.selectedResult.inputs &&
