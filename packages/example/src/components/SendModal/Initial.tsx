@@ -15,7 +15,7 @@ export type InitialProps = {
 const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
   return (
     <div>
-      <Container className={'modal-content-container colored-container'}>
+      <Container className={'colored-container'}>
         <div className={'modal-header'}>
           <span
             style={{
@@ -28,48 +28,50 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
           </span>
           <CloseIcon onClick={() => model.setSendOpen(false)} />
         </div>
-        <div className={'modal-section'}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: '#9095A3' }}>
-            Amount
-          </span>
-          <div className={'amount-input-box'}>
-            <label style={{ fontSize: 16, color: '#F58300' }}>
-              <input
-                autoFocus
-                className={'amount-input'}
-                size={model.amountLength}
-                value={model.amountText}
-                onChange={e => {
-                  model.handleSendInput(e.target.value);
-                }}
-                placeholder="0"
-              />
-              BTC
-            </label>
-          </div>
-          {!model.amountValid && (
-            <div className={'text-error'} style={{ marginTop: 8 }}>
-              Insufficient Funds
+        <div className={'modal-body'}>
+          <div className={'modal-section'}>
+            <span className={'amount'}>
+              Amount
+            </span>
+            <div className={'amount-input-box'}>
+              <label style={{ fontSize: 16, color: '#F58300' }}>
+                <input
+                  autoFocus
+                  className={'amount-input'}
+                  size={model.amountLength}
+                  value={model.amountText}
+                  onChange={e => {
+                    model.handleSendInput(e.target.value);
+                  }}
+                  placeholder="0"
+                />
+                BTC
+              </label>
             </div>
-          )}
-          <div className={'fee'}>
-            <span className={'text-secondary text-weight-bold'}>Fee</span>
+            {!model.amountValid && (
+              <div className={'text-error'}>
+                Insufficient Funds
+              </div>
+            )}
+            <div className={'fee'}>
+              <span className={'text-secondary text-weight-bold'}>Fee</span>
+              <span className={'text-secondary'}>
+                <span>{model.feeText}</span>
+                <span style={{ marginLeft: '1ch' }}>BTC</span>
+              </span>
+            </div>
+          </div>
+          <Divider />
+          <div className={'modal-section available-btc'}>
+            <span className={'text-secondary text-weight-bold'}>Available</span>
             <span className={'text-secondary'}>
-              <span>{model.feeText}</span>
+              <span>{model.availableBtc}</span>
               <span style={{ marginLeft: '1ch' }}>BTC</span>
             </span>
           </div>
         </div>
-        <Divider />
-        <div className={'modal-section available-btc'}>
-          <span className={'text-secondary text-weight-bold'}>Available</span>
-          <span className={'text-secondary'}>
-            <span>{model.availableBtc}</span>
-            <span style={{ marginLeft: '1ch' }}>BTC</span>
-          </span>
-        </div>
       </Container>
-      <Container className={'modal-content-container'}>
+      <Container className={'modal-bottom-container'}>
         <div className={'to-container'}>
           <span className={'text-secondary text-weight-bold'}>To</span>
           <input
@@ -81,13 +83,13 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
             }}
           />
         </div>
-        <Divider />
+        <Divider className={'bottom-divider'} />
         {!model.toValid && (
           <div className={'text-error'}>Enter a Valid Wallet Address</div>
         )}
-        <div className={'actions-container'}>
+        <div className={model.toValid ? 'send-actions-container' : 'actions-container-error'}>
           <button
-            className={'action-button action-button-secondary'}
+            className={'send-action-button action-button-secondary'}
             onClick={() => model.setSendOpen(false)}>
             Cancel
           </button>

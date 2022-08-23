@@ -13,14 +13,12 @@
     background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
 }
 
-.modal-content-container {
-    padding: 28px;
+.modal-bottom-container {
+    padding: 32px;
 }
 
-.modal-section {
-    margin-top: 20px;
-    padding-left: 4px;
-    padding-right: 4px;
+.bottom-divider {
+    margin: 0 !important;
 }
 
 .flex {
@@ -65,6 +63,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 18px 0 32px;
 }
 
 .text-secondary {
@@ -76,6 +75,8 @@
 }
 
 .text-error {
+    padding: 4px 0;
+    line-height: 20px;
     color: #EB2F00;
 }
 
@@ -104,10 +105,15 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 20px 20px 0;
+}
+
+.modal-body {
+    padding: 30px 32px 0;
 }
 
 .amount-input-box {
-    margin-top: 12px;
+    padding-top: 8px;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -117,6 +123,8 @@
     border: none;
     font-size: 40px;
     max-width: 200px;
+    line-height: 52px;
+    padding: 0;
     background: transparent;
 }
 
@@ -127,9 +135,10 @@
 }
 
 .to-input {
-    margin-top: 22px;
-    border: none;
     width: 100%;
+    border: none;
+    line-height: 20px;
+    padding: 22px 0 12px 0;
 }
 
 input:focus-visible {
@@ -140,18 +149,32 @@ input:focus-visible {
     color: #C5CAD6;
 }
 
+.amount {
+    display: inline-block;
+    font-size: 14;
+    font-weight: 600;
+    color: '#9095A3';
+}
+
 .fee {
-    margin-top: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 10px 0 20px;
 }
 
-.actions-container {
+.send-actions-container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin-top: 72px;
+    padding: 88px 0 0;
+}
+
+.actions-container-error {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 72px 0 0;
 }
 
 .action-button {
@@ -161,6 +184,18 @@ input:focus-visible {
     border: none;
     background: transparent;
     cursor: pointer;
+}
+.send-action-button {
+    width: 176px;
+    border-radius: 16px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.send-action-button:hover {
+    background-color: #F58300;
 }
 
 .action-button-secondary {

@@ -32,41 +32,35 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
       className={'modal-container'}
       open={open}
     >
-      <div className='colored-container'>
-        <Container className={'modal-content-container'}>
-          <div className={'modal-header'}>
-            <span
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <ReceiveIcon size={36} />
-              <span style={{marginLeft: 4}}>RECEIVE</span>
-            </span>
-            <CloseIcon onClick={close} />
-          </div>
-          <div className={'addressBox-container'}>
-            <AddressBox address={address} />
-          </div>
-        </Container>
-        <Container className={'modal-content-container'}>
-          <div className={'actions-container'}>
-            <button
-              className={'action-button action-button-primary'}
-              onClick={copyAddress}>
-              Copy Address
-            </button>
-          </div>
-        </Container>
+      <Container className={'reveive-colored-container'}>
+        <div className={'modal-header'}>
+          <span
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <ReceiveIcon size={36} />
+            <span style={{marginLeft: 4}}>RECEIVE</span>
+          </span>
+          <CloseIcon onClick={close} />
+        </div>
+        <AddressBox address={address} />
+      </Container>
+      <Container className={address ? 'modal-content-container' : 'reveive-none'}>
+        <button
+          className={'receive-action-button action-button-primary'}
+          onClick={copyAddress}>
+          Copy Address
+        </button>
+      </Container>
 
-        {addressCopied &&
-          <div className={'addressCopied-message'}>
-            <Checked className={'addressCopied-message-icon'} />
-            <span className={'addressCopied-message-span'}>Copied to clipboard</span>
-          </div>
-        }
-      </div>
+      {addressCopied &&
+        <div className={'addressCopied-message'}>
+          <Checked className={'addressCopied-message-icon'} />
+          <span className={'addressCopied-message-span'}>Copied to clipboard</span>
+        </div>
+      }
     </Modal>
   );
 };

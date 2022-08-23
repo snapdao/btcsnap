@@ -30,3 +30,7 @@ code {
 button:hover {
   transition: 0.25s;
 }
+
+p, span {
+  line-height: 20px;
+}
