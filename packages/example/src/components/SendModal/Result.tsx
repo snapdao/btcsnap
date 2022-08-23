@@ -29,7 +29,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
 
   return (
     <div>
-      <Container className={'modal-content-container colored-container'}>
+      <Container className={'result-content-container colored-container'}>
         <div className={'modal-header'}>
           <span />
           <span />
@@ -94,9 +94,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
                 <a
                   href={model.transactionLink}
                   target={'_blank'}
-                  className={
-                    'action-button action-button-size-full-width text-weight-bold all-center'
-                  }
+                  className={'explorer-link text-weight-bold all-center'}
                   style={{ color: '#FF6C0A', marginTop: 20 }}>
                   View on Explorer
                 </a>

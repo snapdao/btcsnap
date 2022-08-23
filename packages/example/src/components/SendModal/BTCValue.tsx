@@ -15,12 +15,12 @@ const BTCValue: FunctionComponent<BTCValueProps> = ({
   const textWeightClass = `text-weight-${fontWeight}`;
   const textClass = `${textSizeClass} ${textWeightClass}`;
   return (
-    <span>
-      <span className={textClass}>{value}</span>
+    <span className={'btcValue-span'}>
+      <span className={textClass} style={ {display: 'inline-block'}}>{value}</span>
       <span
-        style={{ fontSize: 16, marginLeft: 4, color: '#F58300' }}
+        style={{ fontSize: 16, marginLeft: 4, color: '#F58300', display: 'inline-block' }}
         className={textWeightClass}>
-        BTC
+        TBTC
       </span>
     </span>
   );

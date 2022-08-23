@@ -15,6 +15,7 @@ export const useTransaction = (network: BitcoinNetwork) => {
   >([]);
 
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const refresh = () => setCount(count + 1);
 
@@ -35,6 +36,7 @@ export const useTransaction = (network: BitcoinNetwork) => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const apiKey = BACKENDAPI;
     const explorer = new BlockChair(apiKey, network);
     Promise.all(txList.map((each) => explorer.checkTxStatus(each.txId))).then(
@@ -44,7 +46,9 @@ export const useTransaction = (network: BitcoinNetwork) => {
           blocknumber: each.blockId,
           status: each.blockId ? TransactionStatus.CONFIRMED : TransactionStatus.PENDING,
         }));
-
+        setTimeout(() => {
+          setLoading(false);
+        },1000)
         setTxList(result);
       },
     );
@@ -54,5 +58,6 @@ export const useTransaction = (network: BitcoinNetwork) => {
     txList,
     refresh,
     addTxs,
+    loading
   };
 };

@@ -45,7 +45,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
                   }}
                   placeholder="0"
                 />
-                BTC
+                TBTC
               </label>
             </div>
             {!model.amountValid && (
@@ -57,7 +57,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
               <span className={'text-secondary text-weight-bold'}>Fee</span>
               <span className={'text-secondary'}>
                 <span>{model.feeText}</span>
-                <span style={{ marginLeft: '1ch' }}>BTC</span>
+                <span style={{ marginLeft: '1ch' }}>TBTC</span>
               </span>
             </div>
           </div>
@@ -66,7 +66,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
             <span className={'text-secondary text-weight-bold'}>Available</span>
             <span className={'text-secondary'}>
               <span>{model.availableBtc}</span>
-              <span style={{ marginLeft: '1ch' }}>BTC</span>
+              <span style={{ marginLeft: '1ch' }}>TBTC</span>
             </span>
           </div>
         </div>
@@ -76,7 +76,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
           <span className={'text-secondary text-weight-bold'}>To</span>
           <input
             className={'to-input'}
-            placeholder="Paste or scan the destination address"
+            placeholder="Paste or input the destination address"
             value={model.to}
             onChange={e => {
               model.setTo(e.target.value);

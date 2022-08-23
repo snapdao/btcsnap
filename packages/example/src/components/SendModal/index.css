@@ -9,6 +9,10 @@
     border-radius: 20px !important;
 }
 
+.modal-confirm-box {
+    padding: 24px 32px 32px;
+}
+
 .colored-container {
     background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
 }
@@ -96,8 +100,63 @@
     font-weight: 600;
 }
 
+.confirm-top-span {
+    padding-bottom: 8px;
+}
+
+.confirm-middle-span {
+    padding: 12px 0;
+}
+
+.confirm-bottom-span {
+    padding-bottom: 20px;
+}
+
+.confirm-btc-span span:nth-child(1){
+    display: inline-block;
+    height: 48px;
+}
+
+.confirm-btc-span span:nth-child(1){
+    display: inline-block;
+    line-height: 48px;
+}
+
+.confirm-btc-span span:nth-child(2){
+    display: inline-block;
+    line-height: 24px;
+}
+
+.confirm-amount-section {
+    padding-top: 18px;
+    line-height: 24px;
+}
+
+.confirm-amount-section span:nth-child(1) {
+    line-height: 20px;
+}
+
+.btcValue-span span:nth-child(1) {
+    display: inline-block;
+    line-height: 24px;
+}
+
+.btcValue-span span:nth-child(2) {
+    display: inline-block;
+    line-height: 24px;
+}
+
+.explorer-link:hover {
+    color: #FF6C0A;
+    text-decoration: underline;
+}
+
 .text-weight-normal {
     font-weight: 400;
+}
+
+.result-content-container {
+    margin-top: 0;
 }
 
 .modal-header {
@@ -225,4 +284,8 @@ input:focus-visible {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.result-content-container {
+    padding: 32px;
 }
