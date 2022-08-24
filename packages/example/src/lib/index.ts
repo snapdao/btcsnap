@@ -197,46 +197,39 @@ export const getNodeFingerPrint = (extendedPubKey: string) => {
 
 const DUST_THRESHOLD = 546;
 
-export const genreatePSBT = (
-  targetObject: { address: string | undefined; value: number | undefined },
-  utxos: Utxo[],
-  feeRate: number,
-  sendInfo: {
-    addressList: Address[];
-    masterFingerprint: Buffer;
-    changeAddress: string | undefined;
-  },
-  network: BitcoinNetwork,
-) => {
-  if (!targetObject.address || !targetObject.value) {
-    throw new Error('Target Address or value is empty');
-  }
+export type SendInfo = {
+  addressList: Address[];
+  masterFingerprint: Buffer;
+  changeAddress: string | undefined;
+}
 
+export const genreatePSBT = (
+    feeRate: number,
+    sendInfo: {
+      addressList: Address[];
+      masterFingerprint: Buffer;
+      changeAddress: string | undefined;
+    },
+    network: BitcoinNetwork,
+    inputs: any[],
+    outputs: any[],
+) => {
   if (!sendInfo.changeAddress) {
     throw new Error('change address is empty');
   }
 
-  if (targetObject.value <= DUST_THRESHOLD) {
-    throw new Error('Dust transaction is not allowed');
-  }
-
-  const { inputs, outputs } = selectUtxos(
-    targetObject.address,
-    targetObject.value,
-    feeRate,
-    utxos,
-  );
   return composePsbt(
-    inputs,
-    outputs,
-    sendInfo.changeAddress,
-    sendInfo.addressList,
-    sendInfo.masterFingerprint,
-    network,
+      inputs,
+      outputs,
+      sendInfo.changeAddress,
+      sendInfo.addressList,
+      sendInfo.masterFingerprint,
+      network,
   );
 };
 
-const selectUtxos = (
+
+export const selectUtxos = (
   traget: string,
   value: number,
   feeRate: number,

@@ -10,18 +10,22 @@ const { ethereum } = window;
 
 const snapId = 'npm:btcsnap';
 
-export async function connect(cb: Function) {
-  const result = await ethereum.request({
-    method: 'wallet_enable',
-    params: [
-      {
-        wallet_snap: { [snapId]: {} },
-      },
-    ],
-  });
+export async function connect(cb: (connected: boolean) => void) {
+  let connected = false;
+  try {
+    const result: any = await ethereum.request({
+      method: 'wallet_enable',
+      params: [
+        {
+          wallet_snap: { [snapId]: {} },
+        },
+      ],
+    });
 
-  if (result) {
-    cb();
+    const hasError = !!(result?.snaps?.[snapId]?.error);
+    connected = !hasError;
+  } finally {
+    cb(connected);
   }
 }
 
@@ -39,21 +43,24 @@ export async function getExtendedPublicKey(
 ) {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 
-  const result = await ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: [
-      snapId,
-      {
-        method: 'btc_getPublicExtendedKey',
-        params: {
-          network: networkParams,
+  let result = null;
+  try {
+    result = await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: [
+        snapId,
+        {
+          method: 'btc_getPublicExtendedKey',
+          params: {
+            network: networkParams,
+          },
         },
-      },
-    ],
-  });
-
-  if (cb) {
-    cb(result);
+      ],
+    });
+  } finally {
+    if (cb){
+      cb(result);
+    }
   }
 }
 

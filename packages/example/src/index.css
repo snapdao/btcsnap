@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:regular,semibold&subset=latin,latin-ext');
+
+html, body, h1, h2, h3, h4, h5, p, span, div, button, a {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -10,4 +14,23 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Override semantic ui Modal default styles */
+.ui.modals.page {
+  background-color: rgba(0,0,0,0.4);
+}
+
+.ui.modal {
+  box-shadow: none;
+}
+
+
+/* Global styles */
+button:hover {
+  transition: 0.25s;
+}
+
+p, span {
+  line-height: 20px;
 }
