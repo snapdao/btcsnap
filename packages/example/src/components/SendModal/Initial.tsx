@@ -45,7 +45,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
                   }}
                   placeholder="0"
                 />
-                unit={model.unit}
+                {model.unit}
               </label>
             </div>
             {!model.amountValid && (

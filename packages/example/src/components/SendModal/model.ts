@@ -83,6 +83,10 @@ class SendViewModel {
     this.utxos = utxos;
   };
 
+  setNetwork = (network: BitcoinNetwork) => {
+    this.network = network;
+  }
+
   setTo = (to: string) => {
     this.to = to;
   };
