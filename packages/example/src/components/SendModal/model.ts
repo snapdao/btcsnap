@@ -6,6 +6,11 @@ import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
 import { BlockChair } from '../../lib/explorer';
 import { TransactionStatus, TransactionType, TransactionDetail } from "../TransactionCard/types";
+import {
+  trackSendSign,
+  trackTransactionBroadcast,
+  trackTransactionBroadcastSucceed
+} from "../../tracking";
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -44,7 +49,7 @@ class SendViewModel {
   constructor(
     private utxos: Utxo[],
     private feeRate: number,
-    private network: BitcoinNetwork,
+    public network: BitcoinNetwork,
     private sendInfo?: SendInfo,
   ) {
     makeAutoObservable(this);
@@ -221,7 +226,12 @@ class SendViewModel {
         );
         const { txId, txHex } = await signPsbt(psbt.toBase64(), this.network);
         this.txId = txId;
+        trackSendSign(this.network)
+
+        trackTransactionBroadcast(this.network);
         await sendTx(txHex, this.network);
+        trackTransactionBroadcastSucceed(this.network);
+
         this.status = 'success';
         this.isSending = false;
       } catch (e) {

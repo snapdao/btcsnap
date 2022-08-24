@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import {Container, Divider, Loader, Modal} from 'semantic-ui-react';
 import BTCValue from './BTCValue';
 import CloseIcon from "../Icons/CloseIcon";
+import { trackSendClick, trackSendConfirm } from "../../tracking";
 
 export type ConfirmModalProps = {
   model: SendViewModel;
@@ -21,6 +22,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
       openOnTriggerClick={model.valid}
       trigger={
         <button
+          onClick={() => { trackSendClick(model.network) }}
           className={`action-button ${
             model.valid ? 'action-button-primary' : 'action-button-disable'
           }`}>
@@ -92,7 +94,10 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
             className={
               'action-button action-button-primary action-button-size-full-width confirm-action-button'
             }
-            onClick={model.send}>
+            onClick={() => {
+              trackSendConfirm(model.network);
+              model.send()
+            }}>
             Confirm
           </button>
         </Container>

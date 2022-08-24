@@ -4,6 +4,7 @@ import { ReactComponent as  MetaMaskIcon } from "./image/MetaMask.svg"
 import ArrowRight from "../Icons/ArrowRight"
 import Modal from "./Modal";
 import { connect } from "../../lib/snap";
+import { trackConnectClick, trackConnectSucceed } from "../../tracking";
 
 interface ConnectProps {
   open: boolean;
@@ -15,10 +16,13 @@ const Connect = ({open, onConnected}: ConnectProps) => {
 
   const connectMetaMask = useCallback(async () => {
     setIsConnecting(true);
+    trackConnectClick();
+
     connect((connected: boolean) => {
       setIsConnecting(false);
       if(connected) {
         onConnected();
+        trackConnectSucceed();
       }
     });
   }, [setIsConnecting, onConnected])

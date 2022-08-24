@@ -14,8 +14,10 @@ export const trackConnectSucceed = () => {
   trackEvent(EVENTS.ConnectSucceed)
 }
 
-export const trackGetAddress = () => {
-  trackEvent(EVENTS.ConnectGetAddress)
+export const trackGetAddress = (network: BitcoinNetwork) => {
+  trackEvent(EVENTS.ConnectGetAddress, {
+    network,
+  })
 }
 
 export const trackSendClick = (network: BitcoinNetwork) => {
