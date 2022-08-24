@@ -8,8 +8,8 @@ const Install = ({open}: {open: boolean}) => {
     <Modal open={open}>
       <FlaskIcon className="Connect-flask-icon"/>
       <h2>Install MetaMask Flask</h2>
-      <p className="Connect-install">You need to install the MetaMask Flask extension in order to use Bitcoin Snap.</p>
-      <p className="Connect-flask">Please disabled the regular MetaMask extension when using flask version</p>
+      <p className="Connect-install">You will need to install the MetaMask Flask extension in order to use Bitcoin Snap.</p>
+      <p className="Connect-flask">Please disable the regular MetaMask extension prior to using flask.</p>
       <a
         href="https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk"
         className="Connect-button"

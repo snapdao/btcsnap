@@ -82,7 +82,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
                   'text-secondary text-align-center text-size-normal text-line-height-normal'
                 }
               >
-                <p className={'result-sucess-p'}>The network may still need up to 60 mins to complete the transaction</p>
+                <p className={'result-sucess-p'}>The network may still need up to 60 mins to completely process the transaction</p>
               </div>
               <div
                 className={'vertical-center'}
