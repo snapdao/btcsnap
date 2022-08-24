@@ -60,7 +60,7 @@
   align-items: center;
 }
 
-.Logo-img {
+.Logo-container svg {
   height: 40px;
 }
 
@@ -120,6 +120,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 .Action-button-container:hover {

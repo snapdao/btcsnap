@@ -6,9 +6,9 @@ import { observer } from 'mobx-react-lite';
 import BTCValue from './BTCValue';
 
 import './index.css';
-import send_success from '../../assets/send_success.svg';
-import send_failed from '../../assets/send_failed.svg';
-import arrow_right from '../../assets/arrow_right.svg';
+import { ReactComponent as SendSuccess } from '../../assets/send_success.svg';
+import { ReactComponent as SendFailed } from '../../assets/send_failed.svg';
+import { ReactComponent as ArrowRight } from '../../assets/arrow_right.svg';
 import { useKeystoneStore } from "../../mobx";
 import { storeTransaction } from "../../lib/txStorage";
 import CloseIcon from "../Icons/CloseIcon";
@@ -18,68 +18,71 @@ export type SuccessProps = {
 };
 
 const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
-  const { global: {bip44Xpub, network}, addTransaction } = useKeystoneStore();
+  const { global: {bip44Xpub}, addTransaction } = useKeystoneStore();
 
   useEffect(() => {
     if(model.status === 'success' && !!model.sentTx){
       addTransaction(model.sentTx)
-      storeTransaction(bip44Xpub, network, model.sentTx);
+      storeTransaction(bip44Xpub, model.sentTx);
     }
   }, [])
 
   return (
     <div>
-      <Container className={'modal-content-container colored-container'}>
+      <Container className={'colored-container'}>
         <div className={'modal-header'}>
           <span />
           <span />
           <CloseIcon onClick={() => model.setSendOpen(false)} />
         </div>
-        <div className={'modal-section vertical-center'}>
+        <div className={'vertical-center result-content-container'}>
           {model.status === 'success' && (
             <>
-              <img src={send_success} alt={'send success'} />
+              <SendSuccess />
               <span
                 className={'text-weight-bold'}
-                style={{ marginTop: 16, marginBottom: 24 }}>
+                style={{ padding: '16px 0 24px', lineHeight: '30px', fontSize: '20px' }}>
                 Sent to the Network
               </span>
             </>
           )}
           {model.status === 'failed' && (
             <>
-              <img src={send_failed} alt={'send failed'} />
+              <SendFailed />
               <span
                 className={'text-weight-bold text-error'}
-                style={{ marginTop: 16, marginBottom: 24 }}>
+                style={{ padding: '16px 0 24px', lineHeight: '30px', fontSize: '20px' }}>
                 Transaction Failed
               </span>
             </>
           )}
-          <BTCValue
-            value={model.amountText}
-            size={'large'}
-            fontWeight={'normal'}
-          />
+          <div className={'confirm-btc-box'}>
+            <BTCValue
+              value={model.amountText}
+              size={'large'}
+              fontWeight={'normal'}
+              unit={model.unit}
+            />
+          </div>
           <div
             style={{ marginTop: 24, width: '100%' }}
             className={'horizontal-center space-around'}>
             <span className={'account-tag'}>Your Account</span>
-            <img src={arrow_right} alt={'to'} />
+            <ArrowRight />
             <span className={'account-tag'}>{model.formattedTo}</span>
           </div>
         </div>
       </Container>
-      <Container className={'modal-content-container'}>
+      <Container>
         <div className={'modal-section vertical-center'}>
           {model.status === 'success' && (
-            <>
+            <div className={'result-failed-section'}>
               <div
                 className={
                   'text-secondary text-align-center text-size-normal text-line-height-normal'
-                }>
-                The network may still need up to 60 mins to complete the
-                transaction
+                }
+              >
+                <p className={'result-sucess-p'}>The network may still need up to 60 mins to complete the transaction</p>
               </div>
               <div
                 className={'vertical-center'}
@@ -87,43 +90,43 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
                 <button
                   onClick={() => model.setSendOpen(false)}
                   className={
-                    'action-button action-button-primary action-button-size-full-width'
+                    'action-button action-button-primary action-button-size-full-width ok-action-button'
                   }>
                   OK
                 </button>
                 <a
                   href={model.transactionLink}
                   target={'_blank'}
-                  className={
-                    'action-button action-button-size-full-width text-weight-bold all-center'
-                  }
-                  style={{ color: '#FF6C0A', marginTop: 20 }}>
+                  className={'explorer-link text-weight-bold all-center'}
+                  style={{ color: '#FF6C0A', marginTop: 20, lineHeight: '20px'}}>
                   View on Explorer
                 </a>
               </div>
-            </>
+            </div>
           )}
           {model.status === 'failed' && (
-            <>
+            <div className={'result-failed-section'}>
               <div
                 className={
                   'text-secondary text-align-center text-size-normal text-line-height-normal'
-                }>
-                <p>Reason of the failed transaction.</p>
-                <p>{model.errorMessage}</p>
+                }
+              >
+                <p className={'result-failed-p'}>Reason of the failed transaction.</p>
+                <p className={'result-failed-p'}>{model.errorMessage}</p>
               </div>
               <div
                 className={'vertical-center'}
-                style={{ marginTop: 54, width: '100%' }}>
+                style={{ marginTop: 84, width: '100%' }}>
                 <button
                   onClick={() => model.setSendOpen(false)}
                   className={
-                    'action-button action-button-primary action-button-size-full-width'
-                  }>
+                    'action-button action-button-primary action-button-size-full-width ok-action-button'
+                  }
+                >
                   OK
                 </button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </Container>

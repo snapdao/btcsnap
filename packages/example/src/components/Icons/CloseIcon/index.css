@@ -11,4 +11,5 @@
 .Close-container:hover {
   cursor: pointer;
   background: rgba(0, 0, 0, 0.04);
+  transition: 0.25s;
 }

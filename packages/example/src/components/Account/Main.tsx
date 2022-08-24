@@ -2,13 +2,13 @@ import React, { useCallback, useState } from 'react';
 import {observer} from 'mobx-react-lite';
 
 import { useKeystoneStore } from "../../mobx";
-import {BitcoinNetwork, Utxo} from "../../interface";
+import { BitcoinNetwork, Utxo } from "../../interface";
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
 
-import Logo from "./image/logo.svg";
-import LogoTestnet from "./image/logo-testnet.svg";
-import {SendInfo} from "../../lib";
+import { ReactComponent as Logo } from "./image/logo.svg";
+import { ReactComponent as LogoTestnet } from "./image/logo-testnet.svg";
+import { SendInfo } from "../../lib";
 import ReceiveIcon from "../Icons/ReceiveIcon";
 
 
@@ -35,12 +35,15 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
     <div className="Account-Main">
       <div className="Account-Main-Container">
         <div className="Logo-container">
-          <img src={network === BitcoinNetwork.Main ? Logo : LogoTestnet} alt="BitcoinSnap" className="Logo-img" />
+          {network === BitcoinNetwork.Main
+            ? <Logo />
+            : <LogoTestnet />
+          }
           <span className="Logo-label">Alpha</span>
         </div>
         <div className="Balance-container">
           <p className="Balance-label">current balance</p>
-          <p className="Balance">{balance} BTC</p>
+          <p className="Balance">{balance} {network === BitcoinNetwork.Main ? "BTC" : "TBTC"}</p>
         </div>
         <div>
           <div className="Action-container">
@@ -48,9 +51,9 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
             <p>send</p>
           </div>
           <div className="Action-container" onClick={onReceive}>
-            <div className="Action-button-container">
+            <button className="Action-button-container">
               <ReceiveIcon size={48} />
-            </div>
+            </button>
             <p>receive</p>
           </div>
         </div>

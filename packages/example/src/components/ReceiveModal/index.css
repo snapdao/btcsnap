@@ -4,14 +4,24 @@
     position: relative;
 }
 
-.colored-container {
+.reveive-colored-container {
     background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
     background-repeat: no-repeat;
     background-size: 100% 226px;
 }
 
 .modal-content-container {
-    padding: 28px;
+    padding: 32px;
+    margin-top: 36px;
+}
+
+.modal-confirm-section {
+    padding: 32px;
+}
+
+.reveive-none {
+    padding: 32px;
+    margin-top: 424px;
 }
 
 .actions-container {
@@ -21,7 +31,7 @@
     margin-top: 68px;
 }
 
-.action-button {
+.receive-action-button {
     width: 376px;
     border-radius: 16px;
     height: 48px;
@@ -29,7 +39,8 @@
     background: transparent;
     cursor: pointer;
 }
-.action-button:hover {
+
+.receive-action-button:hover {
     background-color: #F58300;
 }
 
@@ -38,14 +49,11 @@
     color: white;
 }
 
-.addressBox-container {
-    height: 268px;
-}
 .address-box {
     width: 268px;
     height: 268px;
     display: flex;
-    margin: 40px auto;
+    margin: 32px auto 40px;
     justify-content: center;
     align-items: center;
     background: linear-gradient(to left, #F58300, #F58300) left top no-repeat,
@@ -60,6 +68,7 @@
     background-size: 1.64px 9.84px, 9.84px 1.64px, 1.64px 9.84px, 9.84px 1.64px;
 }
 .address-label {
+    display: inline-block;
     padding: 14px 24px;
     border-radius: 16px;
     background-color: #F7F9FC;
@@ -71,9 +80,10 @@
     top: 40px;
     left: 128px;
     text-align: center;
-    border-radius: 12px;
+    border-radius: 12px !important;
     padding: 10px 16px 10px 14px;
     background-color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 .addressCopied-message-span {
     color: #21A35D;
@@ -86,4 +96,12 @@
     height: 20px;
     margin-right: 5px;
     vertical-align: middle;
+}
+.test {
+    font-size: 16px;
+    color: #FF6C0A;
+}
+.test:hover {
+    color: #FF6C0A;
+    text-decoration: underline;
 }

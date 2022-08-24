@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import NetworkIcon from "../Icons/Network";
 import SwitchIcon from "../Icons/SwitchIcon";
 import CloseIcon from "../Icons/CloseIcon";
-import SettingsIcon from "./image/settings.svg";
+import { ReactComponent as SettingsIcon } from "../../assets/settings.svg";
 import "./index.css";
 
 interface SettingProps {
@@ -15,11 +15,12 @@ interface SettingProps {
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
-  const { global: { network, updateNetwork }} = useKeystoneStore();
+  const { global: { network, updateNetwork, updateBip44Xpub }} = useKeystoneStore();
 
   const changeNetwork = () => {
     const targetNetwork = network === BitcoinNetwork.Main ? BitcoinNetwork.Test : BitcoinNetwork.Main
     updateNetwork(targetNetwork);
+    updateBip44Xpub("");
   }
 
   return (
@@ -27,7 +28,7 @@ const Settings = observer(({open, close}: SettingProps) => {
       <div className="Setting-Container">
         <div className="Setting-Header">
           <div className="Setting-Label">
-            <img src={SettingsIcon} alt="Settings" className="Connect-flask-icon"/>
+            <SettingsIcon />
             <h3>Settings</h3>
           </div>
           <CloseIcon onClick={close} />

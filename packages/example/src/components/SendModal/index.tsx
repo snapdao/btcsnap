@@ -28,7 +28,7 @@ const SendContainer: FunctionComponent<ContainerProps> = props => {
       props.network,
       props.sendInfo,
     );
-  }, []);
+  }, [props.network, props.sendInfo, props.utxos, feeRate]);
   useEffect(() => {
     model.setUtxos(props.utxos);
     model.setFeeRate(feeRate);
@@ -48,12 +48,11 @@ const SendModal = observer((props: { model: SendViewModel }) => {
         model.resetState();
         model.setSendOpen(true)
       }}
-      onClose={() => model.setSendOpen(false)}
       open={model.sendOpen}
       trigger={
-        <div className="Action-button-container">
+        <button className="Action-button-container">
           <SendIcon size={48} />
-        </div>
+        </button>
       }>
       {model.status === 'initial' && <Initial model={model} />}
       {model.status !== 'initial' && <Result model={model} />}

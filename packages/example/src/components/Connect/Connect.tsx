@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import ConnectIcon from "./image/connect.svg"
-import MetaMaskIcon from "./image/MetaMask.svg"
+import { ReactComponent as ConnectIcon } from "./image/connect.svg"
+import { ReactComponent as  MetaMaskIcon } from "./image/MetaMask.svg"
 import ArrowRight from "../Icons/ArrowRight"
 import Modal from "./Modal";
 import { connect } from "../../lib/snap";
@@ -15,15 +15,17 @@ const Connect = ({open, onConnected}: ConnectProps) => {
 
   const connectMetaMask = useCallback(async () => {
     setIsConnecting(true);
-    connect(() => {
-      onConnected();
+    connect((connected: boolean) => {
       setIsConnecting(false);
+      if(connected) {
+        onConnected();
+      }
     });
   }, [setIsConnecting, onConnected])
 
   return (
     <Modal open={open}>
-      <img src={ConnectIcon} alt="MetaMaskFlask" className="Connect-flask-icon"/>
+      <ConnectIcon className="Connect-flask-icon" />
       <h2>Connect to MetaMask Bitcoin Snap</h2>
       <p className="Connect-install">If you do not have Bitcoin Snap installed, you will be prompted to do so.</p>
       <a 
@@ -32,11 +34,11 @@ const Connect = ({open, onConnected}: ConnectProps) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        What is a Snap
+        What is Snaps
         <ArrowRight />
       </a>
       <button className="Connect-button" disabled={isConnecting} onClick={connectMetaMask}>
-        <img src={MetaMaskIcon} alt="Install"/>
+        <MetaMaskIcon />
         <span>Connect MetaMask</span>
       </button>
     </Modal>

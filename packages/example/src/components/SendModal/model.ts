@@ -114,6 +114,10 @@ class SendViewModel {
     return {};
   }
 
+  get unit () {
+    return this.network === BitcoinNetwork.Main ? "BTC" : "TBTC";
+  }
+
   get fee() {
     if (
       this.selectedResult.inputs &&
@@ -147,7 +151,7 @@ class SendViewModel {
   }
 
   get isEmptyAmount() {
-    return this.sendAmountText === '';
+    return this.sendAmountText === '' || this.sendAmountText.match(/0\.?0*$/);
   }
 
   get amountValid() {

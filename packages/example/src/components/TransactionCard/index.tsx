@@ -1,7 +1,7 @@
 import React from "react";
 import { TransactionDetail, TransactionStatus, TransactionType } from "./types";
-import SendIcon from "./image/send.svg"
-import ReceiveIcon from "./image/receive.svg"
+import SendIcon from "../Icons/SendIcon";
+import { ReactComponent as ReceiveIcon } from "./image/receive.svg"
 import PendingIcon from "./image/pending.png"
 import "./index.css"
 import { BlockChair } from "../../lib/explorer";
@@ -27,10 +27,8 @@ const TransactionCard = ({ID, type, status, amount, address, date, network}: Tra
       <a href={BlockChair.getTransactionLink(ID, network)} target="_blank" rel="noopener noreferrer">
         <div className="Tx-detail-container">
           <div className="Tx-detail-img-container">
-            <img src={isSendingTx ? SendIcon : ReceiveIcon} alt={type} />
-            {
-              isTxPending && <img className="pending" src={PendingIcon} alt="pending"/>
-            }
+            { isSendingTx ? <SendIcon size={24} /> : <ReceiveIcon /> }
+            { isTxPending && <img className="pending" src={PendingIcon} alt="pending"/> }
           </div>
           <div className="Tx-content-container">
             <div className="Tx-main">

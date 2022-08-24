@@ -11,6 +11,7 @@
 
 .Refresh-container:hover {
   cursor: pointer;
+  transition: 0.25s;
 }
 
 .Refresh-container svg {
@@ -20,4 +21,14 @@
 
 .Refresh-container:hover svg path {
   fill: #F58300;
+}
+
+.Refresh-icon-rotate {
+  animation: iconRotate 1s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes iconRotate {
+  0% {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
 }

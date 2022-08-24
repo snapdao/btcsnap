@@ -14,6 +14,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
   return (
     <Modal
       className={"modal-container"}
+      style={{ marginTop: 32 }}
       onOpen={() => model.setConfirmOpen(true)}
       onClose={() => model.setConfirmOpen(false)}
       open={model.confirmOpen}
@@ -29,67 +30,69 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
       {model.isSending ? <>
         <Loader />
       </>: <>
-        <Container className={'modal-content-container colored-container'}>
+        <Container className={'colored-container'}>
           <div className={'modal-header'}>
             <span />
             <span className={'text-weight-bold'}>Confirm Transaction</span>
             <CloseIcon onClick={() => model.setConfirmOpen(false)} />
           </div>
-          <div className={'modal-section vertical-center'}>
-          <span className={'text-weight-bold text-secondary'}>
-            You're Sending
-          </span>
-            <span style={{ marginTop: 8 }}>
-            <BTCValue
+          <div className={'modal-confirm-box vertical-center'}>
+            <span className={'text-weight-bold text-secondary confirm-top-span'}>
+              You're Sending
+            </span>
+            <div className={'confirm-btc-box'}>
+              <BTCValue
                 value={model.amountText}
                 size={'large'}
                 fontWeight={'normal'}
-            />
-          </span>
-            <span
-                className={'text-weight-bold text-secondary'}
-                style={{ marginTop: 12 }}>
-            To
-          </span>
-            <span style={{ marginTop: 12 }}>{model.to}</span>
+                unit={model.unit}
+              />
+            </div>
+            <span className={'text-weight-bold text-secondary confirm-middle-span'}>
+              To
+            </span>
+            <span style={{ fontWeight: 600 }}>{model.to}</span>
           </div>
         </Container>
-        <Container className={'modal-content-container'}>
+        <Container className={'modal-confirm-section'}>
           <div className={'modal-section'}>
             <div className={'flex row space-between'}>
-              <span className={'text-secondary text-weight-bold'}>Amount</span>
+              <span className={'text-secondary text-weight-bold confirm-bottom-span'}>Amount</span>
               <BTCValue
-                  value={model.amountText}
-                  size={'normal'}
-                  fontWeight={'normal'}
+                value={model.amountText}
+                size={'normal'}
+                fontWeight={'normal'}
+                unit={model.unit}
               />
             </div>
-            <div className={'flex row space-between'} style={{ marginTop: 20 }}>
-              <span className={'text-secondary text-weight-bold'}>Fee</span>
-              <BTCValue
-                  value={model.feeText}
-                  size={'normal'}
-                  fontWeight={'normal'}
-              />
-            </div>
-            <Divider />
             <div className={'flex row space-between'}>
-            <span className={'text-secondary text-weight-bold'}>
-              Total Amount
-            </span>
+              <span className={'text-secondary text-weight-bold confirm-bottom-span'}>Fee</span>
               <BTCValue
-                  value={model.totalAmount}
-                  size={'normal'}
-                  fontWeight={'bold'}
+                value={model.feeText}
+                size={'normal'}
+                fontWeight={'normal'}
+                unit={model.unit}
+              />
+            </div>
+            <Divider className={'bottom-divider'} />
+            <div className={'flex row space-between confirm-amount-section'}>
+              <span className={'text-secondary text-weight-bold'}>
+                Total Amount
+              </span>
+              <BTCValue
+                value={model.totalAmount}
+                size={'normal'}
+                fontWeight={'bold'}
+                unit={model.unit}
               />
             </div>
           </div>
           <button
-              style={{ marginTop: 72 }}
-              className={
-                'action-button action-button-primary action-button-size-full-width'
-              }
-              onClick={model.send}>
+            style={{ marginTop: 72 }}
+            className={
+              'action-button action-button-primary action-button-size-full-width confirm-action-button'
+            }
+            onClick={model.send}>
             Confirm
           </button>
         </Container>

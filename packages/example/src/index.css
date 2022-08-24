@@ -15,3 +15,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Override semantic ui Modal default styles */
+.ui.modals.page {
+  background-color: rgba(0,0,0,0.4);
+}
+
+.ui.modal {
+  box-shadow: none;
+}
+
+
+/* Global styles */
+button:hover {
+  transition: 0.25s;
+}
+
+p, span {
+  line-height: 20px;
+}

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import ConnectIcon from "./image/connect.svg"
-import MetaMaskIcon from "./image/MetaMask.svg"
+import { ReactComponent as ConnectIcon } from "./image/connect.svg"
+import { ReactComponent as MetaMaskIcon } from "./image/MetaMask.svg"
 import Modal from "./Modal";
 import { getExtendedPublicKey } from "../../lib/snap";
 import { useKeystoneStore } from "../../mobx";
@@ -27,11 +27,11 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
 
   return (
     <Modal open={open}>
-      <img src={ConnectIcon} alt="MetaMaskFlask" className="Connect-flask-icon"/>
+      <ConnectIcon className="Connect-flask-icon" />
       <h2>Get Addresses for <br/> Bitcoin Snap</h2>
       <p style={{ marginBottom: 100}} className="Connect-install">Your Bitcoin account addresses will be created along with your MetaMask public key.</p>
       <button className="Connect-button" disabled={isRevealing} onClick={getXpub}>
-        <img src={MetaMaskIcon} alt="Install"/>
+        <MetaMaskIcon />
         <span>Get Addresses</span>
       </button>
     </Modal>

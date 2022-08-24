@@ -7,6 +7,7 @@
 .Tx-container:hover {
   background-color: rgba(0, 0, 0, 0.04);
   border-radius: 16px;
+  transition: 0.25s;
 }
 
 .Tx-container a {

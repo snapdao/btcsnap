@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import MenuIcon from "./image/menu.svg";
+import { ReactComponent as MenuIcon } from "./image/menu.svg";
 import MenuPanel from "./MenuPanel";
 import Settings from "../Settings";
 import "./index.css"
@@ -28,7 +28,7 @@ const Menu = () => {
   return (
     <div className="Menu-container">
       <div className="Menu-button" onClick={openMenuPanel}>
-        <img src={MenuIcon} alt="Menu" />
+        <MenuIcon />
       </div>
       {
         isPanelOpen && <MenuPanel close={closeMenuPanel} openSettingModal={openSettingModal} />

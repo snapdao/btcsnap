@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import SettingIcon from "./image/settings.svg"
-import GitHub from "./image/github.svg"
-import Discord from "./image/discord.svg"
-import Disconnect from "./image/disconnect.svg"
+import { ReactComponent as SettingIcon } from "../../assets/settings.svg"
+import { ReactComponent as GitHub } from "./image/github.svg"
+import { ReactComponent as Discord } from "./image/discord.svg"
+import { ReactComponent as Disconnect } from "./image/disconnect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
 import { useKeystoneStore } from "../../mobx";
 
@@ -24,24 +24,24 @@ const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
   return (
     <div ref={menuPanelRef} className="Menu-items-container">
       <div className="Menu-item" onClick={openSettingModal}>
-        <img src={SettingIcon} alt="Settings"/>
+        <SettingIcon />
         <span>Settings</span>
       </div>
       <div className="Menu-item" onClick={close}>
         <a href="https://github.com/KeystoneHQ/btcsnap" target="_blank" rel="noopener noreferrer">
-          <img src={GitHub} alt="GitHub"/>
+          <GitHub />
           <span>GitHub</span>
         </a>
       </div>
       <div className="Menu-item" onClick={close}>
         <a href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
-          <img src={Discord} alt="Discord"/>
+          <Discord />
           <span>Feedback</span>
         </a>
       </div>
       <hr className="Menu-divider"/>
       <div className="Menu-item highlight" onClick={disconnect}>
-        <img src={Disconnect} alt="Disconnect"/>
+        <Disconnect />
         <span>Disconnect</span>
       </div>
     </div>
