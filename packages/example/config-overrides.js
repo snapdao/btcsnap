@@ -18,7 +18,9 @@ module.exports = function override(config, env) {
             Buffer: ['buffer', 'Buffer'],
         }),
         new webpack.DefinePlugin({
-            DATAAPI: JSON.stringify(process.env.DATAAPI)
+            DATAAPI: JSON.stringify(process.env.DATAAPI),
+            PROJECT_TOKEN: JSON.stringify(process.env.PROJECT_TOKEN),
+            ENV: JSON.stringify(env),
         })
     );
 
