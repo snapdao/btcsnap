@@ -13,14 +13,15 @@ interface MenuPanelProps {
 }
 
 const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
-  const { global: { updateBip44Xpub, network } } = useKeystoneStore();
+  const { global: { updateBip44Xpub, network, updateConnectionStatus } } = useKeystoneStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 
   const disconnect = () => {
     updateBip44Xpub("");
     updateStoredXpub("", network);
-    close()
+    updateConnectionStatus(false);
+    close();
   }
 
   return (

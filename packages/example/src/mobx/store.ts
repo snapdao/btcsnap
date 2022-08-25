@@ -10,6 +10,7 @@ export const storeInitialState = {
   global: {
     network: storedGlobalData.network,
     bip44Xpub: storedGlobalData.xpub[storedGlobalData.network],
+    connected: !!(storedGlobalData.xpub[storedGlobalData.network]),
   },
   transactions: [],
   _version: 0,
