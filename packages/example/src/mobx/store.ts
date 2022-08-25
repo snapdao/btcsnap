@@ -1,13 +1,15 @@
 import { types } from 'mobx-state-tree';
 import Global from './global';
-import { BitcoinNetwork } from "../interface";
 import Transaction from "./transaction";
 import { TransactionDetail } from "../components/TransactionCard/types";
+import { getStoredGlobalData } from "../lib/globalStorage";
+
+const storedGlobalData = getStoredGlobalData();
 
 export const storeInitialState = {
   global: {
-    network: BitcoinNetwork.Main,
-    bip44Xpub: "",
+    network: storedGlobalData.network,
+    bip44Xpub: storedGlobalData.xpub[storedGlobalData.network],
   },
   transactions: [],
   _version: 0,

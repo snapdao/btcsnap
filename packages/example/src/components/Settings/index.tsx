@@ -8,6 +8,7 @@ import SwitchIcon from "../Icons/SwitchIcon";
 import CloseIcon from "../Icons/CloseIcon";
 import { ReactComponent as SettingsIcon } from "../../assets/settings.svg";
 import "./index.css";
+import { getStoredGlobalData, saveNetwork } from "../../lib/globalStorage";
 
 interface SettingProps {
   open: boolean;
@@ -20,7 +21,9 @@ const Settings = observer(({open, close}: SettingProps) => {
   const changeNetwork = () => {
     const targetNetwork = network === BitcoinNetwork.Main ? BitcoinNetwork.Test : BitcoinNetwork.Main
     updateNetwork(targetNetwork);
-    updateBip44Xpub("");
+    const globalData = getStoredGlobalData()
+    updateBip44Xpub(globalData.xpub[targetNetwork]);
+    saveNetwork(targetNetwork);
   }
 
   return (
