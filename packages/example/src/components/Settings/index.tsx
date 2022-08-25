@@ -8,7 +8,7 @@ import SwitchIcon from "../Icons/SwitchIcon";
 import CloseIcon from "../Icons/CloseIcon";
 import { ReactComponent as SettingsIcon } from "../../assets/settings.svg";
 import "./index.css";
-import { getStoredGlobalData, saveNetwork } from "../../lib/globalStorage";
+import { getStoredGlobalData, updateStoredNetwork } from "../../lib/globalStorage";
 
 interface SettingProps {
   open: boolean;
@@ -23,7 +23,7 @@ const Settings = observer(({open, close}: SettingProps) => {
     updateNetwork(targetNetwork);
     const globalData = getStoredGlobalData()
     updateBip44Xpub(globalData.xpub[targetNetwork]);
-    saveNetwork(targetNetwork);
+    updateStoredNetwork(targetNetwork);
   }
 
   return (

@@ -21,7 +21,7 @@ export const getStoredGlobalData = (): GlobalData => {
   }
 }
 
-export const saveXpub = (xpub: string, network: BitcoinNetwork) => {
+export const updateStoredXpub = (xpub: string, network: BitcoinNetwork) => {
   const localGlobalData = getStoredGlobalData();
   const newLocalGlobalData = {
     ...localGlobalData,
@@ -33,7 +33,7 @@ export const saveXpub = (xpub: string, network: BitcoinNetwork) => {
   localStorage.setItem(GLOBAL_DATA_PREFIX, JSON.stringify(newLocalGlobalData));
 }
 
-export const saveNetwork = (network: BitcoinNetwork) => {
+export const updateStoredNetwork = (network: BitcoinNetwork) => {
   const localGlobalData = getStoredGlobalData();
   const newLocalGlobalData = {
     ...localGlobalData,

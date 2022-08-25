@@ -5,6 +5,7 @@ import { ReactComponent as Discord } from "./image/discord.svg"
 import { ReactComponent as Disconnect } from "./image/disconnect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
 import { useKeystoneStore } from "../../mobx";
+import { updateStoredXpub } from "../../lib/globalStorage";
 
 interface MenuPanelProps {
   close: () => void;
@@ -12,12 +13,13 @@ interface MenuPanelProps {
 }
 
 const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
-  const { global: { updateBip44Xpub } } = useKeystoneStore();
+  const { global: { updateBip44Xpub, network } } = useKeystoneStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 
   const disconnect = () => {
     updateBip44Xpub("");
+    updateStoredXpub("", network);
     close()
   }
 
