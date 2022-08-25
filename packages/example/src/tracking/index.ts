@@ -11,9 +11,14 @@ export const CONTEXT = {
 
 export const trackInit = () => {
   const trackToken = TRACK_TOKEN;
-  const isDev = ENVIRONMENT !== "production";
-  mixpanel.init(trackToken, { debug: isDev });
-  trackPageView();
+  const isNonProd = ENVIRONMENT !== "production";
+
+  mixpanel.init(trackToken, {
+    debug: isNonProd,
+    loaded: () => {
+      trackPageView()
+    }
+  });
 }
 
 export const trackEvent = (event: EVENTS, data = {}) => {
