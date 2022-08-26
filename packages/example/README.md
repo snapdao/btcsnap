@@ -1,26 +1,38 @@
 # BitcoinSnap Wallet
 
-This is the demo dapp for using btcsnap and Metamask Flask to manage your bitcoin
+This is a dapp for using btcsnap and Metamask Flask to manage your bitcoin
 
-## Live Demo
+## Live
 
-Please check this [live demo](https://btcsnap.netlify.app/) for more information.
+Please check [here](https://btc.justsnap.io/) for more information.
 
 ## Build Locally
 
-### `yarn start`
+### Start
 
-if your would like run this demo locally, please make sure you installed Metamask Flask First.
+```
+yarn start
+```
 
-Check [here](https://metamask.io/flask/) for installing Metamask Flask
+if your would like run this dapp locally, please make sure you have installed Metamask Flask First.
+
+Check [here](https://metamask.io/flask/) for Metamask Flask installation.
 
 
-### `yarn test`
+### Test
+
+```
+yarn start
+```
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### Build
+
+```
+yarn start
+```
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.

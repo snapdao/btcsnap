@@ -1,38 +1,38 @@
 # Btcsnap [![0.3.1](https://badge.fury.io/js/btcsnap.png)](https://badge.fury.io/js/btcsnap)
 
-![./banner.png](./banner.png)
+![./home.png](./home.png)
 
 Manage your bitcoin with Metamask Flask and btcsnap
 
 ### Use btcsnap
 The btcsnap have been published on npm, if your dapp would like to use this snap, please follow the readme [here](https://github.com/KeystoneHQ/btcsnap/tree/master/packages/snap).
 
-### Testing Btcsnap
-
 #### Metamask Flask
 
 First, install Metamask Flask for using btcsnap
 
-- checkout [Metamask Flask page](https://metamask.io/flask/)
+- Checkout [Metamask Flask page](https://metamask.io/flask/)
 - Install Metamask Flask on your chrome
 
 
-#### Demo DAPP
+#### BitcoinSnap Wallet
 
-##### Demo video
+##### Video
 
-Check out this video of [sending an bitcoin testnet transaction with btcsnap](https://www.youtube.com/watch?v=oxkmissJbiM)
+Check out this video of [sending a bitcoin testnet transaction with btcsnap](https://www.youtube.com/watch?v=9B-nnnaFq0o).
 
-##### Live demo
+##### Live (Alpha version)
 
-Test Btcsnap inside [our demo DAPP.](https://btcsnap.netlify.app/)
+Check [our BitcoinSnap wallet (Alpha version)](https://btc.justsnap.io).
 
-##### Running bitcoinsnap demo locally
+##### Running BitcoinSnap wallet locally
 
-Go to the example folder under packages,Start our demo locally by running:
+Go to the `example` folder under `packages`, start our app locally by running
 
-- `yarn`
-- `yarn start`
+```
+yarn
+yarn start
+```
 
 ## License
 

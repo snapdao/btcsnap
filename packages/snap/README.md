@@ -2,14 +2,14 @@
 
 [![0.3.1](https://badge.fury.io/js/btcsnap.png)](https://badge.fury.io/js/btcsnap)
 
-btcsnap help you manage your bitcoin on Metamask Flask
+`btcsnap` helps you manage your bitcoin on Metamask Flask.
 
-## Snap Introducion
+## Snap Introduction
 For more about snap, please fellow metamask snap guide [here](https://docs.metamask.io/guide/snaps.html)
 
 ### Usage
 
-1. Enable this snap on your dapp
+1. Enable `btcsnap` in your dapp.
 
 ```
 const result: boolean = await ethereum.request({
@@ -22,7 +22,7 @@ const result: boolean = await ethereum.request({
   });
 ```
 
-2. get extended your extended public keys
+2. Get extended public key
 
 ```
 const result: string = await ethereum.request({
@@ -39,7 +39,7 @@ const result: string = await ethereum.request({
   });
 ```
 
-3. sign Psbt
+3. Sign Psbt
 
 ```
 const result: { txId:string, txHex:string } = await ethereum.request({
@@ -60,7 +60,7 @@ const result: { txId:string, txHex:string } = await ethereum.request({
 
 ### Build
 
-For Build the snap and test your snap locally please run
+Building the snap and testing locally with
 
 ```
 yarn rebuild
@@ -68,11 +68,11 @@ yarn rebuild
 
 ### Test
 
-For run all tests run the following command:
+Running all test cases by running following command
 ```
 yarn test
 ```
 
 ## Live Example
 
-If you would like to use this snap on your dapp, you can follow the code on [here](https://github.com/KeystoneHQ/btcsnap/tree/master/packages/example)
+If you would like to use this snap in your dapp, you can follow the code [here](https://github.com/KeystoneHQ/btcsnap/tree/master/packages/example)
