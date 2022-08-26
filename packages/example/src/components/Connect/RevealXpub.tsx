@@ -4,6 +4,7 @@ import { ReactComponent as MetaMaskIcon } from "./image/MetaMask.svg"
 import Modal from "./Modal";
 import { getExtendedPublicKey } from "../../lib/snap";
 import { useKeystoneStore } from "../../mobx";
+import { updateStoredXpub } from "../../lib/globalStorage";
 
 export interface RevealXpubProps {
   open: boolean;
@@ -19,6 +20,7 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
     getExtendedPublicKey(network, (xpub: string) => {
       if (xpub) {
         updateBip44Xpub(xpub);
+        updateStoredXpub(xpub, network);
         onRevealed();
       }
       setIsRevealing(false);
