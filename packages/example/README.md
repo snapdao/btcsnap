@@ -1,12 +1,24 @@
-# BitcoinSnap Wallet
+# BitcoinSnap
 
-This is a dapp for using btcsnap and Metamask Flask to manage your bitcoin
+The world's first application allowing users to directly manage Bitcoin within the MetaMask interface, without having to wrap it.
+The Alpha version of the application is currently live on [Metamask Flask](https://metamask.io/flask/) only.
 
-## Live
+*Note: MetaMask Flask is an experimental playground for developers and is not to be confused with the normal [MetaMask wallet app](https://metamask.io/).
 
-Please check [here](https://btc.justsnap.io/) for more information.
+## How to start testing BitcoinSnap (Alpha version)
 
-## Build Locally
+1. Create a new browser profile or disable/uninstall any existing versions of Metamask
+2. Download [MetaMask Flask](https://metamask.io/flask/)
+3. Head over to the [BitcoinSnap webpage](https://btc.justsnap.io), create a test wallet, connect it to MetMask Flask and approve the installation of the BitcoinSnap app 
+4. Ensure you're connected to the 'Testnet' version of the app via settings
+5. Request for some testnet Bitcoin via [Coinfaucet](https://coinfaucet.eu/en/btc-testnet/) or [Bitcoinfaucet](https://bitcoinfaucet.uo1.net/) and start experimenting
+
+
+Check out this [video](https://www.youtube.com/watch?v=9B-nnnaFq0o) to see how BitcoinSnap works.
+
+*Note: MetaMask Flask is an experimental playground for developers and is not to be confused with the normal MetaMask wallet app. Running multiple instances of MetaMask in the same browser profile will break all dapp interaction. 
+
+## How to build the application locally
 
 ### Start
 
@@ -14,28 +26,26 @@ Please check [here](https://btc.justsnap.io/) for more information.
 yarn start
 ```
 
-if your would like run this dapp locally, please make sure you have installed Metamask Flask First.
-
-Check [here](https://metamask.io/flask/) for Metamask Flask installation.
+*Note: Please make sure you already have Metamask Flask installed.
 
 
 ### Test
 
 ```
-yarn start
+yarn test
 ```
 
 Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Refer to the following [article](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### Build
 
 ```
-yarn start
+yarn build
 ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Prepares the app for production in the `build` folder.\
+It correctly bundles React in production mode and optimizes the best performance for the build.
 
-The build is minified and the filenames include the hashes.\
+The build is minified and the filenames are included in the hashes.\
 Your app is ready to be deployed!
