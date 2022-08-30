@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import { getExtendedPublicKey } from "../../lib/snap";
 import { useKeystoneStore } from "../../mobx";
 import { updateStoredXpub } from "../../lib/globalStorage";
+import { trackGetAddress } from "../../tracking";
 
 export interface RevealXpubProps {
   open: boolean;
@@ -21,6 +22,7 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
       if (xpub) {
         updateBip44Xpub(xpub);
         updateStoredXpub(xpub, network);
+        trackGetAddress(network);
         onRevealed();
       }
       setIsRevealing(false);
