@@ -6,6 +6,7 @@ import { ReactComponent as Disconnect } from "./image/disconnect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
 import { useKeystoneStore } from "../../mobx";
 import { updateStoredXpub } from "../../lib/globalStorage";
+import { MenuItemsContainer, MenuItem, MenuItemSpan, MenuItemLink, MenuDivider } from "./styles"
 
 interface MenuPanelProps {
   close: () => void;
@@ -25,29 +26,29 @@ const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
   }
 
   return (
-    <div ref={menuPanelRef} className="Menu-items-container">
-      <div className="Menu-item" onClick={openSettingModal}>
+    <MenuItemsContainer ref={menuPanelRef}>
+      <MenuItem onClick={openSettingModal}>
         <SettingIcon />
-        <span>Settings</span>
-      </div>
-      <div className="Menu-item" onClick={close}>
-        <a href="https://github.com/KeystoneHQ/btcsnap" target="_blank" rel="noopener noreferrer">
+        <MenuItemSpan>Settings</MenuItemSpan>
+      </MenuItem>
+      <MenuItem onClick={close}>
+        <MenuItemLink href="https://github.com/KeystoneHQ/btcsnap" target="_blank" rel="noopener noreferrer">
           <GitHub />
-          <span>GitHub</span>
-        </a>
-      </div>
-      <div className="Menu-item" onClick={close}>
-        <a href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
+          <MenuItemSpan>GitHub</MenuItemSpan>
+        </MenuItemLink>
+      </MenuItem>
+      <MenuItem onClick={close}>
+        <MenuItemLink href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
           <Discord />
-          <span>Feedback</span>
-        </a>
-      </div>
-      <hr className="Menu-divider"/>
-      <div className="Menu-item highlight" onClick={disconnect}>
+          <MenuItemSpan>Feedback</MenuItemSpan>
+        </MenuItemLink>
+      </MenuItem>
+      <MenuDivider />
+      <MenuItem onClick={disconnect}>
         <Disconnect />
-        <span>Disconnect</span>
-      </div>
-    </div>
+        <MenuItemSpan>Disconnect</MenuItemSpan>
+      </MenuItem>
+    </MenuItemsContainer>
   );
 };
 

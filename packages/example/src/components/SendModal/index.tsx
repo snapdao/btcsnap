@@ -2,7 +2,6 @@ import { Modal } from 'semantic-ui-react';
 import React, { FunctionComponent, useEffect, useMemo } from 'react';
 
 import './index.css';
-import '../Account/Account.css';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 import { BitcoinNetwork, Utxo } from '../../interface';
@@ -11,6 +10,7 @@ import Initial from './Initial';
 import Result from './Result';
 import { useFeeRate } from '../../hook/useBitcoinTx';
 import SendIcon from "../Icons/SendIcon";
+import { ActionButton } from "./styles";
 
 type ContainerProps = {
   utxos: Utxo[];
@@ -51,9 +51,9 @@ const SendModal = observer((props: { model: SendViewModel }) => {
       }}
       open={model.sendOpen}
       trigger={
-        <button className="Action-button-container">
+        <ActionButton>
           <SendIcon size={48} />
-        </button>
+        </ActionButton>
       }>
       {model.status === 'initial' && <Initial model={model} />}
       {model.status !== 'initial' && <Result model={model} />}
