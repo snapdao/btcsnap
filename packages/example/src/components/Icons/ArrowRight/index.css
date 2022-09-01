@@ -1,8 +1,3 @@
-.ArrowRight-container {
-  width: 18px;
-  height: 18px;
-}
-
 .ArrowRight-container:hover svg path {
   cursor: pointer;
   fill: #F58300;
