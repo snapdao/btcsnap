@@ -7,7 +7,7 @@ import { useExtendedPubKey } from "../../hook/useExtendedPubKey";
 import { satoshiToBTC } from "../../lib/helper";
 import {getNodeFingerPrint} from "../../lib";
 import {useKeystoneStore} from "../../mobx";
-import "./Account.css"
+import { AccountBackground, AccountContainer, AccountLabel } from "./styles"
 
 const Account = observer(() => {
   const { global: { bip44Xpub: pubKey } } = useKeystoneStore();
@@ -39,13 +39,13 @@ const Account = observer(() => {
       <Modal open={loading}>
         <Loader inverted />
       </Modal>
-      <div className="Account-Background">
-        <div className="Account-Container">
+      <AccountBackground>
+        <AccountContainer>
           <Main balance={balance} receiveAddress={receiveAddress} utxos={utxoList} sendInfo={sendInfo} />
           <Aside refreshBalance={refreshBalance}/>
-        </div>
-        <p className="Account-Powered-By">Powered by MetaMask Snaps</p>
-      </div>
+        </AccountContainer>
+        <AccountLabel>Powered by MetaMask Snaps</AccountLabel>
+      </AccountBackground>
     </>
   );
 });

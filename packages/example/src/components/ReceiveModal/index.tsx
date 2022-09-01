@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Modal } from 'semantic-ui-react';
 import './index.css';
-import '../Account/Account.css';
 import ReceiveIcon from "../Icons/ReceiveIcon"
 import { ReactComponent as Checked } from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
