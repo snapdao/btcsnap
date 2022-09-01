@@ -1,5 +1,6 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { BitcoinNetwork, BitcoinScriptType } from '../interface';
+
 declare global {
   interface Window {
     ethereum: MetaMaskInpageProvider;
@@ -35,19 +36,31 @@ export async function connect(cb: (connected: boolean) => void) {
 
 /**
  *
- * get the extened publicKey from btcsnap
+ * get the extended publicKey from btcsnap
  *
  * @param network
+ * @param scriptType
+ * @param cb?
  * @returns
  */
 
+interface ExtendedPublicKey {
+  xpub: string;
+  mfp: string;
+}
+
 export async function getExtendedPublicKey(
   network: BitcoinNetwork,
-  cb?: Function,
+  scriptType: BitcoinScriptType,
+  cb?: (xpub: ExtendedPublicKey) => void,
 ) {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 
-  let result = null;
+  let result = {
+    xpub: "",
+    mfp: "",
+  };
+
   try {
     result = await ethereum.request({
       method: 'wallet_invokeSnap',
@@ -57,10 +70,11 @@ export async function getExtendedPublicKey(
           method: 'btc_getPublicExtendedKey',
           params: {
             network: networkParams,
+            scriptType,
           },
         },
       ],
-    });
+    }) as ExtendedPublicKey;
   } finally {
     if (cb){
       cb(result);
@@ -68,7 +82,7 @@ export async function getExtendedPublicKey(
   }
 }
 
-export async function signPsbt(base64Psbt: string, network: BitcoinNetwork) {
+export async function signPsbt(base64Psbt: string, network: BitcoinNetwork, scriptType: BitcoinScriptType) {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 
   try {
@@ -81,6 +95,7 @@ export async function signPsbt(base64Psbt: string, network: BitcoinNetwork) {
           params: {
             psbt: base64Psbt,
             network: networkParams,
+            scriptType,
           },
         },
       ],

@@ -3,12 +3,14 @@ import Global from './global';
 import Transaction from "./transaction";
 import { TransactionDetail } from "../components/TransactionCard/types";
 import { getStoredGlobalData } from "../lib/globalStorage";
+import { BitcoinScriptType } from "../interface";
 
 const storedGlobalData = getStoredGlobalData();
 
 export const storeInitialState = {
   global: {
     network: storedGlobalData.network,
+    scriptType: BitcoinScriptType.P2PKH,
     bip44Xpub: storedGlobalData.xpub[storedGlobalData.network],
     connected: !!(storedGlobalData.xpub[storedGlobalData.network]),
   },

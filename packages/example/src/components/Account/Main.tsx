@@ -51,7 +51,7 @@ export const bitcoinUnit = {
 }
 
 const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) => {
-  const { global: { network }} = useKeystoneStore();
+  const { global: { network, scriptType }} = useKeystoneStore();
   const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false);
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
   const [currencyUnit, setCurrencyUnit] = useState<string>(bitcoinUnit[network].BTC);
@@ -125,7 +125,7 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
 
       <ActionContainer>
         <ActionContainerItem>
-          <SendModal network={network} utxos={utxos} sendInfo={sendInfo} />
+          <SendModal network={network} scriptType={scriptType} utxos={utxos} sendInfo={sendInfo} />
           <ActionLabel>send</ActionLabel>
         </ActionContainerItem>
         <ActionContainerItem onClick={onReceive}>
