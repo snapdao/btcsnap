@@ -37,6 +37,7 @@ const result: string = await ethereum.request({
         method: 'btc_getPublicExtendedKey',
         params: {
           network: "Main" // for testnet use "Test" ,
+          scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
         },
       },
     ],
@@ -55,6 +56,7 @@ const result: { txId:string, txHex:string } = await ethereum.request({
           params: {
             psbt: base64Psbt // base64 string for the pbst,
             network: "Main" // for testnet use "Test",
+            scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
           },
         },
       ],
