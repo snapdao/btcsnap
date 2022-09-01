@@ -13,12 +13,12 @@ export interface RevealXpubProps {
 }
 
 const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
-  const { global: { network, updateBip44Xpub }} = useKeystoneStore();
+  const { global: { network, scriptType, updateBip44Xpub }} = useKeystoneStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
-    getExtendedPublicKey(network, (xpub: string) => {
+    getExtendedPublicKey(network, scriptType, ({xpub, mfp}) => {
       if (xpub) {
         updateBip44Xpub(xpub);
         updateStoredXpub(xpub, network);

@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js';
 import { makeAutoObservable, reaction } from 'mobx';
-import { BitcoinNetwork, Utxo } from '../../interface';
+import { BitcoinNetwork, BitcoinScriptType, Utxo } from '../../interface';
 import { genreatePSBT, selectUtxos, SendInfo, sendTx } from '../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
@@ -50,6 +50,7 @@ class SendViewModel {
     private utxos: Utxo[],
     private feeRate: number,
     public network: BitcoinNetwork,
+    private scriptType: BitcoinScriptType,
     private sendInfo?: SendInfo,
   ) {
     makeAutoObservable(this);
@@ -224,7 +225,7 @@ class SendViewModel {
           this.selectedResult.inputs,
           this.selectedResult.outputs,
         );
-        const { txId, txHex } = await signPsbt(psbt.toBase64(), this.network);
+        const { txId, txHex } = await signPsbt(psbt.toBase64(), this.network, this.scriptType);
         this.txId = txId;
         trackSendSign(this.network)
 
