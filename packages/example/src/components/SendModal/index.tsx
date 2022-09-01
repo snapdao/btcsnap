@@ -4,7 +4,7 @@ import React, { FunctionComponent, useEffect, useMemo } from 'react';
 import './index.css';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
-import { BitcoinNetwork, Utxo } from '../../interface';
+import { BitcoinNetwork, BitcoinScriptType, Utxo } from '../../interface';
 import { SendInfo } from '../../lib';
 import Initial from './Initial';
 import Result from './Result';
@@ -15,6 +15,7 @@ import { ActionButton } from "./styles";
 type ContainerProps = {
   utxos: Utxo[];
   network: BitcoinNetwork;
+  scriptType: BitcoinScriptType;
   sendInfo?: SendInfo;
 };
 
@@ -26,6 +27,7 @@ const SendContainer: FunctionComponent<ContainerProps> = props => {
       props.utxos,
       feeRate,
       props.network,
+      props.scriptType,
       props.sendInfo,
     );
   }, []);

@@ -132,7 +132,7 @@ export class BlockChair implements Exloper {
     if (network === BitcoinNetwork.Test) {
       if (scriptType === BitcoinScriptType.P2PKH) {
         return this.transferNode(extendedPubKey, 'xpub', config);
-      } else if (scriptType === BitcoinScriptType.P2SH) {
+      } else if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
         return this.transferNode(extendedPubKey, 'ypub', config);
       } else {
         return this.transferNode(extendedPubKey, 'zpub', config);
