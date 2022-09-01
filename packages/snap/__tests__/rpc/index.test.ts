@@ -42,7 +42,7 @@ describe('rpc', () => {
 
             walletStub.rpcStubs.snap_confirm.resolves(true);
             walletStub.rpcStubs.snap_getBip44Entropy_1.resolves({ key: testKey });
-            const result = await signPsbt(walletStub, testPsbtBase64, networks.regtest)
+            const result = await signPsbt(walletStub, testPsbtBase64, networks.regtest, ScriptType.P2PKH)
             expect(walletStub.rpcStubs.snap_getBip44Entropy_1.calledOnce).toBe(true);
             expect(result.txId).not.toBeUndefined();
             expect(result.txHex).not.toBeUndefined();
@@ -51,7 +51,7 @@ describe('rpc', () => {
         it('should reject the sign request and throw error if user reject the sign the pbst', async () => {
             try {
                 walletStub.rpcStubs.snap_confirm.resolves(false);
-                await signPsbt(walletStub, testPsbtBase64, networks.regtest)
+                await signPsbt(walletStub, testPsbtBase64, networks.regtest, ScriptType.P2PKH)
             } catch (e) {
                 expect(walletStub.rpcStubs.snap_getBip44Entropy_1.calledOnce).toBe(false);
                 expect(e).toEqual(new Error('user reject the sign request'))
