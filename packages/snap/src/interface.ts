@@ -39,6 +39,9 @@ export enum BitcoinNetwork {
   Test = "test",
 }
 
+export interface PersistedData {
+  mfp?: string
+}
 
 export interface SLIP10Node {
   /**
