@@ -28,6 +28,7 @@
     <button class="getPubKey">Get extended Public Key</button>
     <button class="signPsbt">Sign Psbt</button>
     <div id="extendedPubKey" style="margin-top:5px"></div>
+    <div id="mfp" style="margin-top:5px"></div>
     <div id="txId" style="margin-top:5px"></div>
     <div id="txHex" style="margin-top:5px"></div>
   </body>
@@ -62,12 +63,14 @@
             method: 'btc_getPublicExtendedKey',
             params: {
               network: "test",
-              scriptType: "P2PKH"
+              scriptType: "P2WPKH"
             }
           }]
         })
-        const node1 = document.getElementById("extendedPubKey")
-        node1.textContent = `extended public key: ${response}`
+        const xpubNode = document.getElementById("extendedPubKey")
+        const mfpNode = document.getElementById("mfp")
+        xpubNode.textContent = `extended public key: ${response.xpub}`
+        mfpNode.textContent = `mfp: ${response.mfp}`
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)

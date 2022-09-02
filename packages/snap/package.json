@@ -36,7 +36,8 @@
     "@metamask/snaps-cli": "^0.18.0",
     "bip32": "^2.0.6",
     "bitcoinjs-lib": "^6.0.1",
-    "bs58check": "^2.1.2"
+    "bs58check": "^2.1.2",
+    "create-hash": "^1.2.0"
   },
   "publishConfig": {
     "access": "public",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@types/bs58check": "^2.1.0",
+    "@types/create-hash": "^1.2.2",
     "prettier": "^2.7.1"
   }
 }
