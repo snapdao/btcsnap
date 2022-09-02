@@ -1,8 +1,9 @@
 import * as bip32 from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
-import { ScriptType, SLIP10Node, Wallet } from "../interface";
+import { PersistedData, ScriptType, SLIP10Node, Wallet } from "../interface";
 import { convertXpub } from "../bitcoin/xpubConverter";
+import { sha256 } from "../bitcoin/crypto";
 
 const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -37,7 +38,28 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
 }
 
 
-export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptType, network: Network): Promise<string> {
+async function getMFP(wallet: Wallet, xpub: string): Promise<string> {
+    const persistedData: PersistedData = await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+    });
+
+    if(persistedData && persistedData.mfp) {
+        return persistedData.mfp;
+    } else {
+        const hashBuffer = sha256(Buffer.from(xpub, "hex"));
+        const mfp = hashBuffer.toString("hex").slice(0, 8);
+
+        await wallet.request({
+            method: 'snap_manageState',
+            params: ['update', { mfp }],
+        });
+        return mfp;
+    }
+}
+
+
+export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
     switch (scriptType) {
         case ScriptType.P2PKH:
         case ScriptType.P2WPKH:
@@ -55,7 +77,10 @@ export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptTyp
             if(result) {
                 const accountNode = await extractAccountPrivateKey(wallet, network, scriptType)
                 const accountPublicKey = accountNode.neutered();
-                return convertXpub(accountPublicKey.toBase58(), scriptType, network);
+                const xpub = convertXpub(accountPublicKey.toBase58(), scriptType, network);
+                const mfp = await getMFP(wallet, xpub);
+
+                return { mfp, xpub };
             } else {
                 throw new Error('User reject to access the key')
             }
