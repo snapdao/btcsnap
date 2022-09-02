@@ -88,10 +88,6 @@ export const EmptyTip = styled.p`
   color: #9095A3;
 `
 
-
-
-
-
 export const LogoContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -290,14 +286,6 @@ export const AccountListLabelBottom = styled.span`
     margin-left: 4px;
   }
 `
-
-
-
-
-
-
-
-
 
 export const ActionContainer = styled.div`
   display: flex;
