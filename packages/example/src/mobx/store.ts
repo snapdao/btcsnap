@@ -1,38 +1,55 @@
 import { types } from 'mobx-state-tree';
-import Global from './global';
-import Transaction from "./transaction";
-import { TransactionDetail } from "../components/TransactionCard/types";
-import { getStoredGlobalData } from "../lib/globalStorage";
-import { BitcoinScriptType } from "../interface";
-
-const storedGlobalData = getStoredGlobalData();
+import Account from "./account";
+import Settings, { settingsInitialState } from "./settings";
+import { IAccount, IAccountIn  } from "./types";
+import Runtime, { runtimeInitialState } from "./runtime";
+import Global from "./global";
+import { BitcoinNetwork, BitcoinScriptType } from "../interface";
 
 export const storeInitialState = {
+  accounts: [],
+  current: undefined,
   global: {
-    network: storedGlobalData.network,
-    scriptType: BitcoinScriptType.P2PKH,
-    bip44Xpub: storedGlobalData.xpub[storedGlobalData.network],
-    connected: !!(storedGlobalData.xpub[storedGlobalData.network]),
+    network: BitcoinNetwork.Test,
+    scriptType: BitcoinScriptType.P2WPKH,
+    bip44Xpub: "",
+    connected: true,
   },
-  transactions: [],
+  runtime: runtimeInitialState,
+  settings: settingsInitialState,
   _version: 0,
 };
 
 const KeystoneStore = types
   .model('KeystoneStore', {
+    accounts: types.array(Account),
     global: Global,
-    transactions: types.array(Transaction),
+    current: types.maybe(types.reference(Account)),
+    settings: Settings,
+    runtime: Runtime,
     _version: types.number,
   })
+  .views((self) => ({
+    getAccount: (xpub: string) => {
+      return self.accounts.find(
+        (account) => account.xpub === xpub,
+      );
+    }
+  }))
   .actions((self => ({
-    updateTransactions: (transactions:TransactionDetail[]) => {
-      self.transactions.clear();
-      transactions.forEach(tx => {
-        self.transactions.push(tx);
-      })
+    createAccount(accountIn: IAccountIn): IAccount {
+      const storedAccount = self.accounts.find((account) => account.xpub === accountIn.xpub);
+      if (storedAccount) return storedAccount;
+      return Account.create(accountIn);
     },
-    addTransaction: (transaction: TransactionDetail) => {
-      self.transactions.unshift(transaction)
+    applyAccount(account: IAccount) {
+      self.accounts.push(account);
+      self.current = account;
+    },
+    switchAccount(xpub: string) {
+      const newAccount = self.accounts.find((account) => account.xpub === xpub);
+      if (!newAccount) throw new Error(`#store_error: cannot find account#${xpub}`);
+      self.current = newAccount;
     },
   })))
 
