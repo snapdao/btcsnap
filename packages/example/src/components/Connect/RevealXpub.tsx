@@ -4,8 +4,8 @@ import { ReactComponent as MetaMaskIcon } from "./image/MetaMask.svg"
 import Modal from "./Modal";
 import { getExtendedPublicKey } from "../../lib/snap";
 import { useKeystoneStore } from "../../mobx";
-import { updateStoredXpub } from "../../lib/globalStorage";
 import { trackGetAddress } from "../../tracking";
+import { register } from "../../services/CryptoService/register";
 
 export interface RevealXpubProps {
   open: boolean;
@@ -13,21 +13,21 @@ export interface RevealXpubProps {
 }
 
 const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
-  const { global: { network, scriptType, updateBip44Xpub }} = useKeystoneStore();
+  const { global: { network, scriptType }, current } = useKeystoneStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
     getExtendedPublicKey(network, scriptType, ({xpub, mfp}) => {
       if (xpub) {
-        updateBip44Xpub(xpub);
-        updateStoredXpub(xpub, network);
         trackGetAddress(network);
-        onRevealed();
+        register(xpub, mfp, scriptType, network)
+          .then(onRevealed)
+          .catch(() => {})
       }
       setIsRevealing(false);
     })
-  }, [setIsRevealing, network, updateBip44Xpub])
+  }, [setIsRevealing, network, current?.xpub])
 
   return (
     <Modal open={open}>
