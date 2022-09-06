@@ -7,10 +7,10 @@ import { useKeystoneStore } from "../../mobx";
 import "./index.css"
 
 const Index = observer(() => {
-  const { global: { bip44Xpub: pubKey, connected, updateConnectionStatus }} = useKeystoneStore();
+  const { global: { connected, updateConnectionStatus }, current } = useKeystoneStore();
   const hasInstalled = !!window.ethereum;
   const [hasConnected, setHasConnected] = useState<boolean>(connected);
-  const [hasRevealed, setHasRevealed] = useState<boolean>(!!pubKey);
+  const [hasRevealed, setHasRevealed] = useState<boolean>(!!current?.xpub);
 
   const onConnected = useCallback(async () => {
     setHasConnected(true);
@@ -22,11 +22,11 @@ const Index = observer(() => {
   }, [setHasRevealed])
 
   useEffect(() => {
-    if (!pubKey) {
+    if (!current?.xpub) {
       setHasConnected(connected);
       setHasRevealed(false);
     }
-  }, [pubKey, connected, setHasConnected, setHasRevealed])
+  }, [current?.xpub, connected, setHasConnected, setHasRevealed])
 
   return (
     <>
