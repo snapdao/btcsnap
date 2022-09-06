@@ -1,7 +1,8 @@
 import { createContext, useContext } from "react";
 import KeystoneStore, {storeInitialState} from './store';
+export * as utils from './utils';
 
-const store = KeystoneStore.create(storeInitialState);
+const store = KeystoneStore.create(storeInitialState as any);
 
 //@ts-ignore
 window.store = store;
