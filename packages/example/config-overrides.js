@@ -20,6 +20,8 @@ module.exports = function override(config, env) {
         new webpack.DefinePlugin({
             DATAAPI: JSON.stringify(process.env.DATAAPI),
             PROJECT_TOKEN: JSON.stringify(process.env.PROJECT_TOKEN),
+            BACKEND_API_DOMAIN: JSON.stringify(process.env.BACKEND_API_DOMAIN),
+            BACKEND_API_AUTH: JSON.stringify(process.env.BACKEND_API_AUTH),
             ENV: JSON.stringify(process.env.ENV),
         })
     );
