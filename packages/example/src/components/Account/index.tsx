@@ -8,10 +8,12 @@ import { satoshiToBTC } from "../../lib/helper";
 import {getNodeFingerPrint} from "../../lib";
 import {useKeystoneStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel } from "./styles"
+import { AppStatus } from "../../mobx/runtime";
 
 const Account = observer(() => {
-  const { global: { bip44Xpub: pubKey } } = useKeystoneStore();
+  const { current, runtime: { status } } = useKeystoneStore();
   const {
+    balance: balanceInSatoshi,
     loading,
     utxoList,
     receiveAddressList,
@@ -19,29 +21,28 @@ const Account = observer(() => {
     refresh: refreshBalance
   } = useExtendedPubKey();
 
-  const balance = satoshiToBTC(utxoList.reduce((acc, current) => acc + current.value, 0));
-  const receiveAddress = receiveAddressList?.[0]?.address || ""
+  const balance = satoshiToBTC(balanceInSatoshi);
 
   const sendInfo = useMemo(() => {
-    if (pubKey !== '' && changeAddressList.length)
+    if (current?.xpub !== '' && changeAddressList.length)
       return {
         addressList: receiveAddressList.concat(changeAddressList),
-        masterFingerprint: getNodeFingerPrint(pubKey),
+        masterFingerprint: getNodeFingerPrint(current?.xpub || ""),
         changeAddress: changeAddressList[changeAddressList.length - 1].address,
       };
     else {
       return undefined;
     }
-  }, [receiveAddressList, changeAddressList, pubKey]);
+  }, [receiveAddressList, changeAddressList, current?.xpub]);
 
   return (
     <>
-      <Modal open={loading}>
+      <Modal open={loading || status === AppStatus.FetchBalance}>
         <Loader inverted />
       </Modal>
       <AccountBackground>
         <AccountContainer>
-          <Main balance={balance} receiveAddress={receiveAddress} utxos={utxoList} sendInfo={sendInfo} />
+          <Main balance={balance} utxos={utxoList} sendInfo={sendInfo} />
           <Aside refreshBalance={refreshBalance}/>
         </AccountContainer>
         <AccountLabel>Powered by MetaMask Snaps</AccountLabel>
