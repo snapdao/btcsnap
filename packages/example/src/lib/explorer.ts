@@ -1,7 +1,7 @@
 import * as bip32 from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface';
-import { deteckNetworkAndScriptType, networkAndScriptMap } from './index';
+import { detectNetworkAndScriptType, networkAndScriptMap } from './index';
 
 export interface Exloper {
   /**
@@ -126,7 +126,7 @@ export class BlockChair implements Exloper {
   }
 
   public convertPubKeyFormate(extendedPubKey: string) {
-    const { network, scriptType, config } = deteckNetworkAndScriptType(
+    const { network, scriptType, config } = detectNetworkAndScriptType(
       extendedPubKey,
     );
     if (network === BitcoinNetwork.Test) {

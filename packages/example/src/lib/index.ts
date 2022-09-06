@@ -87,7 +87,7 @@ export const networkAndScriptMap: networkAndScriptType = {
   },
 };
 
-export const deteckNetworkAndScriptType = (extendedPubKey: string) => {
+export const detectNetworkAndScriptType = (extendedPubKey: string) => {
   const keyPrefix = Object.keys(networkAndScriptMap).find(
     (each) => extendedPubKey.slice(0, 4) === each,
   );
@@ -98,7 +98,7 @@ export const deteckNetworkAndScriptType = (extendedPubKey: string) => {
   throw new Error('Unknown network or script Type');
 };
 
-const caculateBitcoinAddress = (
+const calculateBitcoinAddress = (
   pubKey: Buffer,
   network: BitcoinNetwork,
   scriptType: BitcoinScriptType,
@@ -135,7 +135,7 @@ const caculateBitcoinAddress = (
   }
 };
 
-const batchGenerateAddreses =
+const batchGenerateAddresses =
   (changeIndex: number) =>
   (
     node: bip32.BIP32Interface,
@@ -148,7 +148,7 @@ const batchGenerateAddreses =
     for (let i = fromIndex; i < toIndex; i++) {
       const childNode = node.derive(changeIndex).derive(i);
       result.push({
-        address: caculateBitcoinAddress(
+        address: calculateBitcoinAddress(
           childNode.publicKey,
           network,
           scriptType,
@@ -160,12 +160,12 @@ const batchGenerateAddreses =
     return result;
   };
 
-const genreateAddresses =
+const generateAddresses =
   (type: number) =>
   (extendedPubKey: string, fromIndex = 0, toIndex = 10) => {
     const { node, network, scriptType } = generateNode(extendedPubKey);
 
-    return batchGenerateAddreses(type)(
+    return batchGenerateAddresses(type)(
       node,
       network,
       scriptType,
@@ -174,11 +174,12 @@ const genreateAddresses =
     );
   };
 
-export const generateReceiveAddress = genreateAddresses(0);
-export const generateChangeAddress = genreateAddresses(1);
+export const generateReceiveAddress = generateAddresses(0);
+export const generateChangeAddress = generateAddresses(1);
 
-const generateNode = (extendedPubKey: string) => {
-  const { network, scriptType } = deteckNetworkAndScriptType(extendedPubKey);
+export const generateNode = (extendedPubKey: string) => {
+  const { network, scriptType } = detectNetworkAndScriptType(extendedPubKey);
+
   let networkConfig;
   if (network === BitcoinNetwork.Main) {
     networkConfig = networks.bitcoin;
