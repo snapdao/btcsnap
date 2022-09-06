@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Address, Utxo } from '../interface';
-import { generateReceiveAddress, generateChangeAddress } from '../lib';
-import { BlockChair } from '../lib/explorer';
-import { BACKENDAPI } from '../config';
 import { useKeystoneStore } from "../mobx";
+import { AppStatus } from "../mobx/runtime";
+import { SupportedCoins } from "../constant/supportedCoins";
+import { NETWORK_SCRIPT_TO_COIN } from "../constant/bitcoin";
+import { queryCoinV2 } from "../api";
 
 export const useExtendedPubKey = () => {
-  const { global: { bip44Xpub: pubKey, network } } = useKeystoneStore();
+  const { global: { network, scriptType }, current, runtime } = useKeystoneStore();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
+  const [balance, setBalance] = useState(0);
 
   const [utxoList, setUTXOList] = useState<Utxo[]>([]);
   const [receiveAddressList, setReceiveAddressList] = useState<Address[]>([]);
@@ -19,35 +21,30 @@ export const useExtendedPubKey = () => {
   };
 
   useEffect(() => {
-    if (pubKey.length > 0) {
-      const apiKey = BACKENDAPI;
-      const explorer = new BlockChair(apiKey, network);
-      setLoading(true);
-      setReceiveAddressList([]);
-      setChangeList([]);
-
-      explorer
-        .getStatus(pubKey, true)
-        .then((data) => {
-          setLoading(false);
-          setUTXOList(data.utxos);
-          setReceiveAddressList(
-            generateReceiveAddress(pubKey, 0, data.recieveMax + 1),
-          );
-          setChangeList(generateChangeAddress(pubKey, 0, data.changeMax + 1));
-        })
-        .catch((e) => {
-          console.error(e);
-          setLoading(false);
-        });
-    } else {
-      setUTXOList([]);
-      setReceiveAddressList([]);
-      setChangeList([]);
+    const queryBalance = async () => {
+      const assetCode: SupportedCoins = NETWORK_SCRIPT_TO_COIN[network][scriptType];
+      const response = await queryCoinV2();
+      if(!!response) {
+        return Number(response.coins[assetCode].balance);
+      }
+      return 0;
     }
-  }, [pubKey, count, network]);
+
+    if (current?.xpub) {
+      runtime.updateStatus(AppStatus.FetchBalance);
+      queryBalance().then(balance => {
+        setBalance(balance);
+        current.updateBalance(balance);
+        runtime.updateStatus(AppStatus.Ready);
+      }).catch((e) => {
+        console.error(e);
+        runtime.updateStatus(AppStatus.Ready);
+      });
+    }
+  }, [current, count, network]);
 
   return {
+    balance,
     utxoList,
     receiveAddressList,
     changeAddressList,

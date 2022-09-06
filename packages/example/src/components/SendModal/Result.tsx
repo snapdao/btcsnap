@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Container } from 'semantic-ui-react';
 
 import SendViewModel from './model';
@@ -9,8 +9,6 @@ import './index.css';
 import { ReactComponent as SendSuccess } from '../../assets/send_success.svg';
 import { ReactComponent as SendFailed } from '../../assets/send_failed.svg';
 import { ReactComponent as ArrowRight } from '../../assets/arrow_right.svg';
-import { useKeystoneStore } from "../../mobx";
-import { storeTransaction } from "../../lib/txStorage";
 import CloseIcon from "../Icons/CloseIcon";
 
 export type SuccessProps = {
@@ -18,15 +16,6 @@ export type SuccessProps = {
 };
 
 const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
-  const { global: {bip44Xpub}, addTransaction } = useKeystoneStore();
-
-  useEffect(() => {
-    if(model.status === 'success' && !!model.sentTx){
-      addTransaction(model.sentTx)
-      storeTransaction(bip44Xpub, model.sentTx);
-    }
-  }, [])
-
   return (
     <div>
       <Container className={'colored-container'}>
