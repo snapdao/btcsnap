@@ -33,11 +33,11 @@ import { btcToSatoshi } from "../../lib/helper"
 
 
 export interface MainProps {
-  balance: number,
-  receiveAddress: string,
-  utxos: Utxo[],
-  sendInfo?: SendInfo,
+  balance: number;
+  utxos: Utxo[];
+  sendInfo?: SendInfo;
 }
+
 
 export const bitcoinUnit = {
   [BitcoinNetwork.Main] : {
@@ -50,12 +50,19 @@ export const bitcoinUnit = {
   }
 }
 
-const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) => {
-  const { global: { network, scriptType }} = useKeystoneStore();
-  const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false);
+const Main = observer(({balance, utxos, sendInfo}: MainProps) => {
+  const { global: { network }, current } = useKeystoneStore();
+  const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false)
+  const [receiveAddress, setReceiveAddress] = useState("");
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
   const [currencyUnit, setCurrencyUnit] = useState<string>(bitcoinUnit[network].BTC);
   const [unitsRight, setUnitsRight] = useState(bitcoinUnit[network].Sats);
+
+  useEffect(() => {
+    if(current && current.addresses.length > 0){
+      setReceiveAddress(current.addresses[0].address);
+    }
+  }, [current])
 
   const onReceive = useCallback(() => {
     setShowReceiveModal(true)
@@ -100,6 +107,7 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
   })
 
   return (
+
     <AccountMain>
       <LogoContainer>
         {network === BitcoinNetwork.Main
@@ -125,7 +133,7 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
 
       <ActionContainer>
         <ActionContainerItem>
-          <SendModal network={network} scriptType={scriptType} utxos={utxos} sendInfo={sendInfo} />
+          <SendModal network={network} scriptType={current?.scriptType!} utxos={utxos} sendInfo={sendInfo} />
           <ActionLabel>send</ActionLabel>
         </ActionContainerItem>
         <ActionContainerItem onClick={onReceive}>
