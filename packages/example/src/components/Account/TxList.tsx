@@ -4,6 +4,7 @@ import { TransactionDetail } from "../TransactionCard/types";
 import { ReactComponent as Transactions } from "./image/transactions.svg";
 import { observer } from "mobx-react-lite";
 import { BitcoinNetwork } from "../../interface";
+import { TxListContainer, TxListContent, TxListEmpty, EmptyTip } from "./styles"
 
 interface TxCardProps {
   network: BitcoinNetwork
@@ -15,20 +16,20 @@ const TxList = observer(({txList, network}: TxCardProps) => {
   transactions.sort((tx1, tx2) => tx2.date - tx1.date);
 
   return (
-    <div className="Tx-list-container">
+    <TxListContainer>
       {
         transactions.length > 0 ? (
-          <div className="Tx-list-content">
+          <TxListContent>
             {transactions.map(tx => <TransactionCard key={tx.ID} {...tx} network={network} />)}
-          </div>
+          </TxListContent>
         ) : (
-          <div className="Tx-list-empty">
+          <TxListEmpty>
             <Transactions />
-            <p className="Empty-tip">No Transactions</p>
-          </div>
+            <EmptyTip>No Transactions</EmptyTip>
+          </TxListEmpty>
         )
       }
-    </div>
+    </TxListContainer>
   )
 })
 

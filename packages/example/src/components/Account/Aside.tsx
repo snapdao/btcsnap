@@ -7,6 +7,7 @@ import { getStoredTransactions, updateStoredTransactions } from "../../lib/txSto
 import { observer } from "mobx-react-lite";
 import { useTransaction } from "../../hook/useTransaction";
 import { TransactionStatus } from "../TransactionCard/types";
+import { AccountAside, AccountAsideContainer, AccountAsideRefresh } from "./styles"
 
 const Aside = observer(({refreshBalance}: {refreshBalance: () => void}) => {
   const { global: { network, bip44Xpub }, transactions, updateTransactions } = useKeystoneStore()
@@ -48,15 +49,15 @@ const Aside = observer(({refreshBalance}: {refreshBalance: () => void}) => {
   }, [transactions.length, transactionAmount.current])
 
   return (
-    <div className="Account-Aside">
-      <div className="Account-Aside-Container">
+    <AccountAside>
+      <AccountAsideContainer>
         <Menu />
         <TxList network={network} txList={transactions} />
-        <div className="Account-Aside-Refresh">
+        <AccountAsideRefresh>
           <RefreshIcon onClick={refresh} loading={loading}/>
-        </div>
-      </div>
-    </div>
+        </AccountAsideRefresh>
+      </AccountAsideContainer>
+    </AccountAside>
   );
 });
 
