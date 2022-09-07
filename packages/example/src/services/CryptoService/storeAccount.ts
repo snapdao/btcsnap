@@ -2,6 +2,9 @@ import { getKeystoneStore, utils } from "../../mobx";
 import { BitcoinNetwork, BitcoinScriptType } from "../../interface";
 import { IAccountIn } from "../../mobx/types";
 import { EXTENDED_PUBKEY_PATH, NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
+import { fetchAddresses } from "../../api/v1/fetchAddress";
+import { fromHdPathToObj } from "../../lib/cryptoPath";
+import Address from "../../mobx/address";
 
 const constructAccount = (mfp: string, xpub: string, scriptType: BitcoinScriptType, network: BitcoinNetwork): IAccountIn => ({
   id: utils.generateAccountId(),
@@ -12,6 +15,7 @@ const constructAccount = (mfp: string, xpub: string, scriptType: BitcoinScriptTy
   addresses: [],
   scriptType,
   network,
+  receiveAddressIndex: 0,
 })
 
 export const storeAccount = async (
@@ -23,10 +27,23 @@ export const storeAccount = async (
   const keystoneStore = getKeystoneStore();
   try {
     const accountData = constructAccount(mfp, xpub, scriptType, network);
-    const newAccount = keystoneStore.createAccount(accountData)
-    keystoneStore.applyAccount(newAccount);
+    const storeAccount = keystoneStore.createAccount(accountData)
+    keystoneStore.applyAccount(storeAccount);
 
-    newAccount.deriveAndAddNextAddress();
+    const { unused } = await fetchAddresses(mfp, xpub, storeAccount.coinCode);
+    const receiveAddress = unused.filter(address => fromHdPathToObj(address.hdPath).change === "0")?.[0];
+    const receiveAddressIndex = Number(fromHdPathToObj(receiveAddress?.hdPath).index) || 0;
+    storeAccount.setReceiveAddressIndex(receiveAddressIndex);
+
+    const storeReceiveAddress = {
+      id: utils.generateAddressId(),
+      parent: "",
+      address: receiveAddress?.address,
+      coinCode: NETWORK_SCRIPT_TO_COIN[network][scriptType],
+      change: 0,
+      index: receiveAddressIndex
+    };
+    storeAccount.validateAndAddAddress(storeReceiveAddress);
   } catch (e) {
     console.info(e);
     console.error(e);

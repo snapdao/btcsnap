@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { TIME_OUT } from "../constant";
 import * as querystring from "querystring";
 import { BACKEND_AUTH, BACKEND_DOMAIN } from "../../config";
+import { getKeystoneStore } from "../../mobx";
 
 const fetchResult = (
   url: string,
@@ -48,7 +49,7 @@ export const query = async (
     headers: {
       ...headers,
       Authorization: BACKEND_AUTH,
-      xfp: mfp || "e3b0c442"
+      xfp: mfp || getKeystoneStore().current?.mfp || ""
     },
     body,
   }
