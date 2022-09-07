@@ -8,7 +8,7 @@ import { useTransaction } from "../../hook/useTransaction";
 import { AccountAside, AccountAsideContainer, AccountAsideRefresh } from "./styles"
 
 const Aside = observer(({refreshBalance}: {refreshBalance: () => void}) => {
-  const { global: { network }, current } = useKeystoneStore()
+  const { current, settings: { network} } = useKeystoneStore()
   const { refresh, loading } = useTransaction(network);
 
   useEffect(() => {

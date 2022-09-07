@@ -14,7 +14,7 @@ export interface RevealXpubProps {
 }
 
 const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
-  const { global: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
+  const { settings: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
   const getXpub = useCallback(async () => {
