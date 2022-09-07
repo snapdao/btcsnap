@@ -11,10 +11,9 @@ import { AccountBackground, AccountContainer, AccountLabel } from "./styles"
 import { AppStatus } from "../../mobx/runtime";
 
 const Account = observer(() => {
-  const { current, runtime: { status } } = useKeystoneStore();
+  const { current, runtime: {status} } = useKeystoneStore();
   const {
     balance: balanceInSatoshi,
-    loading,
     utxoList,
     receiveAddressList,
     changeAddressList,
@@ -37,7 +36,7 @@ const Account = observer(() => {
 
   return (
     <>
-      <Modal open={loading || status === AppStatus.FetchBalance}>
+      <Modal open={status !== AppStatus.Ready}>
         <Loader inverted />
       </Modal>
       <AccountBackground>

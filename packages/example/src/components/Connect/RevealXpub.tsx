@@ -6,6 +6,7 @@ import { getExtendedPublicKey } from "../../lib/snap";
 import { useKeystoneStore } from "../../mobx";
 import { trackGetAddress } from "../../tracking";
 import { register } from "../../services/CryptoService/register";
+import { AppStatus } from "../../mobx/runtime";
 
 export interface RevealXpubProps {
   open: boolean;
@@ -13,7 +14,7 @@ export interface RevealXpubProps {
 }
 
 const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
-  const { global: { network, scriptType }, current } = useKeystoneStore();
+  const { global: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
   const getXpub = useCallback(async () => {
@@ -21,9 +22,12 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
     getExtendedPublicKey(network, scriptType, ({xpub, mfp}) => {
       if (xpub) {
         trackGetAddress(network);
+        setStatus(AppStatus.Register);
+
         register(xpub, mfp, scriptType, network)
-          .then(onRevealed)
-          .catch(() => {})
+          .then(() => { setStatus(AppStatus.Ready) })
+          .catch(() => { setStatus(AppStatus.Ready) })
+        onRevealed();
       }
       setIsRevealing(false);
     })

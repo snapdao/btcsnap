@@ -1,7 +1,7 @@
 import { types } from 'mobx-state-tree';
 
 export enum AppStatus {
-  ConnectMM = "connectMM",
+  Register = "register",
   FetchBalance = "fetchBalance",
   Ready = "ready"
 }
@@ -14,8 +14,8 @@ const Runtime = types
   .model('Runtime', {
     status: types.enumeration(Object.values(AppStatus)),
   })
-  .actions(() => ({
-    updateStatus: (status: AppStatus) => {
+  .actions((self) => ({
+    setStatus: (status: AppStatus) => {
       self.status = status
     }
   }))
