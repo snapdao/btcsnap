@@ -1,9 +1,8 @@
-import { useState } from "react";
+import React from "react";
 import { Modal } from "semantic-ui-react"
 import { TransitionablePortal } from "semantic-ui-react";
 import { useKeystoneStore } from "../../mobx";
 import { BitcoinNetwork } from "../../interface";
-import { getStoredGlobalData, updateStoredNetwork } from "../../lib/globalStorage";
 import CloseIcon from "../Icons/CloseIcon";
 import NetworkIcon from "../Icons/Network";
 
@@ -29,20 +28,10 @@ enum NetOptions {
 }
 
 const AddressType = (({open, close}: ConnectProps) => {
-  const { global: { network, updateNetwork, updateBip44Xpub }} = useKeystoneStore();
-  const [netValue, setNetValue] = useState<BitcoinNetwork>(network);
-
-  const changeNetwork = () => {
-    const targetNetwork = network === BitcoinNetwork.Main ? BitcoinNetwork.Test : BitcoinNetwork.Main
-    updateNetwork(targetNetwork);
-    const globalData = getStoredGlobalData()
-    updateBip44Xpub(globalData.xpub[targetNetwork]);
-    updateStoredNetwork(targetNetwork);
-  }
+  const { settings: { network, setNetwork }} = useKeystoneStore();
 
   const onNetworkChecked  = (netValue: BitcoinNetwork) => {
-    setNetValue(netValue);
-    changeNetwork();
+    setNetwork(netValue);
     close();
   }
 
@@ -68,7 +57,7 @@ const AddressType = (({open, close}: ConnectProps) => {
               <NetworkIcon network={BitcoinNetwork.Main}/>
               <span>Mainnet</span>
             </NetworkItemLabel>
-            <NetworkItemRadio value={NetOptions.Mainnet} checked={netValue === BitcoinNetwork.Main} />
+            <NetworkItemRadio value={NetOptions.Mainnet} checked={network === BitcoinNetwork.Main} />
           </NetworkItem>
 
           <NetworkItem onClick={() => onNetworkChecked(BitcoinNetwork.Test)}>
@@ -76,7 +65,7 @@ const AddressType = (({open, close}: ConnectProps) => {
               <NetworkIcon network={BitcoinNetwork.Test} />
               <span>Testnet</span>
             </NetworkItemLabel>
-            <NetworkItemRadio value={NetOptions.Testnet} checked={netValue === BitcoinNetwork.Test} />
+            <NetworkItemRadio value={NetOptions.Testnet} checked={network === BitcoinNetwork.Test} />
           </NetworkItem>
         </NetworkContainer>
 

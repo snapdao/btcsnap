@@ -51,7 +51,7 @@ export const bitcoinUnit = {
 }
 
 const Main = observer(({balance, utxos, sendInfo}: MainProps) => {
-  const { global: { network }, current } = useKeystoneStore();
+  const { settings: { network }, current } = useKeystoneStore();
   const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false)
   const [receiveAddress, setReceiveAddress] = useState("");
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);

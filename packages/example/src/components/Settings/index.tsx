@@ -26,7 +26,7 @@ enum SettingOptions {
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
-  const { global: { network }} = useKeystoneStore();
+  const { settings: { network }} = useKeystoneStore();
   const [addressValue, setAddressValue] = useState<string>('');
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const [dynamicRadio, setDynamicRadio] = useState(false);

@@ -28,7 +28,7 @@ const Account = types
         const keystoneStore = getKeystoneStore();
         const mfp = self.mfp;
         const scriptType = self.scriptType;
-        const network = keystoneStore.global.network;
+        const network = keystoneStore.settings.network;
 
         const coin = network === BitcoinNetwork.Main ? "BTC" : "BTC_TESTNET";
         const path = EXTENDED_PUBKEY_PATH[network][scriptType];
