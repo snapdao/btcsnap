@@ -209,6 +209,14 @@ export const BalacneRightLabel = styled.span`
   }
 `
 
+export const CurrencyContainer = styled.div<{isTestnet: boolean}>`
+  margin-top: 4px;
+  color: #656D85;
+  font-size: 16px;
+  line-height: 24px;
+  ${props => props.isTestnet ? "text-decoration-line: line-through;" : ""}
+`
+
 export const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
