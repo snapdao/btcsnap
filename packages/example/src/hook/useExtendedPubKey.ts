@@ -7,7 +7,7 @@ import { NETWORK_SCRIPT_TO_COIN } from "../constant/bitcoin";
 import { queryCoinV2 } from "../api";
 
 export const useExtendedPubKey = () => {
-  const { global: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
+  const { settings: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
 

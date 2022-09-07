@@ -4,7 +4,6 @@ import { ReactComponent as GitHub } from "./image/github.svg"
 import { ReactComponent as Discord } from "./image/discord.svg"
 import { ReactComponent as Disconnect } from "./image/disconnect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
-import { useKeystoneStore } from "../../mobx";
 import { MenuItemsContainer, MenuItem, MenuItemSpan, MenuItemLink, MenuDivider } from "./styles"
 
 interface MenuPanelProps {
@@ -13,13 +12,11 @@ interface MenuPanelProps {
 }
 
 const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
-  const { global: { updateConnectionStatus } } = useKeystoneStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 
   const disconnect = () => {
     // TODO remove account ?
-    updateConnectionStatus(false);
     close();
   }
 
