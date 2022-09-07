@@ -23,32 +23,30 @@ type AccountDetails = {
 
 const Details = (({open, close, utxoList, balance, units}: AccountDetails) => {
   return (
-    <>
-      <Modal
-        className={'modal-container'}
-        open={open}
-        style={{
-          height: '640px'
-        }}
-      >
-        <AccountDetailTop>
-          <ModalHeader>
-            <ModalHeaderContainer>
-              <AccountIcon />
-              <ModalHeaderLabel>ACCOUNT</ModalHeaderLabel>
-            </ModalHeaderContainer>
-            <CloseIcon onClick={close} />
-          </ModalHeader>
-          <AccountDetailHeader>
-            <AccountTopBalance>{balance}</AccountTopBalance>
-            <AccountTopUnits>{units}</AccountTopUnits>
-          </AccountDetailHeader>
-        </AccountDetailTop>
-        <AccountDetailBottom>
-          <AccountList utxoList={utxoList} units={units} />
-        </AccountDetailBottom>
-      </Modal>
-    </>
+    <Modal
+      className={'modal-container'}
+      open={open}
+      style={{
+        height: '640px'
+      }}
+    >
+      <AccountDetailTop>
+        <ModalHeader>
+          <ModalHeaderContainer>
+            <AccountIcon />
+            <ModalHeaderLabel>ACCOUNT</ModalHeaderLabel>
+          </ModalHeaderContainer>
+          <CloseIcon onClick={close} />
+        </ModalHeader>
+        <AccountDetailHeader>
+          <AccountTopBalance>{balance}</AccountTopBalance>
+          <AccountTopUnits>{units}</AccountTopUnits>
+        </AccountDetailHeader>
+      </AccountDetailTop>
+      <AccountDetailBottom>
+        <AccountList utxoList={utxoList} units={units} />
+      </AccountDetailBottom>
+    </Modal>
   )
 })
 
