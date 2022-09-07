@@ -28,46 +28,34 @@ import { ReactComponent as Logo } from "./image/logo.svg";
 import { ReactComponent as LogoTestnet } from "./image/logo-testnet.svg";
 import { SendInfo } from "../../lib";
 import ReceiveIcon from "../Icons/ReceiveIcon";
-import ArrowRight from "../Icons/ArrowRight"
+import ArrowRight from "../Icons/ArrowRight";
+import { btcToSatoshi } from "../../lib/helper"
 
 
 export interface MainProps {
-  balance: number
-  receiveAddress: string
+  balance: number,
+  receiveAddress: string,
   utxos: Utxo[],
   sendInfo?: SendInfo,
 }
 
-const utxoList = [
-  {
-    "address": "moQgzAff6d9nfTo4rDGycaJzMfcwj1oyyW",
-    "transactionHash": "f22633fc6039ff3cb3f2a7d7e0f61f150e0867150c1e9383f8be278a5349c91a",
-    "index": 1,
-    "value": 3421682,
-    "rawHex": "0200000001d3ef259f2c6e13a937f1108f7d93e77baaadf7a7d21a9ab958ae4398821290aa010000006a47304402202eb2f855b7a6615018915fdf4ea0d143e17adb87596c5de2d88b425c3a62996702205dcbcfaa9598c69293d029dc8ddb2adcc6fab841802dbcd7a6207f932bdbbcb0012103ad69c2323567705cd77b71f785cb44a51762976860edc899334d028ecb566676ffffffff0210270000000000001976a914bc489a78c7bbcd1f4230418c086f6274d09afdc388acf2353400000000001976a9145691bb50b4299e144e7bcc15546617a6e0fd356a88ac00000000"
+export const bitcoinUnit = {
+  [BitcoinNetwork.Main] : {
+    BTC: "BTC",
+    Sats: "sats"
   },
-  {
-    "address": "moQgzAff6d9nfTo4rDGycaJzMfcwj1oyyW",
-    "transactionHash": "f22633fc6039ff3cb3f2a7d7e0f61f150e0867150c1e9383f8be278a5349c91a",
-    "index": 1,
-    "value": 1,
-    "rawHex": "0200000001d3ef259f2c6e13a937f1108f7d93e77baaadf7a7d21a9ab958ae4398821290aa010000006a47304402202eb2f855b7a6615018915fdf4ea0d143e17adb87596c5de2d88b425c3a62996702205dcbcfaa9598c69293d029dc8ddb2adcc6fab841802dbcd7a6207f932bdbbcb0012103ad69c2323567705cd77b71f785cb44a51762976860edc899334d028ecb566676ffffffff0210270000000000001976a914bc489a78c7bbcd1f4230418c086f6274d09afdc388acf2353400000000001976a9145691bb50b4299e144e7bcc15546617a6e0fd356a88ac00000000"
-  },
-  {
-    "address": "123123123123123123132123",
-    "transactionHash": "f22633fc6039ff3cb3f2a7d7e0f61f150e0867150c1e9383f8be278a5349c91a",
-    "index": 2,
-    "value": 3421682,
-    "rawHex": "0200000001d3ef259f2c6e13a937f1108f7d93e77baaadf7a7d21a9ab958ae4398821290aa010000006a47304402202eb2f855b7a6615018915fdf4ea0d143e17adb87596c5de2d88b425c3a62996702205dcbcfaa9598c69293d029dc8ddb2adcc6fab841802dbcd7a6207f932bdbbcb0012103ad69c2323567705cd77b71f785cb44a51762976860edc899334d028ecb566676ffffffff0210270000000000001976a914bc489a78c7bbcd1f4230418c086f6274d09afdc388acf2353400000000001976a9145691bb50b4299e144e7bcc15546617a6e0fd356a88ac00000000"
+  [BitcoinNetwork.Test] : {
+    BTC: "tBTC",
+    Sats: "tsats"
   }
-]
+}
 
 const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) => {
   const { global: { network }} = useKeystoneStore();
   const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false);
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
-  const [currencyUnit, setCurrencyUnit] = useState<'BTC' | 'Sats'>('BTC');
-  const [unitsRight, setUnitsRight] = useState('Sats');
+  const [currencyUnit, setCurrencyUnit] = useState<string>(bitcoinUnit[network].BTC);
+  const [unitsRight, setUnitsRight] = useState(bitcoinUnit[network].Sats);
 
   const onReceive = useCallback(() => {
     setShowReceiveModal(true)
@@ -86,21 +74,28 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
   }, [setShowDetailModal])
 
   const getCurrentBalance = () => {
-    switch (currencyUnit) {
-      case 'Sats':
-        return balance * 100000000;
-      default:
-        return balance
+    if(currencyUnit === bitcoinUnit[BitcoinNetwork.Main].Sats
+      || currencyUnit === bitcoinUnit[BitcoinNetwork.Test].Sats) {
+      return btcToSatoshi(balance)
+    } else {
+      return balance
     }
   }
 
+  useEffect(() => {
+    setCurrencyUnit(bitcoinUnit[network].BTC)
+    setUnitsRight(bitcoinUnit[network].Sats)
+  },[network])
+
   const switchUnits = (() => {
-    if(currencyUnit === 'BTC') {
-      setCurrencyUnit('Sats');
-      setUnitsRight('BTC');
+    const btc = bitcoinUnit[network].BTC;
+    const sats = bitcoinUnit[network].Sats;
+    if(currencyUnit === btc) {
+      setCurrencyUnit(sats);
+      setUnitsRight(btc);
     } else {
-      setCurrencyUnit('BTC');
-      setUnitsRight('Sats');
+      setCurrencyUnit(btc);
+      setUnitsRight(sats);
     }
   })
 
@@ -142,7 +137,7 @@ const Main = observer(({balance, receiveAddress, utxos, sendInfo}: MainProps) =>
       </ActionContainer>
 
       <ReceiveModal address={receiveAddress} open={showReceiveModal} close={closeReceiveModal}/>
-      <AccountDetail balance={getCurrentBalance()} units={currencyUnit} utxoList={utxoList} open={showDetailModal} close={closeDetailModal} />
+      <AccountDetail balance={getCurrentBalance()} units={currencyUnit} utxoList={utxos} open={showDetailModal} close={closeDetailModal} />
     </AccountMain>
   );
 });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AccountListItem, AccountListLabel, AccountListLabelTop, AccountListLabelBottom } from "./styles";
+import { satoshiToBTC } from "../../lib/helper"
 
 interface UTXO {
   address: string,
@@ -37,7 +38,7 @@ const AccountList = (({utxoList, units}:utxoListProps) => {
 
   const switchValue = ((value: number) => {
     if(units === 'BTC') {
-      return (value / 100000000).toFixed(8);
+      return satoshiToBTC(value);
     } else {
       return value
     }
@@ -45,10 +46,10 @@ const AccountList = (({utxoList, units}:utxoListProps) => {
 
   return (
     <>
-      {countedUtxo.map((item: any) => (
+      {countedUtxo.map((item: UTXOWithCount) => (
         <AccountListItem key={item.address}>
           <AccountListLabel>
-            <AccountListLabelTop>BTC-3 (m/0/{item.index})</AccountListLabelTop>
+            <AccountListLabelTop>BTC-{item.index} (m/0/{item.index})</AccountListLabelTop>
             <AccountListLabelTop>{switchValue(item.value)}</AccountListLabelTop>
           </AccountListLabel>
           <AccountListLabel>
