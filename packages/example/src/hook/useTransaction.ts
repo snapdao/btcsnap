@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react';
+import { TransactionDetail, TransactionStatus, TransactionType } from "../components/TransactionCard/types";
+import { ActivityStatus, queryActivities } from "../api/v1/activities";
+import { useKeystoneStore } from "../mobx";
+import { satoshiToBTC } from "../lib/helper";
 
-import { BitcoinNetwork } from '../interface';
-import { BlockChair } from '../lib/explorer';
-import { BACKENDAPI } from '../config';
-import { TransactionStatus } from "../components/TransactionCard/types";
-
-export const useTransaction = (network: BitcoinNetwork) => {
-  const [txList, setTxList] = useState<
-    {
-      txId: string;
-      blocknumber: string | undefined;
-      status: TransactionStatus;
-    }[]
-  >([]);
-
+export const useTransaction = () => {
+  const { current } = useKeystoneStore();
+  const [txList, setTxList] = useState<TransactionDetail[]>([])
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -23,45 +16,39 @@ export const useTransaction = (network: BitcoinNetwork) => {
     }
   }
 
-  const addTxs = (txIds: string[]) => {
-    const allPendingTxIds = txList.map(tx => tx.txId);
-    const newTxIds = txIds.filter(newTxId => !allPendingTxIds.includes(newTxId))
-    const newList = [
-      ...txList,
-      ...newTxIds.map((txId) => ({
-          txId,
-          blocknumber: undefined,
-          status: TransactionStatus.PENDING,
-        })
-      )
-    ]
-    setTxList(newList);
-    refresh();
-  };
-
   useEffect(() => {
-    setLoading(true);
-    const apiKey = BACKENDAPI;
-    const explorer = new BlockChair(apiKey, network);
-    Promise.all(txList.map((each) => explorer.checkTxStatus(each.txId))).then(
-      (data) => {
-        const result = data.map((each) => ({
-          txId: each.txId,
-          blocknumber: each.blockId,
-          status: each.blockId ? TransactionStatus.CONFIRMED : TransactionStatus.PENDING,
-        }));
-        setTimeout(() => {
+    if (current) {
+      setLoading(true);
+      queryActivities({coin: current.coinCode, count: 5})
+        .then(res =>
+          res.activities.map(tx => {
+            const isReceive = tx.action === "recv_external";
+            return {
+              ID: tx.txid,
+              type: isReceive ? TransactionType.RECEIVE : TransactionType.SEND,
+              status: tx.status === ActivityStatus.Complete ? TransactionStatus.CONFIRMED : TransactionStatus.PENDING,
+              amount: satoshiToBTC(Math.abs(tx.amount)),
+              address: (isReceive ? tx.senderAddresses?.[0] : tx.receiverAddresses?.[0][0]) || "",
+              date: tx.createdTime,
+            }
+          })
+        )
+        .then((txList) => {
+          setTxList(txList)
           setLoading(false);
-        },1000)
-        setTxList(result);
-      },
-    );
-  }, [network, count]);
+        })
+        .catch(e => {
+          setLoading(false);
+          console.error("Fetch transactions failed", e)
+        })
+    } else {
+      setTxList([]);
+    }
+  }, [current, count])
 
   return {
     txList,
-    refresh,
-    addTxs,
-    loading
+    loading,
+    refresh
   };
 };
