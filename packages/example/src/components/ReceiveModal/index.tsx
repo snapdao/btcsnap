@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Modal } from 'semantic-ui-react';
-import './index.css';
 import ReceiveIcon from "../Icons/ReceiveIcon"
 import { ReactComponent as Checked } from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
 import CloseIcon from "../Icons/CloseIcon";
-import { useKeystoneStore } from "../../mobx";
 import { observer } from "mobx-react-lite";
+import { useReceiveAddress } from "../../hook/useReceiveAddress";
+import './index.css';
 
 type ReceiveModalProps = {
   open: boolean;
@@ -14,8 +14,7 @@ type ReceiveModalProps = {
 };
 
 const ReceiveModal = observer(({open, close}: ReceiveModalProps) => {
-  const { current } = useKeystoneStore()
-  const address = current?.getReceiveAddress();
+  const { address } = useReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
 
   const copyAddress = () => {
