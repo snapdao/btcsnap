@@ -31,6 +31,7 @@ export const AccountLabel = styled.p`
 export const AccountMain = styled.div`
   width: 560px;
   padding: 40px;
+  position: relative;
 `
 
 export const AccountAside = styled.div`
@@ -331,5 +332,18 @@ export const ActionButton = styled.button`
   :not(:hover) {
     border-color: #E1E6F0;
     transition: 0.25s;
+  }
+`
+
+export const MarketPrice = styled.p<{isTestnet: boolean}>`
+  position: absolute;
+  bottom: 40px;
+  font-weight: 400;
+  color: #656D85;
+
+  span {
+    font-weight: 600;
+    color: #F58300;
+    text-decoration-line: ${props => props.isTestnet ? "line-through" : "none"};
   }
 `
