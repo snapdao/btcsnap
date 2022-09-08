@@ -24,6 +24,9 @@ const fetchResult = (
 };
 
 const objectKeysToCamelCase = (snake_case_object: Object): any => {
+  if(typeof snake_case_object !== "object"){
+    return snake_case_object;
+  }
   if (Array.isArray(snake_case_object)) {
     return snake_case_object.map(value => objectKeysToCamelCase(value));
   }
