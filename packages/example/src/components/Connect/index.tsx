@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from "mobx-react-lite";
 import Install from "./Install";
 import Connect from "./Connect";
@@ -22,7 +22,6 @@ const Index = observer(() => {
 
   useEffect(() => {
     if (!current) {
-      setHasConnected(true);
       setHasRevealed(false);
     }
   }, [current, setHasConnected, setHasRevealed])

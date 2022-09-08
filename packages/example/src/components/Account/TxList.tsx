@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { BitcoinNetwork } from "../../interface";
 import { TxListContainer, TxListContent, TxListEmpty, EmptyTip } from "./styles"
 
-export interface TxCardProps {
+interface TxCardProps {
   network: BitcoinNetwork
   txList: TransactionDetail[];
 }

@@ -67,7 +67,7 @@ const Account = types
       return self.addresses.find((a) => a.address === address);
     },
     getReceiveAddress: () => {
-      return self.addresses.find((addr) => addr.index === self.receiveAddressIndex)
+      return self.addresses.find((addr) => addr.index === self.receiveAddressIndex)?.address || "";
     }
   }))
   .actions((self) => ({

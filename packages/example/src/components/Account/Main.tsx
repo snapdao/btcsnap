@@ -139,7 +139,7 @@ const Main = observer(({balance, rate}: MainProps) => {
       </ActionContainer>
 
       <ReceiveModal open={showReceiveModal} close={closeReceiveModal}/>
-      <AccountDetail balance={getCurrentBalance()} units={currencyUnit} open={showDetailModal} close={closeDetailModal} />
+      {showDetailModal && <AccountDetail balance={getCurrentBalance()} units={currencyUnit} close={closeDetailModal} />}
     </AccountMain>
   );
 });
