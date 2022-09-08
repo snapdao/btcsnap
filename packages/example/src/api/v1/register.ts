@@ -15,4 +15,3 @@ export const register = (
 ): Promise<RegisterResponse> => {
   return query(endpoint, RequestType.Post, {}, {channel: CHANNEL}, hdToken);
 }
-

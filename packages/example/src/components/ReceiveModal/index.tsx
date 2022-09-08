@@ -15,7 +15,7 @@ type ReceiveModalProps = {
 
 const ReceiveModal = observer(({open, close}: ReceiveModalProps) => {
   const { current } = useKeystoneStore()
-  const address = current?.getReceiveAddress()?.address || "";
+  const address = current?.getReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
 
   const copyAddress = () => {

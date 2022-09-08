@@ -214,7 +214,7 @@ export const CurrencyContainer = styled.div<{isTestnet: boolean}>`
   color: #656D85;
   font-size: 16px;
   line-height: 24px;
-  ${props => props.isTestnet ? "text-decoration-line: line-through;" : ""}
+  text-decoration-line: ${props => props.isTestnet ? "line-through" : "none"};
 `
 
 export const ModalHeader = styled.div`
