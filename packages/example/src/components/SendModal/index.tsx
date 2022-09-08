@@ -21,24 +21,26 @@ type ContainerProps = {
 
 const SendContainer: FunctionComponent<ContainerProps> = props => {
   const { feeRate } = useFeeRate(props.network);
+  const {utxos, network, sendInfo, scriptType} = props
 
   const model = useMemo(() => {
     return new SendViewModel(
-      props.utxos,
+      utxos,
       feeRate,
-      props.network,
-      props.scriptType,
-      props.sendInfo,
+      network,
+      scriptType,
+      sendInfo,
     );
   }, []);
   useEffect(() => {
-    model.setUtxos(props.utxos);
+    model.setUtxos(utxos);
     model.setFeeRate(feeRate);
-    if (props.sendInfo) {
-      model.setSendInfo(props.sendInfo);
+    if (sendInfo) {
+      model.setSendInfo(sendInfo);
     }
     model.setNetwork(props.network)
-  }, [props.utxos, feeRate, props.sendInfo, props.network]);
+  }, [utxos, feeRate, sendInfo, network]);
+
   return <SendModal model={model} />;
 };
 

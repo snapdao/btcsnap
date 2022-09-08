@@ -34,8 +34,9 @@ const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
         .catch(e => {
           console.error("Fetch transactions failed", e)
         })
+    } else {
+      setTxList([]);
     }
-
   }, [network, current?.xpub])
 
   return (

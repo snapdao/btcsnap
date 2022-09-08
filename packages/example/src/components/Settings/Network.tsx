@@ -28,10 +28,11 @@ enum NetOptions {
 }
 
 const AddressType = (({open, close}: ConnectProps) => {
-  const { settings: { network, setNetwork }} = useKeystoneStore();
+  const { settings: { network, setNetwork, scriptType }, current, switchToAccount} = useKeystoneStore();
 
   const onNetworkChecked  = (netValue: BitcoinNetwork) => {
     setNetwork(netValue);
+    current && switchToAccount(current.mfp, scriptType, netValue);
     close();
   }
 

@@ -19,15 +19,16 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
-    getExtendedPublicKey(network, scriptType, ({xpub, mfp}) => {
+    getExtendedPublicKey(network, scriptType, async ({xpub, mfp}) => {
       if (xpub) {
         trackGetAddress(network);
         setStatus(AppStatus.Register);
-
-        register(xpub, mfp, scriptType, network)
-          .then(() => { setStatus(AppStatus.Ready) })
-          .catch(() => { setStatus(AppStatus.Ready) })
-        onRevealed();
+        try {
+          await register(xpub, mfp, scriptType, network);
+          onRevealed()
+        } catch (e) {
+           console.error("Register failed", e);
+        }
       }
       setIsRevealing(false);
     })
