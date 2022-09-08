@@ -15,6 +15,7 @@ export type Utxo = {
   index: number;
   value: number;
   rawHex?: string;
+  path?: string;
 };
 
 export type Address = {

@@ -31,7 +31,6 @@ import { SendInfo } from "../../lib";
 import ReceiveIcon from "../Icons/ReceiveIcon";
 import ArrowRight from "../Icons/ArrowRight";
 import { btcToSatoshi } from "../../lib/helper"
-import runtime from "../../mobx/runtime";
 
 
 export interface MainProps {
@@ -55,16 +54,9 @@ export const bitcoinUnit = {
 const Main = observer(({balance, utxos, sendInfo}: MainProps) => {
   const { settings: { network }, current, runtime } = useKeystoneStore();
   const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false)
-  const [receiveAddress, setReceiveAddress] = useState("");
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
   const [currencyUnit, setCurrencyUnit] = useState<string>(bitcoinUnit[network].BTC);
   const [unitsRight, setUnitsRight] = useState(bitcoinUnit[network].Sats);
-
-  useEffect(() => {
-    if(current && current.addresses.length > 0){
-      setReceiveAddress(current.addresses[0].address);
-    }
-  }, [current]);
 
   const onReceive = useCallback(() => {
     setShowReceiveModal(true)
@@ -149,8 +141,8 @@ const Main = observer(({balance, utxos, sendInfo}: MainProps) => {
         </ActionContainerItem>
       </ActionContainer>
 
-      <ReceiveModal address={receiveAddress} open={showReceiveModal} close={closeReceiveModal}/>
-      <AccountDetail balance={getCurrentBalance()} units={currencyUnit} utxoList={utxos} open={showDetailModal} close={closeDetailModal} />
+      <ReceiveModal open={showReceiveModal} close={closeReceiveModal}/>
+      <AccountDetail balance={getCurrentBalance()} units={currencyUnit} open={showDetailModal} close={closeDetailModal} />
     </AccountMain>
   );
 });

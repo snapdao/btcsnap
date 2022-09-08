@@ -5,14 +5,17 @@ import ReceiveIcon from "../Icons/ReceiveIcon"
 import { ReactComponent as Checked } from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
 import CloseIcon from "../Icons/CloseIcon";
+import { useKeystoneStore } from "../../mobx";
+import { observer } from "mobx-react-lite";
 
 type ReceiveModalProps = {
-  address: string;
   open: boolean;
   close: () => void;
 };
 
-const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
+const ReceiveModal = observer(({open, close}: ReceiveModalProps) => {
+  const { current } = useKeystoneStore()
+  const address = current?.getReceiveAddress()?.address || "";
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
 
   const copyAddress = () => {
@@ -62,6 +65,6 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
       }
     </Modal>
   );
-};
+});
 
 export default ReceiveModal;
