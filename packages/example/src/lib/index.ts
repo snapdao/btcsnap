@@ -37,12 +37,12 @@ export const networkAndScriptMap: networkAndScriptType = {
   },
   ypub: {
     network: BitcoinNetwork.Main,
-    scriptType: BitcoinScriptType.P2SH,
+    scriptType: BitcoinScriptType.P2SH_P2WPKH,
     config: { private: 0x049d7878, public: 0x049d7cb2 },
   },
   yprv: {
     network: BitcoinNetwork.Main,
-    scriptType: BitcoinScriptType.P2SH,
+    scriptType: BitcoinScriptType.P2SH_P2WPKH,
     config: { private: 0x049d7878, public: 0x049d7cb2 },
   },
   zpub: {
@@ -67,12 +67,12 @@ export const networkAndScriptMap: networkAndScriptType = {
   },
   upub: {
     network: BitcoinNetwork.Test,
-    scriptType: BitcoinScriptType.P2SH,
+    scriptType: BitcoinScriptType.P2SH_P2WPKH,
     config: { private: 0x044a4e28, public: 0x044a5262 },
   },
   uprv: {
     network: BitcoinNetwork.Test,
-    scriptType: BitcoinScriptType.P2SH,
+    scriptType: BitcoinScriptType.P2SH_P2WPKH,
     config: { private: 0x044a4e28, public: 0x044a5262 },
   },
   vpub: {
@@ -115,7 +115,7 @@ const caculateBitcoinAddress = (
       network: networkConfig,
     });
     return address;
-  } else if (scriptType === BitcoinScriptType.P2SH) {
+  } else if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
     const { address } = payments.p2sh({
       redeem: payments.p2wpkh({
         pubkey: pubKey,

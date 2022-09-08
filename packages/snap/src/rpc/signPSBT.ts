@@ -1,10 +1,10 @@
-import { Wallet } from "../interface";
+import { ScriptType, Wallet } from "../interface";
 import { Network } from "bitcoinjs-lib"; 
-import { extractAccoutPrivateKey } from './getExtendedPublicKey'
+import { extractAccountPrivateKey } from './getExtendedPublicKey'
 import { BtcTx, AccountSigner } from "../bitcoin/index"
 
 
-export async function signPsbt(wallet: Wallet, psbt: string, network: Network): Promise<{ txId: string, txHex: string }> {
+export async function signPsbt(wallet: Wallet, psbt: string, network: Network, scriptType: ScriptType): Promise<{ txId: string, txHex: string }> {
   const btcTx = new BtcTx(psbt)
   const result = await wallet.request({
     method: 'snap_confirm',
@@ -18,7 +18,7 @@ export async function signPsbt(wallet: Wallet, psbt: string, network: Network): 
   });
 
   if (result) {
-    const accountPrivateKey = await extractAccoutPrivateKey(wallet, network)
+    const accountPrivateKey = await extractAccountPrivateKey(wallet, network, scriptType)
     const signer = new AccountSigner(accountPrivateKey)
     btcTx.validateTx(signer)
     return btcTx.signTx(signer)

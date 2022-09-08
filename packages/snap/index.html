@@ -28,6 +28,7 @@
     <button class="getPubKey">Get extended Public Key</button>
     <button class="signPsbt">Sign Psbt</button>
     <div id="extendedPubKey" style="margin-top:5px"></div>
+    <div id="mfp" style="margin-top:5px"></div>
     <div id="txId" style="margin-top:5px"></div>
     <div id="txHex" style="margin-top:5px"></div>
   </body>
@@ -61,12 +62,15 @@
           params: [snapId, {
             method: 'btc_getPublicExtendedKey',
             params: {
-              network: "test"
+              network: "test",
+              scriptType: "P2WPKH"
             }
           }]
         })
-        const node1 = document.getElementById("extendedPubKey")
-        node1.textContent = `extended public key: ${response}`
+        const xpubNode = document.getElementById("extendedPubKey")
+        const mfpNode = document.getElementById("mfp")
+        xpubNode.textContent = `extended public key: ${response.xpub}`
+        mfpNode.textContent = `mfp: ${response.mfp}`
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)
@@ -81,7 +85,8 @@
             method: 'btc_signPsbt',
             params: {
               psbt: "cHNidP8BAFUCAAAAAT9MXJk0OEoyuubJXTnMqxo7Hj08Wv7yHJsw9URN/9a7AQAAAAD/////ARwlAAAAAAAAGXapFLW2YqzVecKrjOg8i5S0MDzxe/OmiKwAAAAAAAEA4QIAAAAAAQGGHEltyRyXjljtT3zc4tO1/4Y1U5zibwVdAl9QxaXdCQEAAAAA/v///wI1xv9wAAAAABYAFIWiDQ/MrBorRi/oI6gcJXZ8OlKRECcAAAAAAAAZdqkUtbZirNV5wquM6DyLlLQwPPF786aIrAJHMEQCICh8bgzVpHXdYRzjQKHwro1i8zZQWb9JF0C90qy2UbN+AiA6x4zrT04ZDicTqT2xUuFywc7e1H/BYwm69N1w6W6/wAEhA2ijz+sT/T1ycTtaI1/ZfCmtv5r8BkT52aFU1akQJlJHqmchACIGA5QpeTH0HwcDirFXCpKj+/v0ttc8sOP4PwSLUJRWIJiXDP0+QYsAAAAAAAAAAAAA",
-              network: "test"
+              network: "test",
+              scriptType: "P2PKH"
             }
           }]
         })

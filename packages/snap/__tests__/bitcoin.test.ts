@@ -1,8 +1,6 @@
 import { BtcTx, AccountSigner } from '../src/bitcoin'
 import { Psbt, networks } from 'bitcoinjs-lib'
 import * as bip32 from 'bip32'
-import console from 'console'
-
 
 function getAccountSigner() {
     // only for testing
@@ -12,7 +10,7 @@ function getAccountSigner() {
 }
 
 
-function getPsbtTx(pubkeyBuffer) {
+function getPsbtTx(pubkeyBuffer: Buffer) {
     const psbtTx = new Psbt({ network: networks.regtest });
     psbtTx.setVersion(2);
     psbtTx.addInput({
@@ -25,10 +23,7 @@ function getPsbtTx(pubkeyBuffer) {
         address: "mx5m68zHiGnFEoMjTdkWinmBAYsWyp9DJk",
         value: 9500
     });
-
-
     return psbtTx
-
 }
 
 
