@@ -11,6 +11,8 @@ const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2WPKH]: ['m', "84'", "0'"]
 }
 
+const CRYPTO_CURVE = "secp256k1";
+
 export async function extractAccountPrivateKey(wallet: Wallet, network: Network, scriptType: ScriptType): Promise<BIP32Interface> {
     const path = pathMap[scriptType]
     if (network != networks.bitcoin) {
@@ -21,7 +23,7 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
         method: "snap_getBip32Entropy",
         params: {
             path,
-            curve: "secp256k1"
+            curve: CRYPTO_CURVE
         },
     }) as SLIP10Node
 
