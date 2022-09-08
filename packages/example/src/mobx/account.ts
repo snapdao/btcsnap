@@ -38,6 +38,11 @@ const Account = types
     hasSyncXPub: false,
   })
   .actions((self) => ({
+    setHasXpubSynced: (synced: boolean) => {
+      self.hasSyncXPub = synced;
+    },
+  }))
+  .actions((self) => ({
     syncXPub: async () => {
       try {
         const keystoneStore = getKeystoneStore();
@@ -48,9 +53,8 @@ const Account = types
         const coin = network === BitcoinNetwork.Main ? "BTC" : "BTC_TESTNET";
         const path = EXTENDED_PUBKEY_PATH[network][scriptType];
         registerExtendedPubKey(coin, path, self.xpub, scriptType, mfp).then(() => {
-          self.hasSyncXPub = true;
+          self.setHasXpubSynced(true);
         })
-
       } catch (e) {
         console.error('failed to sync xpub to backend', e);
       }
@@ -63,6 +67,9 @@ const Account = types
     getAddress: (address: string) => {
       return self.addresses.find((a) => a.address === address);
     },
+    getReceiveAddress: () => {
+      return self.addresses.find((addr) => addr.index === self.receiveAddressIndex)
+    }
   }))
   .actions((self) => ({
     afterCreate: () => {
@@ -79,7 +86,7 @@ const Account = types
       self.addresses.sort((a1, a2) => {
         return a1.index - a2.index;
       });
-      self.setReceiveAddressIndex(self.addresses[self.addresses.length - 1].index)
+      self.setReceiveAddressIndex(address.index)
       return address;
     },
     deriveAddress: (index: number) => {
