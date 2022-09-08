@@ -206,7 +206,7 @@ class SendViewModel {
       status: TransactionStatus.PENDING,
       date: new Date().getTime(),
       address: this.to,
-      amount: this.sendAmountText
+      amount: Number(this.sendAmountText)
     }
   }
 
