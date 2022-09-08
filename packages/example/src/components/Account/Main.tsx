@@ -22,7 +22,8 @@ import {
   ActionContainer,
   ActionContainerItem,
   ActionLabel,
-  ActionButton
+  ActionButton,
+  MarketPrice
 } from './styles'
 
 import { ReactComponent as Logo } from "./image/logo.svg";
@@ -98,7 +99,6 @@ const Main = observer(({balance, rate}: MainProps) => {
   })
 
   return (
-
     <AccountMain>
       <LogoContainer>
         {network === BitcoinNetwork.Main
@@ -137,6 +137,10 @@ const Main = observer(({balance, rate}: MainProps) => {
           <ActionLabel>receive</ActionLabel>
         </ActionContainerItem>
       </ActionContainer>
+
+      <MarketPrice isTestnet={network === BitcoinNetwork.Test}>
+        Market Price: <span>{rate} USD</span>
+      </MarketPrice>
 
       <ReceiveModal open={showReceiveModal} close={closeReceiveModal}/>
       {showDetailModal && <AccountDetail balance={getCurrentBalance()} units={currencyUnit} close={closeDetailModal} />}
