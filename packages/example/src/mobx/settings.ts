@@ -4,7 +4,7 @@ import { BitcoinNetwork, BitcoinScriptType } from "../interface";
 export const settingsInitialState = {
   network: BitcoinNetwork.Test,
   scriptType: BitcoinScriptType.P2WPKH,
-  dynamicAddress: false,
+  dynamicAddress: true,
 };
 
 const Settings = types

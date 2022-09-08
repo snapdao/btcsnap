@@ -43,7 +43,7 @@ export const storeAccount = async (
       change: 0,
       index: receiveAddressIndex
     };
-    storeAccount.validateAndAddAddress(storeReceiveAddress);
+    storeAccount.validateAndAddAddress(storeReceiveAddress, keystoneStore.settings.dynamicAddress);
   } catch (e) {
     console.info(e);
     console.error(e);
