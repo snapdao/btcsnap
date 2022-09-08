@@ -8,7 +8,7 @@ import { ReactComponent as SettingsIcon } from "../../assets/settings.svg";
 import { Divider } from "semantic-ui-react";
 import ArrowRight from "../Icons/ArrowRight";
 import { SettingHeader, SettingLabel, SettingContent, SettingItem, SettingRadio } from "./styles"
-import AddressType from "./AddressType";
+import AddressType, { addressTypeOptions } from "./AddressType";
 import TermsOfService from "./TermsOfService";
 import PrivacyPolicy from "./PrivacyPolicy";
 import Network from "./Network";
@@ -26,8 +26,7 @@ enum SettingOptions {
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
-  const { settings: { network }} = useKeystoneStore();
-  const [addressValue, setAddressValue] = useState<string>('');
+  const { settings: { network, scriptType }} = useKeystoneStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const [dynamicRadio, setDynamicRadio] = useState(false);
 
@@ -67,11 +66,11 @@ const Settings = observer(({open, close}: SettingProps) => {
         <SettingItem onClick={() => openDialog(SettingOptions.AddressType)} >
           <span>Address Type</span>
           <span>
-            <span>{addressValue}</span>
+            <span>{addressTypeOptions.find(option => option.type === scriptType)!.label}</span>
             <ArrowRight size={18} />
           </span>
         </SettingItem>
-        <AddressType open={currentVisible === SettingOptions.AddressType} close={closeDialog} setAddressValue={setAddressValue} />
+        <AddressType open={currentVisible === SettingOptions.AddressType} close={closeDialog} />
 
         <SettingItem onClick={switchDAddress} >
           <span>Dynamic Address</span>

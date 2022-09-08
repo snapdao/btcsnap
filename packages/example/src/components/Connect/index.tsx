@@ -9,8 +9,8 @@ import "./index.css"
 const Index = observer(() => {
   const { current } = useKeystoneStore();
   const hasInstalled = !!window.ethereum;
-  const [hasConnected, setHasConnected] = useState<boolean>(true);
-  const [hasRevealed, setHasRevealed] = useState<boolean>(!!current?.xpub);
+  const [hasConnected, setHasConnected] = useState<boolean>(!!current);
+  const [hasRevealed, setHasRevealed] = useState<boolean>(!!current);
 
   const onConnected = useCallback(async () => {
     setHasConnected(true);
@@ -21,11 +21,11 @@ const Index = observer(() => {
   }, [setHasRevealed])
 
   useEffect(() => {
-    // if (!current?.xpub) {
-    //   setHasConnected(false);
-    //   setHasRevealed(false);
-    // }
-  }, [current?.xpub, setHasConnected, setHasRevealed])
+    if (!current) {
+      setHasConnected(true);
+      setHasRevealed(false);
+    }
+  }, [current, setHasConnected, setHasRevealed])
 
   return (
     <>

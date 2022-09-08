@@ -33,7 +33,6 @@ const Account = types
     addresses: types.array(Address),
     scriptType: types.enumeration(Object.values(BitcoinScriptType)),
     network: types.enumeration(Object.values(BitcoinNetwork)),
-    balance: types.maybe(types.number),
     receiveAddressIndex: types.number,
     hasSyncXPub: false,
   })
@@ -74,9 +73,6 @@ const Account = types
   .actions((self) => ({
     afterCreate: () => {
       self.syncXPub();
-    },
-    updateBalance: (balance: number) => {
-      self.balance = balance
     },
     addAddress: (addressIn: IAddressIn) => {
       const storeAddress = self.getAddress(addressIn.address);
