@@ -74,7 +74,7 @@ const Account = types
     afterCreate: () => {
       self.syncXPub();
     },
-    addAddress: (addressIn: IAddressIn) => {
+    addAddress: (addressIn: IAddressIn, isDynamic: boolean) => {
       const storeAddress = self.getAddress(addressIn.address);
       if (storeAddress) return storeAddress;
       const address = Address.create(addressIn);
@@ -82,7 +82,9 @@ const Account = types
       self.addresses.sort((a1, a2) => {
         return a1.index - a2.index;
       });
-      self.setReceiveAddressIndex(address.index)
+      if(isDynamic) {
+        self.setReceiveAddressIndex(address.index);
+      }
       return address;
     },
     deriveAddress: (index: number) => {
@@ -101,19 +103,14 @@ const Account = types
     },
   }))
   .actions((self) => ({
-    validateAndAddAddress: (addressIn: IAddressIn) => {
+    validateAndAddAddress: (addressIn: IAddressIn, isDynamic: boolean) => {
       if (validateAddress(addressIn, self)) {
-        return self.addAddress({...addressIn, parent: self.id});
+        return self.addAddress({...addressIn, parent: self.id}, isDynamic);
       }
       console.error(
         `#store_account_error: verify failed, coin ${self.coinCode}, address ${addressIn.address}, path: ${addressIn.change}/${addressIn.index}`,
       );
-    },
-    deriveAndAddAddress: (index: number) => {
-      const address = self.deriveAddress(index);
-      self.addAddress(address);
-      return address;
-    },
+    }
   }))
 ;
 
