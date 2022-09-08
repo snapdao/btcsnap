@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import { Modal } from "semantic-ui-react"
 import { TransitionablePortal } from "semantic-ui-react";
 import { BitcoinScriptType } from "../../interface";
@@ -13,31 +13,31 @@ import {
   AddressItemRadio,
   AddressTips,
 } from "./styles"
+import { useKeystoneStore } from "../../mobx";
 
 
 interface ConnectProps {
   open: boolean;
   close: () => void;
-  setAddressValue: any;
 }
 
-interface AddressType{
+interface AddressType {
   label: string;
   type: BitcoinScriptType;
 }
 
-const addressTypeOptions: AddressType[] = [
+export const addressTypeOptions: AddressType[] = [
   {label: 'HD Native SegWit (Bech32)', type: BitcoinScriptType.P2WPKH},
-  {label: 'HD Nested SegWit (P2SH)', type: BitcoinScriptType.P2SH},
+  {label: 'HD Nested SegWit (P2SH)', type: BitcoinScriptType.P2SH_P2WPKH},
   {label: 'HD Legacy (P2PKH)', type: BitcoinScriptType.P2PKH},
 ]
 
-const AddressType = (({open, close, setAddressValue}: ConnectProps,) => {
-  const [addressTypeValue, setAddressTypeValue] = useState<BitcoinScriptType>(BitcoinScriptType.P2WPKH);
+const AddressType = (({open, close}: ConnectProps,) => {
+  const { settings: {scriptType, setScriptType, network}, switchToAccount, current} = useKeystoneStore();
 
-  const onAddressTypedChecked  = (item: AddressType) => {
-    setAddressTypeValue(item.type);
-    setAddressValue(item.label);
+  const onAddressTypedChecked  = (addressType: AddressType) => {
+    setScriptType(addressType.type);
+    current && switchToAccount(current.mfp, addressType.type, network);
     close();
   }
 
@@ -64,7 +64,7 @@ const AddressType = (({open, close, setAddressValue}: ConnectProps,) => {
                 <span>{item.label}</span>
                 <span>0 BTC</span>
               </AddressItemLabel>
-              <AddressItemRadio value={item.label} checked={addressTypeValue === item.type}></AddressItemRadio>
+              <AddressItemRadio value={item.label} checked={scriptType === item.type}/>
             </AddressItem>
           ))}
         </AddressContainer>

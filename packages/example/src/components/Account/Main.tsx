@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {observer} from 'mobx-react-lite';
 
 import { useKeystoneStore } from "../../mobx";
-import { BitcoinNetwork, Utxo } from "../../interface";
+import { BitcoinNetwork } from "../../interface";
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
 import AccountDetail from './Details';
@@ -27,7 +27,6 @@ import {
 
 import { ReactComponent as Logo } from "./image/logo.svg";
 import { ReactComponent as LogoTestnet } from "./image/logo-testnet.svg";
-import { SendInfo } from "../../lib";
 import ReceiveIcon from "../Icons/ReceiveIcon";
 import ArrowRight from "../Icons/ArrowRight";
 import { btcToSatoshi } from "../../lib/helper"
@@ -35,10 +34,8 @@ import { btcToSatoshi } from "../../lib/helper"
 
 export interface MainProps {
   balance: number;
-  utxos: Utxo[];
-  sendInfo?: SendInfo;
+  rate: number;
 }
-
 
 export const bitcoinUnit = {
   [BitcoinNetwork.Main] : {
@@ -51,8 +48,8 @@ export const bitcoinUnit = {
   }
 }
 
-const Main = observer(({balance, utxos, sendInfo}: MainProps) => {
-  const { settings: { network }, current, runtime } = useKeystoneStore();
+const Main = observer(({balance, rate}: MainProps) => {
+  const { settings: { network }, current } = useKeystoneStore();
   const [showReceiveModal, setShowReceiveModal] = useState<boolean>(false)
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
   const [currencyUnit, setCurrencyUnit] = useState<string>(bitcoinUnit[network].BTC);
@@ -124,13 +121,13 @@ const Main = observer(({balance, utxos, sendInfo}: MainProps) => {
           <BalacneRightLabel onClick={switchUnits}>{unitsRight}</BalacneRightLabel>
         </BalacneRightItem>
         <CurrencyContainer isTestnet={network === BitcoinNetwork.Test}>
-          ≈ {(balance * runtime.rate).toFixed(2)} USD
+          ≈ {(balance * rate).toFixed(2)} USD
         </CurrencyContainer>
       </BalanceContainer>
 
       <ActionContainer>
         <ActionContainerItem>
-          <SendModal network={network} scriptType={current?.scriptType!} utxos={utxos} sendInfo={sendInfo} />
+          <SendModal network={network} scriptType={current?.scriptType!} utxos={[]} />
           <ActionLabel>send</ActionLabel>
         </ActionContainerItem>
         <ActionContainerItem onClick={onReceive}>
