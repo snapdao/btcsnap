@@ -3,9 +3,8 @@ import { Modal } from 'semantic-ui-react';
 import CloseIcon from "../Icons/CloseIcon";
 import { ReactComponent as AccountIcon } from "./image/wallet.svg";
 import { satoshiToBTC } from "../../lib/helper";
-import { bitcoinUnit } from "./Main";
-import { BitcoinNetwork } from "../../interface";
 import { useUtxo } from "../../hook/useUtxo";
+import { fromHdPathToObj } from "../../lib/cryptoPath";
 import {
   AccountDetailTop,
   ModalHeader,
@@ -16,23 +15,19 @@ import {
   AccountTopUnits,
   AccountDetailBottom, AccountListItem, AccountListLabel, AccountListLabelTop, AccountListLabelBottom
 } from "./styles"
+import { BitcoinUnits, isBTC } from "../../lib/unit";
 
 type AccountDetails = {
   close: () => void;
   balance: number;
-  units: string;
+  unit: BitcoinUnits;
 }
 
-const Details = (({close, balance, units}: AccountDetails) => {
+const Details = (({close, balance, unit}: AccountDetails) => {
   const { utxoList } = useUtxo()
 
-  const switchValue = ((value: number) => {
-    if(units === bitcoinUnit[BitcoinNetwork.Main].BTC || units === bitcoinUnit[BitcoinNetwork.Test].BTC) {
-      return satoshiToBTC(value);
-    } else {
-      return value
-    }
-  })
+  const switchValue = (value: number) =>
+    isBTC(unit) ? satoshiToBTC(value) : value
 
   return (
     <Modal
@@ -50,26 +45,29 @@ const Details = (({close, balance, units}: AccountDetails) => {
         </ModalHeader>
         <AccountDetailHeader>
           <AccountTopBalance>{balance}</AccountTopBalance>
-          <AccountTopUnits>{units}</AccountTopUnits>
+          <AccountTopUnits>{unit}</AccountTopUnits>
         </AccountDetailHeader>
       </AccountDetailTop>
       <AccountDetailBottom>
-        {utxoList.map((item) => (
-          <AccountListItem key={item.address}>
-            <AccountListLabel>
-              <AccountListLabelTop>{item.path}</AccountListLabelTop>
-              <AccountListLabelTop>{switchValue(item.value)}</AccountListLabelTop>
-            </AccountListLabel>
-            <AccountListLabel>
-              <AccountListLabelBottom title={item.address}>
-                {`${item.address.slice(0, 8)}...${item.address.slice(item.address.length - 8)}`}
-              </AccountListLabelBottom>
-              <AccountListLabelBottom>
-                UTXOs:<span>{item.count}</span>
-              </AccountListLabelBottom>
-            </AccountListLabel>
-          </AccountListItem>
-        ))}
+        {utxoList.map((item) => {
+          const {change, index} = fromHdPathToObj(item.path!);
+          return (
+            <AccountListItem key={item.address}>
+              <AccountListLabel>
+                <AccountListLabelTop>{`M/${change}/${index}`}</AccountListLabelTop>
+                <AccountListLabelTop>{switchValue(item.value)}</AccountListLabelTop>
+              </AccountListLabel>
+              <AccountListLabel>
+                <AccountListLabelBottom title={item.address}>
+                  {`${item.address.slice(0, 8)}...${item.address.slice(-8)}`}
+                </AccountListLabelBottom>
+                <AccountListLabelBottom>
+                  UTXOs:<span>{item.count}</span>
+                </AccountListLabelBottom>
+              </AccountListLabel>
+            </AccountListItem>
+          )
+        })}
       </AccountDetailBottom>
     </Modal>
   )
