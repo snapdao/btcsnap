@@ -8,9 +8,11 @@ import { BitcoinNetwork, BitcoinScriptType } from "../interface";
 export const storeInitialState = {
   accounts: [],
   current: undefined,
-  runtime: runtimeInitialState,
   settings: settingsInitialState,
+  runtime: runtimeInitialState,
+
   _version: 0,
+  _rehydrated: false,
 };
 
 const KeystoneStore = types
@@ -20,6 +22,7 @@ const KeystoneStore = types
     settings: Settings,
     runtime: Runtime,
     _version: types.number,
+    _rehydrated: types.boolean,
   })
   .views((self) => ({
     getAccount: (xpub: string) => {
@@ -31,7 +34,10 @@ const KeystoneStore = types
       return self.accounts.find(
         (account) => account.mfp === mfp && account.scriptType === scriptType && account.network === network,
       );
-    }
+    },
+    registeredMfps: () => {
+      return Array.from(new Set(self.accounts.map(account => account.mfp)));
+    },
   }))
   .actions((self => ({
     createAccount(accountIn: IAccountIn): IAccount {
