@@ -37,7 +37,7 @@ export class Bitcoin {
     return node.derive(change).derive(index).publicKey;
   }
 
-  private convertPubKeyFormat(extendedPubKey: string){
+  public convertPubKeyFormat(extendedPubKey: string){
     const { network, config } = detectNetworkAndScriptType(extendedPubKey);
     const networkConfig = this.getNetworkConfig(network);
     const targetPrefix = network === BitcoinNetwork.Main ? "xpub" : "tpub";
