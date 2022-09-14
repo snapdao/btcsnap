@@ -23,15 +23,15 @@ const fetchResult = (
   });
 };
 
-const objectKeysToCamelCase = (snake_case_object: Object): any => {
-  if(typeof snake_case_object !== "object"){
-    return snake_case_object;
+const objectKeysToCamelCase = (snake_case: Object): any => {
+  if(typeof snake_case !== "object" || snake_case === null || snake_case === undefined){
+    return snake_case;
   }
-  if (Array.isArray(snake_case_object)) {
-    return snake_case_object.map(value => objectKeysToCamelCase(value));
+  if (Array.isArray(snake_case)) {
+    return snake_case.map(value => objectKeysToCamelCase(value));
   }
   // Object
-  return Object.fromEntries(Object.entries(snake_case_object).map(([key, value]) => {
+  return Object.fromEntries(Object.entries(snake_case).map(([key, value]) => {
     const camelCaseKey = key.replace(/[-|_]([a-z])/g, (g) => g[1].toUpperCase())
     if(typeof value === "object") {
       return [camelCaseKey, objectKeysToCamelCase(value)];

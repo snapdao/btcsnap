@@ -29,7 +29,7 @@ export const useTransaction = () => {
               status: tx.status === ActivityStatus.Complete ? TransactionStatus.CONFIRMED : TransactionStatus.PENDING,
               amount: satoshiToBTC(Math.abs(tx.amount)),
               address: (isReceive ? tx.senderAddresses?.[0] : tx.receiverAddresses?.[0][0]) || "",
-              date: tx.createdTime,
+              date: tx.createdTime * 1000,
             }
           })
         )
