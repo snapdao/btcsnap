@@ -1,7 +1,6 @@
 import { SupportedCoins } from "../../constant/supportedCoins";
 import { query } from "../request-utils/query";
 import { RequestType } from "../types";
-import { BackendAsset } from "./types";
 
 const endpoint = '/v1/self_custody/activities/';
 
