@@ -9,11 +9,10 @@ import { useReceiveAddress } from "../../hook/useReceiveAddress";
 import './index.css';
 
 type ReceiveModalProps = {
-  open: boolean;
   close: () => void;
 };
 
-const ReceiveModal = observer(({open, close}: ReceiveModalProps) => {
+const ReceiveModal = observer(({close}: ReceiveModalProps) => {
   const { address } = useReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
 
@@ -31,7 +30,7 @@ const ReceiveModal = observer(({open, close}: ReceiveModalProps) => {
   return (
     <Modal
       className={'modal-container'}
-      open={open}
+      open={true}
     >
       <Container className={'reveive-colored-container'}>
         <div className={'modal-header'}>

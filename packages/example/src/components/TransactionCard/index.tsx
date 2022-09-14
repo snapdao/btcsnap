@@ -4,7 +4,7 @@ import SendIcon from "../Icons/SendIcon";
 import { ReactComponent as ReceiveIcon } from "./image/receive.svg"
 import PendingIcon from "./image/pending.png"
 import "./index.css"
-import { BlockChair } from "../../lib/explorer";
+import { getTransactionLink } from "../../lib/explorer";
 import { BitcoinNetwork } from "../../interface";
 
 const formatDate = (date: number) => {
@@ -24,7 +24,7 @@ const TransactionCard = ({ID, type, status, amount, address, date, network}: Tra
 
   return (
     <div className="Tx-container">
-      <a href={BlockChair.getTransactionLink(ID, network)} target="_blank" rel="noopener noreferrer">
+      <a href={getTransactionLink(ID, network)} target="_blank" rel="noopener noreferrer">
         <div className="Tx-detail-container">
           <div className="Tx-detail-img-container">
             { isSendingTx ? <SendIcon size={24} /> : <ReceiveIcon /> }

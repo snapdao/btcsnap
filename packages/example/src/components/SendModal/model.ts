@@ -1,16 +1,19 @@
 import { BigNumber } from 'bignumber.js';
 import { makeAutoObservable, reaction } from 'mobx';
 import { BitcoinNetwork, BitcoinScriptType, Utxo } from '../../interface';
-import { genreatePSBT, selectUtxos, SendInfo, sendTx } from '../../lib';
+import { generatePSBT, selectUtxos, SendInfo } from '../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
-import { BlockChair } from '../../lib/explorer';
+import { getTransactionLink } from '../../lib/explorer';
 import { TransactionStatus, TransactionType, TransactionDetail } from "../TransactionCard/types";
 import {
   trackSendSign,
   trackTransactionBroadcast,
   trackTransactionBroadcastSucceed
 } from "../../tracking";
+import { FeeRate } from "./types";
+import { BroadcastData, pushTransaction } from "../../api/v1/pushTransaction";
+import { NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -38,8 +41,6 @@ class SendViewModel {
 
   public errorMessage = '';
 
-  public sendOpen = false;
-
   public confirmOpen = false;
 
   private txId?: string;
@@ -48,7 +49,7 @@ class SendViewModel {
 
   constructor(
     private utxos: Utxo[],
-    private feeRate: number,
+    public feeRate: FeeRate,
     public network: BitcoinNetwork,
     private scriptType: BitcoinScriptType,
     private sendInfo?: SendInfo,
@@ -64,17 +65,12 @@ class SendViewModel {
 
   resetState = () => {
     this.status = 'initial';
-    this.sendOpen = false;
     this.confirmOpen = false;
     this.txId = undefined;
     this.errorMessage = '';
     this.isSending = false;
     this.to = '';
     this.sendAmountText = '';
-  };
-
-  setSendOpen = (flag: boolean) => {
-    this.sendOpen = flag;
   };
 
   setConfirmOpen = (flag: boolean) => {
@@ -110,15 +106,18 @@ class SendViewModel {
     return new BigNumber(this.sendAmountText).multipliedBy(this.decimalFactor);
   }
 
-  setFeeRate = (feeRate: number) => (this.feeRate = feeRate);
+  setFeeRate = (feeRate: FeeRate) => (this.feeRate = feeRate);
 
   get selectedResult() {
     if (this.sendSatoshis.gt(0)) {
       return selectUtxos(
         this.to,
         this.sendSatoshis.toNumber(),
-        this.feeRate,
+        this.feeRate.recommended,
         this.utxos,
+        this.network,
+        this.scriptType,
+        this.sendInfo?.addressList || []
       );
     }
     return {};
@@ -214,12 +213,25 @@ class SendViewModel {
     this.sendAmountText = dealWithDigital(btcValue, this.limitedDecimal);
   };
 
+  adaptBroadcastData = (signResult: { txId: string, txHex: string }): BroadcastData => {
+    const sendUtxoId = this.selectedResult.inputs[0].txId;
+    const from = this.utxos.find(utxo => utxo.transactionHash === sendUtxoId)!.address
+    return {
+      txid: signResult.txId,
+      hex: signResult.txHex,
+      address: this.to,
+      amount: this.sendSatoshis.toString(),
+      fee: this.fee.toString(),
+      from
+    }
+  }
+
   send = async () => {
     if (this.sendInfo) {
       try {
         this.isSending = true;
-        const psbt = genreatePSBT(
-          this.feeRate,
+        const psbt = generatePSBT(
+          this.feeRate.recommended,
           this.sendInfo,
           this.network,
           this.selectedResult.inputs,
@@ -230,7 +242,9 @@ class SendViewModel {
         trackSendSign(this.network)
 
         trackTransactionBroadcast(this.network);
-        await sendTx(txHex, this.network);
+        const coin = NETWORK_SCRIPT_TO_COIN[this.network][this.scriptType];
+        const txData = this.adaptBroadcastData({txId, txHex});
+        await pushTransaction(coin, txData);
         trackTransactionBroadcastSucceed(this.network);
 
         this.status = 'success';
@@ -250,9 +264,9 @@ class SendViewModel {
 
   get transactionLink() {
     if (this.txId) {
-      return BlockChair.getTransactionLink(this.txId, this.network);
+      return getTransactionLink(this.txId, this.network);
     }
-    return undefined;
+    return "";
   }
 }
 
