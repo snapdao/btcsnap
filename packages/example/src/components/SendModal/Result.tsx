@@ -13,16 +13,17 @@ import CloseIcon from "../Icons/CloseIcon";
 
 export type SuccessProps = {
   model: SendViewModel;
+  close: () => void;
 };
 
-const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
+const Result = observer(({ model, close }: SuccessProps) => {
   return (
     <div>
       <Container className={'colored-container'}>
         <div className={'modal-header'}>
           <span />
           <span />
-          <CloseIcon onClick={() => model.setSendOpen(false)} />
+          <CloseIcon onClick={close} />
         </div>
         <div className={'vertical-center result-content-container'}>
           {model.status === 'success' && (
@@ -77,7 +78,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
                 className={'vertical-center'}
                 style={{ marginTop: 54, width: '100%' }}>
                 <button
-                  onClick={() => model.setSendOpen(false)}
+                  onClick={close}
                   className={
                     'action-button action-button-primary action-button-size-full-width ok-action-button'
                   }>
@@ -107,7 +108,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
                 className={'vertical-center'}
                 style={{ marginTop: 84, width: '100%' }}>
                 <button
-                  onClick={() => model.setSendOpen(false)}
+                  onClick={close}
                   className={
                     'action-button action-button-primary action-button-size-full-width ok-action-button'
                   }

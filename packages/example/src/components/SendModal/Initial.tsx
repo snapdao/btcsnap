@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React  from 'react';
 import { observer } from 'mobx-react-lite';
 import { Container, Divider } from 'semantic-ui-react';
 import SendViewModel from './model';
@@ -10,9 +10,10 @@ import SendIcon from "../Icons/SendIcon";
 
 export type InitialProps = {
   model: SendViewModel;
+  close: () => void;
 };
 
-const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
+const Initial = observer(({ model, close }: InitialProps) => {
   return (
     <div>
       <Container className={'colored-container'}>
@@ -26,7 +27,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
             <SendIcon size={36} />
             <span style={{marginLeft: 4, fontWeight: 600 }}>SEND</span>
           </span>
-          <CloseIcon onClick={() => model.setSendOpen(false)} />
+          <CloseIcon onClick={close} />
         </div>
         <div className={'modal-body'}>
           <div className={'modal-section'}>
@@ -90,7 +91,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
         <div className={model.toValid ? 'send-actions-container' : 'actions-container-error'}>
           <button
             className={'send-action-button action-button-secondary'}
-            onClick={() => model.setSendOpen(false)}>
+            onClick={close}>
             Cancel
           </button>
           <ConfirmModal model={model} />

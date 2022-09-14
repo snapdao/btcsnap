@@ -1,6 +1,6 @@
 import { BitcoinNetwork } from '../interface';
 
-export const getTransactionLink = (transactionHash: string, network: BitcoinNetwork) => {
+export const getTransactionLink = (transactionHash: string, network: BitcoinNetwork): string => {
   const explorerHost = "https://blockchair.com";
   const host =
     network === BitcoinNetwork.Test
