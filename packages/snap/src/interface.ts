@@ -24,7 +24,7 @@ export type BTCMethodCallback = (
 
 export interface Wallet {
   registerRpcMessageHandler: (fn: BTCMethodCallback) => unknown;
-  request(options: {method: string; params?: unknown[] | Record<string, any>}): Promise<unknown>;
+  request<T>(options: {method: string; params?: unknown[] | Record<string, any>}): Promise<T>;
 }
 
 

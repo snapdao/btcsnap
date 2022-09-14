@@ -1,4 +1,3 @@
-import * as bitcoin from 'bitcoinjs-lib';
 import { networks, payments, Psbt, PsbtTxInput } from 'bitcoinjs-lib';
 import { Address, BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface';
 import coinSelect from 'coinselect';
@@ -13,6 +12,7 @@ interface PsbtInput extends PsbtTxInput {
   nonWitnessUtxo?: Buffer;
   bip32Derivation?: Bip32Derivation[];
   witnessUtxo?: Buffer;
+  redeemScript?: Buffer
 }
 
 type networkAndScriptType = {
@@ -158,19 +158,18 @@ export const selectUtxos = (
     if (each.rawHex) {
       formattedUxto['nonWitnessUtxo'] = Buffer.from(each.rawHex, 'hex');
     } else if (target) {
-      const pubkey = findAddress(each.address, addressList)?.pubkey;
+      const pubkey = findAddress(each.address, addressList)?.pubkey!;
+      const p2wpkh = payments.p2wpkh({pubkey, network: networkConfig});
+
       if (scriptType === BitcoinScriptType.P2WPKH) {
-        const p2wpkh = payments.p2wpkh({pubkey});
         formattedUxto['witnessUtxo'] = {
           script: p2wpkh.output,
           value: each.value
         };
       }
       if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
-        const p2sh = payments.p2sh({
-          redeem: bitcoin.payments.p2wpkh({pubkey}),
-          network: networkConfig,
-        });
+        const p2sh = payments.p2sh({redeem: p2wpkh, network: networkConfig});
+        formattedUxto["redeemScript"] = p2wpkh.output;
         formattedUxto["witnessUtxo"] = {
           script: p2sh.output,
           value: each.value
@@ -216,6 +215,9 @@ const composePsbt = (
       inputItem['nonWitnessUtxo'] = Buffer.from(each.nonWitnessUtxo, 'hex');
     } else if (each.witnessUtxo) {
       inputItem['witnessUtxo'] = each.witnessUtxo;
+    }
+    if(each.redeemScript) {
+      inputItem['redeemScript'] = each.redeemScript;
     }
 
     const addressItem = findAddress(each.address, addressList);
