@@ -4,12 +4,12 @@ import { getExtendedPublicKey, signPsbt} from './rpc'
 
 declare let wallet: Wallet;
   
-type rpcReqeust = {
+type rpcRequest = {
   origin: string
   request: MetamaskBTCRpcRequest
 }
 
-export const onRpcRequest = async({origin, request}:rpcReqeust) => {
+export const onRpcRequest = async({origin, request}:rpcRequest) => {
   switch (request.method) {
     case 'btc_getPublicExtendedKey':
       return getExtendedPublicKey(wallet, request.params.scriptType, getNetwork(request.params.network))

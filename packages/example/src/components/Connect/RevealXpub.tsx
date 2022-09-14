@@ -7,13 +7,14 @@ import { useKeystoneStore } from "../../mobx";
 import { trackGetAddress } from "../../tracking";
 import { register } from "../../services/CryptoService/register";
 import { AppStatus } from "../../mobx/runtime";
+import { observer } from "mobx-react-lite";
 
 export interface RevealXpubProps {
   open: boolean;
   onRevealed: () => void;
 }
 
-const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
+const RevealXpub = observer(({open, onRevealed}: RevealXpubProps) => {
   const { settings: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
@@ -45,6 +46,6 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
       </button>
     </Modal>
   );
-};
+});
 
 export default RevealXpub;

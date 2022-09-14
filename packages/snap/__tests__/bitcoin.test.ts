@@ -40,7 +40,7 @@ describe('bitcoin test', () => {
         it('should raise error if the path is not right', () => {
             const node = bip32.fromBase58("tprv8gPsNk5FBsGJaZ24gLekPDLjcoRF81foUXikKQBF8beU6KYyHUGnM3zR9QhG1Yme6sqWkwAmJg2Fr7SNgNGSNMh7KKoqqpreLYvkUGUYbcb", networks.regtest)
             const signer = new AccountSigner(node)
-            expect(() => signer.derivePath("m-0")).toThrow('invaild path')
+            expect(() => signer.derivePath("m-0")).toThrow('invalid path')
         })
 
         it('should able to sign ', () => {
