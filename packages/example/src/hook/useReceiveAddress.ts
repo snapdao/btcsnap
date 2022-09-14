@@ -11,8 +11,8 @@ export const useReceiveAddress = () => {
   const fetchAddress = useCallback(async (current: IAccount) => {
     try {
       const {unused} = await fetchAddresses(current.mfp, current.xpub, current.coinCode);
-      const receiveAddress = unused.filter(address => fromHdPathToObj(address.hdPath).change === "0")?.[0];
-      const receiveAddressIndex = Number(fromHdPathToObj(receiveAddress?.hdPath).index) || 0;
+      const receiveAddress = unused.find(address => fromHdPathToObj(address.hdPath).change === "0")!;
+      const receiveAddressIndex = Number(fromHdPathToObj(receiveAddress.hdPath).index) || 0;
       return {
         index: receiveAddressIndex,
         address: receiveAddress.address
@@ -39,6 +39,7 @@ export const useReceiveAddress = () => {
             index,
           } as IAddressIn;
           current.validateAndAddAddress(receiveAddress, dynamicAddress)
+          setAddress(current.getReceiveAddress())
         })
       } else {
         setAddress(current.getReceiveAddress())
