@@ -40,8 +40,8 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
 }
 
 
-async function getMFP(wallet: Wallet, xpub: string): Promise<string> {
-    const persistedData: PersistedData = await wallet.request({
+export async function getMFP(wallet: Wallet, xpub?: string): Promise<string> {
+    const persistedData = await wallet.request<PersistedData>({
         method: 'snap_manageState',
         params: ['get'],
     });
