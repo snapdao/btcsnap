@@ -50,6 +50,26 @@ export const AccountAsideContainer = styled.div`
   margin: 40px 24px;
 `
 
+export const AsideHeading = styled.div`
+  margin-right: 16px;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+`
+
+export const TestnetMark = styled.div`
+  width: 99px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: #F0F3FA;
+  border-radius: 16px;
+  font-weight: 600;
+  color: #111214;
+`
+
 export const AccountAsideRefresh = styled.div`
   margin-right: 16px;
 `
@@ -93,19 +113,6 @@ export const LogoContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-`
-
-export const LogoLabel = styled.span`
-  display: inline-block;
-  width: 50px;
-  height: 23px;
-  margin-left: 8px;
-  line-height: 23px;
-  text-align: center;
-  background: rgba(255, 108, 10, 0.2);
-  border-radius: 8px;
-  color: #FF6C0A;
-  cursor: default;
 `
 
 export const BalanceContainer = styled.div`

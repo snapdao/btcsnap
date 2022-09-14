@@ -4,7 +4,6 @@ import { Loader, Modal } from 'semantic-ui-react';
 import Main from "./Main";
 import Aside from "./Aside";
 import { useBalance } from "../../hook/useBalance";
-import { satoshiToBTC } from "../../lib/helper";
 import {useKeystoneStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel } from "./styles"
 import { AppStatus } from "../../mobx/runtime";
@@ -20,7 +19,7 @@ const Account = observer(() => {
       </Modal>
       <AccountBackground>
         <AccountContainer>
-          <Main balance={satoshiToBTC(balance)} rate={rate} />
+          <Main balance={balance} rate={rate} />
           <Aside refreshBalance={refresh}/>
         </AccountContainer>
         <AccountLabel>Powered by MetaMask Snaps</AccountLabel>
