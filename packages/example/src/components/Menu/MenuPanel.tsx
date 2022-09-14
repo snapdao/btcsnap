@@ -13,12 +13,12 @@ interface MenuPanelProps {
 }
 
 const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
-  const { removeAllAccounts } = useKeystoneStore();
+  const { disconnectAccount } = useKeystoneStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 
   const disconnect = () => {
-    removeAllAccounts();
+    disconnectAccount();
     close();
   }
 

@@ -54,9 +54,8 @@ const KeystoneStore = types
       if (!newAccount) throw new Error(`#store_error: cannot find account#${xpub}`);
       self.current = newAccount;
     },
-    removeAllAccounts() {
+    disconnectAccount() {
       if(self.current){
-        self.accounts.clear();
         self.current = undefined;
       }
     }
