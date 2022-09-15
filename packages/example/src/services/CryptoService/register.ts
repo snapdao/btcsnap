@@ -10,9 +10,14 @@ export const register = async (xpub: string, mfp: string, scriptType: BitcoinScr
     if (targetAccount && targetAccount.hasSyncXPub) {
       keystoneStore.switchAccount(targetAccount.xpub);
     } else {
-      const registeredMfps = keystoneStore.registeredMfps();
-      const MfpRegistered = registeredMfps.includes(mfp);
+      const registeredMfp = keystoneStore.registeredMfp();
 
+      const registerAnotherMFP = registeredMfp !== "" && registeredMfp !== mfp;
+      if(registerAnotherMFP) {
+        keystoneStore.resetStore();
+      }
+
+      const MfpRegistered = registeredMfp === mfp;
       if (!MfpRegistered) {
         await registerMFP(mfp);
       }
