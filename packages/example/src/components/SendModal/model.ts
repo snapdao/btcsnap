@@ -14,6 +14,8 @@ import {
 import { FeeRate } from "./types";
 import { BroadcastData, pushTransaction } from "../../api/v1/pushTransaction";
 import { NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
+import { validateTx } from "../../lib/psbtValidator";
+import { Psbt } from "bitcoinjs-lib";
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -226,6 +228,19 @@ class SendViewModel {
     }
   }
 
+  validateTransaction(psbt: Psbt, utxoInputs: any[]): boolean {
+    const selectedUtxoIds = utxoInputs.map((input: any) => input.txId);
+    const utxoAmount = this.utxos.reduce((amount: number, utxo) =>
+      amount + (selectedUtxoIds.includes(utxo.transactionHash) ? utxo.value : 0)
+    , 0);
+    return validateTx({
+      psbt,
+      utxoAmount,
+      changeAddressPath: this.sendInfo!.changeAddressPath,
+      to: this.to
+    })
+  }
+
   send = async () => {
     if (this.sendInfo) {
       try {
@@ -237,6 +252,11 @@ class SendViewModel {
           this.selectedResult.inputs,
           this.selectedResult.outputs,
         );
+
+        if(!this.validateTransaction(psbt, this.selectedResult.inputs)){
+          throw Error("Transaction is not valid")
+        }
+
         const { txId, txHex } = await signPsbt(psbt.toBase64(), this.network, this.scriptType);
         this.txId = txId;
         trackSendSign(this.network)
