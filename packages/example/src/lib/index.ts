@@ -179,7 +179,7 @@ export const selectUtxos = (
     return formattedUxto;
   });
 
-  return coinSelect(utxoList, targetObj, 55);
+  return coinSelect(utxoList, targetObj, feeRate);
 };
 
 const findAddress = (address: string, addressList: Address[]) => {
