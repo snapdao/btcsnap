@@ -3,10 +3,12 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchAddresses } from "../api/v1/fetchAddress";
 import { fromHdPathToObj } from "../lib/cryptoPath";
 import { IAccount, IAddressIn } from "../mobx/types";
+import { useMFPCheck } from "./useMFPCheck";
 
 export const useReceiveAddress = () => {
   const { current, settings: { dynamicAddress }} = useKeystoneStore();
   const [address, setAddress] = useState<string>("");
+  const isSameMFP = useMFPCheck();
 
   const fetchAddress = useCallback(async (current: IAccount) => {
     try {
@@ -27,7 +29,7 @@ export const useReceiveAddress = () => {
   }, [])
   
   useEffect(() => {
-    if(current) {
+    if(current && isSameMFP) {
       if (dynamicAddress) {
         fetchAddress(current).then(({index, address}) => {
           const receiveAddress = {
@@ -45,7 +47,7 @@ export const useReceiveAddress = () => {
         setAddress(current.getReceiveAddress())
       }
     }
-  }, [current])
+  }, [current, isSameMFP])
   
   return {
     address
