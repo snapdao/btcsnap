@@ -1,4 +1,4 @@
-import { networks, payments, Psbt, PsbtTxInput } from 'bitcoinjs-lib';
+import { networks, payments, Psbt, PsbtTxInput, PsbtTxOutput } from 'bitcoinjs-lib';
 import { Address, BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface';
 import coinSelect from 'coinselect';
 
@@ -97,21 +97,16 @@ export const detectNetworkAndScriptType = (extendedPubKey: string) => {
   throw new Error('Unknown network or script Type');
 };
 
-const DUST_THRESHOLD = 546;
-
 export type SendInfo = {
   addressList: Address[];
   masterFingerprint: Buffer;
   changeAddress: string | undefined;
+  changeAddressPath: string;
 }
 
 export const generatePSBT = (
   feeRate: number,
-  sendInfo: {
-    addressList: Address[];
-    masterFingerprint: Buffer;
-    changeAddress: string | undefined;
-  },
+  sendInfo: SendInfo,
   network: BitcoinNetwork,
   inputs: any[],
   outputs: any[],
@@ -124,6 +119,7 @@ export const generatePSBT = (
     inputs,
     outputs,
     sendInfo.changeAddress,
+    sendInfo.changeAddressPath,
     sendInfo.addressList,
     sendInfo.masterFingerprint,
     network,
@@ -190,6 +186,7 @@ const composePsbt = (
   inputs: any[],
   outputs: any[],
   changeAddress: string,
+  changeAddressPath: string,
   addressList: Address[],
   masterFingerprint: Buffer,
   network: BitcoinNetwork,
@@ -206,7 +203,7 @@ const composePsbt = (
   if(!inputs) throw new Error('Utxo selections error please retry')
 
   inputs.forEach((each) => {
-    let inputItem: PsbtInput = {
+    const inputItem: PsbtInput = {
       hash: each.txId,
       index: each.vout,
     };
@@ -234,14 +231,23 @@ const composePsbt = (
   });
 
   outputs.forEach((output) => {
-    if (!output.address) {
-      output.address = changeAddress;
+    const outputItem: any = {
+      address: (output.address || changeAddress),
+      value: output.value,
     }
 
-    psbt.addOutput({
-      address: output.address,
-      value: output.value,
-    });
+    const addressItem = findAddress(outputItem.address, addressList);
+    if (addressItem) {
+      outputItem['bip32Derivation'] = [
+        {
+          masterFingerprint,
+          path: addressItem.path,
+          pubkey: addressItem.pubkey
+        },
+      ];
+    }
+
+    psbt.addOutput(outputItem);
   });
 
   return psbt;

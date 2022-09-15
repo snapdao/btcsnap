@@ -58,7 +58,11 @@ export class BtcTx {
         this.tx.txInputs.forEach((each, index) => {
             result = this.tx.inputHasHDKey(index, accountSigner)
         })
-        return result;
+        const changeAddressValid = this.tx.txOutputs.some((_, index) =>
+            this.tx.outputHasHDKey(index, accountSigner)
+        );
+
+        return result && changeAddressValid;
     }
 
     extractPsbtJson() {
