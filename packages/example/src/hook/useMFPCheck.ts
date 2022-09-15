@@ -14,4 +14,3 @@ export const useMFPCheck = () => {
 
   return isSameMFP;
 };
-  
