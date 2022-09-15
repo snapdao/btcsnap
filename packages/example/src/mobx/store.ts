@@ -2,7 +2,7 @@ import { types } from 'mobx-state-tree';
 import Account from "./account";
 import Settings, { settingsInitialState } from "./settings";
 import { IAccount, IAccountIn } from "./types";
-import Runtime, { runtimeInitialState } from "./runtime";
+import Runtime, { AppStatus, runtimeInitialState } from "./runtime";
 import { BitcoinNetwork, BitcoinScriptType } from "../interface";
 
 export const storeInitialState = {
@@ -35,8 +35,15 @@ const KeystoneStore = types
         (account) => account.mfp === mfp && account.scriptType === scriptType && account.network === network,
       );
     },
-    registeredMfps: () => {
-      return Array.from(new Set(self.accounts.map(account => account.mfp)));
+    registeredMfp: (): string => {
+      const registeredMfps = Array.from(new Set(self.accounts.map(account => account.mfp)));
+      if(registeredMfps.length > 1) {
+        throw Error("Multiple MFP exist");
+      }
+      if(registeredMfps.length === 0){
+        return "";
+      }
+      return registeredMfps[0];
     },
   }))
   .actions((self => ({
@@ -58,8 +65,24 @@ const KeystoneStore = types
       if(self.current){
         self.current = undefined;
       }
-    }
+    },
   })))
+  .actions((self) => ({
+    resetAccounts() {
+      self.disconnectAccount();
+      self.accounts.clear();
+    },
+    resetSettings() {
+      const { scriptType, network, dynamicAddress } = settingsInitialState;
+      self.settings.setScriptType(scriptType);
+      self.settings.setNetwork(network);
+      self.settings.setDynamicAddress(dynamicAddress);
+    },
+    resetRuntime() {
+      const { status } = runtimeInitialState
+      self.runtime.setStatus(status);
+    }
+  }))
   .actions((self) => ({
     switchToAccount(mfp: string, scriptType: BitcoinScriptType, network: BitcoinNetwork) {
       const targetAccount = self.getAccountBy(mfp, scriptType, network);
@@ -69,6 +92,11 @@ const KeystoneStore = types
         self.current = undefined;
       }
     },
+    resetStore(){
+      self.resetAccounts();
+      self.resetSettings();
+      self.resetRuntime();
+    }
   }))
 
 export default KeystoneStore;

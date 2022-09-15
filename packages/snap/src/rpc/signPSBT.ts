@@ -1,7 +1,8 @@
 import { ScriptType, Wallet } from "../interface";
 import { Network } from "bitcoinjs-lib"; 
-import { extractAccountPrivateKey, getMFP } from './getExtendedPublicKey'
+import { extractAccountPrivateKey } from './getExtendedPublicKey'
 import { BtcTx, AccountSigner } from "../bitcoin/index"
+import { getMasterFingerprint } from "../rpc/getMasterFingerprint";
 
 
 export async function signPsbt(wallet: Wallet, psbt: string, network: Network, scriptType: ScriptType): Promise<{ txId: string, txHex: string }> {
@@ -19,7 +20,7 @@ export async function signPsbt(wallet: Wallet, psbt: string, network: Network, s
 
   if (result) {
     const accountPrivateKey = await extractAccountPrivateKey(wallet, network, scriptType)
-    const mfp = Buffer.from(await getMFP(wallet), "hex")
+    const mfp = Buffer.from(await getMasterFingerprint(wallet), "hex")
     const signer = new AccountSigner(accountPrivateKey, mfp)
     btcTx.validateTx(signer)
     return btcTx.signTx(signer)
