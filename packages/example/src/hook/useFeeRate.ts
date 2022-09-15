@@ -21,9 +21,9 @@ export const useFeeRate = () => {
       queryFeeRate(current.coinCode).then((res) => {
         const feeRate = res.feeEstimation.feeRate
         setFeeRate({
-          high: Math.round(Number(feeRate["70"]) / 1024),
+          low: Math.round(Number(feeRate["70"]) / 1024),
           recommended: Math.round(Number(feeRate["60"]) / 1024),
-          low: Math.round(Number(feeRate["30"]) / 1024),
+          high: Math.round(Number(feeRate["30"]) / 1024),
         })
       })
     }

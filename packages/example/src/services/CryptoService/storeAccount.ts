@@ -45,8 +45,7 @@ export const storeAccount = async (
     };
     storeAccount.validateAndAddAddress(storeReceiveAddress, keystoneStore.settings.dynamicAddress);
   } catch (e) {
-    console.info(e);
-    console.error(e);
+    console.error("Create Account failed", e);
     throw e;
   }
 };

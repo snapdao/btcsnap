@@ -7,7 +7,7 @@ export const register = async (xpub: string, mfp: string, scriptType: BitcoinScr
   const keystoneStore = getKeystoneStore();
   try {
     const targetAccount = keystoneStore.getAccount(xpub);
-    if (targetAccount) {
+    if (targetAccount && targetAccount.hasSyncXPub) {
       keystoneStore.switchAccount(targetAccount.xpub);
     } else {
       const registeredMfps = keystoneStore.registeredMfps();
