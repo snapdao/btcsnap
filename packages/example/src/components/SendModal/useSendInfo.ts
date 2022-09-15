@@ -21,8 +21,11 @@ export const useSendInfo = () => {
       const utxoPaths = utxoList.map(utxo => utxo.path);
       const resp = await fetchAddresses(current.mfp, current.xpub, current.coinCode);
       const {unused, occupied} = resp;
-      const changeAddress = unused.find(address => fromHdPathToObj(address.hdPath).change === "1")!.address;
-      const addresses = occupied.filter(address => utxoPaths.includes(address.hdPath));
+      const changeAddress = unused.find(address => fromHdPathToObj(address.hdPath).change === "1")!;
+      const addresses = [
+        ...occupied.filter(address => utxoPaths.includes(address.hdPath)),
+        ...unused,
+      ]
 
       const addressList: Address[] = addresses.map(({address, hdPath}) => {
         const { change, index } = fromHdPathToObj(hdPath);
@@ -35,8 +38,9 @@ export const useSendInfo = () => {
 
       return {
         masterFingerprint: Buffer.from(current.mfp, "hex"),
-        changeAddress,
         addressList,
+        changeAddress: changeAddress.address,
+        changeAddressPath: changeAddress.hdPath
       }
     } catch (e) {
       console.error("Failed to fetch address", e);

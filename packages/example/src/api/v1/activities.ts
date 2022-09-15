@@ -25,10 +25,11 @@ export enum ActivityStatus {
 }
 
 export type Activity = {
-  id: number;
+  id: string;
   action: string;
   address: string;
   amount: number;
+  fee: number;
   canExpedite: boolean;
   coin: string;
   confirmThreshold: number;
