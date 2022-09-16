@@ -47,6 +47,11 @@ const KeystoneStore = types
     },
     get persistDataLoaded ():boolean {
       return self._rehydrated;
+    },
+    connectedScriptTypes(network?: BitcoinNetwork): BitcoinScriptType[] {
+      return self.accounts
+        .filter(account => account.network === network)
+        .map(account => account.scriptType);
     }
   }))
   .actions((self => ({
