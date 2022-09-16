@@ -2,7 +2,7 @@ import { PersistedData, Wallet } from "../interface";
 import { sha256 } from "../bitcoin/crypto";
 
 export async function getOrUpdateMFP(wallet: Wallet, xpub: string): Promise<string> {
-  const mfp = getMasterFingerprint(wallet);
+  const mfp = await getMasterFingerprint(wallet);
 
   if (mfp) {
     return mfp;
