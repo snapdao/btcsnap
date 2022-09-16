@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Divider, Radio } from 'semantic-ui-react';
 
 export const ActionButton = styled.button`
   width: 96px;
@@ -19,5 +20,334 @@ export const ActionButton = styled.button`
   :not(:hover) {
     border-color: #E1E6F0;
     transition: 0.25s;
+  }
+`
+
+export const SendContainer = styled.div`
+  background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
+  :last-child {
+    background: #FFFFFF;
+  }
+`
+
+export const SendHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px 0 20px;
+`
+
+export const SendHeaderLabel = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+  svg {
+    width: 36px;
+    height: 36px;
+    margin: 0 4px 0 0;
+  }
+  svg path {
+    fill: #F58300;
+  }
+  h3 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+`
+
+export const SendTitle = styled.span`
+  display: inline-block;
+  color: #9095A3;
+  font-weight: 600;
+`
+
+export const SendBody = styled.div`
+  padding: 32px 32px 0;
+`
+
+export const SendAmountContainer = styled.div`
+  margin-top: 8px;
+`
+
+export const SendAmountItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &:first-child {
+    margin-bottom: 8px;
+  }
+`
+
+export const SendAmountInput = styled.div`
+  display: flex;
+  align-items: center;
+  & > input {
+    border: none;
+    font-size: 40px;
+    font-weight: 400;
+    max-width: 280px;
+    line-height: 52px;
+    padding: 0;
+    background: transparent;
+  }
+  & > span {
+    display: flex;
+    align-items: center;
+    margin-top: 14px;
+    color: #F58300;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    cursor: pointer;
+  }
+`
+
+export const SendAmountMax = styled.span`
+  display: inline-block;
+  width: 35px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #F58300;
+  margin-top: 10px;
+  padding: 0 4px;
+  cursor: pointer;
+  background: rgba(255, 108, 10, 0.2);
+  border-radius: 4px;
+  :hover {
+    color: #FFFFFF;
+    background-color: #F58300;
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    transition: 0.25s;
+  }
+`
+
+export const SendTextError = styled.div`
+  margin-bottom: 8px;
+  line-height: 20px;
+  color: #EB2F00;
+`
+
+export const SendAmountTransition = styled.div`
+  display: flex;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 16px;
+  & > span:first-child {
+    display: inline-block;
+    max-width: 200px;
+    overflow: hidden;
+    color: #111214;
+  }
+  & > span {
+    display: inline-block;
+    line-height: 24px;
+    color: #F58300;
+    margin-left: 4px;
+  }
+`
+
+export const SendAmountFee = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & > span:nth-child(2) {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+    cursor: pointer;
+    span {
+      margin-right: 4px;
+    }
+    span:nth-child(2) {
+      color: #656D85;
+    }
+    :hover {
+      & > svg > path {
+        fill: #F58300;
+        transition: 0.25s;
+      }
+    }
+    :not(:hover) {
+      & > svg > path {
+        fill: #656D85;
+        transition: 0.25s;
+      }
+    }
+  }
+`
+
+export const DividerLine = styled(Divider)`
+  margin: 31px 0 !important;
+`
+
+export const SendAvailableContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 32px;
+`
+
+export const SendAvailable = styled.div`
+  & > span:nth-child(2) {
+    color: #656D85;
+    margin-left: 4px;
+  }
+  & > span:nth-child(3) {
+    color: #656D85;
+    margin: 0 8px;
+  }
+  & > span:nth-child(5) {
+    color: #656D85;
+    margin-left: 4px;
+  }
+`
+
+export const SendToContainer = styled.div`
+  padding: 32px 32px 0 32px;
+`
+
+export const SendToInput = styled.div`
+  position: relative;
+  & > input {
+    display: block;
+    width: 100%;
+    height: 48px;
+    line-height: 20px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 1px solid #E1E6F0;
+    :focus {
+      border-bottom: 1px solid #F58300;
+    }
+  }
+`
+
+export const SendButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 32px;
+  position: absolute;
+  bottom: 32px;
+`
+
+export const CancelButton = styled.button`
+  width: 176px;
+  height: 48px;
+  font-weight: 600;
+  line-height: 24px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  :hover {
+    background: #E1E6F0;
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    background: #F0F3FA;
+    transition: 0.25s;
+  }
+`
+
+// ----- Transaction Fee -----
+export const ModalHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0 168px;
+`
+
+export const ModalHeaderContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const ModalHeaderLabel = styled.span`
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+`
+
+export const TransactionFeeContainer = styled.div`
+  padding: 20px 32px 24px 32px;
+`
+
+export const TransactionFeeItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  outline: 1px solid #E1E6F0;
+  border-radius: 12px;
+  :hover {
+    cursor: pointer;
+    outline-color: #F58300;
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    outline-color: #E1E6F0;
+    transition: 0.25s;
+  }
+`
+
+export const TransactionFeeItemLabel = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > span:nth-child(1) {
+    font-size: 16px;
+    line-height: 24px;
+    color: #111214;
+    margin-bottom: 8px;
+    & > span {
+      display: inline-block;
+      height: 21px;
+      font-size: 12px;
+      color: #F58300;
+      margin-left: 8px;
+      padding: 1px 4px;
+      background: rgba(255, 108, 10, 0.1);
+      border-radius: 6px;
+    }
+  }
+  & > span:nth-child(2) {
+    line-height: 20px;
+    & > span:nth-child(1) {
+      color: #656D85;
+      margin-left: 4px;
+    }
+    & > span:nth-child(2) {
+      color: #9095A3;
+      margin-left: 8px;
+    }
+  }
+`
+
+export const TransactionFeeRadio = styled(Radio)`
+  & > label::before {
+    width: 18px !important;
+    height: 18px !important;
+    border: 2px solid #9095A3 !important;
+  }
+  & > label::after {
+    top: 2px !important;
+    left: 1px !important;
+    width: 16px !important;
+    height: 16px !important;
+    background-color: #F58300 !important;
+    transform: scale(.5) !important;
+  }
+  &.checked > label::before {
+    border: 2px solid #F58300 !important;
+  }
+  &.checked > label::after {
+    background-color: #F58300 !important;
   }
 `
