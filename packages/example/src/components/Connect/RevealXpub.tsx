@@ -4,30 +4,36 @@ import { ReactComponent as MetaMaskIcon } from "./image/MetaMask.svg"
 import Modal from "./Modal";
 import { getExtendedPublicKey } from "../../lib/snap";
 import { useKeystoneStore } from "../../mobx";
-import { updateStoredXpub } from "../../lib/globalStorage";
 import { trackGetAddress } from "../../tracking";
+import { register } from "../../services/CryptoService/register";
+import { AppStatus } from "../../mobx/runtime";
+import { observer } from "mobx-react-lite";
 
 export interface RevealXpubProps {
   open: boolean;
   onRevealed: () => void;
 }
 
-const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
-  const { global: { network, scriptType, updateBip44Xpub }} = useKeystoneStore();
+const RevealXpub = observer(({open, onRevealed}: RevealXpubProps) => {
+  const { settings: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
-    getExtendedPublicKey(network, scriptType, ({xpub, mfp}) => {
+    getExtendedPublicKey(network, scriptType, async ({xpub, mfp}) => {
       if (xpub) {
-        updateBip44Xpub(xpub);
-        updateStoredXpub(xpub, network);
         trackGetAddress(network);
-        onRevealed();
+        setStatus(AppStatus.Register);
+        try {
+          await register(xpub, mfp, scriptType, network);
+          onRevealed()
+        } catch (e) {
+           console.error("Register failed", e);
+        }
       }
       setIsRevealing(false);
     })
-  }, [setIsRevealing, network, updateBip44Xpub])
+  }, [setIsRevealing, network, current?.xpub])
 
   return (
     <Modal open={open}>
@@ -40,6 +46,6 @@ const RevealXpub = ({open, onRevealed}: RevealXpubProps) => {
       </button>
     </Modal>
   );
-};
+});
 
 export default RevealXpub;

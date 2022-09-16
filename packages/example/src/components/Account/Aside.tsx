@@ -1,58 +1,35 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback } from 'react';
 import Menu from "../Menu";
 import TxList from "./TxList";
 import RefreshIcon from "../Icons/RefreshIcon";
 import { useKeystoneStore } from "../../mobx";
-import { getStoredTransactions, updateStoredTransactions } from "../../lib/txStorage";
 import { observer } from "mobx-react-lite";
 import { useTransaction } from "../../hook/useTransaction";
-import { TransactionStatus } from "../TransactionCard/types";
-import { AccountAside, AccountAsideContainer, AccountAsideRefresh } from "./styles"
+import { AccountAside, AccountAsideContainer, AsideHeading, AccountAsideRefresh, TestnetMark } from "./styles"
+import { BitcoinNetwork } from "../../interface";
+import NetworkIcon from "../Icons/Network";
 
-const Aside = observer(({refreshBalance}: {refreshBalance: () => void}) => {
-  const { global: { network, bip44Xpub }, transactions, updateTransactions } = useKeystoneStore()
-  const { addTxs, txList, refresh, loading } = useTransaction(network);
-  const transactionAmount = useRef(0);
+const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
+  const {settings: {network}} = useKeystoneStore();
+  const {txList, refresh: refreshTransactions, loading} = useTransaction();
 
-  useEffect(() => {
-    // Load local stored transactions
-    const storedTxs = getStoredTransactions(bip44Xpub);
-    transactionAmount.current = storedTxs.length;
-    const pendingTxs = storedTxs.filter(tx => tx.status === TransactionStatus.PENDING).map(tx => tx.ID)
-    pendingTxs.length && addTxs(pendingTxs);
-    updateTransactions(storedTxs);
-  }, [network, bip44Xpub])
-
-  useEffect(() => {
-    const confirmedTxs = txList.filter(tx => tx.status === TransactionStatus.CONFIRMED);
-    if (confirmedTxs.length > 0) {
-      const updatedTxs = transactions.map(transaction => ({
-        ...transaction,
-        status: confirmedTxs.find(tx => tx.txId === transaction.ID)?.status || transaction.status
-      }))
-      updateTransactions(updatedTxs);
-      updateStoredTransactions(bip44Xpub, updatedTxs);
-    }
-  }, [txList])
-
-  useEffect(() => {
-    if(transactions.length === transactionAmount.current){
-      return;
-    }
-    // New Transaction Sent
-    transactionAmount.current = transactions.length;
-    const pendingIds = transactions.filter(tx => tx.status === TransactionStatus.PENDING).map(tx => tx.ID)
-    if(pendingIds.length > 0) {
-      addTxs(pendingIds);
-      refreshBalance();
-    }
-  }, [transactions.length, transactionAmount.current])
+  const refresh = useCallback(() => {
+    refreshBalance();
+    refreshTransactions();
+  }, [refreshBalance, refreshTransactions])
 
   return (
     <AccountAside>
       <AccountAsideContainer>
-        <Menu />
-        <TxList network={network} txList={transactions} />
+        <AsideHeading>
+          { network === BitcoinNetwork.Test && (
+            <TestnetMark>
+              <NetworkIcon network={network}/> Testnet
+            </TestnetMark>
+          )}
+          <Menu/>
+        </AsideHeading>
+        <TxList network={network} txList={txList}/>
         <AccountAsideRefresh>
           <RefreshIcon onClick={refresh} loading={loading}/>
         </AccountAsideRefresh>

@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { Container, Modal } from 'semantic-ui-react';
-import './index.css';
 import ReceiveIcon from "../Icons/ReceiveIcon"
 import { ReactComponent as Checked } from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
 import CloseIcon from "../Icons/CloseIcon";
+import { observer } from "mobx-react-lite";
+import { useReceiveAddress } from "../../hook/useReceiveAddress";
+import './index.css';
 
 type ReceiveModalProps = {
-  address: string;
-  open: boolean;
   close: () => void;
 };
 
-const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
+const ReceiveModal = observer(({close}: ReceiveModalProps) => {
+  const { address } = useReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
 
   const copyAddress = () => {
@@ -29,7 +30,7 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
   return (
     <Modal
       className={'modal-container'}
-      open={open}
+      open={true}
     >
       <Container className={'reveive-colored-container'}>
         <div className={'modal-header'}>
@@ -62,6 +63,6 @@ const ReceiveModal = ({address, open, close}: ReceiveModalProps) => {
       }
     </Modal>
   );
-};
+});
 
 export default ReceiveModal;

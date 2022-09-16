@@ -1,9 +1,6 @@
-import * as bip32 from 'bip32';
-import { payments, networks, Psbt, PsbtTxInput, address } from 'bitcoinjs-lib';
-import { BitcoinNetwork, BitcoinScriptType, Utxo, Address } from '../interface';
+import { networks, payments, Psbt, PsbtTxInput, PsbtTxOutput } from 'bitcoinjs-lib';
+import { Address, BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface';
 import coinSelect from 'coinselect';
-import { BlockChair } from './explorer';
-import { BACKENDAPI } from '../config';
 
 interface Bip32Derivation {
   masterFingerprint: Buffer;
@@ -14,6 +11,8 @@ interface Bip32Derivation {
 interface PsbtInput extends PsbtTxInput {
   nonWitnessUtxo?: Buffer;
   bip32Derivation?: Bip32Derivation[];
+  witnessUtxo?: Buffer;
+  redeemScript?: Buffer
 }
 
 type networkAndScriptType = {
@@ -87,7 +86,7 @@ export const networkAndScriptMap: networkAndScriptType = {
   },
 };
 
-export const deteckNetworkAndScriptType = (extendedPubKey: string) => {
+export const detectNetworkAndScriptType = (extendedPubKey: string) => {
   const keyPrefix = Object.keys(networkAndScriptMap).find(
     (each) => extendedPubKey.slice(0, 4) === each,
   );
@@ -98,161 +97,82 @@ export const deteckNetworkAndScriptType = (extendedPubKey: string) => {
   throw new Error('Unknown network or script Type');
 };
 
-const caculateBitcoinAddress = (
-  pubKey: Buffer,
-  network: BitcoinNetwork,
-  scriptType: BitcoinScriptType,
-) => {
-  let networkConfig;
-  if (network === BitcoinNetwork.Main) {
-    networkConfig = networks.bitcoin;
-  } else {
-    networkConfig = networks.testnet;
-  }
-  if (scriptType === BitcoinScriptType.P2PKH) {
-    const { address } = payments.p2pkh({
-      pubkey: pubKey,
-      network: networkConfig,
-    });
-    return address;
-  } else if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
-    const { address } = payments.p2sh({
-      redeem: payments.p2wpkh({
-        pubkey: pubKey,
-        network: networkConfig,
-      }),
-      network: networkConfig,
-    });
-    return address;
-  } else if (scriptType === BitcoinScriptType.P2WPKH) {
-    const { address } = payments.p2wpkh({
-      pubkey: pubKey,
-      network: networkConfig,
-    });
-    return address;
-  } else {
-    throw new Error('Unknown network or script Type to caculate the address');
-  }
-};
-
-const batchGenerateAddreses =
-  (changeIndex: number) =>
-  (
-    node: bip32.BIP32Interface,
-    network: BitcoinNetwork,
-    scriptType: BitcoinScriptType,
-    fromIndex: number,
-    toIndex: number,
-  ) => {
-    let result = [];
-    for (let i = fromIndex; i < toIndex; i++) {
-      const childNode = node.derive(changeIndex).derive(i);
-      result.push({
-        address: caculateBitcoinAddress(
-          childNode.publicKey,
-          network,
-          scriptType,
-        ),
-        path: `m/${changeIndex}/${i}`,
-        pubkey: childNode.publicKey,
-      });
-    }
-    return result;
-  };
-
-const genreateAddresses =
-  (type: number) =>
-  (extendedPubKey: string, fromIndex = 0, toIndex = 10) => {
-    const { node, network, scriptType } = generateNode(extendedPubKey);
-
-    return batchGenerateAddreses(type)(
-      node,
-      network,
-      scriptType,
-      fromIndex,
-      toIndex,
-    );
-  };
-
-export const generateReceiveAddress = genreateAddresses(0);
-export const generateChangeAddress = genreateAddresses(1);
-
-const generateNode = (extendedPubKey: string) => {
-  const { network, scriptType } = deteckNetworkAndScriptType(extendedPubKey);
-  let networkConfig;
-  if (network === BitcoinNetwork.Main) {
-    networkConfig = networks.bitcoin;
-  } else {
-    networkConfig = networks.testnet;
-  }
-  const node = bip32.fromBase58(extendedPubKey, networkConfig);
-  return { node, network, scriptType };
-};
-
-export const getNodeFingerPrint = (extendedPubKey: string) => {
-  const { node } = generateNode(extendedPubKey);
-
-  return node.fingerprint;
-};
-
-const DUST_THRESHOLD = 546;
-
 export type SendInfo = {
   addressList: Address[];
   masterFingerprint: Buffer;
   changeAddress: string | undefined;
+  changeAddressPath: string;
 }
 
-export const genreatePSBT = (
-    feeRate: number,
-    sendInfo: {
-      addressList: Address[];
-      masterFingerprint: Buffer;
-      changeAddress: string | undefined;
-    },
-    network: BitcoinNetwork,
-    inputs: any[],
-    outputs: any[],
+export const generatePSBT = (
+  feeRate: number,
+  sendInfo: SendInfo,
+  network: BitcoinNetwork,
+  inputs: any[],
+  outputs: any[],
 ) => {
   if (!sendInfo.changeAddress) {
     throw new Error('change address is empty');
   }
 
   return composePsbt(
-      inputs,
-      outputs,
-      sendInfo.changeAddress,
-      sendInfo.addressList,
-      sendInfo.masterFingerprint,
-      network,
+    inputs,
+    outputs,
+    sendInfo.changeAddress,
+    sendInfo.changeAddressPath,
+    sendInfo.addressList,
+    sendInfo.masterFingerprint,
+    network,
   );
 };
 
 
 export const selectUtxos = (
-  traget: string,
+  target: string,
   value: number,
   feeRate: number,
   utxos: Utxo[],
+  network: BitcoinNetwork,
+  scriptType: BitcoinScriptType,
+  addressList: Address[]
 ) => {
   const targetObj = [
     {
-      address: traget,
+      address: target,
       value: value,
     },
   ];
   const utxoList = utxos.map((each) => {
-    const formatedUxto: Record<string, any> = {
+    const formattedUxto: Record<string, any> = {
       txId: each.transactionHash,
       vout: each.index,
       value: each.value,
       address: each.address,
     };
-    if (each.rawHex) {
-      formatedUxto['nonWitnessUtxo'] = Buffer.from(each.rawHex, 'hex');
-    }
 
-    return formatedUxto;
+    const networkConfig = network === BitcoinNetwork.Main ? networks.bitcoin : networks.testnet;
+    if (each.rawHex) {
+      formattedUxto['nonWitnessUtxo'] = Buffer.from(each.rawHex, 'hex');
+    } else if (target) {
+      const pubkey = findAddress(each.address, addressList)?.pubkey!;
+      const p2wpkh = payments.p2wpkh({pubkey, network: networkConfig});
+
+      if (scriptType === BitcoinScriptType.P2WPKH) {
+        formattedUxto['witnessUtxo'] = {
+          script: p2wpkh.output,
+          value: each.value
+        };
+      }
+      if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
+        const p2sh = payments.p2sh({redeem: p2wpkh, network: networkConfig});
+        formattedUxto["redeemScript"] = p2wpkh.output;
+        formattedUxto["witnessUtxo"] = {
+          script: p2sh.output,
+          value: each.value
+        }
+      }
+    }
+    return formattedUxto;
   });
 
   return coinSelect(utxoList, targetObj, feeRate);
@@ -266,6 +186,7 @@ const composePsbt = (
   inputs: any[],
   outputs: any[],
   changeAddress: string,
+  changeAddressPath: string,
   addressList: Address[],
   masterFingerprint: Buffer,
   network: BitcoinNetwork,
@@ -274,7 +195,7 @@ const composePsbt = (
   if (network === BitcoinNetwork.Main) {
     networkConfig = networks.bitcoin;
   } else {
-    networkConfig = networks.regtest;
+    networkConfig = networks.testnet;
   }
 
   let psbt = new Psbt({ network: networkConfig });
@@ -282,13 +203,18 @@ const composePsbt = (
   if(!inputs) throw new Error('Utxo selections error please retry')
 
   inputs.forEach((each) => {
-    let inputItem: PsbtInput = {
+    const inputItem: PsbtInput = {
       hash: each.txId,
       index: each.vout,
     };
 
     if (each.nonWitnessUtxo) {
       inputItem['nonWitnessUtxo'] = Buffer.from(each.nonWitnessUtxo, 'hex');
+    } else if (each.witnessUtxo) {
+      inputItem['witnessUtxo'] = each.witnessUtxo;
+    }
+    if(each.redeemScript) {
+      inputItem['redeemScript'] = each.redeemScript;
     }
 
     const addressItem = findAddress(each.address, addressList);
@@ -301,25 +227,29 @@ const composePsbt = (
         },
       ];
     }
-    psbt.addInput(inputItem);
+    psbt.addInput(inputItem as any);
   });
 
   outputs.forEach((output) => {
-    if (!output.address) {
-      output.address = changeAddress;
+    const outputItem: any = {
+      address: (output.address || changeAddress),
+      value: output.value,
     }
 
-    psbt.addOutput({
-      address: output.address,
-      value: output.value,
-    });
+    const addressItem = findAddress(outputItem.address, addressList);
+    if (addressItem) {
+      outputItem['bip32Derivation'] = [
+        {
+          masterFingerprint,
+          path: addressItem.path,
+          pubkey: addressItem.pubkey
+        },
+      ];
+    }
+
+    psbt.addOutput(outputItem);
   });
 
   return psbt;
 };
 
-export const sendTx = async (txhex: string, network: BitcoinNetwork) => {
-  const apiKey = BACKENDAPI;
-  const explorer = new BlockChair(apiKey, network);
-  return explorer.broadcastTransaction(txhex);
-};

@@ -12,7 +12,7 @@ export interface TransactionDetail {
   ID: string;
   type: TransactionType;
   status: TransactionStatus;
-  amount: string;
+  amount: number;
   address: string;
   date: number;
 }

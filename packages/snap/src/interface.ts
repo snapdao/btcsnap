@@ -15,7 +15,12 @@ export interface SignPsbt{
   }
 }
 
-export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt
+export interface GetMasterFingerprint{
+  method: "btc_getMasterFingerprint";
+  params: {}
+}
+
+export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt | GetMasterFingerprint
 
 export type BTCMethodCallback = (
   originString: string,
@@ -24,7 +29,7 @@ export type BTCMethodCallback = (
 
 export interface Wallet {
   registerRpcMessageHandler: (fn: BTCMethodCallback) => unknown;
-  request(options: {method: string; params?: unknown[] | Record<string, any>}): Promise<unknown>;
+  request<T>(options: {method: string; params?: unknown[] | Record<string, any>}): Promise<T>;
 }
 
 

@@ -31,6 +31,7 @@ export const AccountLabel = styled.p`
 export const AccountMain = styled.div`
   width: 560px;
   padding: 40px;
+  position: relative;
 `
 
 export const AccountAside = styled.div`
@@ -47,6 +48,26 @@ export const AccountAsideContainer = styled.div`
   gap: 40px;
   align-items: flex-end;
   margin: 40px 24px;
+`
+
+export const AsideHeading = styled.div`
+  margin-right: 16px;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+`
+
+export const TestnetMark = styled.div`
+  width: 99px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: #F0F3FA;
+  border-radius: 16px;
+  font-weight: 600;
+  color: #111214;
 `
 
 export const AccountAsideRefresh = styled.div`
@@ -92,19 +113,6 @@ export const LogoContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-`
-
-export const LogoLabel = styled.span`
-  display: inline-block;
-  width: 50px;
-  height: 23px;
-  margin-left: 8px;
-  line-height: 23px;
-  text-align: center;
-  background: rgba(255, 108, 10, 0.2);
-  border-radius: 8px;
-  color: #FF6C0A;
-  cursor: default;
 `
 
 export const BalanceContainer = styled.div`
@@ -207,6 +215,14 @@ export const BalacneRightLabel = styled.span`
     color: #9095A3;
     transition: 0.25s;
   }
+`
+
+export const CurrencyContainer = styled.div<{isTestnet: boolean}>`
+  margin-top: 4px;
+  color: #656D85;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration-line: ${props => props.isTestnet ? "line-through" : "none"};
 `
 
 export const ModalHeader = styled.div`
@@ -323,5 +339,18 @@ export const ActionButton = styled.button`
   :not(:hover) {
     border-color: #E1E6F0;
     transition: 0.25s;
+  }
+`
+
+export const MarketPrice = styled.p<{isTestnet: boolean}>`
+  position: absolute;
+  bottom: 40px;
+  font-weight: 400;
+  color: #656D85;
+
+  span {
+    font-weight: 600;
+    color: #F58300;
+    text-decoration-line: ${props => props.isTestnet ? "line-through" : "none"};
   }
 `

@@ -1,9 +1,9 @@
 import * as bip32 from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
-import { PersistedData, ScriptType, SLIP10Node, Wallet } from "../interface";
+import { ScriptType, SLIP10Node, Wallet } from "../interface";
 import { convertXpub } from "../bitcoin/xpubConverter";
-import { sha256 } from "../bitcoin/crypto";
+import { getOrUpdateMFP } from "../rpc/getMasterFingerprint";
 
 const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -40,27 +40,6 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
 }
 
 
-async function getMFP(wallet: Wallet, xpub: string): Promise<string> {
-    const persistedData: PersistedData = await wallet.request({
-        method: 'snap_manageState',
-        params: ['get'],
-    });
-
-    if(persistedData && persistedData.mfp) {
-        return persistedData.mfp;
-    } else {
-        const hashBuffer = sha256(Buffer.from(xpub, "hex"));
-        const mfp = hashBuffer.toString("hex").slice(0, 8);
-
-        await wallet.request({
-            method: 'snap_manageState',
-            params: ['update', { mfp }],
-        });
-        return mfp;
-    }
-}
-
-
 export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
     switch (scriptType) {
         case ScriptType.P2PKH:
@@ -80,7 +59,7 @@ export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptTyp
                 const accountNode = await extractAccountPrivateKey(wallet, network, scriptType)
                 const accountPublicKey = accountNode.neutered();
                 const xpub = convertXpub(accountPublicKey.toBase58(), scriptType, network);
-                const mfp = await getMFP(wallet, xpub);
+                const mfp = await getOrUpdateMFP(wallet, xpub);
 
                 return { mfp, xpub };
             } else {

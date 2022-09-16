@@ -16,6 +16,11 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.Tx-container:last-child a {
+  border-bottom: none;
 }
 
 .Tx-detail-container {
