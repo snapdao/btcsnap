@@ -14,7 +14,7 @@ export const EXTENDED_PUBKEY_PATH = {
   }
 }
 
-export const NETWORK_SCRIPT_TO_COIN = {
+export const NETWORK_SCRIPT_TO_COIN: Record<BitcoinNetwork, Record<BitcoinScriptType, SupportedCoins>> = {
   [BitcoinNetwork.Main]: {
     [BitcoinScriptType.P2PKH]: SupportedCoins.BTC_LEGACY,
     [BitcoinScriptType.P2SH_P2WPKH]: SupportedCoins.BTC,
