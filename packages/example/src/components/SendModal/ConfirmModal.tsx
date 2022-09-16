@@ -14,8 +14,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
   const { model } = props;
   return (
     <Modal
-      className={"modal-container"}
-      style={{ marginTop: 32 }}
+      style={{ width: 440, marginTop: 76, borderRadius: 20 }}
       onOpen={() => model.setConfirmOpen(true)}
       onClose={() => model.setConfirmOpen(false)}
       open={model.confirmOpen}
@@ -47,7 +46,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 value={model.amountText}
                 size={'large'}
                 fontWeight={'normal'}
-                unit={model.unit}
+                unit={model.mainUnits}
               />
             </div>
             <span className={'text-weight-bold text-secondary confirm-middle-span'}>
@@ -64,7 +63,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 value={model.amountText}
                 size={'normal'}
                 fontWeight={'normal'}
-                unit={model.unit}
+                unit={model.mainUnits}
               />
             </div>
             <div className={'flex row space-between'}>
@@ -73,7 +72,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 value={model.feeText}
                 size={'normal'}
                 fontWeight={'normal'}
-                unit={model.unit}
+                unit={model.mainUnits}
               />
             </div>
             <Divider className={'bottom-divider'} />
@@ -88,6 +87,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 unit={model.unit}
               />
             </div>
+            <p className='currencyValue'>=<span>{model.totalCurrency}</span> USD</p>
           </div>
           <button
             style={{ marginTop: 72 }}

@@ -51,7 +51,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               value={model.amountText}
               size={'large'}
               fontWeight={'normal'}
-              unit={model.unit}
+              unit={model.mainUnits}
             />
           </div>
           <div

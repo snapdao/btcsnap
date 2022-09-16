@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Container, Modal } from 'semantic-ui-react';
+import { Container, Modal, Popup } from 'semantic-ui-react';
+import './index.css';
 import ReceiveIcon from "../Icons/ReceiveIcon"
 import { ReactComponent as Checked } from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
+import { Utxo } from '../../interface';
 import CloseIcon from "../Icons/CloseIcon";
+import InfoIcon from "../Icons/InfoIcon";
+import {
+  ReceiveContainer,
+  AddressPathContainer,
+} from "./styles"
 import { observer } from "mobx-react-lite";
 import { useReceiveAddress } from "../../hook/useReceiveAddress";
-import './index.css';
 
 type ReceiveModalProps = {
   close: () => void;
@@ -15,6 +21,7 @@ type ReceiveModalProps = {
 const ReceiveModal = observer(({close}: ReceiveModalProps) => {
   const { address } = useReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
+  const addressPathTips = 'To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via settings.'
 
   const copyAddress = () => {
     if(address) {
@@ -29,10 +36,10 @@ const ReceiveModal = observer(({close}: ReceiveModalProps) => {
 
   return (
     <Modal
-      className={'modal-container'}
+      style={{width: 440, height:640, borderRadius: '20px', position: 'relative'}}
       open={true}
     >
-      <Container className={'reveive-colored-container'}>
+      <ReceiveContainer>
         <div className={'modal-header'}>
           <span
             style={{
@@ -46,7 +53,18 @@ const ReceiveModal = observer(({close}: ReceiveModalProps) => {
           <CloseIcon onClick={close} />
         </div>
         <AddressBox address={address} />
-      </Container>
+        <AddressPathContainer>
+          <span>Address Path:</span>
+          <span>M/1/0</span>
+          <Popup
+            position='top center'
+            content={addressPathTips}
+            inverted
+            trigger={<div><InfoIcon /></div>}
+          />
+        </AddressPathContainer>
+      </ReceiveContainer>
+
       <Container className={address ? 'modal-content-container' : 'reveive-none'}>
         <button
           className={'receive-action-button action-button-primary'}

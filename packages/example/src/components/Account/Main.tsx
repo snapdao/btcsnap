@@ -111,7 +111,7 @@ const Main = observer(({balance, rate}: MainProps) => {
       </MarketPrice>
 
       { openedModal === MainModal.Details && <AccountDetail balance={currentBalance} unit={unit[mainUnit]} close={closeModal} /> }
-      { openedModal === MainModal.Send && <SendModal network={network} scriptType={current?.scriptType!} close={closeModal} /> }
+      { openedModal === MainModal.Send && <SendModal network={network} unit={unit[mainUnit]} scriptType={current?.scriptType!} close={closeModal} /> }
       { openedModal === MainModal.Receive && <ReceiveModal close={closeModal}/> }
     </AccountMain>
   );
