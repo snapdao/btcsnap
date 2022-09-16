@@ -46,6 +46,8 @@ export const useReceiveAddress = () => {
       } else {
         setAddress(current.getReceiveAddress())
       }
+    } else {
+      setAddress("");
     }
   }, [current, isSameMFP])
   
