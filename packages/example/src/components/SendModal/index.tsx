@@ -10,19 +10,21 @@ import Result from './Result';
 import { useSendInfo } from "./useSendInfo";
 
 type ContainerProps = {
+  currencyRate: number;
   network: BitcoinNetwork;
   scriptType: BitcoinScriptType;
   close: () => void;
   unit: string;
 };
 
-const SendContainer = ({network, scriptType, close, unit}: ContainerProps) => {
+const SendContainer = ({network, scriptType, close, unit, currencyRate}: ContainerProps) => {
   const {feeRate, utxos, sendInfo} = useSendInfo()
 
   const model = useMemo(() => {
     return new SendViewModel(
       utxos,
       feeRate,
+      currencyRate,
       network,
       unit,
       scriptType,
