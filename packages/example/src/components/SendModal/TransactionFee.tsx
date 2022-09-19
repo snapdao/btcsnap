@@ -8,7 +8,8 @@ import {
   ModalHeaderLabel,
   TransactionFeeContainer,
   TransactionFeeItem,
-  TransactionFeeItemLabel,
+  TransactionFeeLevel,
+  TransactionFeeItemValue,
   TransactionFeeRadio,
 } from "./styles"
 import { FeeRate } from "./type";
@@ -54,15 +55,23 @@ const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
 
         <TransactionFeeContainer>
           {transactionFeeOptions(model.fees, model.feeRate).map((item) => (
-            <TransactionFeeItem onClick={() => (model.setSelectedFeeRate(item.type), close())} key={item.label}>
-              <TransactionFeeItemLabel>
-                <span>{item.label}<span>~{item.time}m</span></span>
-                <span>
-                  {model.amountText === '' ? '--' : item.fee}
-                  <span>{model.unit}</span>
+            <TransactionFeeItem
+              key={item.label}
+              onClick={() => {
+                model.setSelectedFeeRate(item.type);
+                close();
+              }}
+            >
+              <div>
+                <TransactionFeeLevel>
+                  <span>{item.label}</span>
+                  <span>~{item.time}m</span>
+                </TransactionFeeLevel>
+                <TransactionFeeItemValue>
+                  <span>{model.amountText === '' ? '--' : item.fee} {model.mainUnit}</span>
                   <span>{item.satVByte} sat/vByte</span>
-                </span>
-              </TransactionFeeItemLabel>
+                </TransactionFeeItemValue>
+              </div>
               <TransactionFeeRadio value={item.label} checked={model.selectedFeeRate === item.type} />
             </TransactionFeeItem>
           ))}

@@ -192,20 +192,16 @@ export const SendAvailableContainer = styled.div`
   padding-bottom: 32px;
 `
 
-export const SendAvailable = styled.div`
-  & > span:nth-child(2) {
-    color: #656D85;
-    margin-left: 4px;
+export const SendAvailableText = styled.span`
+  color: #656D85;
+  span {
+    margin-right: 4px;
+    color: #111214;
   }
-  & > span:nth-child(3) {
-    color: #656D85;
+  span:nth-child(2) {
     margin: 0 8px;
   }
-  & > span:nth-child(5) {
-    color: #656D85;
-    margin-left: 4px;
-  }
-`
+`;
 
 export const SendToContainer = styled.div`
   padding: 32px 32px 0 32px;
@@ -298,35 +294,43 @@ export const TransactionFeeItem = styled.div`
   }
 `
 
-export const TransactionFeeItemLabel = styled.div`
+export const TransactionFeeLevel = styled.div`
+  margin-bottom: 8px;
   display: flex;
-  flex-direction: column;
-  & > span:nth-child(1) {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+
+  span {
     font-size: 16px;
     line-height: 24px;
     color: #111214;
-    margin-bottom: 8px;
-    & > span {
-      display: inline-block;
-      height: 21px;
-      font-size: 12px;
-      color: #F58300;
-      margin-left: 8px;
-      padding: 1px 4px;
-      background: rgba(255, 108, 10, 0.1);
-      border-radius: 6px;
-    }
   }
-  & > span:nth-child(2) {
-    line-height: 20px;
-    & > span:nth-child(1) {
-      color: #656D85;
-      margin-left: 4px;
-    }
-    & > span:nth-child(2) {
-      color: #9095A3;
-      margin-left: 8px;
-    }
+
+  span:last-child {
+    display: inline-block;
+    height: 21px;
+    line-height: 19px;
+    font-weight: 600;
+    font-size: 12px;
+    color: #F58300;
+    padding: 1px 4px;
+    background: rgba(255, 108, 10, 0.1);
+    border-radius: 6px;
+  }
+`
+
+export const TransactionFeeItemValue = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+
+  span {
+    color: #656D85;
+  }
+  span:last-child {
+    color: #9095A3;
   }
 `
 
