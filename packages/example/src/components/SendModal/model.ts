@@ -54,7 +54,6 @@ class SendViewModel {
   private limitedDecimal = 8;
   public selectedFeeRate: keyof FeeRate = 'recommended';
   private currencyAmount: string = '0.00';
-  private exchangeRate = 20000;
 
   private sendMainUnit = this.unit;
   private sendSecondaryUnit = bitcoinUnit[this.network].USD;
@@ -73,6 +72,7 @@ class SendViewModel {
   constructor(
     private utxos: Utxo[],
     public feeRate: FeeRate,
+    private exchangeRate: number,
     public network: BitcoinNetwork,
     public unit: string,
     private scriptType: BitcoinScriptType,
