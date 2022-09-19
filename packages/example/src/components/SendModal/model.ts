@@ -107,6 +107,10 @@ class SendViewModel {
     return  bitcoinUnitMap[this.network][this.unit];
   }
 
+  get sendCurrencyUnit() {
+    return  bitcoinUnitMap[this.network].Currency;
+  }
+
   get mainUnit() {
     return bitcoinUnitMap[this.network][this.sendMainUnit];
   }
@@ -151,6 +155,10 @@ class SendViewModel {
 
   setSelectedFeeRate = (feeRate: keyof FeeRate) => {
     this.selectedFeeRate = feeRate;
+    if(this.fee === 0) {
+      this.sendAmountText = "";
+      this.sendSatoshis = new BigNumber(0);
+    }
   }
 
   get selectedResult() {
@@ -199,23 +207,29 @@ class SendViewModel {
     return 0;
   }
 
+  satoshiToCurrentMainUnit(satoshi: number) {
+    switch(this.sendMainUnit) {
+      case BitcoinUnit.BTC:
+        return new BigNumber(satoshi).dividedBy(this.decimalFactor).toFixed();
+      case BitcoinUnit.Sats:
+        return satoshi.toString();
+      case BitcoinUnit.Currency:
+        return new BigNumber(satoshiToBTC(satoshi) * this.exchangeRate).toFixed(2);
+    }
+  }
+
   get fees() {
     const feeRates: (keyof FeeRate)[] = ["low", "recommended", "high"];
-    return feeRates.reduce((result, feeRate) => ({
-      ...result,
-      [feeRate]: satoshiToBTC(this.getSelectedUtxoFee(feeRate)),
-    }), {} as FeeRate)
+    return feeRates.reduce((result, feeRate) => {
+      return {
+        ...result,
+        [feeRate]: this.satoshiToCurrentMainUnit(this.getSelectedUtxoFee(feeRate, true)),
+      }
+    }, {} as FeeRate)
   }
 
   get feeText() {
-    switch(this.sendMainUnit) {
-      case BitcoinUnit.BTC:
-        return new BigNumber(this.fee).dividedBy(this.decimalFactor).toFixed();
-      case BitcoinUnit.Sats:
-        return this.fee.toString();
-      case BitcoinUnit.Currency:
-        return new BigNumber(satoshiToBTC(this.fee) * this.exchangeRate).toFixed(2);
-    }
+    return this.satoshiToCurrentMainUnit(this.fee);
   }
 
   get amountLength() {
@@ -265,11 +279,11 @@ class SendViewModel {
   }
 
   get availableAmount () {
-    switch (this.sendMainUnit) {
+    switch (this.unit) {
       case BitcoinUnit.BTC:
         return this.balanceInBtc;
       case BitcoinUnit.Sats:
-        return this.balanceInSatoshi;
+        return this.balanceInSatoshi.toNumber();
     }
     return 0;
   }
