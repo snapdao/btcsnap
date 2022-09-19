@@ -25,11 +25,10 @@ import {
   SendAmountFee,
   DividerLine,
   SendAvailableContainer,
-  SendAvailable,
   SendToContainer,
   SendToInput,
   SendButtonContainer,
-  CancelButton,
+  CancelButton, SendAvailableText,
 } from "./styles";
 
 export type InitialProps = {
@@ -73,7 +72,11 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
                 />
                 <span onClick={() => model.switchUnits()}>{model.mainUnit}<SwitchIcon /></span>
               </SendAmountInput>
-              <SendAmountMax onClick={() => model.availableMax()}>MAX</SendAmountMax>
+              <SendAmountMax onClick={() => {
+                if(model.availableAmount){
+                  model.availableMax();
+                }
+              }}>MAX</SendAmountMax>
             </SendAmountItem>
 
             {!model.amountValid && (<SendTextError>Insufficient Funds</SendTextError>)}
@@ -97,13 +100,11 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
 
           <SendAvailableContainer>
             <SendTitle>Balance</SendTitle>
-            <SendAvailable>
-              <span>{model.availableAmount}</span>
-              <span>{model.sendInitUnit}</span>
+            <SendAvailableText>
+              <span>{model.availableAmount}</span>{model.sendInitUnit}
               <span>/</span>
-              <span>{model.availableCurrency}</span>
-              <span>USD</span>
-            </SendAvailable>
+              <span>{model.availableCurrency}</span>{model.sendCurrencyUnit}
+            </SendAvailableText>
           </SendAvailableContainer>
         </SendBody>
       </SendContainer>
