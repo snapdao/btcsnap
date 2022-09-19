@@ -26,7 +26,7 @@ const RevealXpub = observer(({open, onRevealed}: RevealXpubProps) => {
         setStatus(AppStatus.Register);
         try {
           await register(xpub, mfp, scriptType, network);
-          onRevealed()
+          onRevealed();
         } catch (e) {
            console.error("Register failed", e);
         }

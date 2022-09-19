@@ -12,6 +12,7 @@ import AddressType, { addressTypeOptions } from "./AddressType";
 import TermsOfService from "./TermsOfService";
 import PrivacyPolicy from "./PrivacyPolicy";
 import Network from "./Network";
+import { VERSION } from "../../config";
 
 interface SettingProps {
   open: boolean;
@@ -26,9 +27,8 @@ enum SettingOptions {
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
-  const { settings: { network, scriptType }} = useKeystoneStore();
+  const { settings: { network, scriptType, dynamicAddress, setDynamicAddress }} = useKeystoneStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
-  const [dynamicRadio, setDynamicRadio] = useState(false);
 
   const openDialog = (option: SettingOptions) => {
     setCurrentVisible(option);
@@ -36,10 +36,6 @@ const Settings = observer(({open, close}: SettingProps) => {
 
   const closeDialog = () => {
     setCurrentVisible(null);
-  }
-
-  const switchDAddress = () => {
-    setDynamicRadio(dynamicRadio => !dynamicRadio);
   }
 
   return (
@@ -72,9 +68,9 @@ const Settings = observer(({open, close}: SettingProps) => {
         </SettingItem>
         <AddressType open={currentVisible === SettingOptions.AddressType} close={closeDialog} />
 
-        <SettingItem onClick={switchDAddress} >
+        <SettingItem onClick={() => { setDynamicAddress(!dynamicAddress)} } >
           <span>Dynamic Address</span>
-          <span><SettingRadio toggle checked={dynamicRadio} /></span>
+          <span><SettingRadio toggle checked={dynamicAddress} /></span>
         </SettingItem>
         <Divider style={{margin: '16px'}} />
 
@@ -93,7 +89,7 @@ const Settings = observer(({open, close}: SettingProps) => {
 
         <SettingItem>
           <span>Version</span>
-          <span>V0.9.0 Alpha</span>
+          <span>V{VERSION}</span>
         </SettingItem>
       </SettingContent>
     </Modal>

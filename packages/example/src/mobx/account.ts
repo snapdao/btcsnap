@@ -72,7 +72,7 @@ const Account = types
   }))
   .actions((self) => ({
     afterCreate: () => {
-      self.syncXPub();
+      !self.hasSyncXPub && self.syncXPub();
     },
     addAddress: (addressIn: IAddressIn, isDynamic: boolean) => {
       const storeAddress = self.getAddress(addressIn.address);

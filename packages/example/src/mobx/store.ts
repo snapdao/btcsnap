@@ -2,7 +2,7 @@ import { types } from 'mobx-state-tree';
 import Account from "./account";
 import Settings, { settingsInitialState } from "./settings";
 import { IAccount, IAccountIn } from "./types";
-import Runtime, { AppStatus, runtimeInitialState } from "./runtime";
+import Runtime, { runtimeInitialState } from "./runtime";
 import { BitcoinNetwork, BitcoinScriptType } from "../interface";
 
 export const storeInitialState = {
@@ -45,6 +45,14 @@ const KeystoneStore = types
       }
       return registeredMfps[0];
     },
+    get persistDataLoaded ():boolean {
+      return self._rehydrated;
+    },
+    connectedScriptTypes(network?: BitcoinNetwork): BitcoinScriptType[] {
+      return self.accounts
+        .filter(account => account.network === network)
+        .map(account => account.scriptType);
+    }
   }))
   .actions((self => ({
     createAccount(accountIn: IAccountIn): IAccount {
