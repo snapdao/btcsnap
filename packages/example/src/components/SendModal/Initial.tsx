@@ -71,20 +71,20 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
                   onChange={e => { model.handleSendInput(e.target.value); }}
                   placeholder="0"
                 />
-                <span onClick={() => model.switchUnits()}>{model.mainUnits}<SwitchIcon /></span>
+                <span onClick={() => model.switchUnits()}>{model.mainUnit}<SwitchIcon /></span>
               </SendAmountInput>
-              <SendAmountMax onClick={() => model.availableMaxBtc()}>MAX</SendAmountMax>
+              <SendAmountMax onClick={() => model.availableMax()}>MAX</SendAmountMax>
             </SendAmountItem>
 
             {!model.amountValid && (<SendTextError>Insufficient Funds</SendTextError>)}
 
             <SendAmountItem>
-              <SendAmountTransition><span>{model.sendAmountSecondary}</span><span>{model.secondaryUnits}</span></SendAmountTransition>
+              <SendAmountTransition><span>{model.sendAmountSecondary}</span><span>{model.secondaryUnit}</span></SendAmountTransition>
               <SendAmountFee>
                 <SendTitle>Fee</SendTitle>
                 <span onClick={openTransactionFee}>
                   <span>{model.feeText}</span>
-                  <span>{model.mainUnits}</span>
+                  <span>{model.mainUnit}</span>
                   <ArrowDown />
                 </span>
               </SendAmountFee>
@@ -96,10 +96,10 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           <DividerLine />
 
           <SendAvailableContainer>
-            <SendTitle>Available</SendTitle>
+            <SendTitle>Balance</SendTitle>
             <SendAvailable>
-              <span>{model.availableBtc}</span>
-              <span>{model.unit}</span>
+              <span>{model.availableAmount}</span>
+              <span>{model.sendInitUnit}</span>
               <span>/</span>
               <span>{model.availableCurrency}</span>
               <span>USD</span>
