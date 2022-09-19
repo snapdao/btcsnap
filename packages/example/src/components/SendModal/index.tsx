@@ -4,7 +4,7 @@ import React, { useEffect, useMemo } from 'react';
 import './index.css'
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
-import { BitcoinNetwork, BitcoinScriptType } from '../../interface';
+import { BitcoinNetwork, BitcoinScriptType, BitcoinUnit } from '../../interface';
 import Initial from './Initial';
 import Result from './Result';
 import { useSendInfo } from "./useSendInfo";
@@ -14,7 +14,7 @@ type ContainerProps = {
   network: BitcoinNetwork;
   scriptType: BitcoinScriptType;
   close: () => void;
-  unit: string;
+  unit: BitcoinUnit;
 };
 
 const SendContainer = ({network, scriptType, close, unit, currencyRate}: ContainerProps) => {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Container } from 'semantic-ui-react';
 
 import SendViewModel from './model';
@@ -51,7 +51,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               value={model.amountText}
               size={'large'}
               fontWeight={'normal'}
-              unit={model.mainUnits}
+              unit={model.mainUnit}
             />
           </div>
           <div

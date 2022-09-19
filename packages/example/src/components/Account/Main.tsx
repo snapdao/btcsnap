@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { useKeystoneStore } from "../../mobx";
-import { BitcoinNetwork } from "../../interface";
+import { BitcoinNetwork, BitcoinUnit } from "../../interface";
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
 import AccountDetail from './Details';
@@ -29,7 +29,7 @@ import { ReactComponent as Logo } from "./image/logo.svg";
 import { ReactComponent as LogoTestnet } from "./image/logo-testnet.svg";
 import ReceiveIcon from "../Icons/ReceiveIcon";
 import ArrowRight from "../Icons/ArrowRight";
-import { bitcoinUnitMap, Unit } from "../../lib/unit"
+import { bitcoinUnitMap } from "../../lib/unit"
 import SendIcon from "../Icons/SendIcon";
 import { satoshiToBTC } from "../../lib/helper";
 
@@ -48,9 +48,9 @@ const Main = observer(({balance, rate}: MainProps) => {
   const { settings: { network }, current } = useKeystoneStore();
   const unit = bitcoinUnitMap[network];
   const [openedModal, setOpenedModal] = useState<MainModal | null>(null)
-  const [mainUnit, setMainUnit] = useState<Unit>(Unit.BTC);
-  const [secondaryUnit, setSecondaryUnit] = useState<Unit>(Unit.Sats);
-  const currentBalance = mainUnit === Unit.BTC ? satoshiToBTC(balance) : balance
+  const [mainUnit, setMainUnit] = useState<BitcoinUnit>(BitcoinUnit.BTC);
+  const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(BitcoinUnit.Sats);
+  const currentBalance = mainUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance
 
   const openModal = useCallback((modal: MainModal) => {
     setOpenedModal(modal);
@@ -114,7 +114,7 @@ const Main = observer(({balance, rate}: MainProps) => {
       { openedModal === MainModal.Send &&
         <SendModal
           network={network}
-          unit={unit[mainUnit]}
+          unit={mainUnit}
           scriptType={current?.scriptType!}
           close={closeModal}
           currencyRate={rate}

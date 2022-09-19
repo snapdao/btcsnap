@@ -46,7 +46,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 value={model.amountText}
                 size={'large'}
                 fontWeight={'normal'}
-                unit={model.mainUnits}
+                unit={model.mainUnit}
               />
             </div>
             <span className={'text-weight-bold text-secondary confirm-middle-span'}>
@@ -63,7 +63,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 value={model.amountText}
                 size={'normal'}
                 fontWeight={'normal'}
-                unit={model.mainUnits}
+                unit={model.mainUnit}
               />
             </div>
             <div className={'flex row space-between'}>
@@ -72,7 +72,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 value={model.feeText}
                 size={'normal'}
                 fontWeight={'normal'}
-                unit={model.mainUnits}
+                unit={model.mainUnit}
               />
             </div>
             <Divider className={'bottom-divider'} />
@@ -84,7 +84,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 value={model.totalAmount}
                 size={'normal'}
                 fontWeight={'bold'}
-                unit={model.unit}
+                unit={model.mainUnit}
               />
             </div>
             <p className='currencyValue'>=<span>{model.totalCurrency}</span> USD</p>
