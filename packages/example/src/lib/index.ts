@@ -1,6 +1,7 @@
-import { networks, payments, Psbt, PsbtTxInput, PsbtTxOutput } from 'bitcoinjs-lib';
+import { networks, payments, Psbt, PsbtTxInput } from 'bitcoinjs-lib';
 import { Address, BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface';
 import coinSelect from 'coinselect';
+import coinSelectSplit from "coinselect/split";
 
 interface Bip32Derivation {
   masterFingerprint: Buffer;
@@ -134,7 +135,8 @@ export const selectUtxos = (
   utxos: Utxo[],
   network: BitcoinNetwork,
   scriptType: BitcoinScriptType,
-  addressList: Address[]
+  addressList: Address[],
+  countAvailable = false,
 ) => {
   const targetObj = [
     {
@@ -154,28 +156,31 @@ export const selectUtxos = (
     if (each.rawHex) {
       formattedUxto['nonWitnessUtxo'] = Buffer.from(each.rawHex, 'hex');
     } else if (target) {
-      const pubkey = findAddress(each.address, addressList)?.pubkey!;
-      const p2wpkh = payments.p2wpkh({pubkey, network: networkConfig});
+      const pubkey = findAddress(each.address, addressList)?.pubkey;
+      if(pubkey) {
+        const p2wpkh = payments.p2wpkh({pubkey, network: networkConfig});
 
-      if (scriptType === BitcoinScriptType.P2WPKH) {
-        formattedUxto['witnessUtxo'] = {
-          script: p2wpkh.output,
-          value: each.value
-        };
-      }
-      if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
-        const p2sh = payments.p2sh({redeem: p2wpkh, network: networkConfig});
-        formattedUxto["redeemScript"] = p2wpkh.output;
-        formattedUxto["witnessUtxo"] = {
-          script: p2sh.output,
-          value: each.value
+        if (scriptType === BitcoinScriptType.P2WPKH) {
+          formattedUxto['witnessUtxo'] = {
+            script: p2wpkh.output,
+            value: each.value
+          };
+        }
+        if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
+          const p2sh = payments.p2sh({redeem: p2wpkh, network: networkConfig});
+          formattedUxto["redeemScript"] = p2wpkh.output;
+          formattedUxto["witnessUtxo"] = {
+            script: p2sh.output,
+            value: each.value
+          }
         }
       }
     }
     return formattedUxto;
   });
 
-  return coinSelect(utxoList, targetObj, feeRate);
+  const coinSelectFn = countAvailable ? coinSelectSplit : coinSelect
+  return coinSelectFn(utxoList, targetObj, feeRate);
 };
 
 const findAddress = (address: string, addressList: Address[]) => {

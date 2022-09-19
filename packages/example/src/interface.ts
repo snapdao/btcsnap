@@ -9,6 +9,12 @@ export enum BitcoinScriptType {
   P2WPKH = "P2WPKH",
 }
 
+export enum BitcoinUnit {
+  BTC = 'BTC',
+  Sats = 'Sats',
+  Currency = 'Currency'
+}
+
 export type Utxo = {
   address: string;
   transactionHash: string;
