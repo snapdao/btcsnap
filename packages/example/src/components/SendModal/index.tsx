@@ -1,7 +1,7 @@
 import { Modal } from 'semantic-ui-react';
 import React, { useEffect, useMemo } from 'react';
 
-import './index.css';
+import './index.css'
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 import { BitcoinNetwork, BitcoinScriptType } from '../../interface';
@@ -13,9 +13,10 @@ type ContainerProps = {
   network: BitcoinNetwork;
   scriptType: BitcoinScriptType;
   close: () => void;
+  unit: string;
 };
 
-const SendContainer = ({network, scriptType, close}: ContainerProps) => {
+const SendContainer = ({network, scriptType, close, unit}: ContainerProps) => {
   const {feeRate, utxos, sendInfo} = useSendInfo()
 
   const model = useMemo(() => {
@@ -23,6 +24,7 @@ const SendContainer = ({network, scriptType, close}: ContainerProps) => {
       utxos,
       feeRate,
       network,
+      unit,
       scriptType,
       sendInfo,
     );
@@ -44,7 +46,7 @@ const SendModal = observer((props: { model: SendViewModel, close: () => void }) 
   const { model, close } = props;
   return (
     <Modal
-      className={'modal-container'}
+      style={{width: '440px', height: '640px', borderRadius: '20px', position: 'relative'}}
       onOpen={() => {
         model.resetState();
       }}
