@@ -18,7 +18,7 @@ import { queryCoinV2 } from "../../api";
 import { NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
 import { satoshiToBTC } from "../../lib/helper";
 import { SupportedCoins } from "../../constant/supportedCoins";
-import { bitcoinUnitMap } from "../../lib/bitcoinUnit";
+import { bitcoinUnitMap } from "../../lib/unit";
 
 
 interface ConnectProps {
