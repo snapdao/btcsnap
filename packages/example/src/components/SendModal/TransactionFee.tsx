@@ -14,27 +14,27 @@ import {
 import { FeeRate } from "./type";
 
 
-interface TranscationFeeProps {
+interface TransactionFeeProps {
   open: boolean;
   close: () => void;
   model: SendViewModel;
 }
 
-interface TransationFeeType{
+interface TransactionFeeType{
   label: string;
   type: keyof FeeRate;
   time: number;
-  feeRate: number;
+  fee: number;
   satVByte: number;
 }
 
-const transactionFeeOptions = (fee: FeeRate, feeRate: FeeRate) : TransationFeeType[] => [
-  { label: 'Fast', type: 'high', time: 30, feeRate: fee.high, satVByte: feeRate.high },
-  { label: 'Medium', type: 'recommended', time: 60, feeRate: fee.recommended, satVByte: feeRate.recommended },
-  { label: 'Slow', type: 'low', time: 70, feeRate: fee.low, satVByte: feeRate.low }
+const transactionFeeOptions = (fee: FeeRate, feeRate: FeeRate) : TransactionFeeType[] => [
+  { label: 'Fast', type: 'high', time: 30, fee: fee.high, satVByte: feeRate.high },
+  { label: 'Medium', type: 'recommended', time: 60, fee: fee.recommended, satVByte: feeRate.recommended },
+  { label: 'Slow', type: 'low', time: 70, fee: fee.low, satVByte: feeRate.low }
 ]
 
-const TransationFee = observer(({open, close, model}: TranscationFeeProps) => {
+const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
 
   return (
     <TransitionablePortal
@@ -53,12 +53,12 @@ const TransationFee = observer(({open, close, model}: TranscationFeeProps) => {
         </ModalHeader>
 
         <TransactionFeeContainer>
-          {transactionFeeOptions(model.feeRate, model.feeRate).map((item) => (
+          {transactionFeeOptions(model.fees, model.feeRate).map((item) => (
             <TransactionFeeItem onClick={() => (model.setSelectedFeeRate(item.type), close())} key={item.label}>
               <TransactionFeeItemLabel>
                 <span>{item.label}<span>~{item.time}m</span></span>
                 <span>
-                  {model.amountText === '' ? '--' : item.feeRate}
+                  {model.amountText === '' ? '--' : item.fee}
                   <span>{model.unit}</span>
                   <span>{item.satVByte} sat/vByte</span>
                 </span>
@@ -72,4 +72,4 @@ const TransationFee = observer(({open, close, model}: TranscationFeeProps) => {
   )
 })
 
-export default TransationFee
+export default TransactionFee

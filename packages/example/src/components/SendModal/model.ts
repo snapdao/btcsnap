@@ -208,7 +208,6 @@ class SendViewModel {
   }
 
   get fee() {
-    // -----Todo: switch fee -----
     if (
       this.selectedResult.inputs &&
       this.selectedResult.outputs &&
@@ -216,6 +215,33 @@ class SendViewModel {
     )
       return this.selectedResult.fee;
     return 0;
+  }
+
+  get fees() {
+    const feeRates: (keyof FeeRate)[] = ["low", "recommended", "high"];
+    return feeRates.reduce((result, feeRate) => {
+      const selectedResult = selectUtxos(
+        this.to,
+        this.sendSatoshis.toNumber(),
+        this.feeRate[feeRate as keyof FeeRate],
+        this.utxos,
+        this.network,
+        this.scriptType,
+        this.sendInfo?.addressList || []
+      );
+      let fee = 0;
+      if (
+        selectedResult.inputs &&
+        selectedResult.outputs &&
+        selectedResult.fee
+      ) {
+        fee = selectedResult.fee;
+      }
+      return {
+        ...result,
+        [feeRate]: fee,
+      }
+    }, {} as FeeRate)
   }
 
   get feeText() {
