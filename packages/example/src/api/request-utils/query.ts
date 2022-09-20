@@ -51,7 +51,7 @@ export const query = async (
     method,
     headers: {
       ...headers,
-      Authorization: BACKEND_AUTH,
+      Authorization: `Basic ${BACKEND_AUTH}`,
       xfp: mfp || getKeystoneStore().current?.mfp || ""
     },
     body,
