@@ -4,7 +4,6 @@ import './index.css';
 import ReceiveIcon from "../Icons/ReceiveIcon"
 import { ReactComponent as Checked } from '../../assets/vector.svg'
 import AddressBox from './AddressBox';
-import { Utxo } from '../../interface';
 import CloseIcon from "../Icons/CloseIcon";
 import InfoIcon from "../Icons/InfoIcon";
 import {
@@ -19,7 +18,7 @@ type ReceiveModalProps = {
 };
 
 const ReceiveModal = observer(({close}: ReceiveModalProps) => {
-  const { address } = useReceiveAddress();
+  const { address, path } = useReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
   const addressPathTips = 'To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via settings.'
 
@@ -55,7 +54,7 @@ const ReceiveModal = observer(({close}: ReceiveModalProps) => {
         <AddressBox address={address} />
         <AddressPathContainer>
           <span>Address Path:</span>
-          <span>M/1/0</span>
+          <span>{path}</span>
           <Popup
             position='top center'
             content={addressPathTips}
