@@ -17,7 +17,11 @@ export async function connect(cb: (connected: boolean) => void) {
       method: 'wallet_enable',
       params: [
         {
-          wallet_snap: { [snapId]: {} },
+          wallet_snap: {
+            [snapId]: {
+              version: '0.4.0',
+            },
+          },
         },
       ],
     });
