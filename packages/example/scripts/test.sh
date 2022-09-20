@@ -8,4 +8,4 @@ shush decrypt < environments/.env.${ENV}.encrypted > environments/.env.${ENV}
 
 source environments/.env.${ENV}
 
-DATAAPI=$DATAAPI yarn test
+yarn test
