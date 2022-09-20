@@ -9,7 +9,7 @@ export async function getOrUpdateMFP(wallet: Wallet, xpub: string): Promise<stri
   }
 
   if (xpub) {
-    const hashBuffer = sha256(Buffer.from(xpub, "hex"));
+    const hashBuffer = sha256(Buffer.from(xpub));
     const mfp = hashBuffer.toString("hex").slice(0, 8);
 
     await wallet.request({
