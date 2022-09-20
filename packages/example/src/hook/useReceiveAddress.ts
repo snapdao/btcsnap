@@ -8,6 +8,7 @@ import { useMFPCheck } from "./useMFPCheck";
 export const useReceiveAddress = () => {
   const { current, settings: { dynamicAddress }} = useKeystoneStore();
   const [address, setAddress] = useState<string>("");
+  const [path, setPath] = useState<string>("");
   const isSameMFP = useMFPCheck();
 
   const fetchAddress = useCallback(async (current: IAccount) => {
@@ -27,6 +28,14 @@ export const useReceiveAddress = () => {
       }
     }
   }, [])
+
+  const setReceiveAddress = (current: IAccount) => {
+    const receiveAddress = current.getReceiveAddress();
+    if(receiveAddress) {
+      setAddress(receiveAddress.address);
+      setPath(`M/0/${receiveAddress.index}`);
+    }
+  }
   
   useEffect(() => {
     if(current && isSameMFP) {
@@ -41,17 +50,19 @@ export const useReceiveAddress = () => {
             index,
           } as IAddressIn;
           current.validateAndAddAddress(receiveAddress, dynamicAddress)
-          setAddress(current.getReceiveAddress())
+          setReceiveAddress(current);
         })
       } else {
-        setAddress(current.getReceiveAddress())
+        setReceiveAddress(current);
       }
     } else {
       setAddress("");
+      setPath("");
     }
   }, [current, isSameMFP])
   
   return {
-    address
+    address,
+    path
   }
 }
