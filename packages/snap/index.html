@@ -77,6 +77,26 @@
       }
     }
 
+    // get master fingerprint
+    async function getMFP () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_masterFingerprint',
+            params: {
+              action: "get"
+            }
+          }]
+        })
+        const mfpNode = document.getElementById("mfp")
+        mfpNode.textContent = `mfp: ${response.mfp}`
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
     async function signPsbt () {
       try {
         const response = await ethereum.request({

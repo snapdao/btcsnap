@@ -16,8 +16,10 @@ export interface SignPsbt{
 }
 
 export interface GetMasterFingerprint{
-  method: "btc_getMasterFingerprint";
-  params: {}
+  method: "btc_masterFingerprint";
+  params: {
+    action: "get" | "clear"
+  }
 }
 
 export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt | GetMasterFingerprint
