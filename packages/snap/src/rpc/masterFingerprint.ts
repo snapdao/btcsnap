@@ -21,6 +21,18 @@ export async function getOrUpdateMFP(wallet: Wallet, xpub: string): Promise<stri
   return mfp;
 }
 
+export async function masterFingerprint(wallet: Wallet, action: "get" | "clear"): Promise<string | void> {
+  switch (action) {
+    case "get":
+      return getMasterFingerprint(wallet);
+    case "clear":
+      await clearMasterFingerprint(wallet);
+      break;
+    default:
+      return getMasterFingerprint(wallet);
+  }
+}
+
 export async function getMasterFingerprint(wallet: Wallet): Promise<string> {
   const persistedData = await wallet.request<PersistedData>({
     method: 'snap_manageState',
@@ -30,4 +42,11 @@ export async function getMasterFingerprint(wallet: Wallet): Promise<string> {
     return persistedData.mfp;
   }
   return "";
+}
+
+async function clearMasterFingerprint(wallet: Wallet): Promise<void> {
+  await wallet.request({
+    method: 'snap_manageState',
+    params: ['update', {mfp: ""}],
+  });
 }

@@ -1,7 +1,7 @@
 import { getNetwork } from './bitcoin';
 import {Wallet, MetamaskBTCRpcRequest} from './interface'
 import { getExtendedPublicKey, signPsbt} from './rpc'
-import { getMasterFingerprint } from "./rpc/getMasterFingerprint";
+import { masterFingerprint } from "./rpc/masterFingerprint";
 
 declare let wallet: Wallet;
   
@@ -17,8 +17,8 @@ export const onRpcRequest = async({origin, request}:rpcRequest) => {
     case 'btc_signPsbt':
       const psbt = request.params.psbt;
       return signPsbt(wallet, psbt, getNetwork(request.params.network), request.params.scriptType)
-    case 'btc_getMasterFingerprint':
-      return getMasterFingerprint(wallet);
+    case 'btc_masterFingerprint':
+      return masterFingerprint(wallet, request.params.action);
     default:
       throw new Error('Method not found.');
   }

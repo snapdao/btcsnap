@@ -3,7 +3,7 @@ import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
 import { ScriptType, SLIP10Node, Wallet } from "../interface";
 import { convertXpub } from "../bitcoin/xpubConverter";
-import { getOrUpdateMFP } from "../rpc/getMasterFingerprint";
+import { getOrUpdateMFP } from "../rpc/masterFingerprint";
 
 const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
