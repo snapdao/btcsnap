@@ -4,7 +4,7 @@ import { IAccountIn } from "../../mobx/types";
 import { EXTENDED_PUBKEY_PATH, NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
 import { fetchAddresses } from "../../api/v1/fetchAddress";
 import { fromHdPathToObj } from "../../lib/cryptoPath";
-import Address from "../../mobx/address";
+import { coinManager } from "../CoinManager";
 
 const constructAccount = (mfp: string, xpub: string, scriptType: BitcoinScriptType, network: BitcoinNetwork): IAccountIn => ({
   id: utils.generateAccountId(),
@@ -31,14 +31,22 @@ export const storeAccount = async (
     keystoneStore.applyAccount(storeAccount);
 
     const { unused } = await fetchAddresses(mfp, xpub, storeAccount.coinCode);
-    const receiveAddress = unused.filter(address => fromHdPathToObj(address.hdPath).change === "0")?.[0];
-    const receiveAddressIndex = Number(fromHdPathToObj(receiveAddress?.hdPath).index) || 0;
+
+    let receiveAddressIndex = 0;
+    const receivePublicKey = coinManager.xpubToPubkey(xpub, 0, receiveAddressIndex);
+    let receiveAddress = coinManager.deriveAddress(receivePublicKey, scriptType, network);
+
+    if(unused.length > 0) {
+      const receiveAddressItem = unused.filter(address => fromHdPathToObj(address.hdPath).change === "0")?.[0];
+      receiveAddressIndex = Number(fromHdPathToObj(receiveAddressItem?.hdPath).index);
+      receiveAddress = receiveAddressItem?.address;
+    }
     storeAccount.setReceiveAddressIndex(receiveAddressIndex);
 
     const storeReceiveAddress = {
       id: utils.generateAddressId(),
       parent: "",
-      address: receiveAddress?.address,
+      address: receiveAddress,
       coinCode: NETWORK_SCRIPT_TO_COIN[network][scriptType],
       change: 0,
       index: receiveAddressIndex
