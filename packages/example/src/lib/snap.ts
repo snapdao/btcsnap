@@ -89,7 +89,7 @@ export async function getMasterFingerprint() {
       params: [
         snapId,
         {
-          method: 'btc_asterFingerprint',
+          method: 'btc_masterFingerprint',
           params: {
             action: "get",
           }
@@ -109,7 +109,7 @@ export async function clearMasterFingerprint() {
       params: [
         snapId,
         {
-          method: 'btc_asterFingerprint',
+          method: 'btc_masterFingerprint',
           params: {
             action: "clear",
           }

@@ -6,7 +6,7 @@ export const ReceiveContainer = styled.div`
   background-size: 100% 226px;
 `
 
-export const AddressPathContainer = styled.div`
+export const AddressPathContainer = styled.div<{visible: boolean}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,6 +14,9 @@ export const AddressPathContainer = styled.div`
   font-size: 16px;
   line-height: 24px;
   margin-top: 16px;
+  gap: 6px;
+  visibility: ${props => props.visible ? "visible" : "hidden"};
+
   & > span:nth-child(2) {
     color: #111214;
     line-height: 24px;
