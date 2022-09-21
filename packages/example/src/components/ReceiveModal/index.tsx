@@ -12,15 +12,19 @@ import {
 } from "./styles"
 import { observer } from "mobx-react-lite";
 import { useReceiveAddress } from "../../hook/useReceiveAddress";
+import { useKeystoneStore } from "../../mobx";
 
 type ReceiveModalProps = {
   close: () => void;
 };
 
+const DYNAMIC_ADDRESS = "To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via settings.";
+const STATIC_ADDRESS = "You will use this fixed address for every receipt of Bitcoin. You can Enable Dynamic address functionality in settings to maximize your privacy.";
+
 const ReceiveModal = observer(({close}: ReceiveModalProps) => {
+  const { settings: {dynamicAddress}} = useKeystoneStore();
   const { address, path } = useReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
-  const addressPathTips = 'To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via settings.'
 
   const copyAddress = () => {
     if(address) {
@@ -52,12 +56,20 @@ const ReceiveModal = observer(({close}: ReceiveModalProps) => {
           <CloseIcon onClick={close} />
         </div>
         <AddressBox address={address} />
-        <AddressPathContainer>
-          <span>Address Path:</span>
-          <span>{path}</span>
+        <AddressPathContainer visible={!!address}>
+          {
+            dynamicAddress ? (
+              <>
+                <span>Address Path:</span>
+                <span>{path}</span>
+              </>
+            ) : (
+              <span>Static Address</span>
+            )
+          }
           <Popup
             position='top center'
-            content={addressPathTips}
+            content={dynamicAddress ? DYNAMIC_ADDRESS : STATIC_ADDRESS}
             inverted
             trigger={<div><InfoIcon /></div>}
           />

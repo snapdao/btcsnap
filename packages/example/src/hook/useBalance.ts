@@ -22,7 +22,7 @@ export const useBalance = () => {
       try {
         const values = await Promise.all([queryCoinV1(coinCode), queryCoinV2()]);
         const [v1Res, v2Res] = values;
-        const rate = Number(v1Res.coins[coinCode].coinInfo.rate) || 0;
+        const rate = Number(v1Res.coins?.[coinCode]?.coinInfo?.rate) || 0;
         const balance = Number(v2Res.coins[coinCode].balance) || 0;
         return {balance, rate};
       } catch (e) {
