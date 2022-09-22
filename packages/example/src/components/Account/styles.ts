@@ -71,6 +71,9 @@ export const TestnetMark = styled.div`
 `
 
 export const AccountAsideRefresh = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin-right: 16px;
 `
 
@@ -352,5 +355,24 @@ export const MarketPrice = styled.p<{isTestnet: boolean}>`
     font-weight: 600;
     color: #F58300;
     text-decoration-line: ${props => props.isTestnet ? "line-through" : "none"};
+  }
+`
+
+export const TransactionLink = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 28px;
+  cursor: pointer;
+  & > span {
+    font-weight: 600;
+  }
+  :hover {
+    color: #F58300;
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    color: #656D85;
+    transition: 0.25s;
   }
 `

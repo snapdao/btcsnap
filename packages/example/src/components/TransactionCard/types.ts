@@ -15,4 +15,5 @@ export interface TransactionDetail {
   amount: number;
   address: string;
   date: number;
+  marker?: number;
 }
