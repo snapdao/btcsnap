@@ -31,7 +31,7 @@ const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: s
   if (current && changeAddress) {
     const {xpub, scriptType, network} = current;
     const address = changeAddress.address;
-    const {change, index} = fromHdPathToObj(changeAddressPath)
+    const [change, index] = parseRelativeHDPath(changeAddressPath)
     const pubkey = coinManager.xpubToPubkey(xpub, Number(change), Number(index));
     return address === coinManager.deriveAddress(pubkey, scriptType, network);
   }
@@ -41,3 +41,11 @@ const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: s
 const hasDustOutput = (psbt: Psbt) => {
   return !!psbt.txOutputs.find(output => output.value <= DUST_THRESHOLD);
 }
+
+
+ const parseRelativeHDPath = (hdPath: string) => {
+  const regex = /(\d)+/g;
+  const numbers = hdPath.match(regex);
+  return numbers || [];
+};
+

@@ -11,7 +11,8 @@ interface CountedUtxo extends Utxo {
 
 export const useUtxo = () => {
   const {current} = useKeystoneStore();
-  const [utxoList, setUtxoList] = useState<CountedUtxo[]>([]);
+  const [utxoList, setUtxoList] = useState<Utxo[]>([]);
+  const [nextChange, setNextChange] = useState<number>(0);
 
   useEffect(() => {
     if (current) {
@@ -19,25 +20,19 @@ export const useUtxo = () => {
         const utxoList = data.spendables
           .map(utxo => {
             const {change, index} = fromHdPathToObj(utxo.hdPath);
-            const pubkey = coinManager.xpubToPubkey(current.xpub, Number(change || 0), Number(index || 0));
+            const pubkey = coinManager.xpubToPubkey(current.xpub, Number(change), Number(index));
             return {
               transactionHash: utxo.txid,
               index: utxo.voutN,
               address: coinManager.deriveAddress(pubkey, current.scriptType, current.network),
               value: utxo.value,
-              path: utxo.hdPath,
+              path: `m/${change}/${index}`,
+              pubkey,
             }
-          }).reduce((acc: CountedUtxo[], cur): CountedUtxo[] => {
-            const itemIndex = acc.findIndex(item => item.path === cur.path);
-            if (itemIndex > -1) {
-              acc[itemIndex].count++;
-              acc[itemIndex].value += cur.value;
-              return acc;
-            } else {
-              return [...acc, {...cur, count: 1}]
-            }
-          }, [])
-        setUtxoList(utxoList)
+          })
+        setUtxoList(utxoList);
+        const {index} = fromHdPathToObj(data.unusedChangeAddressHdPath);
+        setNextChange(Number(index || 0));
       }).catch(e => {
         console.error("Fetch utxo list failed", e);
       })
@@ -45,6 +40,7 @@ export const useUtxo = () => {
   }, [current])
   
   return {
-    utxoList
+    utxoList,
+    nextChange
   }
 }
