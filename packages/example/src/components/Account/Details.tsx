@@ -16,6 +16,7 @@ import {
   AccountDetailBottom, AccountListItem, AccountListLabel, AccountListLabelTop, AccountListLabelBottom
 } from "./styles"
 import { BitcoinUnits, isBTC } from "../../lib/unit";
+import { Utxo } from "../../interface";
 
 type AccountDetails = {
   close: () => void;
@@ -23,8 +24,33 @@ type AccountDetails = {
   unit: BitcoinUnits;
 }
 
+
+type GroupedUtxo = {
+  [id:string]: Utxo & {
+    count: number;
+  }
+}
+
 const Details = (({close, balance, unit}: AccountDetails) => {
   const { utxoList } = useUtxo()
+
+  const grouppedUtxos = utxoList.reduce((acc: GroupedUtxo, current: Utxo) => {
+    if(acc[current.address]) {
+      let newCount = acc[current.address].count + 1;
+      let newSum = acc[current.address].value + current.value
+      acc[current.address] = {
+        ...acc[current.address],
+        count: newCount,
+        value: newSum
+      }
+    } else {
+      acc[current.address] = {
+        ...current,
+        count: 1
+      }
+    }
+    return acc
+  }, {})
 
   const switchValue = (value: number) =>
     isBTC(unit) ? satoshiToBTC(value) : value
@@ -49,12 +75,12 @@ const Details = (({close, balance, unit}: AccountDetails) => {
         </AccountDetailHeader>
       </AccountDetailTop>
       <AccountDetailBottom>
-        {utxoList.map((item) => {
-          const {change, index} = fromHdPathToObj(item.path!);
+        {Object.values(grouppedUtxos).map((item) => {
+
           return (
             <AccountListItem key={item.address}>
               <AccountListLabel>
-                <AccountListLabelTop>{`M/${change}/${index}`}</AccountListLabelTop>
+                <AccountListLabelTop>{`${item.path}`}</AccountListLabelTop>
                 <AccountListLabelTop>{switchValue(item.value)}</AccountListLabelTop>
               </AccountListLabel>
               <AccountListLabel>

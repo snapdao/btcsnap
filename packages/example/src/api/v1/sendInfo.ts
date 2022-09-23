@@ -12,6 +12,7 @@ export type SendInfoResponse = {
     voutN: number;
     txid: string;
   }[];
+  unusedChangeAddressHdPath: string;
 };
 
 export const querySendInfo = (coinCode: SupportedCoins): Promise<SendInfoResponse> => {
