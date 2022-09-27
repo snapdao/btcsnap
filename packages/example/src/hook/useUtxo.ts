@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { querySendInfo } from "../api/v1/sendInfo";
+import { fetchTransaction } from "../api/v1/fetchTransaction";
+import { BitcoinNetworkCode } from '../constant/supportedCoins'
 import { fromHdPathToObj } from "../lib/cryptoPath";
 import { coinManager } from "../services/CoinManager";
-import { Utxo } from "../interface";
+import { BitcoinScriptType, Utxo, BitcoinNetwork } from "../interface";
 import { useKeystoneStore } from "../mobx";
+import { autoAction } from "mobx/dist/internal";
 
 interface CountedUtxo extends Utxo {
   count: number;
@@ -30,10 +33,17 @@ export const useUtxo = () => {
               pubkey,
             }
           })
+        return {utxoList, nextChange: data.unusedChangeAddressHdPath}
+      }).then(data => {
+        return fetchRawTx(data['utxoList'], data['nextChange'], current.network, current.scriptType)
+      })
+      .then(data => {
+        const {utxoList, nextChange} = data
         setUtxoList(utxoList);
-        const {index} = fromHdPathToObj(data.unusedChangeAddressHdPath);
+        const {index} = fromHdPathToObj(nextChange);
         setNextChange(Number(index || 0));
-      }).catch(e => {
+      })
+      .catch(e => {
         console.error("Fetch utxo list failed", e);
       })
     }
@@ -44,3 +54,33 @@ export const useUtxo = () => {
     nextChange
   }
 }
+
+
+const fetchRawTx = (utxoList:any[], nextChange: string, network: BitcoinNetwork, scriptType: BitcoinScriptType) => {
+  if (scriptType == BitcoinScriptType.P2PKH) {
+    let networkCode = BitcoinNetworkCode.Test;
+    return Promise.all(utxoList.map(each => {
+      if (network == BitcoinNetwork.Main) {
+        networkCode = BitcoinNetworkCode.Main;
+      }
+      return fetchTransaction(networkCode, each.transactionHash).then(
+        data => ({
+          ...each,
+          rawHex: data
+        })
+      )
+    })).then(newUtxoList => {
+      return {
+        utxoList: newUtxoList,
+        nextChange
+      }
+    })
+  } else {
+    return {
+      utxoList,
+      nextChange
+    }
+  }
+}
+
+

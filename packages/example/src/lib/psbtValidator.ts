@@ -28,13 +28,19 @@ const isFeeTooHigh = (psbt: Psbt, utxoAmount: number) => {
 const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: string, to: string) => {
   const changeAddress = psbt.txOutputs.find(output => output.address !== to);
   const {current} = getKeystoneStore();
-  if (current && changeAddress) {
-    const {xpub, scriptType, network} = current;
-    const address = changeAddress.address;
-    const [change, index] = parseRelativeHDPath(changeAddressPath)
-    const pubkey = coinManager.xpubToPubkey(xpub, Number(change), Number(index));
-    return address === coinManager.deriveAddress(pubkey, scriptType, network);
+  if(current) {
+    // changeAddress exists
+    if (changeAddress) {
+      const {xpub, scriptType, network} = current;
+      const address = changeAddress.address;
+      const [change, index] = parseRelativeHDPath(changeAddressPath)
+      const pubkey = coinManager.xpubToPubkey(xpub, Number(change), Number(index));
+      console.log(coinManager.deriveAddress(pubkey, scriptType, network))
+      return address === coinManager.deriveAddress(pubkey, scriptType, network);
+    }
+    return true
   }
+
   return false;
 }
 
