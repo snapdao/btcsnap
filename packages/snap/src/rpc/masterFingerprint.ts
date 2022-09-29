@@ -1,5 +1,6 @@
-import { PersistedData, Wallet } from "../interface";
+import { Wallet } from "../interface";
 import { sha256 } from "../bitcoin/crypto";
+import { getPersistedData, updatePersistedData } from '../utils/manageState';
 
 export async function getOrUpdateMFP(wallet: Wallet, xpub: string): Promise<string> {
   const mfp = await getMasterFingerprint(wallet);
@@ -12,10 +13,7 @@ export async function getOrUpdateMFP(wallet: Wallet, xpub: string): Promise<stri
     const hashBuffer = sha256(Buffer.from(xpub));
     const mfp = hashBuffer.toString("hex").slice(0, 8);
 
-    await wallet.request({
-      method: 'snap_manageState',
-      params: ['update', {mfp}],
-    });
+    await updatePersistedData(wallet, "mfp", mfp);
     return mfp;
   }
   return mfp;
@@ -26,7 +24,7 @@ export async function masterFingerprint(wallet: Wallet, action: "get" | "clear")
     case "get":
       return getMasterFingerprint(wallet);
     case "clear":
-      await clearMasterFingerprint(wallet);
+      await updatePersistedData(wallet, "mfp", "");
       break;
     default:
       return getMasterFingerprint(wallet);
@@ -34,19 +32,5 @@ export async function masterFingerprint(wallet: Wallet, action: "get" | "clear")
 }
 
 export async function getMasterFingerprint(wallet: Wallet): Promise<string> {
-  const persistedData = await wallet.request<PersistedData>({
-    method: 'snap_manageState',
-    params: ['get'],
-  });
-  if (persistedData && persistedData.mfp) {
-    return persistedData.mfp;
-  }
-  return "";
-}
-
-async function clearMasterFingerprint(wallet: Wallet): Promise<void> {
-  await wallet.request({
-    method: 'snap_manageState',
-    params: ['update', {mfp: ""}],
-  });
+  return getPersistedData(wallet, "mfp", "");
 }
