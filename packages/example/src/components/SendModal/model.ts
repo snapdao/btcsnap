@@ -5,7 +5,7 @@ import { generatePSBT, selectUtxos, SendInfo } from '../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
 import { getTransactionLink } from '../../lib/explorer';
-import { TransactionDetail, TransactionStatus, TransactionType } from "../TransactionCard/types";
+import { TransactionDetail, TransactionStatus, TransactionTypes } from "../TransactionList/types";
 import { trackSendSign, trackTransactionBroadcast, trackTransactionBroadcastSucceed } from "../../tracking";
 import { FeeRate } from "./types";
 import { BroadcastData, pushTransaction } from "../../api/v1/pushTransaction";
@@ -325,8 +325,8 @@ class SendViewModel {
   get sentTx(): TransactionDetail {
     return {
       ID: this.txId as string,
-      type: TransactionType.SEND,
-      status: TransactionStatus.PENDING,
+      type: TransactionTypes.Send,
+      status: TransactionStatus.Pending,
       date: new Date().getTime(),
       address: this.to,
       amount: Number(this.sendAmountText)
