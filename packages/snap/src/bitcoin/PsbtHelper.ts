@@ -1,5 +1,5 @@
 import { address, Network, Psbt, Transaction } from 'bitcoinjs-lib';
-import { getNetwork } from './index';
+import { getNetwork } from './getNetwork';
 import { BitcoinNetwork } from '../interface';
 
 export class PsbtHelper {

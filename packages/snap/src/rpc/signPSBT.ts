@@ -1,8 +1,9 @@
 import { BitcoinNetwork, ScriptType, Wallet } from '../interface';
 import { extractAccountPrivateKey } from './getExtendedPublicKey';
-import { AccountSigner, BtcTx, getNetwork } from '../bitcoin/index';
+import { AccountSigner, BtcTx } from '../bitcoin';
 import { getMasterFingerprint } from '../rpc/masterFingerprint';
 import { getPersistedData } from '../utils/manageState';
+import { getNetwork } from '../bitcoin/getNetwork';
 
 export async function signPsbt(wallet: Wallet, psbt: string, network: BitcoinNetwork, scriptType: ScriptType): Promise<{ txId: string, txHex: string }> {
   const snapNetwork = await getPersistedData<BitcoinNetwork>(wallet, "network", '' as BitcoinNetwork);

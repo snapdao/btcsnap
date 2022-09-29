@@ -1,4 +1,4 @@
-import { getNetwork } from './bitcoin';
+import { getNetwork } from './bitcoin/getNetwork';
 import {Wallet, MetamaskBTCRpcRequest} from './interface';
 import { getExtendedPublicKey, signPsbt, masterFingerprint, manageNetwork, validateRequest } from './rpc';
 

@@ -1,9 +1,10 @@
 import secp256k1 from 'secp256k1';
 import { BIP32Interface } from 'bip32';
-import { HDSigner, Network, networks, Psbt } from 'bitcoinjs-lib';
+import { HDSigner, Psbt } from 'bitcoinjs-lib';
 import { BitcoinNetwork } from '../interface';
 import { PsbtValidator } from '../bitcoin/PsbtValidator';
 import { PsbtHelper } from '../bitcoin/PsbtHelper';
+import { getNetwork } from './getNetwork';
 
 export class AccountSigner implements HDSigner {
     publicKey: Buffer;
@@ -71,8 +72,8 @@ export class BtcTx {
             from: psbtHelper.fromAddresses.join(","),
             to: psbtHelper.toAddresses.join(","),
             value: psbtHelper.sendAmount,
-            network: "testnet",
             fee: psbtHelper.fee,
+            network: "testnet",
         }
 
         if(changeAddress.length > 0){
@@ -105,16 +106,3 @@ export class BtcTx {
         }
     }
 }
-
-
-export function getNetwork(network: BitcoinNetwork): Network {
-    switch (network) {
-        case BitcoinNetwork.Main:
-            return networks.bitcoin
-        case BitcoinNetwork.Test:
-            return networks.testnet
-        default:
-            return networks.bitcoin
-    }
-}
-
