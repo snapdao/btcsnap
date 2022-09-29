@@ -44,7 +44,7 @@ export type Activity = {
   explorerUrl: string;
   isInternal: boolean;
   memo: string | null;
-  modifiedTime: string;
+  modifiedTime: number;
   status: ActivityStatus;
   subtitle: string;
   subtitleIsAddress: boolean;
@@ -67,6 +67,6 @@ export type Activity = {
   receiverAddresses?: [string, number][];
 };
 
-export const queryActivities = ({count, type = "all", coin} :ActivitiesRequest): Promise<ActivitiesResponse> => {
-  return query(endpoint, RequestType.Get, {}, {coin, activity_num: count, type });
+export const queryActivities = ({count, type = "all", coin, loadMoreTxs} :ActivitiesRequest): Promise<ActivitiesResponse> => {
+  return query(endpoint, RequestType.Get, {}, { coin, activity_num: count, type, load_more_ts: loadMoreTxs });
 };

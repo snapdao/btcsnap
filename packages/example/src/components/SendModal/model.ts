@@ -13,8 +13,8 @@ import { getTransactionLink } from '../../lib/explorer';
 import {
   TransactionDetail,
   TransactionStatus,
-  TransactionType,
-} from '../TransactionCard/types';
+  TransactionTypes
+} from '../TransactionList/types';
 import {
   trackSendSign,
   trackTransactionBroadcast,
@@ -352,8 +352,8 @@ class SendViewModel {
   get sentTx(): TransactionDetail {
     return {
       ID: this.txId as string,
-      type: TransactionType.SEND,
-      status: TransactionStatus.PENDING,
+      type: TransactionTypes.Send,
+      status: TransactionStatus.Pending,
       date: new Date().getTime(),
       address: this.to,
       amount: Number(this.sendAmountText),

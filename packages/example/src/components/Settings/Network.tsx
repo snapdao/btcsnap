@@ -46,7 +46,7 @@ const AddressType = (({open, close}: ConnectProps) => {
   return (
     <TransitionablePortal
       open={open}
-      transition={{ animation: 'slide up', duration: '300' }}
+      transition={{ animation: 'fade up', duration: '300' }}
     >
       <Modal
         open={true}

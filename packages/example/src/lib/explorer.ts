@@ -8,3 +8,12 @@ export const getTransactionLink = (transactionHash: string, network: BitcoinNetw
       : `${explorerHost}/bitcoin`;
   return `${host}/transaction/${transactionHash}`;
 }
+
+export const getTransactionDetailsLink = (id: string, network: BitcoinNetwork): string => {
+  const explorerHost = "https://mempool.space";
+  const host =
+    network === BitcoinNetwork.Test
+      ? `${explorerHost}/testnet`
+      : `${explorerHost}`;
+  return `${host}/tx/${id}`;
+}

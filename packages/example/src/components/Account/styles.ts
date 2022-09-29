@@ -1,3 +1,4 @@
+import { TransactionInfo } from "snapkit"
 import styled from "styled-components"
 
 export const AccountBackground = styled.div`
@@ -71,6 +72,9 @@ export const TestnetMark = styled.div`
 `
 
 export const AccountAsideRefresh = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin-right: 16px;
 `
 
@@ -80,7 +84,6 @@ export const TxListContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   ::-webkit-scrollbar {
@@ -107,6 +110,7 @@ export const EmptyTip = styled.p`
   font-size: 14px;
   line-height: 20px;
   color: #9095A3;
+  text-transform: capitalize;
 `
 
 export const LogoContainer = styled.div`
@@ -352,5 +356,48 @@ export const MarketPrice = styled.p<{isTestnet: boolean}>`
     font-weight: 600;
     color: #F58300;
     text-decoration-line: ${props => props.isTestnet ? "line-through" : "none"};
+  }
+`
+
+export const TransactionItem = styled(TransactionInfo)`
+  cursor: pointer;
+  & > div {
+    position: relative;
+  }
+  & > div::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: -0.5px;
+    background: var(--sk-color-ntd04);
+  }
+  :hover {
+    background: var(--sk-color-ntd04);
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    background: linear-gradient(222.5deg, rgba(250, 251, 255, 0.8) 47.82%, rgba(245, 247, 252, 0) 100%);
+    transition: 0.25s;
+  }
+`
+
+export const TransactionLink = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 28px;
+  cursor: pointer;
+  text-transform: uppercase;
+  & > span {
+    font-weight: 600;
+  }
+  :hover {
+    color: #F58300;
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    color: #656D85;
+    transition: 0.25s;
   }
 `
