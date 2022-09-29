@@ -176,26 +176,26 @@ const composePsbt = (
   if (!inputs) throw new Error('Utxo selections error please retry');
 
   inputs.forEach((each) => {
-    const hash = each.txId;
-    const index = each.vout;
+    const commonFields = {
+      hash: each.txId,
+      index: each.vout,
+      nonWitnessUtxo: Buffer.from(each.rawHex, 'hex'),
+      bip32Derivation: [
+        {
+          masterFingerprint,
+          path: each.path,
+          pubkey: each.pubkey,
+        },
+      ],
+    }
 
     if (scriptType === BitcoinScriptType.P2PKH && each.rawHex) {
       psbt.addInput({
-        hash,
-        index,
-        nonWitnessUtxo: Buffer.from(each.rawHex, 'hex'),
-        bip32Derivation: [
-          {
-            masterFingerprint,
-            path: each.path,
-            pubkey: each.pubkey,
-          },
-        ],
+        ...commonFields,
       });
     } else if (scriptType === BitcoinScriptType.P2WPKH) {
       psbt.addInput({
-        hash,
-        index,
+        ...commonFields,
         witnessUtxo: {
           script: payments.p2wpkh({
             pubkey: each.pubkey,
@@ -203,18 +203,10 @@ const composePsbt = (
           }).output as Buffer,
           value: each.value,
         },
-        bip32Derivation: [
-          {
-            masterFingerprint,
-            path: each.path,
-            pubkey: each.pubkey,
-          },
-        ],
       });
     } else if (scriptType === BitcoinScriptType.P2SH_P2WPKH) {
       psbt.addInput({
-        hash,
-        index,
+        ...commonFields,
         witnessUtxo: {
           script: calculateScript(each.pubkey, each),
           value: each.value,
@@ -223,13 +215,6 @@ const composePsbt = (
           pubkey: each.pubkey,
           network: networkConfig,
         }).output,
-        bip32Derivation: [
-          {
-            masterFingerprint,
-            path: each.path,
-            pubkey: each.pubkey,
-          },
-        ],
       });
     } else {
       throw new Error('script Type not matched');
