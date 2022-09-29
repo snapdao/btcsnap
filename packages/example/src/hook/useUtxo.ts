@@ -24,7 +24,7 @@ export const useUtxo = () => {
               index: utxo.voutN,
               address: coinManager.deriveAddress(pubkey, current.scriptType, current.network),
               value: utxo.value,
-              path: `m/${change}/${index}`,
+              path: utxo.hdPath,
               pubkey,
             }
           })
