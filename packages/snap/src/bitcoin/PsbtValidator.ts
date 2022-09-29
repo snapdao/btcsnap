@@ -1,5 +1,5 @@
 import { Psbt } from 'bitcoinjs-lib';
-import { AccountSigner, getNetwork } from './index';
+import { AccountSigner } from './index';
 import { BitcoinNetwork } from '../interface';
 import { PsbtHelper } from '../bitcoin/PsbtHelper';
 
