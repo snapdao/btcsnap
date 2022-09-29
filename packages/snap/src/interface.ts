@@ -26,7 +26,7 @@ export interface ManageNetwork {
   method: "btc_network";
   params: {
     action: "get" | "set";
-    network?: "mainnet" | "testnet";
+    network?: BitcoinNetwork;
   }
 }
 

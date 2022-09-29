@@ -1,7 +1,7 @@
 import { BitcoinNetwork, Wallet } from '../interface';
 import { getPersistedData, updatePersistedData } from '../utils/manageState';
 
-export async function manageNetwork(origin: string, wallet: Wallet, action: 'get' | 'set', target: 'mainnet' | 'testnet'): Promise<string | void> {
+export async function manageNetwork(origin: string, wallet: Wallet, action: 'get' | 'set', target: BitcoinNetwork | ""): Promise<string | void> {
   switch (action) {
     case 'get':
       return getPersistedData<BitcoinNetwork | "">(wallet, "network", "");

@@ -1,9 +1,10 @@
 import * as bip32 from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
-import { ScriptType, SLIP10Node, Wallet } from "../interface";
+import { BitcoinNetwork, ScriptType, SLIP10Node, Wallet } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
 import { getOrUpdateMFP } from "../rpc/masterFingerprint";
+import { getPersistedData, updatePersistedData } from '../utils/manageState';
 
 const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -41,7 +42,7 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
 
 
 export async function getExtendedPublicKey(origin: string, wallet: Wallet, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
-    const networkName = network == networks.bitcoin ? "Mainnet" : "Testnet";
+    const networkName = network == networks.bitcoin ? "mainnet" : "testnet";
     switch (scriptType) {
         case ScriptType.P2PKH:
         case ScriptType.P2WPKH:
@@ -61,6 +62,11 @@ export async function getExtendedPublicKey(origin: string, wallet: Wallet, scrip
                 const accountPublicKey = accountNode.neutered();
                 const xpub = convertXpub(accountPublicKey.toBase58(), scriptType, network);
                 const mfp = await getOrUpdateMFP(wallet, xpub);
+
+                const snapNetwork = await getPersistedData(wallet, "network", "");
+                if(!snapNetwork) {
+                    await updatePersistedData(wallet, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
+                }
 
                 return { mfp, xpub };
             } else {
