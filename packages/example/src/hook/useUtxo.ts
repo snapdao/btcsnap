@@ -10,7 +10,7 @@ import { useKeystoneStore } from '../mobx';
 export const useUtxo = () => {
   const {current} = useKeystoneStore();
   const [utxoList, setUtxoList] = useState<Utxo[]>([]);
-  const [nextChange, setNextChange] = useState<number>(0);
+  const [nextChangePath, setNextChangePath] = useState<string>("");
 
   useEffect(() => {
     if (current) {
@@ -24,7 +24,7 @@ export const useUtxo = () => {
               index: utxo.voutN,
               address: coinManager.deriveAddress(pubkey, current.scriptType, current.network),
               value: utxo.value,
-              path: `m/${change}/${index}`,
+              path: utxo.hdPath,
               pubkey,
             }
           })
@@ -35,8 +35,7 @@ export const useUtxo = () => {
       .then(data => {
         const {utxoList, nextChange} = data
         setUtxoList(utxoList);
-        const {index} = fromHdPathToObj(nextChange);
-        setNextChange(Number(index || 0));
+        setNextChangePath(nextChange);
       })
       .catch(e => {
         console.error("Fetch utxo list failed", e);
@@ -46,7 +45,7 @@ export const useUtxo = () => {
   
   return {
     utxoList,
-    nextChange
+    nextChange: nextChangePath
   }
 }
 

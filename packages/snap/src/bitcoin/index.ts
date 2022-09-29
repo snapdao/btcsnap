@@ -23,6 +23,9 @@ export class AccountSigner implements HDSigner {
             if (splitPath[0] == 'm') {
                 splitPath = splitPath.slice(1)
             }
+            if (splitPath.length > 2) {
+                splitPath = splitPath.slice(-2);
+            }
             const childNode = splitPath.reduce((prevHd, indexStr) => {
                 let index;
                 if (indexStr.slice(-1) === `'`) {

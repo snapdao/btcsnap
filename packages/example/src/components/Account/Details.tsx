@@ -76,10 +76,11 @@ const Details = (({close, balance, unit}: AccountDetails) => {
       </AccountDetailTop>
       <AccountDetailBottom>
         {Object.values(grouppedUtxos).map((item) => {
+          const {change, index} = fromHdPathToObj(item.path);
           return (
             <AccountListItem key={item.address}>
               <AccountListLabel>
-                <AccountListLabelTop>{item.path}</AccountListLabelTop>
+                <AccountListLabelTop>{`M/${change}/${index}`}</AccountListLabelTop>
                 <AccountListLabelTop>{switchValue(item.value)}</AccountListLabelTop>
               </AccountListLabel>
               <AccountListLabel>
