@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
-import { querySendInfo } from "../api/v1/sendInfo";
-import { fetchTransaction } from "../api/v1/fetchTransaction";
-import { BitcoinNetworkCode } from '../constant/supportedCoins'
-import { fromHdPathToObj } from "../lib/cryptoPath";
-import { coinManager } from "../services/CoinManager";
-import { BitcoinScriptType, Utxo, BitcoinNetwork } from "../interface";
-import { useKeystoneStore } from "../mobx";
-import { autoAction } from "mobx/dist/internal";
-
-interface CountedUtxo extends Utxo {
-  count: number;
-}
+import { useEffect, useState } from 'react';
+import { querySendInfo } from '../api/v1/sendInfo';
+import { fetchTransaction } from '../api/v1/fetchTransaction';
+import { BitcoinNetworkCode } from '../constant/supportedCoins';
+import { fromHdPathToObj } from '../lib/cryptoPath';
+import { coinManager } from '../services/CoinManager';
+import { BitcoinNetwork, Utxo } from '../interface';
+import { useKeystoneStore } from '../mobx';
 
 export const useUtxo = () => {
   const {current} = useKeystoneStore();
@@ -35,7 +30,7 @@ export const useUtxo = () => {
           })
         return {utxoList, nextChange: data.unusedChangeAddressHdPath}
       }).then(data => {
-        return fetchRawTx(data['utxoList'], data['nextChange'], current.network, current.scriptType)
+        return fetchRawTx(data['utxoList'], data['nextChange'], current.network)
       })
       .then(data => {
         const {utxoList, nextChange} = data
@@ -55,32 +50,18 @@ export const useUtxo = () => {
   }
 }
 
-
-const fetchRawTx = (utxoList:any[], nextChange: string, network: BitcoinNetwork, scriptType: BitcoinScriptType) => {
-  if (scriptType == BitcoinScriptType.P2PKH) {
-    let networkCode = BitcoinNetworkCode.Test;
-    return Promise.all(utxoList.map(each => {
-      if (network == BitcoinNetwork.Main) {
-        networkCode = BitcoinNetworkCode.Main;
-      }
-      return fetchTransaction(networkCode, each.transactionHash).then(
-        data => ({
-          ...each,
-          rawHex: data
-        })
-      )
-    })).then(newUtxoList => {
-      return {
-        utxoList: newUtxoList,
-        nextChange
-      }
-    })
-  } else {
+const fetchRawTx = (utxoList: any[], nextChange: string, network: BitcoinNetwork) =>
+  Promise.all(utxoList.map(each => {
+    const networkCode = network == BitcoinNetwork.Main ? BitcoinNetworkCode.Main : BitcoinNetworkCode.Test;
+    return fetchTransaction(networkCode, each.transactionHash).then(
+      data => ({
+        ...each,
+        rawHex: data,
+      }),
+    );
+  })).then(newUtxoList => {
     return {
-      utxoList,
-      nextChange
-    }
-  }
-}
-
-
+      utxoList: newUtxoList,
+      nextChange,
+    };
+  });
