@@ -1,6 +1,7 @@
-import { BtcTx, AccountSigner } from '../src/bitcoin'
-import { Psbt, networks } from 'bitcoinjs-lib'
-import * as bip32 from 'bip32'
+import { AccountSigner, BtcTx } from '../src/bitcoin';
+import { networks, Psbt } from 'bitcoinjs-lib';
+import * as bip32 from 'bip32';
+import { BitcoinNetwork } from '../src/interface';
 
 function getAccountSigner() {
     // only for testing
@@ -56,12 +57,11 @@ describe('bitcoin test', () => {
     describe('BtcTx', () => {
         it('should be able to construct the tx and extract the psbt json', () => {
             const testPsbtBase64 = "cHNidP8BAJwCAAAAAlVzsBWMfOCyW7PQz/c0Tjaco9vO4s5NiIhA//Sa4XzQAQAAAAD9////4BTcI2NIambjN7gC2nByKjIGX3qeT9Ta8OBnqjH45YkAAAAAAP3///8C948BAAAAAAAXqRSRWJI2amzfJK+m4cSA2yrYjGM3gIeYiVsAAAAAABepFJFYkjZqbN8kr6bhxIDbKtiMYzeAhwAAAAAAAQEg9Jg2AAAAAAAXqRSRWJI2amzfJK+m4cSA2yrYjGM3gIcBBBYAFOnPkTHZwCo6AtJGu0KXtWBsbLL5IgYC8yWoWQLSZNvLDL4UTpskY/glK9DFG8GWZvTIJGHkuqIYAQEBATEAAIAAAACAAAAAgAAAAAAAAAAAAAEBIIOEJgAAAAAAF6kUdFxWGQ0f6CdOfr6d1P4QyjSElZWHAQQWABQwB6va/o+HXD07cUQo53YUlKcfbCIGAvMlqFkC0mTbywy+FE6bJGP4JSvQxRvBlmb0yCRh5LqiGAEBAQExAACAAAAAgAAAAIAAAAAAAAAAAAAAAA==";
-            const tx = new BtcTx(testPsbtBase64);
+            const tx = new BtcTx(testPsbtBase64, BitcoinNetwork.Test);
             const testJson = tx.extractPsbtJson();
-            expect(testJson.inputs.length).toBe(2)
-            expect(testJson.outputs.length).toBe(2)
-            expect(testJson.inputs[0].prevTxId).toBe("5573b0158c7ce0b25bb3d0cff7344e369ca3dbcee2ce4d888840fff49ae17cd0")
-            expect(testJson.outputs[0].address).toBe("3EwY1PaQ5fB4M4nvWRYgUn2LNmokeJ36Pj")
+
+            expect(testJson.from).toBe(expect.any(String))
+            expect(testJson.to).toBe('3EwY1PaQ5fB4M4nvWRYgUn2LNmokeJ36Pj')
         })
 
 
@@ -78,7 +78,7 @@ describe('bitcoin test', () => {
                     }
                 ]
             })
-            const tx = new BtcTx(psbtTx.toBase64())
+            const tx = new BtcTx(psbtTx.toBase64(), BitcoinNetwork.Test)
             expect(tx.validateTx(signer)).toBe(true)
         })
 
@@ -95,7 +95,7 @@ describe('bitcoin test', () => {
                     }
                 ]
             })
-            const tx = new BtcTx(psbtTx.toBase64())
+            const tx = new BtcTx(psbtTx.toBase64(), BitcoinNetwork.Test)
             expect(tx.validateTx(signer)).toBe(false)
         })
 
@@ -113,7 +113,7 @@ describe('bitcoin test', () => {
                 ]
             })
 
-            const tx = new BtcTx(psbtTx.toBase64())
+            const tx = new BtcTx(psbtTx.toBase64(), BitcoinNetwork.Test)
             const { txId, txHex } = tx.signTx(signer)
             expect(txId).toBe("e2622d89aec4d1a97a416d9219017d7e6c79b418488f10a75386ea26f4ae9049")
             expect(txHex).toBe("02000000013f4c5c9934384a32bae6c95d39ccab1a3b1e3d3c5afef21c9b30f5444dffd6bb010000006a4730440220045bb7cd65a9e814db9cdf86be57b181530301cbabf3fbba3ab4b0a1782a4e9102207a01ed0ae1d6a18f20ebf21960b78be9efd623aa99882c5ce0790ee86abee6eb01210394297931f41f07038ab1570a92a3fbfbf4b6d73cb0e3f83f048b509456209897ffffffff011c250000000000001976a914b5b662acd579c2ab8ce83c8b94b4303cf17bf3a688ac00000000")
