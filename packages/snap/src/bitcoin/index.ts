@@ -1,7 +1,9 @@
 import secp256k1 from 'secp256k1';
 import { BIP32Interface } from 'bip32';
-import { Psbt, HDSigner, Network, networks } from 'bitcoinjs-lib'
-import { BitcoinNetwork } from "../interface"
+import { HDSigner, Network, networks, Psbt } from 'bitcoinjs-lib';
+import { BitcoinNetwork } from '../interface';
+import { PsbtValidator } from '../bitcoin/PsbtValidator';
+import { PsbtHelper } from '../bitcoin/PsbtHelper';
 
 export class AccountSigner implements HDSigner {
     publicKey: Buffer;
@@ -49,35 +51,34 @@ const validator = (pubkey: Buffer, msghash: Buffer, signature: Buffer) => {
 
 export class BtcTx {
     private tx: Psbt;
-    constructor(base64Psbt: string, network = networks.bitcoin) {
-        this.tx = Psbt.fromBase64(base64Psbt, { network })
+    private network: BitcoinNetwork;
+
+    constructor(base64Psbt: string, network: BitcoinNetwork) {
+        this.tx = Psbt.fromBase64(base64Psbt, { network: getNetwork(network) })
+        this.network = network;
     }
 
     validateTx(accountSigner: AccountSigner) {
-        let result = true;
-        this.tx.txInputs.forEach((each, index) => {
-            result = this.tx.inputHasHDKey(index, accountSigner)
-        })
-        const changeAddressValid = this.tx.txOutputs.some((_, index) =>
-            this.tx.outputHasHDKey(index, accountSigner)
-        );
-
-        return result && changeAddressValid;
+        const validator = new PsbtValidator(this.tx, this.network);
+        return validator.validate(accountSigner);
     }
 
     extractPsbtJson() {
-        return {
-            inputs: this.tx.txInputs.map(each => ({
-                prevTxId: each.hash.toString('hex'),
-                index: each.index,
-                sequence: each.sequence
-            })),
-            outputs: this.tx.txOutputs.map(each => ({
-                script: each.script.toString('hex'),
-                value: each.value,
-                address: each.address
-            }))
+        const psbtHelper = new PsbtHelper(this.tx, this.network);
+        const changeAddress = psbtHelper.changeAddresses
+
+        const transaction = {
+            from: psbtHelper.fromAddresses.join(","),
+            to: psbtHelper.toAddresses.join(","),
+            value: psbtHelper.sendAmount,
+            network: "testnet",
+            fee: psbtHelper.fee,
         }
+
+        if(changeAddress.length > 0){
+            return {...transaction, changeAddress: changeAddress.join(",")}
+        }
+        return transaction
     }
 
     extractPsbtJsonString() {
