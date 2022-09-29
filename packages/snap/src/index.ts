@@ -1,17 +1,31 @@
 import { getNetwork } from './bitcoin';
-import {Wallet, MetamaskBTCRpcRequest} from './interface'
-import { getExtendedPublicKey, signPsbt} from './rpc'
-import { masterFingerprint } from "./rpc/masterFingerprint";
-import { manageNetwork } from './rpc/manageNetwork';
+import {Wallet, MetamaskBTCRpcRequest} from './interface';
+import { getExtendedPublicKey, signPsbt, masterFingerprint, manageNetwork, validateRequest } from './rpc';
 
 declare let wallet: Wallet;
   
-type rpcRequest = {
+export type RpcRequest = {
   origin: string
   request: MetamaskBTCRpcRequest
 }
 
-export const onRpcRequest = async({origin, request}:rpcRequest) => {
+export const onRpcRequest = async({origin, request}:RpcRequest) => {
+
+  try {
+    await validateRequest(wallet, request);
+  } catch (error) {
+    await wallet.request({
+      method: 'snap_confirm',
+      params: [
+        {
+          prompt: 'Something went wrong',
+          description: error.message,
+        },
+      ],
+    });
+    throw error;
+  }
+
   switch (request.method) {
     case 'btc_getPublicExtendedKey':
       return getExtendedPublicKey(origin, wallet, request.params.scriptType, getNetwork(request.params.network))
