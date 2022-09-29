@@ -2,7 +2,10 @@ import { Psbt } from 'bitcoinjs-lib';
 import { AccountSigner } from './index';
 import { BitcoinNetwork } from '../interface';
 import { PsbtHelper } from '../bitcoin/PsbtHelper';
+import { fromHdPathToObj } from './cryptoPath';
 
+const BITCOIN_MAINNET_COIN_TYPE = 0;
+const BITCOIN_TESTNET_COIN_TYPE = 1;
 const BITCOIN_MAIN_NET_ADDRESS_PATTERN = /^(1|3|bc1)/;
 const BITCOIN_TEST_NET_ADDRESS_PATTERN = /^(m|n|2|tb1)/;
 
@@ -19,6 +22,10 @@ export class PsbtValidator {
     this.psbtHelper = new PsbtHelper(this.tx, network);
   }
 
+  get coinType(){
+    return this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAINNET_COIN_TYPE: BITCOIN_TESTNET_COIN_TYPE;
+  }
+
   allInputsHaveRawTxHex() {
     const result = this.tx.data.inputs.every((input, index) => !!input.nonWitnessUtxo);
     if (!result) {
@@ -28,8 +35,12 @@ export class PsbtValidator {
   }
 
   everyInputMatchesNetwork() {
-    const addressPattern = this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAIN_NET_ADDRESS_PATTERN : BITCOIN_TEST_NET_ADDRESS_PATTERN;
-    const result = this.psbtHelper.fromAddresses.every(address => addressPattern.test(address))
+    const result = this.tx.data.inputs.every(input =>
+      input.bip32Derivation.every(derivation => {
+        const {coinType} = fromHdPathToObj(derivation.path)
+        return Number(coinType) === this.coinType
+      })
+    )
     if (!result) {
       this.error = 'Not every input matches network';
     }
@@ -38,7 +49,17 @@ export class PsbtValidator {
 
   everyOutputMatchesNetwork() {
     const addressPattern = this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAIN_NET_ADDRESS_PATTERN : BITCOIN_TEST_NET_ADDRESS_PATTERN;
-    const result = this.tx.txOutputs.every((output) => addressPattern.test(output.address));
+    const result = this.tx.data.outputs.every((output, index) => {
+     if(output.bip32Derivation){
+       return output.bip32Derivation.every(derivation => {
+         const {coinType} = fromHdPathToObj(derivation.path)
+         return Number(coinType) === this.coinType
+       })
+     } else {
+       const address = this.tx.txOutputs[index].address;
+       return addressPattern.test(address);
+     }
+    })
 
     if (!result) {
       this.error = 'Not every output matches network';
