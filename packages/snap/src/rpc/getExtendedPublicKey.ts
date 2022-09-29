@@ -40,7 +40,8 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
 }
 
 
-export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
+export async function getExtendedPublicKey(origin: string, wallet: Wallet, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
+    const networkName = network == networks.bitcoin ? "Mainnet" : "Testnet";
     switch (scriptType) {
         case ScriptType.P2PKH:
         case ScriptType.P2WPKH:
@@ -49,8 +50,8 @@ export async function getExtendedPublicKey(wallet: Wallet, scriptType: ScriptTyp
                 method: 'snap_confirm',
                 params: [
                   {
-                    prompt: 'Access your extended public key?',
-                    description: 'Do you want to allow this app to access your extended public key?',
+                    prompt: 'Access your extended public key',
+                    description: `Do you want to allow ${origin} to access Bitcoin ${networkName} ${scriptType} extended public key?`,
                   },
                 ],
             });
