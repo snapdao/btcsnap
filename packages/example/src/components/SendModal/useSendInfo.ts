@@ -19,13 +19,14 @@ export const useSendInfo = () => {
   useEffect(() => {
     if(current && utxoList.length > 0) {
 
-      const changeAddressPubkey = coinManager.xpubToPubkey(current.xpub, Number(1), nextChange);
+      const {index} = fromHdPathToObj(nextChange)
+      const changeAddressPubkey = coinManager.xpubToPubkey(current.xpub, Number(1), Number(index));
       const changeAddress = coinManager.deriveAddress(changeAddressPubkey, current.scriptType, current.network);
       
       setSendInfo({
         masterFingerprint: Buffer.from(current.mfp, "hex"),
         changeAddress,
-        changeAddressPath: `m/1/${nextChange}`,
+        changeAddressPath: nextChange,
         changeAddressPubkey: changeAddressPubkey
       })
       

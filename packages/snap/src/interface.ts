@@ -22,7 +22,16 @@ export interface GetMasterFingerprint{
   }
 }
 
-export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt | GetMasterFingerprint
+export interface ManageNetwork {
+  method: "btc_network";
+  params: {
+    action: "get" | "set";
+    network?: BitcoinNetwork;
+  }
+}
+
+
+export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt | GetMasterFingerprint | ManageNetwork
 
 export type BTCMethodCallback = (
   originString: string,
@@ -47,7 +56,8 @@ export enum BitcoinNetwork {
 }
 
 export interface PersistedData {
-  mfp?: string
+  mfp?: string;
+  network?: BitcoinNetwork
 }
 
 export interface SLIP10Node {

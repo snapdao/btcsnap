@@ -122,6 +122,27 @@ export async function clearMasterFingerprint() {
   }
 }
 
+export async function updateNetworkInSnap(network: BitcoinNetwork) {
+  try {
+    return await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: [
+        snapId,
+        {
+          method: 'btc_network',
+          params: {
+            action: "set",
+            network,
+          }
+        },
+      ],
+    });
+  } catch (err) {
+    console.error("Snap set Network failed", err);
+    throw Error("Snap set Network failed");
+  }
+}
+
 export async function signPsbt(base64Psbt: string, network: BitcoinNetwork, scriptType: BitcoinScriptType) {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 

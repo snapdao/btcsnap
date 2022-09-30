@@ -15,6 +15,7 @@ import {
   NetworkItemLabel,
   NetworkItemRadio,
 } from "./styles"
+import { updateNetworkInSnap } from '../../lib/snap';
 
 
 interface ConnectProps {
@@ -30,10 +31,16 @@ enum NetOptions {
 const AddressType = (({open, close}: ConnectProps) => {
   const { settings: { network, setNetwork, scriptType }, current, switchToAccount} = useKeystoneStore();
 
-  const onNetworkChecked  = (netValue: BitcoinNetwork) => {
-    setNetwork(netValue);
-    current && switchToAccount(current.mfp, scriptType, netValue);
-    close();
+  const onNetworkChecked = (netValue: BitcoinNetwork) => {
+    updateNetworkInSnap(netValue).then((targetNetwork) => {
+      if(!!targetNetwork) {
+        setNetwork(netValue);
+        current && switchToAccount(current.mfp, scriptType, netValue);
+      }
+      close();
+    }).catch(() => {
+      close();
+    })
   }
 
   return (

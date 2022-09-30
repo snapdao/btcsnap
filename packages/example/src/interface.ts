@@ -20,9 +20,9 @@ export type Utxo = {
   transactionHash: string;
   index: number;
   value: number;
-  pubkey?: Buffer;
-  rawHex?: string;
-  path?: string;
+  pubkey: Buffer;
+  rawHex: string;
+  path: string;
 };
 
 export type Address = {
