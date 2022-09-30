@@ -42,6 +42,7 @@ export const useBalance = () => {
         })
         .catch((e) => {
           console.error("Fetch balance failed", e);
+          setStatus(AppStatus.Ready);
         });
     } else {
       setBalance(0);

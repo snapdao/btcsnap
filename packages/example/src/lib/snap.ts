@@ -123,6 +123,7 @@ export async function clearMasterFingerprint() {
 }
 
 export async function updateNetworkInSnap(network: BitcoinNetwork) {
+  const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
   try {
     return await ethereum.request({
       method: 'wallet_invokeSnap',
@@ -132,7 +133,7 @@ export async function updateNetworkInSnap(network: BitcoinNetwork) {
           method: 'btc_network',
           params: {
             action: "set",
-            network,
+            network: networkParams,
           }
         },
       ],
