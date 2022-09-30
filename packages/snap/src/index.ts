@@ -31,7 +31,7 @@ export const onRpcRequest = async({origin, request}:RpcRequest) => {
       return getExtendedPublicKey(origin, wallet, request.params.scriptType, getNetwork(request.params.network))
     case 'btc_signPsbt':
       const psbt = request.params.psbt;
-      return signPsbt(wallet, psbt, request.params.network, request.params.scriptType)
+      return signPsbt(origin, wallet, psbt, request.params.network, request.params.scriptType)
     case 'btc_masterFingerprint':
       return masterFingerprint(wallet, request.params.action);
     case 'btc_network':

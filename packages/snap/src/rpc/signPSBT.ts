@@ -5,7 +5,7 @@ import { getMasterFingerprint } from '../rpc/masterFingerprint';
 import { getPersistedData } from '../utils/manageState';
 import { getNetwork } from '../bitcoin/getNetwork';
 
-export async function signPsbt(wallet: Wallet, psbt: string, network: BitcoinNetwork, scriptType: ScriptType): Promise<{ txId: string, txHex: string }> {
+export async function signPsbt(domain: string, wallet: Wallet, psbt: string, network: BitcoinNetwork, scriptType: ScriptType): Promise<{ txId: string, txHex: string }> {
   const snapNetwork = await getPersistedData<BitcoinNetwork>(wallet, "network", '' as BitcoinNetwork);
   if(!snapNetwork){
     throw new Error('Network not match')
@@ -17,7 +17,7 @@ export async function signPsbt(wallet: Wallet, psbt: string, network: BitcoinNet
     params: [
       {
         prompt: 'Sign Bitcoin Transaction',
-        description: 'Please verify this ongoing Transaction Detail',
+        description: `Please verify this ongoing Transaction from ${domain}`,
         textAreaContent: btcTx.extractPsbtJsonString(),
       },
     ],
