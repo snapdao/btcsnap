@@ -34,6 +34,7 @@ export const MenuItemsContainer = styled.div`
   border: 1px solid #E1E6F0;
   border-radius: 16px;
   padding: 8px;
+  z-index: 9;
 `
 
 export const MenuItem = styled.div`
@@ -52,9 +53,6 @@ export const MenuItem = styled.div`
     background: rgba(0, 0, 0, 0.04);
     cursor: pointer;
     transition: 0.25s;
-  }
-  :last-child > span {
-    color: #FF6C0A;
   }
 `
 
@@ -77,6 +75,13 @@ export const MenuItemSpan = styled.span`
   font-size: 14px;
   line-height: 20px;
   color: #111214;
+`
+
+export const MenuItemIsConnect = styled.span<{connect?: boolean}>`
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color:${props => props.connect ? '#21A35D' : '#F54814' }
 `
 
 export const MenuDivider = styled.hr`

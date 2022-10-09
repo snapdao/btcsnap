@@ -9,6 +9,7 @@ export const useReceiveAddress = () => {
   const { current, settings: { dynamicAddress }} = useKeystoneStore();
   const [address, setAddress] = useState<string>("");
   const [path, setPath] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false)
   const isSameMFP = useMFPCheck();
 
   const fetchAddress = useCallback(async (current: IAccount) => {
@@ -40,6 +41,7 @@ export const useReceiveAddress = () => {
   useEffect(() => {
     if(current && isSameMFP) {
       if (dynamicAddress) {
+        setLoading(true);
         fetchAddress(current).then(({index, address}) => {
           const receiveAddress = {
             id: utils.generateAddressId(),
@@ -51,6 +53,7 @@ export const useReceiveAddress = () => {
           } as IAddressIn;
           current.validateAndAddAddress(receiveAddress, dynamicAddress)
           setReceiveAddress(current);
+          setLoading(false);
         })
       } else {
         setReceiveAddress(current);
@@ -63,6 +66,7 @@ export const useReceiveAddress = () => {
   
   return {
     address,
-    path
+    path,
+    loading
   }
 }

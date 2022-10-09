@@ -6,15 +6,14 @@ import Aside from "./Aside";
 import { useBalance } from "../../hook/useBalance";
 import {useKeystoneStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel } from "./styles"
-import { AppStatus } from "../../mobx/runtime";
 
 const Account = observer(() => {
-  const { runtime: {status} } = useKeystoneStore();
+  const { runtime: {isLoading} } = useKeystoneStore();
   const { balance, rate, refresh } = useBalance();
 
   return (
     <>
-      <Modal open={status !== AppStatus.Ready}>
+      <Modal open={isLoading}>
         <Loader inverted />
       </Modal>
       <AccountBackground>

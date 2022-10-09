@@ -5,7 +5,8 @@ import {
   ModalHeader,
   ModalHeaderContainer,
   ModalHeaderLabel,
-  TermsContainer
+  TermsContainer,
+  MaskArea
 } from "./styles"
 
 interface ConnectProps {
@@ -21,7 +22,7 @@ const TermsOfService = (({open, close}: ConnectProps) => {
     >
       <Modal
         open={true}
-        style={{width: '440px',height: '568px',marginTop: '32px', borderRadius: '20px'}}
+        style={{width: '440px',height: '568px',marginTop: '72px', borderRadius: '20px'}}
       >
         <ModalHeader>
           <ModalHeaderContainer>
@@ -49,6 +50,7 @@ const TermsOfService = (({open, close}: ConnectProps) => {
             the personal and exclusive jurisdiction of the courts located within Hong Kong SAR for the purpose of litigating any
             dispute.
           </p>
+          <MaskArea />
         </TermsContainer>
       </Modal>
     </TransitionablePortal>

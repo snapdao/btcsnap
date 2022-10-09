@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-
 import { useKeystoneStore } from "../../mobx";
 import { BitcoinNetwork, BitcoinUnit } from "../../interface";
 import SendModal from '../SendModal';
@@ -12,12 +11,12 @@ import {
   ActionContainer,
   ActionContainerItem,
   ActionLabel,
-  BalacneLeftArrow,
-  BalacneLeftItem,
-  BalacneLeftLabel,
-  BalacneRightItem,
-  BalacneRightLabel,
-  BalacneRightLine,
+  BalanceLeftArrow,
+  BalanceLeftItem,
+  BalanceLeftLabel,
+  BalanceRightItem,
+  BalanceRightLabel,
+  BalanceRightLine,
   BalanceContainer,
   BalanceLabel,
   CurrencyContainer,
@@ -45,22 +44,30 @@ enum MainModal {
 }
 
 const Main = observer(({balance, rate}: MainProps) => {
-  const { settings: { network }, current } = useKeystoneStore();
+  const { settings: { network }, current, runtime: {continueConnect}} = useKeystoneStore();
   const unit = bitcoinUnitMap[network];
   const [openedModal, setOpenedModal] = useState<MainModal | null>(null)
   const [mainUnit, setMainUnit] = useState<BitcoinUnit>(BitcoinUnit.BTC);
   const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(BitcoinUnit.Sats);
-  const currentBalance = mainUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance
+  const currentBalance = mainUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
 
   const openModal = useCallback((modal: MainModal) => {
+    if(!current) {
+      continueConnect();
+      return
+    }
     setOpenedModal(modal);
-  }, [])
+  }, [current])
 
   const closeModal = useCallback(() => {
     setOpenedModal(null);
   }, [])
 
   const switchUnits = () => {
+    if(!current) {
+      continueConnect();
+      return
+    }
     setMainUnit(secondaryUnit);
     setSecondaryUnit(mainUnit);
   }
@@ -76,16 +83,16 @@ const Main = observer(({balance, rate}: MainProps) => {
 
       <BalanceContainer>
         <BalanceLabel>current balance</BalanceLabel>
-        <BalacneLeftItem>
-          <BalacneLeftLabel onClick={() => {openModal(MainModal.Details)}}>
+        <BalanceLeftItem>
+          <BalanceLeftLabel onClick={() => {openModal(MainModal.Details)}}>
             {currentBalance} {unit[mainUnit]}
-          </BalacneLeftLabel>
-          <BalacneLeftArrow><ArrowRight size={25}/></BalacneLeftArrow>
-        </BalacneLeftItem>
-        <BalacneRightItem>
-          <BalacneRightLine>/</BalacneRightLine>
-          <BalacneRightLabel onClick={switchUnits}>{unit[secondaryUnit]}</BalacneRightLabel>
-        </BalacneRightItem>
+          </BalanceLeftLabel>
+          <BalanceLeftArrow><ArrowRight size={25}/></BalanceLeftArrow>
+        </BalanceLeftItem>
+        <BalanceRightItem>
+          <BalanceRightLine>/</BalanceRightLine>
+          <BalanceRightLabel onClick={switchUnits}>{unit[secondaryUnit]}</BalanceRightLabel>
+        </BalanceRightItem>
         <CurrencyContainer isTestnet={network === BitcoinNetwork.Test}>
           ≈ {(satoshiToBTC(balance) * rate).toFixed(2)} USD
         </CurrencyContainer>
@@ -110,7 +117,15 @@ const Main = observer(({balance, rate}: MainProps) => {
         Market Price: <span>{rate} USD</span>
       </MarketPrice>
 
-      { openedModal === MainModal.Details && <AccountDetail balance={currentBalance} unit={unit[mainUnit]} close={closeModal} /> }
+      { openedModal === MainModal.Details &&
+        <AccountDetail
+          open={openedModal === MainModal.Details}
+          balance={currentBalance}
+          unit={unit[mainUnit]}
+          close={closeModal}
+        />
+      }
+
       { openedModal === MainModal.Send &&
         <SendModal
           network={network}
@@ -120,7 +135,8 @@ const Main = observer(({balance, rate}: MainProps) => {
           currencyRate={rate}
         />
       }
-      { openedModal === MainModal.Receive && <ReceiveModal close={closeModal}/> }
+
+      { openedModal === MainModal.Receive && <ReceiveModal open={openedModal === MainModal.Receive} close={closeModal}/> }
     </AccountMain>
   );
 });
