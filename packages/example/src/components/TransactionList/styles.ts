@@ -309,7 +309,36 @@ export const BottomTipsContainer = styled.div`
   margin: 30px 0;
   span {
     display: inline-block;
-    height: 25.5px;
     color: #9095A3;
   }
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+    div {
+      height: 18px;
+      margin-left: 6px;
+      :hover {
+        svg path {
+          fill: #FF6C0A;
+        }
+      }
+    }
+  }
+  a {
+    display: block;
+    width: 187px;
+    color: #FF6C0A;
+    margin: 0 auto;
+    line-height: 20px;
+    :hover {
+    text-decoration: underline;
+    transition: 0.25s;
+    }
+    :not(:hover) {
+    text-decoration: none;
+    transition: 0.25s;
+  }
+}
 `

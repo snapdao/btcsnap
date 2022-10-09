@@ -348,6 +348,7 @@ export const AccountListLabelBottom = styled.span`
 export const ActionContainer = styled.div`
   display: flex;
 `
+
 export const ActionContainerItem = styled.div`
   margin-right: 48px
 `
@@ -440,5 +441,48 @@ export const TransactionLink = styled.div`
   :not(:hover) {
     color: #656D85;
     transition: 0.25s;
+  }
+`
+
+export const CookieInfo = styled.div`
+  padding: 12px 16px;
+  border-radius: 8px;
+  position: absolute;
+  left: 50%;
+  bottom:  calc(50% - 640px / 2 - 12px - 90px);
+  width: 528px;
+  height: 64px;
+  background: #FFFFFF;
+  margin-left: -264px;
+  z-index: 9;
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    & > span {
+      width: 44px;
+      height: 32px;
+      padding: 6px 12px;
+      margin-top: 4px;
+      border-radius: 10px;
+      cursor: pointer;
+      :hover {
+        color: #FFFFFF;
+        background: #F58300;
+        transition: 0.2s;
+      }
+      :not(:hover) {
+        color: #111214;
+        background: #F0F3FA;
+        transition: 0.2s;
+      }
+    }
+  }
+`
+
+export const PrivacyLink = styled.span`
+  color: #FF6C0A;
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
   }
 `
