@@ -11,20 +11,7 @@ export type RpcRequest = {
 
 export const onRpcRequest = async({origin, request}:RpcRequest) => {
 
-  try {
-    await validateRequest(wallet, request);
-  } catch (error) {
-    await wallet.request({
-      method: 'snap_confirm',
-      params: [
-        {
-          prompt: 'Something went wrong',
-          description: error.message,
-        },
-      ],
-    });
-    throw error;
-  }
+  await validateRequest(wallet, request);
 
   switch (request.method) {
     case 'btc_getPublicExtendedKey':
