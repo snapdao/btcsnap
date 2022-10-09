@@ -1,6 +1,7 @@
-import React from "react";
-import { Modal } from 'semantic-ui-react';
+import React, { useState } from "react";
+import { Modal, TransitionablePortal } from 'semantic-ui-react';
 import CloseIcon from "../Icons/CloseIcon";
+import LoadingIcon from "../Icons/Loading";
 import { ReactComponent as AccountIcon } from "./image/wallet.svg";
 import { satoshiToBTC } from "../../lib/helper";
 import { useUtxo } from "../../hook/useUtxo";
@@ -13,12 +14,18 @@ import {
   AccountDetailHeader,
   AccountTopBalance,
   AccountTopUnits,
-  AccountDetailBottom, AccountListItem, AccountListLabel, AccountListLabelTop, AccountListLabelBottom
+  AccountDetailBottom,
+  AccountListItem,
+  AccountListLabel,
+  AccountListLabelTop,
+  AccountListLabelBottom,
+  LoadingContainer
 } from "./styles"
 import { BitcoinUnits, isBTC } from "../../lib/unit";
 import { Utxo } from "../../interface";
 
 type AccountDetails = {
+  open: boolean;
   close: () => void;
   balance: number;
   unit: BitcoinUnits;
@@ -31,8 +38,9 @@ type GroupedUtxo = {
   }
 }
 
-const Details = (({close, balance, unit}: AccountDetails) => {
-  const { utxoList } = useUtxo()
+const Details = (({open, close, balance, unit}: AccountDetails) => {
+  const {utxoList, loading} = useUtxo();
+  const [isOpen, setIsOpen] = useState<boolean>(open);
 
   const grouppedUtxos = utxoList.reduce((acc: GroupedUtxo, current: Utxo) => {
     if(acc[current.address]) {
@@ -56,46 +64,56 @@ const Details = (({close, balance, unit}: AccountDetails) => {
     isBTC(unit) ? satoshiToBTC(value) : value
 
   return (
-    <Modal
-      className={'modal-container'}
-      open={true}
-      style={{ height: 640 }}
+    <TransitionablePortal
+      open={isOpen}
+      onClose={close}
+      transition={{ animation: 'fade up', duration: '300' }}
     >
-      <AccountDetailTop>
-        <ModalHeader>
-          <ModalHeaderContainer>
-            <AccountIcon/>
-            <ModalHeaderLabel>ACCOUNT</ModalHeaderLabel>
-          </ModalHeaderContainer>
-          <CloseIcon onClick={close}/>
-        </ModalHeader>
-        <AccountDetailHeader>
-          <AccountTopBalance>{balance}</AccountTopBalance>
-          <AccountTopUnits>{unit}</AccountTopUnits>
-        </AccountDetailHeader>
-      </AccountDetailTop>
-      <AccountDetailBottom>
-        {Object.values(grouppedUtxos).map((item) => {
-          const {change, index} = fromHdPathToObj(item.path);
-          return (
-            <AccountListItem key={item.address}>
-              <AccountListLabel>
-                <AccountListLabelTop>{`M/${change}/${index}`}</AccountListLabelTop>
-                <AccountListLabelTop>{switchValue(item.value)}</AccountListLabelTop>
-              </AccountListLabel>
-              <AccountListLabel>
-                <AccountListLabelBottom title={item.address}>
-                  {`${item.address.slice(0, 8)}...${item.address.slice(-8)}`}
-                </AccountListLabelBottom>
-                <AccountListLabelBottom>
-                  UTXOs:<span>{item.count}</span>
-                </AccountListLabelBottom>
-              </AccountListLabel>
-            </AccountListItem>
-          )
-        })}
-      </AccountDetailBottom>
-    </Modal>
+      <Modal
+        className={'modal-container'}
+        open={true}
+        style={{ height: 640 }}
+      >
+        <AccountDetailTop>
+          <ModalHeader>
+            <ModalHeaderContainer>
+              <AccountIcon/>
+              <ModalHeaderLabel>account</ModalHeaderLabel>
+            </ModalHeaderContainer>
+            <CloseIcon onClick={() => setIsOpen(false)}/>
+          </ModalHeader>
+          <AccountDetailHeader>
+            <AccountTopBalance>{balance}</AccountTopBalance>
+            <AccountTopUnits>{unit}</AccountTopUnits>
+          </AccountDetailHeader>
+        </AccountDetailTop>
+
+        <AccountDetailBottom>
+          {loading ?
+            <LoadingContainer><LoadingIcon /></LoadingContainer> :
+            Object.values(grouppedUtxos).map((item) => {
+            const {change, index} = fromHdPathToObj(item.path!);
+              return (
+                <AccountListItem key={item.address}>
+                  <AccountListLabel>
+                    <AccountListLabelTop>{`M/${change}/${index}`}</AccountListLabelTop>
+                    <AccountListLabelTop>{switchValue(item.value)}</AccountListLabelTop>
+                  </AccountListLabel>
+                  <AccountListLabel>
+                    <AccountListLabelBottom title={item.address}>
+                      {`${item.address.slice(0, 8)}...${item.address.slice(-8)}`}
+                    </AccountListLabelBottom>
+                    <AccountListLabelBottom>
+                      UTXOs:<span>{item.count}</span>
+                    </AccountListLabelBottom>
+                  </AccountListLabel>
+                </AccountListItem>
+              )
+            })
+          }
+        </AccountDetailBottom>
+      </Modal>
+    </TransitionablePortal>
   )
 })
 

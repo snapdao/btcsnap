@@ -1,13 +1,17 @@
 import React from 'react';
 import { Modal } from "semantic-ui-react";
+import { useKeystoneStore } from '../../mobx';
+import CloseIcon from '../Icons/CloseIcon';
 import "./Modal.css"
 
 interface ConnectModalProps {
   open: boolean;
+  close: () => void;
   children: JSX.Element | JSX.Element[];
+  isDisabled?: boolean
 }
 
-const BasicModal = ({open, children}: ConnectModalProps) => {
+const BasicModal = ({open, close, children, isDisabled = false}: ConnectModalProps) => {
   return (
     <Modal
       size="mini"
@@ -15,6 +19,7 @@ const BasicModal = ({open, children}: ConnectModalProps) => {
       open={open}
     >
       <Modal.Content>
+        <CloseIcon onClick={() =>!isDisabled && close() } isDisabled={isDisabled} />
         <div className="Connect-Modal-Content">
           {children}
         </div>

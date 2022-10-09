@@ -3,17 +3,25 @@ import { ReactComponent as SettingIcon } from "../../assets/settings.svg"
 import { ReactComponent as GitHub } from "./image/github.svg"
 import { ReactComponent as Discord } from "./image/discord.svg"
 import { ReactComponent as Disconnect } from "./image/disconnect.svg"
+import { ReactComponent as Connect } from "./image/connect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
-import { MenuItemsContainer, MenuItem, MenuItemSpan, MenuItemLink, MenuDivider } from "./styles"
 import { useKeystoneStore } from "../../mobx";
+import {
+  MenuItemsContainer,
+  MenuItem,
+  MenuItemSpan,
+  MenuItemLink,
+  MenuDivider,
+  MenuItemIsConnect
+} from "./styles"
 
 interface MenuPanelProps {
-  close: () => void;
   openSettingModal: () => void;
+  close: () => void;
 }
 
-const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
-  const { disconnectAccount } = useKeystoneStore();
+const MenuPanel = ({openSettingModal, close}: MenuPanelProps) => {
+  const { disconnectAccount, current, runtime: {continueConnect} } = useKeystoneStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 
@@ -41,10 +49,20 @@ const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
         </MenuItemLink>
       </MenuItem>
       <MenuDivider />
-      <MenuItem onClick={disconnect}>
-        <Disconnect />
-        <MenuItemSpan>Disconnect</MenuItemSpan>
-      </MenuItem>
+      {current
+        ? (
+          <MenuItem onClick={disconnect}>
+            <Disconnect />
+            <MenuItemIsConnect>Disconnect</MenuItemIsConnect>
+          </MenuItem>
+        )
+        : (
+          <MenuItem onClick={continueConnect}>
+            <Connect />
+            <MenuItemIsConnect connect>Connect</MenuItemIsConnect>
+          </MenuItem>
+        )
+      }
     </MenuItemsContainer>
   );
 };

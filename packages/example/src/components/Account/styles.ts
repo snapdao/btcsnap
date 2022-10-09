@@ -1,4 +1,4 @@
-import { TransactionInfo } from "snapkit"
+import { TransactionInfo, TransactionType } from "snapkit"
 import styled from "styled-components"
 
 export const AccountBackground = styled.div`
@@ -27,6 +27,19 @@ export const AccountLabel = styled.p`
   font-size: 12px;
   line-height: 18px;
   color: #9095A3;
+  a {
+    color: #9095A3;
+    :hover {
+      color: #111214;
+      transition: 0.25s;
+    }
+    :not(:hover) {
+      transition: 0.25s;
+    }
+  }
+  span {
+    margin: 0 4px;
+  }
 `
 
 export const AccountMain = styled.div`
@@ -104,13 +117,23 @@ export const TxListEmpty = styled.div`
   align-items: center;
 `
 
-export const EmptyTip = styled.p`
+export const EmptyTip = styled.div`
+  display: flex;
   margin-top: 16px;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   color: #9095A3;
   text-transform: capitalize;
+  div {
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  svg path{
+    fill: #F58300;
+  }
 `
 
 export const LogoContainer = styled.div`
@@ -132,7 +155,7 @@ export const BalanceLabel = styled.p`
   margin-bottom: 8px;
 `
 
-export const BalacneLeftItem = styled.div`
+export const BalanceLeftItem = styled.div`
   display: inline-block;
   font-weight: 400;
   font-size: 48px;
@@ -179,12 +202,12 @@ export const BalacneLeftItem = styled.div`
   }
 `
 
-export const BalacneLeftLabel = styled.span`
+export const BalanceLeftLabel = styled.span`
   display: inline-block;
   line-height: 64px;
 `
 
-export const BalacneLeftArrow = styled.span`
+export const BalanceLeftArrow = styled.span`
   visibility: hidden;
   line-height: 40px;
   vertical-align: middle;
@@ -192,21 +215,21 @@ export const BalacneLeftArrow = styled.span`
 `
 
 
-export const BalacneRightItem = styled.div`
+export const BalanceRightItem = styled.div`
   display: inline-block;
   margin-left: -25px;
   visibility: visible;
   opacity: 1;
 `
 
-export const BalacneRightLine = styled.span`
+export const BalanceRightLine = styled.span`
   display: inline-block;
   font-weight: 600;
   color: #9095A3;
   margin: 0 8px;
 `
 
-export const BalacneRightLabel = styled.span`
+export const BalanceRightLabel = styled.span`
   display: inline-block;
   font-weight: 600;
   color: #9095A3;
@@ -247,6 +270,7 @@ export const ModalHeaderLabel = styled.span`
   font-size: 16px;
   margin-left: 4px;
   font-weight: 600;
+  text-transform: uppercase;
 `
 
 export const AccountDetailTop = styled.div`
@@ -277,6 +301,20 @@ export const AccountDetailBottom = styled.div`
   padding: 24px 32px 32px;
 `
 
+export const LoadingContainer = styled.div`
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    animation: iconRotate 1s infinite;
+    animation-timing-function: linear;
+  }
+  @keyframes iconRotate {
+    0% {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+  }
+`
 
 export const AccountListItem = styled.div`
   margin-bottom: 24px;
@@ -371,6 +409,9 @@ export const TransactionItem = styled(TransactionInfo)`
     height: 1px;
     bottom: -0.5px;
     background: var(--sk-color-ntd04);
+  }
+  svg path {
+    fill:  ${props => props.type ===  TransactionType.SEND ? 'var(--sk-color-r60)' : 'var(--sk-color-g60)'};
   }
   :hover {
     background: var(--sk-color-ntd04);

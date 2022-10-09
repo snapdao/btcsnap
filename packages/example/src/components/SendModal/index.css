@@ -144,6 +144,7 @@
 .explorer-link:hover {
     color: #FF6C0A;
     text-decoration: underline;
+    transition: 0.25s;
 }
 
 .text-weight-normal {
@@ -255,6 +256,7 @@ input:focus-visible {
 
 .send-action-button:hover, .confirm-action-button:hover, .ok-action-button:hover {
     background-color: #F58300;
+    transition: 0.25s;
 }
 
 .action-button-primary, .action-button-secondary, .action-button-disable {

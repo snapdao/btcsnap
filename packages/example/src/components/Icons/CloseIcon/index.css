@@ -13,3 +13,17 @@
   background: rgba(0, 0, 0, 0.04);
   transition: 0.25s;
 }
+
+.Close-container-disabled {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Close-container-disabled:hover {
+  cursor: no-drop;
+  transition: 0.25s;
+}

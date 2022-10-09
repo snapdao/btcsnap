@@ -11,9 +11,11 @@ export const useUtxo = () => {
   const {current} = useKeystoneStore();
   const [utxoList, setUtxoList] = useState<Utxo[]>([]);
   const [nextChangePath, setNextChangePath] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (current) {
+      setLoading(true);
       querySendInfo(current.coinCode).then(data => {
         const utxoList = data.spendables
           .map(utxo => {
@@ -30,6 +32,7 @@ export const useUtxo = () => {
           })
         return {utxoList, nextChange: data.unusedChangeAddressHdPath}
       }).then(data => {
+        setLoading(false);
         return fetchRawTx(data['utxoList'], data['nextChange'], current.network)
       })
       .then(data => {
@@ -38,14 +41,16 @@ export const useUtxo = () => {
         setNextChangePath(nextChange);
       })
       .catch(e => {
+        setLoading(false);
         console.error("Fetch utxo list failed", e);
       })
     }
   }, [current])
-  
+
   return {
     utxoList,
-    nextChange: nextChangePath
+    nextChange: nextChangePath,
+    loading
   }
 }
 
