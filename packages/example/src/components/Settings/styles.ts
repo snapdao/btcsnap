@@ -251,7 +251,13 @@ export const AddressTips = styled.div`
 
 //----- Privacy Policy -----
 export const PrivacyContainer = styled.div`
-  padding: 20px 32px 0;
+  height: 468px;
+  margin: 20px 0;
+  padding: 0 32px;
+  overflow-y: hidden;
+  :hover {
+    overflow-y: overlay;
+  }
   & > p:first-child {
     color: #9095A3;
   }
@@ -262,12 +268,24 @@ export const PrivacyContainer = styled.div`
   }
   & > p:last-child {
     mask: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: none;
   }
 `
 
 //----- Terms of Service -----
 export const TermsContainer = styled.div`
-  padding: 20px 32px 0;
+  height: 468px;
+  margin: 20px 0;
+  padding: 0 32px;
+  overflow-y: hidden;
+  :hover {
+    overflow-y: overlay;
+  }
   & > p:first-child {
     color: #9095A3;
   }
@@ -277,6 +295,24 @@ export const TermsContainer = styled.div`
     margin: 20px 0 12px 0;
   }
   & > p:last-child {
-    mask: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+    padding-bottom: 20px;
   }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+`
+
+export const MaskArea = styled.div`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  border-bottom-left-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
+  background: #FFFFFF;
+  mask: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
 `

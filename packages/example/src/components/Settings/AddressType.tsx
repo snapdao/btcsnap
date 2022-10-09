@@ -79,7 +79,7 @@ const AddressType = (({open, close}: ConnectProps,) => {
     >
       <Modal
         open={true}
-        style={{width: '440px', marginTop: '120px', borderRadius: '20px'}}
+        style={{width: '440px', marginTop: '160px', borderRadius: '20px'}}
       >
         <ModalHeader>
           <ModalHeaderContainer>

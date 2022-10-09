@@ -15833,9 +15833,9 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-"snapkit@git+ssh://git@github.com:KeystoneHQ/snapkit#v0.1.10":
-  version "0.1.10"
-  resolved "git+ssh://git@github.com:KeystoneHQ/snapkit#8fe4d7ef0de8e1001065c4bae0daf261bda431e4"
+"snapkit@git+ssh://git@github.com:KeystoneHQ/snapkit#v0.1.14":
+  version "0.1.14"
+  resolved "git+ssh://git@github.com:KeystoneHQ/snapkit#d8cd222bc4f4d5868e430da52b58aabb623d7618"
 
 sockjs@^0.3.21:
   version "0.3.24"

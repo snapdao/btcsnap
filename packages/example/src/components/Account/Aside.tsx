@@ -10,16 +10,25 @@ import { BitcoinNetwork } from "../../interface";
 import NetworkIcon from "../Icons/Network";
 import ArrowRight from '../Icons/ArrowRight';
 import TransactionList from '../TransactionList';
+import { AppStatus } from '../../mobx/runtime';
 
 const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
-  const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false)
-  const {settings: {network}} = useKeystoneStore();
+  const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false);
+  const {settings: {network}, current, runtime: {continueConnect}} = useKeystoneStore();
   const {txList, refresh: refreshTransactions, loading} = useTransaction({size: 5});
 
   const refresh = useCallback(() => {
     refreshBalance();
     refreshTransactions();
   }, [refreshBalance, refreshTransactions])
+
+  const openTransaction = () => {
+    if(!current) {
+      continueConnect();
+      return;
+    }
+    setIsTransactionValue(true);
+  }
 
   return (
     <AccountAside>
@@ -36,7 +45,7 @@ const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
         <TxList network={network} txList={txList}/>
 
         <AccountAsideRefresh>
-          <TransactionLink onClick={() => setIsTransactionValue(true)}>
+          <TransactionLink onClick={openTransaction}>
             <span>all transactions</span>
             <ArrowRight size={18}/>
           </TransactionLink>
@@ -44,7 +53,13 @@ const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
         </AccountAsideRefresh>
       </AccountAsideContainer>
 
-      {isTransactionValue && <TransactionList network={network} open={isTransactionValue} close={() => setIsTransactionValue(false)} txDefaultList={txList} />}
+      {isTransactionValue &&
+        <TransactionList
+          network={network}
+          open={isTransactionValue}
+          close={() => setIsTransactionValue(false)}
+          txDefaultList={txList}
+        />}
     </AccountAside>
   );
 });

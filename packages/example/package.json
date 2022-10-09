@@ -36,7 +36,7 @@
     "react-scripts": "5.0.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.2",
-    "snapkit": "git+ssh://git@github.com:KeystoneHQ/snapkit#v0.1.10",
+    "snapkit": "git+ssh://git@github.com:KeystoneHQ/snapkit#v0.1.14",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "styled-components": "^5.3.5",

@@ -28,3 +28,18 @@ export const AddressPathContainer = styled.div<{visible: boolean}>`
     align-items: center;
   }
 `
+
+export const LoadingContainer = styled.div`
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    animation: iconRotate 1s infinite;
+    animation-timing-function: linear;
+  }
+  @keyframes iconRotate {
+    0% {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+  }
+`
