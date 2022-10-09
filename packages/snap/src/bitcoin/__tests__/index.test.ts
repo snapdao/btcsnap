@@ -5,6 +5,7 @@ import { BitcoinNetwork } from '../../interface';
 import { psbtFixture } from './fixtures/psbt';
 
 // only for testing
+// hybrid betray symbol aim promote vehicle extend west slice silver man belt
 const testPrivateAccountKey = 'tprv8gwYx7tEWpLxdJhEa7R8ofchqzRgme6iiuyJpegZ71XNhnAqeMjT6GV4wm3jqsUjXgXj99GB4kDminso5kxnLa6VXt3WVRzfmhbDSrfbCDv';
 
 function getAccountSigner() {
