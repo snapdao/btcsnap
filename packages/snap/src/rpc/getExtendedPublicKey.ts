@@ -3,8 +3,8 @@ import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
 import { BitcoinNetwork, ScriptType, SLIP10Node, Wallet } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
-import { getOrUpdateMFP } from "../rpc/masterFingerprint";
 import { getPersistedData, updatePersistedData } from '../utils/manageState';
+import { getMasterFingerprint, updateMasterFingerprintWithXpub } from "../rpc/masterFingerprint";
 
 const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -61,11 +61,16 @@ export async function getExtendedPublicKey(origin: string, wallet: Wallet, scrip
                 const accountNode = await extractAccountPrivateKey(wallet, network, scriptType)
                 const accountPublicKey = accountNode.neutered();
                 const xpub = convertXpub(accountPublicKey.toBase58(), scriptType, network);
-                const mfp = await getOrUpdateMFP(wallet, xpub);
 
                 const snapNetwork = await getPersistedData(wallet, "network", "");
                 if(!snapNetwork) {
                     await updatePersistedData(wallet, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
+                }
+
+                let mfp = await getMasterFingerprint(wallet);
+                if(!mfp){
+                    // Temporary solution, will be replaced by masterFingerprint returned from snap_getBip32Entropy
+                    mfp = await updateMasterFingerprintWithXpub(wallet, xpub);
                 }
 
                 return { mfp, xpub };
