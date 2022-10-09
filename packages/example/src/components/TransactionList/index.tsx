@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Modal } from "semantic-ui-react";
+import { Modal, Popup } from "semantic-ui-react";
 import { TransactionType } from "snapkit";
 import { observer } from "mobx-react-lite";
 import { useTransaction } from "../../hook/useTransaction";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { TransactionTypes, TransactionDetail, TransactionStatus } from "./types";
 import { BitcoinNetwork } from "../../interface";
+import InfoIcon from "../Icons/InfoIcon";
 import CloseIcon from "../Icons/CloseIcon";
 import TransactionIcon from "../Icons/TransactionIcon";
 import LoadingIcon from "../Icons/Loading";
@@ -33,6 +34,7 @@ const TransactionList = observer(({network, open, close, txDefaultList} : Settin
   const [selectedTransactionItem, setSelectedTransactionItem] = useState<TransactionDetail | null>(null);
   const [transactionList, setTransactionList] = useState<TransactionDetail[]>(txDefaultList);
   const {txList, loadMore, hasMore} = useTransaction({size: 10, offset: txDefaultList[txDefaultList.length - 1]?.marker});
+  const listTips = "The previous transactions of addresses before using BitcoinSnap will not be displayed here."
 
   const openTransactionItem = (item:TransactionDetail) => {
     setSelectedTransactionItem(item);
@@ -61,7 +63,16 @@ const TransactionList = observer(({network, open, close, txDefaultList} : Settin
           height={543}
           endMessage={
             <BottomTipsContainer>
-              <span>No more transactions</span>
+              <div>
+                <span>No more transactions</span>
+                <Popup
+                  trigger={<div><InfoIcon /></div>}
+                  position='top center'
+                  content={listTips}
+                  inverted
+                  style={{width: 260}}
+                />
+              </div>
             </BottomTipsContainer>
           }
         >
