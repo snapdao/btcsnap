@@ -22,7 +22,20 @@
     "testMatch": [
       "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
     ],
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "__tests__/fixtures",
+      "interface.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
   },
   "scripts": {
     "build": "yarn build:tx && yarn build:snap",
@@ -30,7 +43,7 @@
     "test:snap": "mm-snap serve",
     "build:snap": "rm -rf build && mm-snap build",
     "build:tx": "rm -rf dist && tsdx build",
-    "test": "jest --passWithNoTests"
+    "test": "jest --watchAll=false"
   },
   "dependencies": {
     "@metamask/snaps-cli": "^0.18.0",

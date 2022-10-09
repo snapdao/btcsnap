@@ -4,10 +4,10 @@ import { BitcoinNetwork } from '../interface';
 export function getNetwork(network: BitcoinNetwork): Network {
   switch (network) {
     case BitcoinNetwork.Main:
-      return networks.bitcoin
+      return networks.bitcoin;
     case BitcoinNetwork.Test:
-      return networks.testnet
+      return networks.testnet;
     default:
-      return networks.bitcoin
+      throw Error('Network net exist');
   }
 }

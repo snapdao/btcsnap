@@ -1,6 +1,6 @@
 import { networks } from "bitcoinjs-lib";
-import { convertXpub } from "../src/bitcoin/xpubConverter";
-import { ScriptType } from "../src/interface";
+import { convertXpub } from "../xpubConverter";
+import { ScriptType } from "../../interface";
 
 // abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about
 const BIP_32_EXTENDED_PUB_KEY = {
@@ -34,7 +34,7 @@ describe('xpubConverter', () => {
     it('should convert bip32 P2PKH xpub to slip132 xpub', () => {
       expect(convertXpub(BIP_32_EXTENDED_PUB_KEY.mainnet.P2PKH, ScriptType.P2PKH, networks.bitcoin)).toBe(SLIP_132_EXTENEDED_PUB_KEY.mainnet.P2PKH)
     })
-    
+
     it('should convert bip32 P2SH-P2WPKH xpub to slip132 ypub', () => {
       expect(convertXpub(BIP_32_EXTENDED_PUB_KEY.mainnet.P2SH_P2WPKH, ScriptType.P2SH_P2WPKH, networks.bitcoin)).toBe(SLIP_132_EXTENEDED_PUB_KEY.mainnet.P2SH_P2WPKH)
     })
@@ -48,7 +48,7 @@ describe('xpubConverter', () => {
     it('should convert bip32 P2PKH xpub to slip132 xpub', () => {
       expect(convertXpub(BIP_32_EXTENDED_PUB_KEY.testnet.P2PKH, ScriptType.P2PKH, networks.regtest)).toBe(SLIP_132_EXTENEDED_PUB_KEY.testnet.P2PKH)
     })
-    
+
     it('should convert bip32 P2SH-P2WPKH xpub to slip132 upub', () => {
       expect(convertXpub(BIP_32_EXTENDED_PUB_KEY.testnet.P2SH_P2WPKH, ScriptType.P2SH_P2WPKH, networks.regtest)).toBe(SLIP_132_EXTENEDED_PUB_KEY.testnet.P2SH_P2WPKH)
     })
