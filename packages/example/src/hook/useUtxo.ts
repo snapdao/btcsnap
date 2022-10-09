@@ -12,6 +12,7 @@ interface CountedUtxo extends Utxo {
 export const useUtxo = () => {
   const {current} = useKeystoneStore();
   const [utxoList, setUtxoList] = useState<CountedUtxo[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (current) {
@@ -37,14 +38,16 @@ export const useUtxo = () => {
               return [...acc, {...cur, count: 1}]
             }
           }, [])
-        setUtxoList(utxoList)
+        setUtxoList(utxoList);
+        setLoading(false);
       }).catch(e => {
         console.error("Fetch utxo list failed", e);
       })
     }
   }, [current])
-  
+
   return {
-    utxoList
+    utxoList,
+    loading
   }
 }

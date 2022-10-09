@@ -30,14 +30,14 @@ const Menu = () => {
       <MenuButton onClick={settingClick}>
         <MenuIcon />
       </MenuButton>
-      <Transition.Group animation={'slide down'} duration={'400'}>
+      <Transition.Group animation={'slide down'} duration={'200'}>
         {visible && (
           <div>
-            <MenuPanel close={closeMenuPanel} openSettingModal={openSettingModal} />
+            <MenuPanel openSettingModal={openSettingModal} close={closeMenuPanel} />
           </div>
         )}
       </Transition.Group>
-      <Settings open={isSettingModalOpen} close={closeSettingModal} />
+      { isSettingModalOpen && <Settings open={isSettingModalOpen} close={closeSettingModal} />}
     </MenuContainer>
   );
 };
