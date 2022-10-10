@@ -1,5 +1,4 @@
 import { Wallet } from "../interface";
-import { sha256 } from "../bitcoin/crypto";
 import { getPersistedData, updatePersistedData } from '../utils/manageState';
 
 export async function masterFingerprint(wallet: Wallet, action: "get" | "clear"): Promise<string | void> {
@@ -14,13 +13,10 @@ export async function masterFingerprint(wallet: Wallet, action: "get" | "clear")
   }
 }
 
-export const updateMasterFingerprintWithXpub = async (wallet: Wallet, xpub: string) => {
-  const hashBuffer = sha256(Buffer.from(xpub));
-  const mfp = hashBuffer.toString("hex").slice(0, 8);
+export const updateMasterFingerprint = async (wallet: Wallet, mfp: string) => {
   await updatePersistedData(wallet, "mfp", mfp);
-  return mfp;
 }
 
-export async function getMasterFingerprint(wallet: Wallet): Promise<string> {
+export const getMasterFingerprint = async (wallet: Wallet): Promise<string> => {
   return getPersistedData(wallet, "mfp", "");
 }
