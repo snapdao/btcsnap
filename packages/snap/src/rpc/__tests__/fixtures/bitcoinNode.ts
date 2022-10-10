@@ -8,6 +8,7 @@ export const bip44AccountNode: SLIP10Node = {
   depth: 2,
   index: 2147483648,
   parentFingerprint: 358337113,
+  masterFingerprint: 1942346250,
   privateKey: "a7661fa497f67a7d5a17f299e76635e16d69aca8b89ac8022cabad47690f47f6",
   publicKey: "03f72f0e3684b0d7295f391616f12a469070bfcd175c55366239047495a2c1c410"
 }

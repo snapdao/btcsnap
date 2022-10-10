@@ -26,6 +26,7 @@
 
     <button class="connect">Connect</button>
     <button class="getPubKey">Get extended Public Key</button>
+    <button class="getMFP">Get Master Fingerprint</button>
     <button class="signPsbt">Sign Psbt</button>
     <div id="extendedPubKey" style="margin-top:5px"></div>
     <div id="mfp" style="margin-top:5px"></div>
@@ -38,10 +39,12 @@
 
     const connectButton = document.querySelector('button.connect')
     const sendButton = document.querySelector('button.getPubKey')
+    const getMfpButton = document.querySelector('button.getMFP')
     const signButton = document.querySelector('button.signPsbt')
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', getPubKey)
+    getMfpButton.addEventListener('click', getMFP)
     signButton.addEventListener('click', signPsbt)
 
     // here we get permissions to interact with and install the snap
@@ -83,14 +86,11 @@
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
-            method: 'btc_masterFingerprint',
-            params: {
-              action: "get"
-            }
+            method: 'btc_getMasterFingerprint',
           }]
         })
         const mfpNode = document.getElementById("mfp")
-        mfpNode.textContent = `mfp: ${response.mfp}`
+        mfpNode.textContent = `mfp: ${response}`
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)
