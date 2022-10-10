@@ -1,5 +1,5 @@
 import { onRpcRequest } from '../index';
-import { getExtendedPublicKey, signPsbt, masterFingerprint, manageNetwork, validateRequest } from '../rpc';
+import { getExtendedPublicKey, signPsbt, getMasterFingerprint, manageNetwork, validateRequest } from '../rpc';
 import { BitcoinNetwork, ScriptType } from '../interface';
 import { WalletMock } from '../rpc/__mocks__/wallet';
 
@@ -12,7 +12,7 @@ jest.mock('../rpc', () => {
   return {
     getExtendedPublicKey: jest.fn(),
     signPsbt: jest.fn(),
-    masterFingerprint: jest.fn(),
+    getMasterFingerprint: jest.fn(),
     manageNetwork: jest.fn(),
     validateRequest,
   };
@@ -91,18 +91,15 @@ describe('index', () => {
       await expect(signPsbt).toBeCalled();
     });
 
-    it('should manage mfp when method btc_masterFingerprint get called', async () => {
+    it('should return mfp when method btc_getMasterFingerprint get called', async () => {
       await onRpcRequest({
         origin: 'origin',
         request: {
-          method: 'btc_masterFingerprint',
-          params: {
-            action: 'get',
-          },
+          method: 'btc_getMasterFingerprint',
         },
       });
 
-      await expect(masterFingerprint).toBeCalled();
+      await expect(getMasterFingerprint).toBeCalled();
     });
 
     it('should manage network when method btc_network get called', async () => {

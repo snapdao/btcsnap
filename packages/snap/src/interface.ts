@@ -16,10 +16,7 @@ export interface SignPsbt{
 }
 
 export interface GetMasterFingerprint{
-  method: "btc_masterFingerprint";
-  params: {
-    action: "get" | "clear"
-  }
+  method: "btc_getMasterFingerprint";
 }
 
 export interface ManageNetwork {
@@ -56,7 +53,6 @@ export enum BitcoinNetwork {
 }
 
 export interface PersistedData {
-  mfp?: string;
   network?: BitcoinNetwork
 }
 
