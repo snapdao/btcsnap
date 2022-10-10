@@ -1,3 +1,4 @@
+import { TransactionInfo, TransactionType } from "snapkit"
 import styled from "styled-components"
 
 export const AccountBackground = styled.div`
@@ -26,6 +27,19 @@ export const AccountLabel = styled.p`
   font-size: 12px;
   line-height: 18px;
   color: #9095A3;
+  a {
+    color: #9095A3;
+    :hover {
+      color: #111214;
+      transition: 0.25s;
+    }
+    :not(:hover) {
+      transition: 0.25s;
+    }
+  }
+  span {
+    margin: 0 4px;
+  }
 `
 
 export const AccountMain = styled.div`
@@ -71,6 +85,9 @@ export const TestnetMark = styled.div`
 `
 
 export const AccountAsideRefresh = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin-right: 16px;
 `
 
@@ -80,7 +97,6 @@ export const TxListContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   ::-webkit-scrollbar {
@@ -101,12 +117,23 @@ export const TxListEmpty = styled.div`
   align-items: center;
 `
 
-export const EmptyTip = styled.p`
+export const EmptyTip = styled.div`
+  display: flex;
   margin-top: 16px;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   color: #9095A3;
+  text-transform: capitalize;
+  div {
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  svg path{
+    fill: #F58300;
+  }
 `
 
 export const LogoContainer = styled.div`
@@ -128,7 +155,7 @@ export const BalanceLabel = styled.p`
   margin-bottom: 8px;
 `
 
-export const BalacneLeftItem = styled.div`
+export const BalanceLeftItem = styled.div`
   display: inline-block;
   font-weight: 400;
   font-size: 48px;
@@ -175,12 +202,12 @@ export const BalacneLeftItem = styled.div`
   }
 `
 
-export const BalacneLeftLabel = styled.span`
+export const BalanceLeftLabel = styled.span`
   display: inline-block;
   line-height: 64px;
 `
 
-export const BalacneLeftArrow = styled.span`
+export const BalanceLeftArrow = styled.span`
   visibility: hidden;
   line-height: 40px;
   vertical-align: middle;
@@ -188,21 +215,21 @@ export const BalacneLeftArrow = styled.span`
 `
 
 
-export const BalacneRightItem = styled.div`
+export const BalanceRightItem = styled.div`
   display: inline-block;
   margin-left: -25px;
   visibility: visible;
   opacity: 1;
 `
 
-export const BalacneRightLine = styled.span`
+export const BalanceRightLine = styled.span`
   display: inline-block;
   font-weight: 600;
   color: #9095A3;
   margin: 0 8px;
 `
 
-export const BalacneRightLabel = styled.span`
+export const BalanceRightLabel = styled.span`
   display: inline-block;
   font-weight: 600;
   color: #9095A3;
@@ -243,6 +270,7 @@ export const ModalHeaderLabel = styled.span`
   font-size: 16px;
   margin-left: 4px;
   font-weight: 600;
+  text-transform: uppercase;
 `
 
 export const AccountDetailTop = styled.div`
@@ -273,6 +301,20 @@ export const AccountDetailBottom = styled.div`
   padding: 24px 32px 32px;
 `
 
+export const LoadingContainer = styled.div`
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    animation: iconRotate 1s infinite;
+    animation-timing-function: linear;
+  }
+  @keyframes iconRotate {
+    0% {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+  }
+`
 
 export const AccountListItem = styled.div`
   margin-bottom: 24px;
@@ -306,6 +348,7 @@ export const AccountListLabelBottom = styled.span`
 export const ActionContainer = styled.div`
   display: flex;
 `
+
 export const ActionContainerItem = styled.div`
   margin-right: 48px
 `
@@ -352,5 +395,94 @@ export const MarketPrice = styled.p<{isTestnet: boolean}>`
     font-weight: 600;
     color: #F58300;
     text-decoration-line: ${props => props.isTestnet ? "line-through" : "none"};
+  }
+`
+
+export const TransactionItem = styled(TransactionInfo)`
+  cursor: pointer;
+  & > div {
+    position: relative;
+  }
+  & > div::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: -0.5px;
+    background: var(--sk-color-ntd04);
+  }
+  svg path {
+    fill:  ${props => props.type ===  TransactionType.SEND ? 'var(--sk-color-r60)' : 'var(--sk-color-g60)'};
+  }
+  :hover {
+    background: var(--sk-color-ntd04);
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    background: linear-gradient(222.5deg, rgba(250, 251, 255, 0.8) 47.82%, rgba(245, 247, 252, 0) 100%);
+    transition: 0.25s;
+  }
+`
+
+export const TransactionLink = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 28px;
+  cursor: pointer;
+  text-transform: uppercase;
+  & > span {
+    font-weight: 600;
+  }
+  :hover {
+    color: #F58300;
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    color: #656D85;
+    transition: 0.25s;
+  }
+`
+
+export const CookieInfo = styled.div`
+  padding: 12px 16px;
+  border-radius: 8px;
+  position: absolute;
+  left: 50%;
+  bottom:  calc(50% - 640px / 2 - 12px - 90px);
+  width: 528px;
+  height: 64px;
+  background: #FFFFFF;
+  margin-left: -264px;
+  z-index: 9;
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    & > span {
+      width: 44px;
+      height: 32px;
+      padding: 6px 12px;
+      margin-top: 4px;
+      border-radius: 10px;
+      cursor: pointer;
+      :hover {
+        color: #FFFFFF;
+        background: #F58300;
+        transition: 0.2s;
+      }
+      :not(:hover) {
+        color: #111214;
+        background: #F0F3FA;
+        transition: 0.2s;
+      }
+    }
+  }
+`
+
+export const PrivacyLink = styled.span`
+  color: #FF6C0A;
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
   }
 `

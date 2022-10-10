@@ -10,6 +10,7 @@
 }
 
 .ui.modal.Settings-Modal-Container .content {
+  height: 640px;
   border-radius: 20px;
   padding: 0;
 }

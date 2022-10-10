@@ -4,13 +4,14 @@ import Settings, { settingsInitialState } from "./settings";
 import { IAccount, IAccountIn } from "./types";
 import Runtime, { runtimeInitialState } from "./runtime";
 import { BitcoinNetwork, BitcoinScriptType } from "../interface";
+import User, { userInitialState } from './user';
 
 export const storeInitialState = {
   accounts: [],
   current: undefined,
   settings: settingsInitialState,
   runtime: runtimeInitialState,
-
+  user: userInitialState,
   _version: 0,
   _rehydrated: false,
 };
@@ -21,6 +22,7 @@ const KeystoneStore = types
     current: types.maybe(types.reference(Account)),
     settings: Settings,
     runtime: Runtime,
+    user: User,
     _version: types.number,
     _rehydrated: types.boolean,
   })

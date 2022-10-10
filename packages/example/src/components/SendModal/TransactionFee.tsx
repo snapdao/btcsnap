@@ -40,7 +40,7 @@ const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
   return (
     <TransitionablePortal
       open={open}
-      transition={{ animation: 'slide up', duration: '300' }}
+      transition={{ animation: 'fade up', duration: '300' }}
     >
       <Modal
         open={true}

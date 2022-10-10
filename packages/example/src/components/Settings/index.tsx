@@ -9,8 +9,9 @@ import { Divider } from "semantic-ui-react";
 import ArrowRight from "../Icons/ArrowRight";
 import { SettingHeader, SettingLabel, SettingContent, SettingItem, SettingRadio } from "./styles"
 import AddressType, { addressTypeOptions } from "./AddressType";
-import TermsOfService from "./TermsOfService";
-import PrivacyPolicy from "./PrivacyPolicy";
+// TODO:Hide before on-line.
+// import TermsOfService from "./TermsOfService";
+// import PrivacyPolicy from "./PrivacyPolicy";
 import Network from "./Network";
 import { VERSION } from "../../config";
 
@@ -27,9 +28,8 @@ enum SettingOptions {
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
-  const { settings: { network, scriptType, dynamicAddress, setDynamicAddress }} = useKeystoneStore();
+  const { settings: { network, scriptType, dynamicAddress, setDynamicAddress }, current} = useKeystoneStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
-
   const openDialog = (option: SettingOptions) => {
     setCurrentVisible(option);
   }
@@ -39,7 +39,7 @@ const Settings = observer(({open, close}: SettingProps) => {
   }
 
   return (
-    <Modal open={open} >
+    <Modal open={open}>
       <SettingHeader>
         <SettingLabel>
           <SettingsIcon />
@@ -49,32 +49,36 @@ const Settings = observer(({open, close}: SettingProps) => {
       </SettingHeader>
 
       <SettingContent>
-        <SettingItem onClick={() => openDialog(SettingOptions.Network)}>
-          <span>Network</span>
-          <span>
-            <NetworkIcon network={network} />
-            <span>{network}</span>
-            <ArrowRight size={18} />
-          </span>
-        </SettingItem>
-        <Network open={currentVisible === SettingOptions.Network} close={closeDialog} />
+        {current &&
+          <>
+            <SettingItem onClick={() => openDialog(SettingOptions.Network)}>
+              <span>Network</span>
+              <span>
+                <NetworkIcon network={network} />
+                <span>{network}</span>
+                <ArrowRight size={18} />
+              </span>
+            </SettingItem>
+            <Network open={currentVisible === SettingOptions.Network} close={closeDialog} />
 
-        <SettingItem onClick={() => openDialog(SettingOptions.AddressType)} >
-          <span>Address Type</span>
-          <span>
-            <span>{addressTypeOptions.find(option => option.type === scriptType)!.label}</span>
-            <ArrowRight size={18} />
-          </span>
-        </SettingItem>
-        <AddressType open={currentVisible === SettingOptions.AddressType} close={closeDialog} />
+            <SettingItem onClick={() => openDialog(SettingOptions.AddressType)} >
+              <span>Address Type</span>
+              <span>
+                <span>{addressTypeOptions.find(option => option.type === scriptType)!.label}</span>
+                <ArrowRight size={18} />
+              </span>
+            </SettingItem>
+            <AddressType open={currentVisible === SettingOptions.AddressType} close={closeDialog} />
 
-        <SettingItem onClick={() => { setDynamicAddress(!dynamicAddress)} } >
-          <span>Dynamic Address</span>
-          <span><SettingRadio toggle checked={dynamicAddress} /></span>
-        </SettingItem>
-        <Divider style={{margin: '16px'}} />
-
-        <SettingItem onClick={() => openDialog(SettingOptions.Terms)}>
+            <SettingItem onClick={() => { setDynamicAddress(!dynamicAddress)} } >
+              <span>Dynamic Address</span>
+              <span><SettingRadio toggle checked={dynamicAddress} /></span>
+            </SettingItem>
+            <Divider style={{margin: '16px'}} />
+          </>
+        }
+        {/* TODO:Hide before on-line.  */}
+        {/* <SettingItem onClick={() => openDialog(SettingOptions.Terms)}>
           <span>Terms of Service</span>
           <span><ArrowRight size={18} /></span>
         </SettingItem>
@@ -85,7 +89,7 @@ const Settings = observer(({open, close}: SettingProps) => {
           <span><ArrowRight size={18} /></span>
         </SettingItem>
         <PrivacyPolicy open={currentVisible === SettingOptions.Privacy} close={closeDialog} />
-        <Divider style={{margin: '16px'}} />
+        <Divider style={{margin: '16px'}} /> */}
 
         <SettingItem>
           <span>Version</span>

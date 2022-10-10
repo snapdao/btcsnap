@@ -75,11 +75,11 @@ const AddressType = (({open, close}: ConnectProps,) => {
   return (
     <TransitionablePortal
       open={open}
-      transition={{ animation: 'slide up', duration: '300' }}
+      transition={{ animation: 'fade up', duration: '300' }}
     >
       <Modal
         open={true}
-        style={{width: '440px', marginTop: '120px', borderRadius: '20px'}}
+        style={{width: '440px', marginTop: '160px', borderRadius: '20px'}}
       >
         <ModalHeader>
           <ModalHeaderContainer>
