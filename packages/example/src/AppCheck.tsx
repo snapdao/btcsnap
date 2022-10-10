@@ -1,17 +1,18 @@
 import { useKeystoneStore } from "./mobx";
 import { useMFPCheck } from "./hook/useMFPCheck";
 import { useEffect } from "react";
+import { observer } from 'mobx-react-lite';
 
-export const AppCheck = () => {
+export const AppCheck = observer(() => {
   const { resetStore } = useKeystoneStore();
-  const isSameMFP = useMFPCheck();
+  const { isChecking, isSameMFP } = useMFPCheck();
 
   useEffect(() => {
-    // Clear everything if seed changed in MM
-    if(!isSameMFP){
+    const mfpChangedInMM = !isChecking && !isSameMFP
+    if(mfpChangedInMM){
       resetStore();
     }
-  }, [isSameMFP])
+  }, [isChecking, isSameMFP])
 
-  return null;
-}
+  return <></>;
+});

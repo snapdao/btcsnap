@@ -36,9 +36,11 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
     //@ts-ignore
     // ignore checking since no function to set index for node
     node.__INDEX = slip10Node.index;
+
+    const mfp = slip10Node.masterFingerprint && slip10Node.masterFingerprint.toString(16)
     return {
         node: node.deriveHardened(0),
-        mfp: slip10Node.masterFingerprint?.toString(16)
+        mfp
     };
 }
 
