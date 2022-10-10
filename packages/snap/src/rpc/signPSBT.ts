@@ -1,7 +1,6 @@
 import { BitcoinNetwork, ScriptType, Wallet } from '../interface';
 import { extractAccountPrivateKey } from './getExtendedPublicKey';
 import { AccountSigner, BtcTx } from '../bitcoin';
-import { getMasterFingerprint } from '../rpc/masterFingerprint';
 import { getPersistedData } from '../utils/manageState';
 import { getNetwork } from '../bitcoin/getNetwork';
 
@@ -24,9 +23,8 @@ export async function signPsbt(domain: string, wallet: Wallet, psbt: string, net
   });
 
   if (result) {
-    const accountPrivateKey = await extractAccountPrivateKey(wallet, getNetwork(snapNetwork), scriptType)
-    const mfp = Buffer.from(await getMasterFingerprint(wallet), "hex")
-    const signer = new AccountSigner(accountPrivateKey, mfp)
+    const {node: accountPrivateKey, mfp} = await extractAccountPrivateKey(wallet, getNetwork(snapNetwork), scriptType)
+    const signer = new AccountSigner(accountPrivateKey, Buffer.from(mfp, 'hex'));
     btcTx.validateTx(signer)
     return btcTx.signTx(signer)
   } else {

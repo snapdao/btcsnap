@@ -4,7 +4,10 @@ import { Network, networks } from 'bitcoinjs-lib';
 import { BitcoinNetwork, ScriptType, SLIP10Node, Wallet } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
 import { getPersistedData, updatePersistedData } from '../utils/manageState';
-import { getMasterFingerprint, updateMasterFingerprintWithXpub } from "../rpc/masterFingerprint";
+import {
+    getMasterFingerprint,
+    updateMasterFingerprint,
+} from '../rpc/masterFingerprint';
 
 const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -14,7 +17,7 @@ const pathMap: Record<ScriptType, string[]> = {
 
 const CRYPTO_CURVE = "secp256k1";
 
-export async function extractAccountPrivateKey(wallet: Wallet, network: Network, scriptType: ScriptType): Promise<BIP32Interface> {
+export async function extractAccountPrivateKey(wallet: Wallet, network: Network, scriptType: ScriptType): Promise<{node:BIP32Interface, mfp: string}> {
     const path = pathMap[scriptType]
     if (network != networks.bitcoin) {
         path[path.length - 1] = "1'";
@@ -37,7 +40,10 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
     //@ts-ignore
     // ignore checking since no function to set index for node
     node.__INDEX = slip10Node.index;
-    return node.deriveHardened(0);
+    return {
+        node: node.deriveHardened(0),
+        mfp: slip10Node.masterFingerprint.toString(16)
+    };
 }
 
 
@@ -58,7 +64,7 @@ export async function getExtendedPublicKey(origin: string, wallet: Wallet, scrip
             });
 
             if(result) {
-                const accountNode = await extractAccountPrivateKey(wallet, network, scriptType)
+                const { node: accountNode, mfp } = await extractAccountPrivateKey(wallet, network, scriptType)
                 const accountPublicKey = accountNode.neutered();
                 const xpub = convertXpub(accountPublicKey.toBase58(), scriptType, network);
 
@@ -67,10 +73,9 @@ export async function getExtendedPublicKey(origin: string, wallet: Wallet, scrip
                     await updatePersistedData(wallet, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
                 }
 
-                let mfp = await getMasterFingerprint(wallet);
-                if(!mfp){
-                    // Temporary solution, will be replaced by masterFingerprint returned from snap_getBip32Entropy
-                    mfp = await updateMasterFingerprintWithXpub(wallet, xpub);
+                const storedMfp = await getMasterFingerprint(wallet);
+                if(!storedMfp){
+                    await updateMasterFingerprint(wallet, xpub);
                 }
 
                 return { mfp, xpub };

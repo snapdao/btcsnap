@@ -67,6 +67,12 @@ export interface SLIP10Node {
   readonly depth: number;
 
   /**
+   * The fingerprint of the master node, i.e., the node at depth 0. May be
+   * undefined if this node was created from an extended key.
+   */
+  readonly masterFingerprint?: number;
+
+  /**
    * The fingerprint of the parent key, or 0 if this is a master node.
    */
   readonly parentFingerprint: number;
