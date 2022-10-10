@@ -89,35 +89,12 @@ export async function getMasterFingerprint() {
       params: [
         snapId,
         {
-          method: 'btc_masterFingerprint',
-          params: {
-            action: "get",
-          }
+          method: 'btc_getMasterFingerprint',
         },
       ],
     });
   } catch (err) {
     console.error("Snap get master fingerprint failed", err);
-    return "";
-  }
-}
-
-export async function clearMasterFingerprint() {
-  try {
-    return await ethereum.request({
-      method: 'wallet_invokeSnap',
-      params: [
-        snapId,
-        {
-          method: 'btc_masterFingerprint',
-          params: {
-            action: "clear",
-          }
-        },
-      ],
-    });
-  } catch (err) {
-    console.error("Snap clear master fingerprint failed", err);
     return "";
   }
 }
