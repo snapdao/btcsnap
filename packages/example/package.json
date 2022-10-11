@@ -64,6 +64,15 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "__tests__/fixtures/"
+    ],
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
+    ],
+    "testEnvironment": "node"
+  },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/mixpanel-browser": "^2.38.0",
