@@ -10,7 +10,7 @@ export const useReceiveAddress = () => {
   const [address, setAddress] = useState<string>("");
   const [path, setPath] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false)
-  const isSameMFP = useMFPCheck();
+  const {isChecking, isSameMFP} = useMFPCheck();
 
   const fetchAddress = useCallback(async (current: IAccount) => {
     try {
@@ -39,7 +39,13 @@ export const useReceiveAddress = () => {
   }
   
   useEffect(() => {
-    if(current && isSameMFP) {
+    if(current) {
+      if(isChecking || (!isChecking && !isSameMFP)){
+        setAddress("");
+        setPath("");
+        return;
+      }
+
       if (dynamicAddress) {
         setLoading(true);
         fetchAddress(current).then(({index, address}) => {
@@ -62,7 +68,7 @@ export const useReceiveAddress = () => {
       setAddress("");
       setPath("");
     }
-  }, [current, isSameMFP])
+  }, [current, isChecking, isSameMFP])
   
   return {
     address,

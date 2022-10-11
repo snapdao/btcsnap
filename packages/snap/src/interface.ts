@@ -16,10 +16,7 @@ export interface SignPsbt{
 }
 
 export interface GetMasterFingerprint{
-  method: "btc_masterFingerprint";
-  params: {
-    action: "get" | "clear"
-  }
+  method: "btc_getMasterFingerprint";
 }
 
 export interface ManageNetwork {
@@ -56,7 +53,6 @@ export enum BitcoinNetwork {
 }
 
 export interface PersistedData {
-  mfp?: string;
   network?: BitcoinNetwork
 }
 
@@ -65,6 +61,12 @@ export interface SLIP10Node {
    * The 0-indexed path depth of this node.
    */
   readonly depth: number;
+
+  /**
+   * The fingerprint of the master node, i.e., the node at depth 0. May be
+   * undefined if this node was created from an extended key.
+   */
+  readonly masterFingerprint?: number;
 
   /**
    * The fingerprint of the parent key, or 0 if this is a master node.

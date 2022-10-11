@@ -3,14 +3,26 @@ import { useKeystoneStore } from "../mobx";
 import { getMasterFingerprint } from "../lib/snap";
 
 export const useMFPCheck = () => {
-  const {current} = useKeystoneStore()
-  const [isSameMFP, setIsSameMFP] = useState(true);
+  const {current, persistDataLoaded} = useKeystoneStore()
+  const [isChecking, setIsChecking] = useState<boolean>(true);
+  const [isSameMFP, setIsSameMFP] = useState<boolean>(false);
 
   useEffect(() => {
-    current && getMasterFingerprint().then(mfp => {
-      setIsSameMFP(current.mfp === mfp)
-    });
-  }, [current]);
+    if(!persistDataLoaded){
+      return;
+    }
 
-  return isSameMFP;
+    if(current){
+      setIsChecking(true);
+      getMasterFingerprint().then(mfp => {
+        setIsSameMFP(current.mfp === mfp);
+        setIsChecking(false);
+      });
+    }
+  }, [persistDataLoaded, current]);
+
+  return {
+    isChecking,
+    isSameMFP
+  };
 };

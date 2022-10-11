@@ -1,6 +1,6 @@
 import { getNetwork } from './bitcoin/getNetwork';
 import {Wallet, MetamaskBTCRpcRequest} from './interface';
-import { getExtendedPublicKey, signPsbt, masterFingerprint, manageNetwork, validateRequest } from './rpc';
+import { getExtendedPublicKey, signPsbt, getMasterFingerprint, manageNetwork, validateRequest } from './rpc';
 
 declare let wallet: Wallet;
   
@@ -19,8 +19,8 @@ export const onRpcRequest = async({origin, request}:RpcRequest) => {
     case 'btc_signPsbt':
       const psbt = request.params.psbt;
       return signPsbt(origin, wallet, psbt, request.params.network, request.params.scriptType)
-    case 'btc_masterFingerprint':
-      return masterFingerprint(wallet, request.params.action);
+    case 'btc_getMasterFingerprint':
+      return getMasterFingerprint(wallet);
     case 'btc_network':
       return manageNetwork(origin, wallet, request.params.action, request.params.network);
     default:
