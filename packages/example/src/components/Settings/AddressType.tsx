@@ -93,7 +93,7 @@ const AddressType = (({open, close}: ConnectProps,) => {
             <AddressItem onClick={() => onAddressTypedChecked(item)} key={item.label}>
               <AddressItemLabel>
                 <span>{item.label}</span>
-                <span>{balances?.[item.type] || "--"} {bitcoinUnitMap[network].BTC}</span>
+                <span>{balances?.[item.type] ?? '--'} {bitcoinUnitMap[network].BTC}</span>
               </AddressItemLabel>
               <AddressItemRadio value={item.label} checked={scriptType === item.type}/>
             </AddressItem>

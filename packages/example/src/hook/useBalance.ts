@@ -5,9 +5,10 @@ import { SupportedCoins } from "../constant/supportedCoins";
 import { NETWORK_SCRIPT_TO_COIN } from "../constant/bitcoin";
 import { queryCoinV2 } from "../api";
 import { queryCoinV1 } from "../api/v1/coin";
+import { IAccount } from '../mobx/types';
 
 export const useBalance = () => {
-  const {settings: {network, scriptType}, current, runtime: {setStatus}} = useKeystoneStore();
+  const {current, runtime: {setStatus}} = useKeystoneStore();
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
   const [rate, setRate] = useState(0);
@@ -17,8 +18,8 @@ export const useBalance = () => {
   };
 
   useEffect(() => {
-    const queryBalance = async () => {
-      const coinCode: SupportedCoins = NETWORK_SCRIPT_TO_COIN[network][scriptType];
+    const queryBalance = async (current: IAccount) => {
+      const coinCode: SupportedCoins = NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
       try {
         const values = await Promise.all([queryCoinV1(coinCode), queryCoinV2()]);
         const [v1Res, v2Res] = values;
@@ -34,7 +35,7 @@ export const useBalance = () => {
       if(count === 0) {
         setStatus(AppStatus.FetchBalance);
       }
-      queryBalance()
+      queryBalance(current)
         .then(({balance, rate}) => {
           setBalance(balance);
           setRate(rate);
