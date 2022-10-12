@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TransactionDetail, TransactionStatus, TransactionTypes } from "../components/TransactionList/types";
 import { ActivityStatus, queryActivities } from "../api/v1/activities";
-import { useKeystoneStore } from "../mobx";
+import { useAppStore } from "../mobx";
 import { satoshiToBTC } from "../lib/helper";
 
 interface UseTransaction {
@@ -10,7 +10,7 @@ interface UseTransaction {
 }
 
 export const useTransaction = ({size, offset}: UseTransaction) => {
-  const { current } = useKeystoneStore();
+  const { current } = useAppStore();
   const [txList, setTxList] = useState<TransactionDetail[]>([])
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);

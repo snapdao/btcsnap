@@ -14,7 +14,7 @@ import {
 } from "./styles"
 import { observer } from "mobx-react-lite";
 import { useReceiveAddress } from "../../hook/useReceiveAddress";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 
 type ReceiveModalProps = {
   open: boolean;
@@ -26,7 +26,7 @@ const STATIC_ADDRESS = "You will use this fixed address for every receipt of Bit
 
 const ReceiveModal = observer(({open, close}: ReceiveModalProps) => {
   const [isOpen,setIsOpen] = useState<boolean>(open);
-  const { settings: {dynamicAddress}} = useKeystoneStore();
+  const { settings: {dynamicAddress}} = useAppStore();
   const { address, path, loading } = useReceiveAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
 

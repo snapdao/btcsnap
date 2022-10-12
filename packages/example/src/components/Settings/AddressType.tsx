@@ -13,7 +13,7 @@ import {
   AddressItemRadio,
   AddressTips,
 } from "./styles"
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import { queryCoinV2 } from "../../api";
 import { NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
 import { satoshiToBTC } from "../../lib/helper";
@@ -40,7 +40,7 @@ export const addressTypeOptions: AddressType[] = [
 type Balances = Record<BitcoinScriptType, string>
 
 const AddressType = (({open, close}: ConnectProps,) => {
-  const { settings: {scriptType, setScriptType, network}, switchToAccount, current, connectedScriptTypes} = useKeystoneStore();
+  const { settings: {scriptType, setScriptType, network}, switchToAccount, current, connectedScriptTypes} = useAppStore();
   const [balances, setBalances] = useState<Balances>();
 
   useEffect(() => {

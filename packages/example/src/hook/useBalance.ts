@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useKeystoneStore } from "../mobx";
+import { useAppStore } from "../mobx";
 import { AppStatus } from "../mobx/runtime";
 import { SupportedCoins } from "../constant/supportedCoins";
 import { NETWORK_SCRIPT_TO_COIN } from "../constant/bitcoin";
@@ -8,7 +8,7 @@ import { queryCoinV1 } from "../api/v1/coin";
 import { IAccount } from '../mobx/types';
 
 export const useBalance = () => {
-  const {current, runtime: {setStatus}} = useKeystoneStore();
+  const {current, runtime: {setStatus}} = useAppStore();
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
   const [rate, setRate] = useState(0);

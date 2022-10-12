@@ -4,7 +4,7 @@ import { ReactComponent as Reveal } from "./image/reveal.svg"
 import { ReactComponent as LoadingIcon } from "./image/loading.svg"
 import Modal from "./Modal";
 import { getExtendedPublicKey } from "../../lib/snap";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import { trackGetAddress } from "../../tracking";
 import { register } from "../../services/CryptoService/register";
 import { AppStatus } from "../../mobx/runtime";
@@ -17,7 +17,7 @@ export interface RevealXpubProps {
 }
 
 const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
-  const { settings: { network, scriptType }, current, runtime: { setStatus } } = useKeystoneStore();
+  const { settings: { network, scriptType }, current, runtime: { setStatus } } = useAppStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
 
   const getXpub = useCallback(async () => {

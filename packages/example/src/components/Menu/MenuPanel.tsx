@@ -5,7 +5,7 @@ import { ReactComponent as Discord } from "./image/discord.svg"
 import { ReactComponent as Disconnect } from "./image/disconnect.svg"
 import { ReactComponent as Connect } from "./image/connect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import {
   MenuItemsContainer,
   MenuItem,
@@ -21,7 +21,7 @@ interface MenuPanelProps {
 }
 
 const MenuPanel = ({openSettingModal, close}: MenuPanelProps) => {
-  const { disconnectAccount, current, runtime: {continueConnect} } = useKeystoneStore();
+  const { disconnectAccount, current, runtime: {continueConnect} } = useAppStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 

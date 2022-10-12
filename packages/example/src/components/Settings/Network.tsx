@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "semantic-ui-react"
 import { TransitionablePortal } from "semantic-ui-react";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import { BitcoinNetwork } from "../../interface";
 import CloseIcon from "../Icons/CloseIcon";
 import NetworkIcon from "../Icons/Network";
@@ -29,7 +29,7 @@ enum NetOptions {
 }
 
 const AddressType = (({open, close}: ConnectProps) => {
-  const { settings: { network, setNetwork, scriptType }, current, switchToAccount} = useKeystoneStore();
+  const { settings: { network, setNetwork, scriptType }, current, switchToAccount} = useAppStore();
 
   const onNetworkChecked = (netValue: BitcoinNetwork) => {
     updateNetworkInSnap(netValue).then((targetNetwork) => {
