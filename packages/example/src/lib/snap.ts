@@ -1,5 +1,6 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { BitcoinNetwork, BitcoinScriptType } from '../interface';
+import { SnapError } from "../errors";
 
 declare global {
   interface Window {
@@ -52,17 +53,11 @@ interface ExtendedPublicKey {
 export async function getExtendedPublicKey(
   network: BitcoinNetwork,
   scriptType: BitcoinScriptType,
-  cb?: (xpub: ExtendedPublicKey) => void,
-) {
+): Promise<ExtendedPublicKey> {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 
-  let result = {
-    xpub: "",
-    mfp: "",
-  };
-
   try {
-    result = await ethereum.request({
+    return await ethereum.request({
       method: 'wallet_invokeSnap',
       params: [
         snapId,
@@ -75,10 +70,9 @@ export async function getExtendedPublicKey(
         },
       ],
     }) as ExtendedPublicKey;
-  } finally {
-    if (cb){
-      cb(result);
-    }
+  } catch (err: any) {
+    console.error('Get extended public key failed', err);
+    throw new SnapError(err?.message || "Get extended public key failed");
   }
 }
 
@@ -139,8 +133,8 @@ export async function signPsbt(base64Psbt: string, network: BitcoinNetwork, scri
         },
       ],
     })) as Promise<{ txId: string; txHex: string }>;
-  } catch (err) {
-    console.error(err);
-    throw new Error('Sign PSBT error');
+  } catch (err: any) {
+    console.error('Sign PSBT failed', err);
+    throw new SnapError(err?.message || "Sign PSBT failed");
   }
 }

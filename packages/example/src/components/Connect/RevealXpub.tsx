@@ -9,6 +9,7 @@ import { trackGetAddress } from "../../tracking";
 import { register } from "../../services/CryptoService/register";
 import { AppStatus } from "../../mobx/runtime";
 import { observer } from "mobx-react-lite";
+import { SnapError } from "../../errors";
 
 export interface RevealXpubProps {
   open: boolean;
@@ -22,7 +23,7 @@ const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
-    getExtendedPublicKey(network, scriptType, async ({xpub, mfp}) => {
+    getExtendedPublicKey(network, scriptType).then(async ({xpub, mfp}) => {
       if (xpub) {
         trackGetAddress(network);
         setStatus(AppStatus.Register);
@@ -33,6 +34,8 @@ const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
           console.error("Register failed", e);
         }
       }
+      setIsRevealing(false);
+    }).catch((err: SnapError) => {
       setIsRevealing(false);
     })
   }, [isRevealing, setIsRevealing, network, current?.xpub])
