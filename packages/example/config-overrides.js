@@ -24,7 +24,7 @@ module.exports = function override(config, env) {
             ENV: JSON.stringify(process.env.ENV),
         })
     );
-    config.devtool = false;
+    config.devtool = process.env.ENV === 'development' ? 'eval' : false;
 
     return config;
-  }
+}
