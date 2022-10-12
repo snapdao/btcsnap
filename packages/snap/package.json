@@ -1,12 +1,12 @@
 {
   "name": "btcsnap",
-  "version": "0.5.0-beta.5",
+  "version": "0.5.0-beta.7",
   "description": "btcsnap: Metamask snap to manage your bitcoin",
   "author": "aaronisme <aarondongchen@gmail.com>",
   "homepage": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/KeystoneHQ/btcsnap"
+    "url": "https://github.com/snapdao/btcsnap"
   },
   "license": "ISC",
   "main": "dist/index.js",
