@@ -18,7 +18,7 @@ Additional information can be found [here](https://docs.metamask.io/guide/snaps.
 ##
 
 ### BitcoinSnap Integration
-If you would like to integrate BitcoinSnap into your dapp, you can make use of our npm. Refer to the following document [here](https://github.com/KeystoneHQ/btcsnap/tree/master/packages/snap).
+If you would like to integrate BitcoinSnap into your dapp, you can make use of our npm. Refer to the following document [here](https://github.com/snapdao/btcsnap/tree/master/packages/snap).
 
 ##
 

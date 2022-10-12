@@ -37,7 +37,7 @@ const MenuPanel = ({openSettingModal, close}: MenuPanelProps) => {
         <MenuItemSpan>Settings</MenuItemSpan>
       </MenuItem>
       <MenuItem onClick={close}>
-        <MenuItemLink href="https://github.com/KeystoneHQ/btcsnap" target="_blank" rel="noopener noreferrer">
+        <MenuItemLink href="https://github.com/snapdao/btcsnap" target="_blank" rel="noopener noreferrer">
           <GitHub />
           <MenuItemSpan>GitHub</MenuItemSpan>
         </MenuItemLink>

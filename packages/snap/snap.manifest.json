@@ -1,10 +1,10 @@
 {
-  "version": "0.5.0-beta.5",
+  "version": "0.5.0-beta.7",
   "description": "btcsnap: Metamask Snap to manage your bitcoin",
   "proposedName": "btcsnap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/KeystoneHQ/btcsnap"
+    "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
     "shasum": "4qZHnc68Q1QlagerP7Jg+5VnlSeyTJt2JuGKDUjNmb0=",

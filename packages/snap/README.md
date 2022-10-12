@@ -82,4 +82,4 @@ yarn test
 
 ## Live Example
 
-If you would like to integrate BitcoinSnap into your dapp, you can use the following codes [here](https://github.com/KeystoneHQ/btcsnap/tree/master/packages/example).
+If you would like to integrate BitcoinSnap into your dapp, you can use the following codes [here](https://github.com/snapdao/btcsnap/tree/master/packages/example).
