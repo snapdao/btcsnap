@@ -1,4 +1,4 @@
-import { getKeystoneStore, utils } from "../../mobx";
+import { getAppStore, utils } from "../../mobx";
 import { BitcoinNetwork, BitcoinScriptType } from "../../interface";
 import { IAccountIn } from "../../mobx/types";
 import { EXTENDED_PUBKEY_PATH, NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
@@ -24,11 +24,11 @@ export const storeAccount = async (
   scriptType: BitcoinScriptType,
   network: BitcoinNetwork,
 ) => {
-  const keystoneStore = getKeystoneStore();
+  const appStore = getAppStore();
   try {
     const accountData = constructAccount(mfp, xpub, scriptType, network);
-    const storeAccount = keystoneStore.createAccount(accountData)
-    keystoneStore.applyAccount(storeAccount);
+    const storeAccount = appStore.createAccount(accountData)
+    appStore.applyAccount(storeAccount);
 
     const { unused } = await fetchAddresses(mfp, xpub, storeAccount.coinCode);
 
@@ -51,7 +51,7 @@ export const storeAccount = async (
       change: 0,
       index: receiveAddressIndex
     };
-    storeAccount.validateAndAddAddress(storeReceiveAddress, keystoneStore.settings.dynamicAddress);
+    storeAccount.validateAndAddAddress(storeReceiveAddress, appStore.settings.dynamicAddress);
   } catch (e) {
     console.error("Create Account failed", e);
     throw e;

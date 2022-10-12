@@ -5,13 +5,13 @@ import { SendInfo } from "../../lib";
 import { IAccount } from "../../mobx/types";
 import { fetchAddresses } from "../../api/v1/fetchAddress";
 import { fromHdPathToObj } from "../../lib/cryptoPath";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import { Address, Utxo } from "../../interface";
 import { coinManager } from "../../services/CoinManager";
 
 
 export const useSendInfo = () => {
-  const { current } = useKeystoneStore();
+  const { current } = useAppStore();
   const { utxoList, nextChange } = useUtxo();
   const { feeRate } = useFeeRate();
   const [sendInfo, setSendInfo] = useState<SendInfo | undefined>();

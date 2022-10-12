@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { queryFeeRate } from "../api/v1/feeRate";
-import { useKeystoneStore } from "../mobx";
+import { useAppStore } from "../mobx";
 import { FeeRate } from "../components/SendModal/types";
 
 const initFeeRate: FeeRate = {
@@ -10,7 +10,7 @@ const initFeeRate: FeeRate = {
 }
 
 export const useFeeRate = () => {
-  const {current} = useKeystoneStore()
+  const {current} = useAppStore()
   const [feeRate, setFeeRate] = useState<FeeRate>(initFeeRate);
   const [count, setCount] = useState(0)
 

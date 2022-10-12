@@ -1,5 +1,5 @@
 import { Psbt } from "bitcoinjs-lib";
-import { getKeystoneStore } from "../mobx";
+import { getAppStore } from "../mobx";
 import { coinManager } from "../services/CoinManager";
 import { fromHdPathToObj } from "./cryptoPath";
 
@@ -27,7 +27,7 @@ const isFeeTooHigh = (psbt: Psbt, utxoAmount: number) => {
 
 const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: string, to: string) => {
   const changeAddress = psbt.txOutputs.find(output => output.address !== to);
-  const {current} = getKeystoneStore();
+  const {current} = getAppStore();
   if(current) {
     // changeAddress exists
     if (changeAddress) {

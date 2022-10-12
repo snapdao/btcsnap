@@ -16,8 +16,8 @@ export const storeInitialState = {
   _rehydrated: false,
 };
 
-const KeystoneStore = types
-  .model('KeystoneStore', {
+const AppStore = types
+  .model('appStore', {
     accounts: types.array(Account),
     current: types.maybe(types.reference(Account)),
     settings: Settings,
@@ -109,4 +109,4 @@ const KeystoneStore = types
     }
   }))
 
-export default KeystoneStore;
+export default AppStore;

@@ -4,11 +4,11 @@ import { Loader, Modal, Transition } from 'semantic-ui-react';
 import Main from "./Main";
 import Aside from "./Aside";
 import { useBalance } from "../../hook/useBalance";
-import {useKeystoneStore} from "../../mobx";
+import {useAppStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel, CookieInfo, PrivacyLink } from "./styles"
 
 const Account = observer(() => {
-  const {persistDataLoaded,  runtime: {isLoading}, user: {isAgreeCookie, agreeCookie} } = useKeystoneStore();
+  const {persistDataLoaded,  runtime: {isLoading}, user: {isAgreeCookie, agreeCookie} } = useAppStore();
   const { balance, rate, refresh } = useBalance();
 
   return (

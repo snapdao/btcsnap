@@ -1,4 +1,4 @@
-import { useKeystoneStore, utils } from "../mobx";
+import { useAppStore, utils } from "../mobx";
 import { useCallback, useEffect, useState } from "react";
 import { fetchAddresses } from "../api/v1/fetchAddress";
 import { fromHdPathToObj } from "../lib/cryptoPath";
@@ -6,7 +6,7 @@ import { IAccount, IAddressIn } from "../mobx/types";
 import { useMFPCheck } from "./useMFPCheck";
 
 export const useReceiveAddress = () => {
-  const { current, settings: { dynamicAddress }} = useKeystoneStore();
+  const { current, settings: { dynamicAddress }} = useAppStore();
   const [address, setAddress] = useState<string>("");
   const [path, setPath] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false)

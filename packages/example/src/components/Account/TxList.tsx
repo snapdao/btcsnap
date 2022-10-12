@@ -4,7 +4,7 @@ import { ReactComponent as Transactions } from "./image/transactions.svg";
 import { observer } from "mobx-react-lite";
 import { BitcoinNetwork } from "../../interface";
 import { TxListContainer, TxListContent, TxListEmpty, EmptyTip, TransactionItem } from "./styles";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import { TransactionTypes, TransactionDetail, TransactionStatus } from "../TransactionList/types";
 import TransactionDetails from "../TransactionList/TransactionDetails";
 import InfoIcon from "../Icons/InfoIcon";
@@ -18,7 +18,7 @@ interface TxCardProps {
 const TxList = observer(({txList, network}: TxCardProps) => {
   const [transactionDetailsItem, setTransactionDetailsItem] = useState<TransactionDetail | null>(null);
   const listTips = "The previous transactions of addresses before using BitcoinSnap will not be displayed here."
-  const { current } = useKeystoneStore();
+  const { current } = useAppStore();
   const transactions = [...txList];
   transactions.sort((tx1, tx2) => tx2.date - tx1.date);
   const openTransactionItem = (tx:TransactionDetail) => {

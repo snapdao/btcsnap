@@ -5,10 +5,10 @@ import { BitcoinNetworkCode } from '../constant/supportedCoins';
 import { fromHdPathToObj } from '../lib/cryptoPath';
 import { coinManager } from '../services/CoinManager';
 import { BitcoinNetwork, Utxo } from '../interface';
-import { useKeystoneStore } from '../mobx';
+import { useAppStore } from '../mobx';
 
 export const useUtxo = () => {
-  const {current} = useKeystoneStore();
+  const {current} = useAppStore();
   const [utxoList, setUtxoList] = useState<Utxo[]>([]);
   const [nextChangePath, setNextChangePath] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);

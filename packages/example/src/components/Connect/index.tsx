@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import Install from "./Install";
 import Connect from "./Connect";
 import RevealXpub  from "./RevealXpub";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import "./index.css";
 import { Browsers } from "snapkit";
 import { isBrowserSupport } from '../../lib/helper';
@@ -23,7 +23,7 @@ const Index = observer(() => {
     current,
     persistDataLoaded,
     runtime: {status, setStatus, connected, setConnected}
-  } = useKeystoneStore();
+  } = useAppStore();
   const [step, setStep] = useState<ConnectStep>(ConnectStep.Done);
 
   useEffect(() => {
