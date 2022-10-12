@@ -36,7 +36,7 @@ const result: string = await ethereum.request({
       {
         method: 'btc_getPublicExtendedKey',
         params: {
-          network: "Main" // for testnet use "Test" ,
+          network: "Main", // for testnet use "Test" ,
           scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
         },
       },
@@ -54,8 +54,8 @@ const result: { txId:string, txHex:string } = await ethereum.request({
         {
           method: 'btc_signPsbt',
           params: {
-            psbt: base64Psbt // base64 string for the pbst,
-            network: "Main" // for testnet use "Test",
+            psbt: base64Psbt, // base64 string for the pbst,
+            network: "Main", // for testnet use "Test",
             scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
           },
         },
@@ -79,6 +79,12 @@ Use the following command to run tests:
 ```shell
 yarn test
 ```
+
+#### Testing Coverage
+
+| File       | % Stmts | % Branch | % Funcs | % Lines |
+|------------|---------|----------|---------|---------|
+| All files  |    97.2 |    91.34 |     100 |   97.14 |
 
 ## Live Example
 
