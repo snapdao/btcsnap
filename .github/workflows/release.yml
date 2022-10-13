@@ -36,6 +36,7 @@ jobs:
           BACKEND_API_AUTH: ${{ secrets[env.VAR_BACKEND_API_AUTH]}}
           BACKEND_API_DOMAIN: ${{ secrets[env.VAR_BACKEND_API_DOMAIN]}}
           BUCKET_NAME: ${{ secrets[env.VAR_BUCKET_NAME]}}
+          ENV: ${{inputs.environment}}
       - name: publish to s3
         working-directory: packages/example
         run: |

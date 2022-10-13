@@ -11,7 +11,7 @@ export const CONTEXT = {
 
 export const trackInit = () => {
   const trackToken = TRACK_TOKEN;
-  const isNonProd = ENVIRONMENT !== "production";
+  const isNonProd = ENVIRONMENT !== "PRODUCTION";
 
   mixpanel.init(trackToken, {
     debug: isNonProd,
