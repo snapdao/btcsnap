@@ -37,7 +37,7 @@ export const useReceiveAddress = () => {
       setPath(`M/0/${receiveAddress.index}`);
     }
   }
-  
+
   useEffect(() => {
     if(current) {
       if(isChecking || (!isChecking && !isSameMFP)){
@@ -69,7 +69,7 @@ export const useReceiveAddress = () => {
       setPath("");
     }
   }, [current, isChecking, isSameMFP])
-  
+
   return {
     address,
     path,
