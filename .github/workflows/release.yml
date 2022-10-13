@@ -1,0 +1,49 @@
+name: "Deploy BTC Snap"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy snap"
+        type: choice
+        options:
+          - STAGING
+          - PRODUCTION
+        required: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: set environment names
+        run: |
+          echo "VAR_BACKEND_API_AUTH=BACKEND_API_AUTH_${{inputs.environment}}" >> $GITHUB_ENV
+          echo "VAR_BACKEND_API_DOMAIN=BACKEND_API_DOMAIN_${{inputs.environment}}" >> $GITHUB_ENV
+          echo "VAR_AWS_REGION=AWS_REGION_${{inputs.environment}}" >> $GITHUB_ENV
+          echo "VAR_BUCKET_NAME=BUCKET_NAME_${{inputs.environment}}" >> $GITHUB_ENV
+      - name: install dependencies
+        run: yarn install
+      - name: run test
+        run: yarn test
+      - name: Build
+        run: yarn run build
+        working-directory: packages/example
+        env:
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          BACKEND_API_AUTH: ${{ secrets[env.VAR_BACKEND_API_AUTH]}}
+          BACKEND_API_DOMAIN: ${{ secrets[env.VAR_BACKEND_API_DOMAIN]}}
+          BUCKET_NAME: ${{ secrets[env.VAR_BUCKET_NAME]}}
+          ENV: ${{inputs.environment}}
+      - name: publish to s3
+        working-directory: packages/example
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip -qq awscliv2.zip
+          sudo ./aws/install --update
+          aws configure set aws_access_key_id ${{ secrets.AWS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets[env.VAR_AWS_REGION]}}
+          aws s3 sync build/ s3://${{ secrets[env.VAR_BUCKET_NAME]}}/ --delete
