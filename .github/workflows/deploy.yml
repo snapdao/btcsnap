@@ -6,7 +6,7 @@ on:
             - setup-deployment
 
 jobs:
-    build:
+    deploy:
         runs-on: ubuntu-latest
         timeout-minutes: 10
         steps:
@@ -19,14 +19,14 @@ jobs:
             - name: Build
               run: yarn run build
               working-directory: packages/example
-
-        # upload:
-        #   runs-on: ubuntu-latest
-        #   steps:
-        #     - uses: actions/checkout@master
-        #     - uses: shallwefootball/s3-upload-action@master
-        #       with:
-        #         aws_key_id: ${{ secrets.AWS_KEY_ID }}
-        #         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-        #         aws_bucket: ${{ secrets.AWS_BUCKET }}
-        #         source_dir: "dirname"
+              env:
+                  PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+                  BACKEND_API_AUTH: ${{ secrets.BACKEND_API_AUTH_STAGING }}
+                  BACKEND_API_DOMAIN: 'https://api-staging.keyst.one'
+                  BUCKET_NAME: ${{ secrets.BUCKET_NAME_STAGING }}
+            - uses: shallwefootball/s3-upload-action@master
+              with:
+                  aws_key_id: ${{ secrets.AWS_KEY_ID }}
+                  aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+                  aws_bucket: ${{ secrets.BUCKET_NAME_STAGING }}
+                  source_dir: packages/example/build
