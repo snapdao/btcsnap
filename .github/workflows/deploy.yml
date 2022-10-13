@@ -24,10 +24,10 @@ jobs:
                   BACKEND_API_AUTH: ${{ secrets.BACKEND_API_AUTH_STAGING }}
                   BACKEND_API_DOMAIN: 'https://api-staging.keyst.one'
                   BUCKET_NAME: ${{ secrets.BUCKET_NAME_STAGING }}
-            - uses: shallwefootball/s3-upload-action@master
+            - uses: ItsKarma/aws-cli@v1.70.0
               with:
-                  aws_key_id: ${{ secrets.AWS_KEY_ID }}
-                  aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-                  aws_bucket: ${{ secrets.BUCKET_NAME_STAGING }}
-                  aws_region: eu-west-1
-                  source_dir: packages/example/build
+                  args: s3 sync --delete packages/example/build/ s3://mixpanel-sender-test/
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  AWS_DEFAULT_REGION: 'eu-east-1'
