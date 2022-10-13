@@ -1,4 +1,4 @@
-name: "Deploy BTC Snap"
+name: "DeployToStaging"
 on:
   workflow_dispatch:
     inputs:
@@ -7,7 +7,6 @@ on:
         type: choice
         options:
           - STAGING
-          - PRODUCTION
         required: true
 jobs:
   deploy:
@@ -18,19 +17,25 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Install dependencies
+      - name: set environment names
+        run: |
+          echo "VAR_BACKEND_API_AUTH=BACKEND_API_AUTH_${{inputs.environment}}" >> $GITHUB_ENV
+          echo "VAR_BACKEND_API_DOMAIN=BACKEND_API_DOMAIN_${{inputs.environment}}" >> $GITHUB_ENV
+          echo "VAR_AWS_REGION=AWS_REGION_${{inputs.environment}}" >> $GITHUB_ENV
+          echo "VAR_BUCKET_NAME=BUCKET_NAME_${{inputs.environment}}" >> $GITHUB_ENV
+      - name: install dependencies
         run: yarn install
-      - name: Run Test
+      - name: run test
         run: yarn test
       - name: Build
         run: yarn run build
         working-directory: packages/example
         env:
           PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
-          BACKEND_API_AUTH: ${{ secrets[format('BACKEND_API_AUTH_{0},inputs.environment)]}}
-          BACKEND_API_DOMAIN: ${{ secrets[format('BACKEND_API_DOMAIN_{0},inputs.environment)]}}
-          BUCKET_NAME: ${{ secrets[format('BUCKET_NAME_{0},inputs.environment)]}}
-
+          BACKEND_API_AUTH: ${{ secrets[env.VAR_BACKEND_API_AUTH]}}
+          BACKEND_API_DOMAIN: ${{ secrets[env.VAR_BACKEND_API_DOMAIN]}}
+          BUCKET_NAME: ${{ secrets[env.VAR_BUCKET_NAME]}}
+          ENV: ${{inputs.environment}}
       - name: publish to s3
         working-directory: packages/example
         run: |
@@ -39,5 +44,5 @@ jobs:
           sudo ./aws/install --update
           aws configure set aws_access_key_id ${{ secrets.AWS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region ${{ secrets[format('AWS_REGION_{0},inputs.environment)]}}
-          aws s3 sync build/ s3://${{ secrets[format('BUCKET_NAME_{0},inputs.environment)]}}/ --delete
+          aws configure set default.region ${{ secrets[env.VAR_AWS_REGION]}}
+          aws s3 sync build/ s3://${{ secrets[env.VAR_BUCKET_NAME]}}/ --delete
