@@ -8,6 +8,14 @@ on:
         options:
           - PRODUCTION
         required: true
+      branch:
+        description: "Branch to use"
+        required: true
+        default: "master"
+        type: choice
+        options:
+          - master
+
 jobs:
   deploy:
     if: github.ref == 'refs/heads/master'
