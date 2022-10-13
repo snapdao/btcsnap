@@ -1,7 +1,6 @@
 name: "DeployToProduction"
 on:
   workflow_dispatch:
-    branches: master
     inputs:
       environment:
         description: "Environment to deploy snap"
@@ -11,6 +10,7 @@ on:
         required: true
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
