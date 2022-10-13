@@ -2,3 +2,4 @@ node_modules
 packages/example/environments/.env.staging
 packages/example/environments/.env.production
 build/
+.github/workflows/release-to-production.yml
