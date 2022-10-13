@@ -1,4 +1,4 @@
-name: "Deploy BTC Snap"
+name: "DeployToStaging"
 on:
   workflow_dispatch:
     inputs:
@@ -7,7 +7,6 @@ on:
         type: choice
         options:
           - STAGING
-          - PRODUCTION
         required: true
 jobs:
   deploy:
