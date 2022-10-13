@@ -1,10 +1,5 @@
 ---
-name: "Deploy Snap"
-
-on:
-  push:
-    branches:
-      - setup-deployment
+name: "Deploy BTC Snap to Production"
 
 jobs:
   deploy:
@@ -23,8 +18,8 @@ jobs:
         env:
           PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
           BACKEND_API_AUTH: ${{ secrets.BACKEND_API_AUTH_STAGING }}
-          BACKEND_API_DOMAIN: "https://api-staging.keyst.one"
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME_STAGING }}
+          BACKEND_API_DOMAIN: ${{ secrets.BACKEND_API_DOMAIN_PRODUCTION}}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME_PRODUCTION }}
       - name: publish to s3
         working-directory: packages/example
         run: |
@@ -33,5 +28,5 @@ jobs:
           sudo ./aws/install --update 
           aws configure set aws_access_key_id ${{ secrets.AWS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region ${{ secrets.AWS_REGION_STAGING }}
-          aws s3 sync build/ s3://${{ secrets.BUCKET_NAME_STAGING }}/ --delete
+          aws configure set default.region ${{ secrets.AWS_REGION_PRODUCTION }}
+          aws s3 sync build/ s3://${{ secrets.BUCKET_NAME_PRODUCTION }}/ --delete
