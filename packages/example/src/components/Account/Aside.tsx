@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import Menu from "../Menu";
 import TxList from "./TxList";
 import RefreshIcon from "../Icons/RefreshIcon";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import { observer } from "mobx-react-lite";
 import { useTransaction } from "../../hook/useTransaction";
 import { AccountAside, AccountAsideContainer, AsideHeading, AccountAsideRefresh, TestnetMark, TransactionLink } from "./styles"
@@ -14,7 +14,7 @@ import { AppStatus } from '../../mobx/runtime';
 
 const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
   const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false);
-  const {settings: {network}, current, runtime: {continueConnect}} = useKeystoneStore();
+  const {settings: {network}, current, runtime: {continueConnect}} = useAppStore();
   const {txList, refresh: refreshTransactions, loading} = useTransaction({size: 5});
 
   const refresh = useCallback(() => {

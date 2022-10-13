@@ -1,20 +1,20 @@
-import { getKeystoneStore } from "../../mobx";
+import { getAppStore } from "../../mobx";
 import { storeAccount } from "./storeAccount";
 import { BitcoinNetwork, BitcoinScriptType } from "../../interface";
 import { register as registerMFP } from "../../api";
 
 export const register = async (xpub: string, mfp: string, scriptType: BitcoinScriptType, network: BitcoinNetwork) => {
-  const keystoneStore = getKeystoneStore();
+  const appStore = getAppStore();
   try {
-    const targetAccount = keystoneStore.getAccount(xpub);
+    const targetAccount = appStore.getAccount(xpub);
     if (targetAccount && targetAccount.hasSyncXPub) {
-      keystoneStore.switchAccount(targetAccount.xpub);
+      appStore.switchAccount(targetAccount.xpub);
     } else {
-      const registeredMfp = keystoneStore.registeredMfp();
+      const registeredMfp = appStore.registeredMfp();
 
       const registerAnotherMFP = registeredMfp !== "" && registeredMfp !== mfp;
       if(registerAnotherMFP) {
-        keystoneStore.resetStore();
+        appStore.resetStore();
       }
 
       const MfpRegistered = registeredMfp === mfp;

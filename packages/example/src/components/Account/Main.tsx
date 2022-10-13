@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import { BitcoinNetwork, BitcoinUnit } from "../../interface";
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
@@ -44,7 +44,7 @@ enum MainModal {
 }
 
 const Main = observer(({balance, rate}: MainProps) => {
-  const { settings: { network }, current, runtime: {continueConnect}} = useKeystoneStore();
+  const { settings: { network }, current, runtime: {continueConnect}} = useAppStore();
   const unit = bitcoinUnitMap[network];
   const [openedModal, setOpenedModal] = useState<MainModal | null>(null)
   const [mainUnit, setMainUnit] = useState<BitcoinUnit>(BitcoinUnit.BTC);

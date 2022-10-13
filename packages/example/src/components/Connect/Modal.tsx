@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from "semantic-ui-react";
-import { useKeystoneStore } from '../../mobx';
+import { useAppStore } from '../../mobx';
 import CloseIcon from '../Icons/CloseIcon';
 import "./Modal.css"
 

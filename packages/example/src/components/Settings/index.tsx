@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useKeystoneStore } from "../../mobx";
+import { useAppStore } from "../../mobx";
 import Modal from "./Modal";
 import { observer } from "mobx-react-lite";
 import NetworkIcon from "../Icons/Network";
@@ -28,7 +28,7 @@ enum SettingOptions {
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
-  const { settings: { network, scriptType, dynamicAddress, setDynamicAddress }, current} = useKeystoneStore();
+  const { settings: { network, scriptType, dynamicAddress, setDynamicAddress }, current} = useAppStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const openDialog = (option: SettingOptions) => {
     setCurrentVisible(option);
