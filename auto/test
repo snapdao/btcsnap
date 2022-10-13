@@ -1,6 +1,0 @@
-#!/bin/sh
-
-set -eux
-cd $(dirname $0)/..
-
-auto/app-environment "scripts/test.sh"
