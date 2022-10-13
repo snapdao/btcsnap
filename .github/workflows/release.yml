@@ -27,17 +27,17 @@ jobs:
         working-directory: packages/example
         env:
           PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
-          BACKEND_API_AUTH: ${{ secrets.BACKEND_API_AUTH}}_${{inputs.environment }}
-          BACKEND_API_DOMAIN: ${{ secrets.BACKEND_API_DOMAIN}}_${{ inputs.environment }}
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME}}_${{ inputs.environment }}
+          BACKEND_API_AUTH: ${{ secrets[format('BACKEND_API_AUTH_{0},inputs.environment)]}}
+          BACKEND_API_DOMAIN: ${{ secrets[format('BACKEND_API_DOMAIN_{0},inputs.environment)]}}
+          BUCKET_NAME: ${{ secrets[format('BUCKET_NAME_{0},inputs.environment)]}}
 
       - name: publish to s3
         working-directory: packages/example
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip -qq awscliv2.zip
-          sudo ./aws/install --update 
+          sudo ./aws/install --update
           aws configure set aws_access_key_id ${{ secrets.AWS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region ${{ secrets.AWS_REGION}}_${{ inputs.environment }}
-          aws s3 sync build/ s3://${{ secrets.BUCKET_NAME}}_${{ inputs.environment }}/ --delete
+          aws configure set default.region ${{ secrets[format('AWS_REGION_{0},inputs.environment)]}}
+          aws s3 sync build/ s3://${{ secrets[format('BUCKET_NAME_{0},inputs.environment)]}}/ --delete
