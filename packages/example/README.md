@@ -1,11 +1,11 @@
 # BitcoinSnap
 
 The world's first application allowing users to directly manage Bitcoin within the MetaMask interface, without having to wrap it.
-The Alpha version of the application is currently live on [Metamask Flask](https://metamask.io/flask/) only.
+The application is currently live on [Metamask Flask](https://metamask.io/flask/) only.
 
 *Note: MetaMask Flask is an experimental playground for developers and is not to be confused with the normal [MetaMask wallet app](https://metamask.io/).
 
-## How to start testing BitcoinSnap (Alpha version)
+## How to start testing BitcoinSnap
 
 1. Create a new browser profile or disable/uninstall any existing versions of Metamask
 2. Download [MetaMask Flask](https://metamask.io/flask/)
