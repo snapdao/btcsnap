@@ -3,7 +3,7 @@ import { useAppStore } from "../mobx";
 import { AppStatus } from "../mobx/runtime";
 import { SupportedCoins } from "../constant/supportedCoins";
 import { NETWORK_SCRIPT_TO_COIN } from "../constant/bitcoin";
-import { queryCoinV2 } from "../api";
+import { queryCoinV2 } from "../api/v2/coin";
 import { queryCoinV1 } from "../api/v1/coin";
 import { IAccount } from '../mobx/types';
 
