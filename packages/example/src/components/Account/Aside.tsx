@@ -46,8 +46,8 @@ const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
 
         <AccountAsideRefresh>
           <TransactionLink onClick={openTransaction}>
-            <span>all transactions</span>
-            <ArrowRight size={18}/>
+            all transactions
+            <span><ArrowRight size={18}/></span>
           </TransactionLink>
           <RefreshIcon onClick={refresh} loading={loading}/>
         </AccountAsideRefresh>
