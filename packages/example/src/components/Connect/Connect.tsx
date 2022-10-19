@@ -41,7 +41,7 @@ const Connect = ({open, close, onConnected}: ConnectProps) => {
         rel="noopener noreferrer"
       >
         What is Snaps
-        <ArrowRight size={18}/>
+        <span><ArrowRight size={18}/></span>
       </a>
       <button className="Connect-button" disabled={isConnecting} onClick={connectMetaMask}>
         { isConnecting ?

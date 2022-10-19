@@ -53,6 +53,7 @@
 }
 
 .Connect-snap-link {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,9 +61,25 @@
   color: #FF6C0A;
   margin: 16px 0 64px;
 }
+.Connect-snap-link span {
+  position: absolute;
+  right: -18px;
+  display: inline-block;
+  height: 18px;
+}
 
 .Connect-snap-link:hover {
   color: #F58300;
+  transition: 0.25s;
+}
+
+.Connect-snap-link:hover span {
+  right: -24px;
+  transition: 0.25s;
+}
+
+.Connect-snap-link:not(:hover) span {
+  right: -18px;
   transition: 0.25s;
 }
 

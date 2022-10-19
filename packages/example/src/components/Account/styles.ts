@@ -5,12 +5,14 @@ export const AccountBackground = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: #F0F3FA;
 `
 
 export const AccountContainer = styled.div`
+  position: relative;
   width: 960px;
   height: 640px;
   background: #FFFFFF;
@@ -21,17 +23,35 @@ export const AccountContainer = styled.div`
 
 export const AccountLabel = styled.p`
   position: absolute;
-  bottom: calc(50% - 640px / 2 - 12px - 48px);
+  bottom: -88px;
+  width: 100%;
+  padding-bottom: 20px;
+  text-align: center;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
   color: #9095A3;
+  transition: width 0.25s ease-in-out;
   a {
+    position: relative;
     color: #9095A3;
-    :hover {
-      color: #111214;
-      transition: 0.25s;
+    &::after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      left: 0;
+      bottom: -1px;
+      width: 0;
+      height: 1px;
+      background: #656D85;
+      transition: width 0.25s ease-in-out;
+    }
+    &:hover {
+      color: #656D85;
+      &::after {
+        width: 100%;
+      }
     }
     :not(:hover) {
       transition: 0.25s;
@@ -425,22 +445,33 @@ export const TransactionItem = styled(TransactionInfo)`
 `
 
 export const TransactionLink = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 28px;
   cursor: pointer;
+  font-weight: 600;
   text-transform: uppercase;
   & > span {
-    font-weight: 600;
+    position: absolute;
+    height: 18px;
   }
   :hover {
     color: #F58300;
     transition: 0.25s;
+    span {
+      right: -24px;
+      transition: 0.25s;
+    }
   }
   :not(:hover) {
     color: #656D85;
     transition: 0.25s;
+    span {
+      right: -18px;
+      transition: 0.25s;
+    }
   }
 `
 
@@ -449,12 +480,13 @@ export const CookieInfo = styled.div`
   border-radius: 8px;
   position: absolute;
   left: 50%;
-  bottom:  calc(50% - 640px / 2 - 12px - 90px);
+  bottom: 24px;
   width: 528px;
   height: 64px;
   background: #FFFFFF;
   margin-left: -264px;
   z-index: 9;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
   & > div {
     display: flex;
     justify-content: space-between;
@@ -480,9 +512,23 @@ export const CookieInfo = styled.div`
 `
 
 export const PrivacyLink = styled.span`
+  position: relative;
   color: #FF6C0A;
   cursor: pointer;
+  &::after {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    bottom: -1px;
+    width: 0;
+    height: 1px;
+    background: #FF6C0A;
+    transition: width 0.25s ease-in-out;
+  }
   :hover {
-    text-decoration: underline;
+    &::after {
+      width: 100%;
+    }
   }
 `
