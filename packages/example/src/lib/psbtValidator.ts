@@ -35,7 +35,6 @@ const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: s
       const address = changeAddress.address;
       const {change, index} = fromHdPathToObj(changeAddressPath)
       const pubkey = coinManager.xpubToPubkey(xpub, Number(change), Number(index));
-      console.log(coinManager.deriveAddress(pubkey, scriptType, network))
       return address === coinManager.deriveAddress(pubkey, scriptType, network);
     }
     return true

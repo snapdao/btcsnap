@@ -355,3 +355,43 @@ export const TransactionFeeRadio = styled(Radio)`
     background-color: #F58300 !important;
   }
 `
+
+export const Button = styled.button`
+  position: absolute;
+  bottom: 30px;
+  width: 376px;
+  height: 48px;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  :hover {
+    background-color: #F58300;
+    transition: 0.25s;
+  }
+  :not(:hover) {
+    background: #111214;
+    transition: 0.25s;
+  }
+  :disabled {
+    background-color: #E1E6F0;
+  }
+`
+export const FailedContainer = styled.div`
+  width: 100%;
+  padding: 24px 32px 0;
+`
+
+export const FailedText = styled.p`
+  color: #9095A3;
+  text-align: center;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  span {
+    white-space: nowrap;
+  }
+`
