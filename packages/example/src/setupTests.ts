@@ -10,4 +10,5 @@ jest.mock('./config', () => ({
   ENVIRONMENT : "development",
   TRACK_TOKEN : '',
   VERSION : "1.0.0",
+  SENTRY_SOURCE: 'sentry_dsn'
 }));
