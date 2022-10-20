@@ -75,10 +75,7 @@
     "testMatch": [
       "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
     ],
-    "testEnvironment": "node",
-    "setupFiles": [
-      "./src/__tests__/utils/setupTest.ts"
-    ]
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "@testing-library/react-hooks": "^8.0.1",
