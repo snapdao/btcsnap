@@ -9,6 +9,7 @@
 }
 
 .ui.mini.modal.Connect-Modal-Container > div {
+  min-height: 514px;
   background: radial-gradient(50% 50% at 0% 0%, rgba(255, 182, 10, 0.12) 0%, rgba(255, 182, 10, 0) 100%), radial-gradient(50% 50% at 100% 0%, rgba(255, 108, 10, 0.14) 0%, rgba(255, 108, 10, 0) 100%);
   border-radius: 20px;
   padding: 40px;

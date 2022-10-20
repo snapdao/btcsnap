@@ -27,6 +27,7 @@ import { validateTx } from '../../lib/psbtValidator';
 import { Psbt } from 'bitcoinjs-lib';
 import { btcToSatoshi, satoshiToBTC } from '../../lib/helper';
 import { bitcoinUnitMap } from '../../lib/unit';
+import { mapErrorToUserFriendlyMessage } from "../../errors/Snap/messageMap";
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -57,7 +58,7 @@ class SendViewModel {
 
   public status: 'initial' | 'success' | 'failed' = 'initial';
 
-  public errorMessage = '';
+  public errorMessage: {message: string, code: number} = {message: '', code: 0};
 
   public confirmOpen = false;
 
@@ -88,7 +89,7 @@ class SendViewModel {
     this.status = 'initial';
     this.confirmOpen = false;
     this.txId = undefined;
-    this.errorMessage = '';
+    this.errorMessage = {message: '', code: 0};
     this.isSending = false;
     this.to = '';
     this.sendAmountText = '';
@@ -450,9 +451,9 @@ class SendViewModel {
       } catch (e) {
         console.error(e);
         if (typeof e === 'string') {
-          this.errorMessage = e;
+          this.errorMessage = mapErrorToUserFriendlyMessage(e);
         } else if (e instanceof Error) {
-          this.errorMessage = e.message;
+          this.errorMessage = mapErrorToUserFriendlyMessage(e.message);
         }
         this.status = 'failed';
         this.isSending = false;
