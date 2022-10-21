@@ -6,6 +6,7 @@ import { fromHdPathToObj } from '../lib/cryptoPath';
 import { coinManager } from '../services/CoinManager';
 import { BitcoinNetwork, Utxo } from '../interface';
 import { useAppStore } from '../mobx';
+import { logger } from "../logger";
 
 export const useUtxo = () => {
   const {current} = useAppStore();
@@ -42,7 +43,7 @@ export const useUtxo = () => {
       })
       .catch(e => {
         setLoading(false);
-        console.error("Fetch utxo list failed", e);
+        logger.error(e);
       })
     }
   }, [current])

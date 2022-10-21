@@ -4,6 +4,7 @@ import { fetchAddresses } from "../api/v1/fetchAddress";
 import { fromHdPathToObj } from "../lib/cryptoPath";
 import { IAccount, IAddressIn } from "../mobx/types";
 import { useMFPCheck } from "./useMFPCheck";
+import { logger } from "../logger";
 
 export const useReceiveAddress = () => {
   const { current, settings: { dynamicAddress }} = useAppStore();
@@ -22,7 +23,7 @@ export const useReceiveAddress = () => {
         address: receiveAddress.address
       }
     } catch (e) {
-      console.error("Failed to fetch address", e);
+      logger.error(e);
       return {
         index: current.receiveAddressIndex,
         address: current.getReceiveAddress()

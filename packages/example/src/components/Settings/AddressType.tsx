@@ -19,6 +19,7 @@ import { NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
 import { satoshiToBTC } from "../../lib/helper";
 import { SupportedCoins } from "../../constant/supportedCoins";
 import { bitcoinUnitMap } from "../../lib/unit";
+import { logger } from "../../logger";
 
 
 interface ConnectProps {
@@ -59,7 +60,7 @@ const AddressType = (({open, close}: ConnectProps,) => {
         }, {} as Balances)
         setBalances(allBalances);
       }).catch((e) => {
-        console.error("fetch balance failed", e);
+        logger.error(e);
       })
     } else {
       setBalances(undefined);
