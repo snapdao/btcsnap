@@ -27,7 +27,7 @@ import { validateTx } from '../../lib/psbtValidator';
 import { Psbt } from 'bitcoinjs-lib';
 import { btcToSatoshi, satoshiToBTC } from '../../lib/helper';
 import { bitcoinUnitMap } from '../../lib/unit';
-import { mapErrorToUserFriendlyMessage } from "../../errors/Snap/messageMap";
+import { mapErrorToUserFriendlyError } from "../../errors/Snap/SnapError";
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -451,9 +451,9 @@ class SendViewModel {
       } catch (e) {
         console.error(e);
         if (typeof e === 'string') {
-          this.errorMessage = mapErrorToUserFriendlyMessage(e);
+          this.errorMessage = mapErrorToUserFriendlyError(e);
         } else if (e instanceof Error) {
-          this.errorMessage = mapErrorToUserFriendlyMessage(e.message);
+          this.errorMessage = mapErrorToUserFriendlyError(e.message);
         }
         this.status = 'failed';
         this.isSending = false;

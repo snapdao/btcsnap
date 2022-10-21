@@ -78,30 +78,3 @@ export const SnapRequestErrors = [
     message: 'Action not supported'
   },
 ]
-
-export const mapErrorToUserFriendlyMessage = (message: string) => {
-  const psbtValidateError = PsbtValidateErrors.find(item => item.message === message);
-  const snapRequestError = SnapRequestErrors.find(item => item.message === message);
-
-  if(!!psbtValidateError) {
-    switch (psbtValidateError.name) {
-      case 'FeeTooHigh':
-        return psbtValidateError;
-      default:
-        return {message: "Transaction is invalid", code: psbtValidateError.code};
-    }
-  }
-  if(!!snapRequestError) {
-    switch (snapRequestError.name) {
-      case 'SignInvalidPath':
-        return {message: "Sign transaction failed", code: 20003};
-      case 'ScriptTypeNotSupport':
-      case 'MethodNotSupport':
-      case 'ActionNotSupport':
-        return {message: "Request error", code: snapRequestError.code};
-      default:
-        return snapRequestError;
-    }
-  }
-  return {message: message, code: 0}
-}
