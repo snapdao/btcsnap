@@ -48,7 +48,7 @@ const SendModal = observer((props: { model: SendViewModel, close: () => void }) 
   const { model, close } = props;
   return (
     <Modal
-      style={{width: '440px', height: '640px', borderRadius: '20px', position: 'relative'}}
+      style={{width: 440, minHeight: 640, borderRadius: 20, position: 'relative'}}
       onOpen={() => {
         model.resetState();
       }}

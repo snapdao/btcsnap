@@ -1,6 +1,12 @@
 export class BaseError extends Error {
-  code: number | string;
-  constructor(code: number | string) {
+  code: {
+    message: string,
+    code: number
+  };
+  constructor(code: {
+    message: string,
+    code: number
+  }) {
     super();
     this.code = code;
   }
