@@ -1,6 +1,7 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { BitcoinNetwork, BitcoinScriptType } from '../interface';
 import { SnapError } from "../errors";
+import { logger } from "../logger";
 
 declare global {
   interface Window {
@@ -71,7 +72,7 @@ export async function getExtendedPublicKey(
       ],
     }) as ExtendedPublicKey;
   } catch (err: any) {
-    console.error('Get extended public key failed', err);
+    logger.error(err);
     throw new SnapError(err?.message || "Get extended public key failed");
   }
 }
@@ -134,7 +135,7 @@ export async function signPsbt(base64Psbt: string, network: BitcoinNetwork, scri
       ],
     })) as Promise<{ txId: string; txHex: string }>;
   } catch (err: any) {
-    console.error('Sign PSBT failed', err);
+    logger.error(err);
     throw new SnapError(err?.message || "Sign PSBT failed");
   }
 }

@@ -13,7 +13,9 @@ import { observer } from "mobx-react-lite";
 import ErrorPage from './Error';
 import { ErrorMessage } from "./styles";
 import { Transition } from 'semantic-ui-react';
-import { SnapRequestErrors, mapErrorToUserFriendlyMessage } from "../../errors/Snap/messageMap";
+import { SnapRequestErrors } from "../../errors/Snap/errors";
+import { logger } from "../../logger";
+import { SnapError } from "../../errors";
 
 export interface RevealXpubProps {
   open: boolean;
@@ -32,7 +34,7 @@ const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [fatalErrorMessage, setFatalErrorMessage] = useState<ErrorMessage>({message: '', code: 0});
   const [shouldShowErrorMessage,setShowErrorMessage] = useState<boolean>(false);
-  const expectError = SnapRequestErrors.find(item => item.name === 'RejectKey');
+  const expectError = SnapRequestErrors.find(item => item.name === 'RejectKey')!;
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
@@ -44,14 +46,15 @@ const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
           await register(xpub, mfp, scriptType, network);
           onRevealed();
         } catch (e: any) {
-          console.error("Register failed", e);
-          setFatalErrorMessage(mapErrorToUserFriendlyMessage(e.error_message))
+          logger.error(e);
+          setErrorMessage('Account init failed, please retry');
+          setStatus(AppStatus.Connect);
         }
       }
       setIsRevealing(false);
-    }).catch((err) => {
-      if(err.toString() === expectError?.message) {
-        setErrorMessage(err.toString());
+    }).catch((err: SnapError) => {
+      if(err.message === expectError.message) {
+        setErrorMessage(err.message);
         setShowErrorMessage(true);
         setTimeout(() => {
           setShowErrorMessage(false)
