@@ -11,4 +11,4 @@ export const ENVIRONMENT = ENV || "development"
 export const TRACK_TOKEN = PROJECT_TOKEN
 export const VERSION = "1.0.0"
 
-export const SENTRY_DSN = SENTRY_SOURCE
+export const SENTRY_DSN = SENTRY_SOURCE || ''

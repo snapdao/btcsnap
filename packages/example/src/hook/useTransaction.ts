@@ -3,6 +3,7 @@ import { TransactionDetail, TransactionStatus, TransactionTypes } from "../compo
 import { ActivityStatus, queryActivities } from "../api/v1/activities";
 import { useAppStore } from "../mobx";
 import { satoshiToBTC } from "../lib/helper";
+import { logger } from "../logger";
 
 interface UseTransaction {
   size: number;
@@ -58,7 +59,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
         })
         .catch(e => {
           setLoading(false);
-          console.error("Fetch transactions failed", e)
+          logger.error(e)
         })
     } else {
       setTxList([]);
