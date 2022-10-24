@@ -150,9 +150,16 @@ export const EmptyTip = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  svg path{
-    fill: #F58300;
+    margin-left: 6px;
+    padding: 1px 0;
+    svg path{
+      fill: #9095A3;
+    }
+    :hover {
+      svg path {
+        fill: #FF6C0A;
+      }
+    }
   }
 `
 

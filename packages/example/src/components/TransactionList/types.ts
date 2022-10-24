@@ -21,4 +21,6 @@ export interface TransactionDetail {
   marker?: number;
   confirmedNum?: number;
   confirmThreshold?: number;
+  from: string;
+  to: string;
 }

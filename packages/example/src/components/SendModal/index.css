@@ -283,6 +283,7 @@ input:focus-visible {
 }
 
 .action-button-disable {
+    cursor: no-drop;
     background-color: #E1E6F0;
     color: #9095A3;
 }

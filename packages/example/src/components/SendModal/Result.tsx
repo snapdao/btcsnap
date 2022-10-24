@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import SendViewModel from './model';
 import { observer } from 'mobx-react-lite';
@@ -13,6 +13,8 @@ import {
   FailedContainer,
   FailedText
 } from "./styles"
+import { useAppStore } from '../../mobx';
+import { AppStatus } from '../../mobx/runtime';
 
 export type SuccessProps = {
   model: SendViewModel;
@@ -20,6 +22,14 @@ export type SuccessProps = {
 };
 
 const Result = observer(({ model, close }: SuccessProps) => {
+  const { runtime: {setStatus}} = useAppStore();
+
+  useEffect(() => {
+    if(model.status === 'success'){
+      setStatus(AppStatus.FetchBalance)
+    }
+  }, []);
+
   return (
     <div>
       <Container className={'colored-container'}>

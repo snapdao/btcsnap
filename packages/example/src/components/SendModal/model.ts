@@ -60,6 +60,7 @@ class SendViewModel {
   public status: 'initial' | 'success' | 'failed' = 'initial';
 
   public errorMessage: {message: string, code: number} = {message: '', code: 0};
+  public isAddressValid: boolean = true;
 
   public confirmOpen = false;
 
@@ -258,13 +259,15 @@ class SendViewModel {
   }
 
   get totalAmount() {
-    if (this.sendMainUnit === BitcoinUnit.BTC) {
+    if (this.sendInitUnit === bitcoinUnitMap[this.network].BTC) {
       return this.sendSatoshis
         .plus(this.fee)
         .dividedBy(this.decimalFactor)
         .toString();
     } else {
-      return this.sendSatoshis.toString();
+      return this.sendSatoshis
+      .plus(this.fee)
+      .toString();
     }
   }
 
@@ -289,10 +292,15 @@ class SendViewModel {
   }
 
   get toValid() {
-    if (this.isEmptyTo) return true;
+    if (this.isEmptyTo) {
+      this.isAddressValid = true;
+      return true
+    };
     const network =
       this.network === BitcoinNetwork.Main ? Network.mainnet : Network.testnet;
-    return validate(this.to, network);
+    const isValid = validate(this.to, network);
+    setTimeout(() => { this.isAddressValid = isValid }, 500);
+    return isValid;
   }
 
   get valid() {
@@ -350,17 +358,6 @@ class SendViewModel {
         break;
     }
   };
-
-  get sentTx(): TransactionDetail {
-    return {
-      ID: this.txId as string,
-      type: TransactionTypes.Send,
-      status: TransactionStatus.Pending,
-      date: new Date().getTime(),
-      address: this.to,
-      amount: Number(this.sendAmountText),
-    };
-  }
 
   handleSendInput = (value: string) => {
     switch (this.sendMainUnit) {
