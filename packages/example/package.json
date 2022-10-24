@@ -6,6 +6,8 @@
     "@metamask/example-snap": "^0.7.0",
     "@metamask/providers": "^8.1.1",
     "@semantic-ui-react/css-patch": "^1.0.0",
+    "@sentry/react": "^7.16.0",
+    "@sentry/tracing": "^7.16.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -73,15 +75,15 @@
     "testMatch": [
       "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
     ],
-    "testEnvironment": "node",
-    "setupFiles": ["./src/__tests__/utils/setupTest.ts"]
+    "testEnvironment": "node"
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "^1.19.1",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/axios": "^0.14.0",
     "@types/mixpanel-browser": "^2.38.0",
-    "@types/styled-components": "^5.1.26",
     "@types/react-infinite-scroller": "^1.2.3",
-    "@testing-library/react-hooks": "^8.0.1",
+    "@types/styled-components": "^5.1.26",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.6.1",
     "react-app-rewired": "^2.2.1"

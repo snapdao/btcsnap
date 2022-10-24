@@ -9,7 +9,6 @@ import { generateAddressId } from "./utils";
 import { EXTENDED_PUBKEY_PATH } from "../constant/bitcoin";
 import { registerExtendedPubKey } from "../api";
 
-
 const validateAddress = (
   addressIn: {index: number; address: string},
   accountIn: {xpub: string; coinCode: SupportedCoins; scriptType: BitcoinScriptType; network: BitcoinNetwork},
@@ -55,7 +54,7 @@ const Account = types
           self.setHasXpubSynced(true);
         })
       } catch (e) {
-        console.error('failed to sync xpub to backend', e);
+        console.error('Failed to sync xpub', e);
       }
     },
     setReceiveAddressIndex: (receiveAddressIndex: number) => {

@@ -5,6 +5,7 @@ import { EXTENDED_PUBKEY_PATH, NETWORK_SCRIPT_TO_COIN } from "../../constant/bit
 import { fetchAddresses } from "../../api/v1/fetchAddress";
 import { fromHdPathToObj } from "../../lib/cryptoPath";
 import { coinManager } from "../CoinManager";
+import { logger } from "../../logger";
 
 const constructAccount = (mfp: string, xpub: string, scriptType: BitcoinScriptType, network: BitcoinNetwork): IAccountIn => ({
   id: utils.generateAccountId(),
@@ -53,7 +54,7 @@ export const storeAccount = async (
     };
     storeAccount.validateAndAddAddress(storeReceiveAddress, appStore.settings.dynamicAddress);
   } catch (e) {
-    console.error("Create Account failed", e);
+    logger.error(e);
     throw e;
   }
 };
