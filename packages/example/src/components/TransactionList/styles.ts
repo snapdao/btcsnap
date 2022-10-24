@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import {TransactionInfo} from "snapkit";
+import { TransactionInfo, TransactionType } from "snapkit";
 
 const iconRotate = keyframes`
   0% {
@@ -177,6 +177,9 @@ export const TransactionItem = styled(TransactionInfo)`
     bottom: -0.5px;
     background: var(--sk-color-ntd04);
   }
+  svg path {
+    fill:  ${props => props.type ===  TransactionType.SEND ? 'var(--sk-color-r60)' : 'var(--sk-color-g60)'};
+  }
   :hover {
     background: var(--sk-color-ntd04);
     transition: 0.25s;
@@ -319,6 +322,9 @@ export const BottomTipsContainer = styled.div`
     div {
       height: 18px;
       margin-left: 6px;
+      svg path{
+        fill: #9095A3;
+      }
       :hover {
         svg path {
           fill: #FF6C0A;

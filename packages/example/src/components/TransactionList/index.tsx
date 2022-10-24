@@ -33,7 +33,7 @@ interface SettingProps {
 const TransactionList = observer(({network, open, close, txDefaultList} : SettingProps) => {
   const [selectedTransactionItem, setSelectedTransactionItem] = useState<TransactionDetail | null>(null);
   const [transactionList, setTransactionList] = useState<TransactionDetail[]>(txDefaultList);
-  const {txList, loadMore, hasMore} = useTransaction({size: 10, offset: txDefaultList[txDefaultList.length - 1]?.marker});
+  const {txList, loadMore, hasMore, loading} = useTransaction({size: 10, offset: txDefaultList[txDefaultList.length - 1]?.marker});
   const listTips = "The previous transactions of addresses before using BitcoinSnap will not be displayed here."
 
   const openTransactionItem = (item:TransactionDetail) => {
@@ -59,7 +59,7 @@ const TransactionList = observer(({network, open, close, txDefaultList} : Settin
           dataLength={transactionList.length}
           next={loadMore}
           hasMore={hasMore}
-          loader={<LoadingIconContainer><LoadingIcon /></LoadingIconContainer>}
+          loader={<></>}
           height={543}
           endMessage={
             <BottomTipsContainer>
@@ -87,6 +87,7 @@ const TransactionList = observer(({network, open, close, txDefaultList} : Settin
               onClick={() => openTransactionItem(i)}
             />
           ))}
+          {loading && <LoadingIconContainer><LoadingIcon /></LoadingIconContainer>}
         </InfiniteScroll>
       </TransactionListArea>
 

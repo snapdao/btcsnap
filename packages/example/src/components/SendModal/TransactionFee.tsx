@@ -3,9 +3,8 @@ import { Modal, TransitionablePortal } from "semantic-ui-react";
 import CloseIcon from "../Icons/CloseIcon";
 import SendViewModel from "./model";
 import {
-  ModalHeader,
-  ModalHeaderContainer,
-  ModalHeaderLabel,
+  MiddleTitleHeader,
+  CloseContainer,
   TransactionFeeContainer,
   TransactionFeeItem,
   TransactionFeeLevel,
@@ -46,12 +45,11 @@ const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
         open={true}
         style={{width: '440px', marginTop: '272px', borderRadius: '20px'}}
       >
-        <ModalHeader>
-          <ModalHeaderContainer>
-            <ModalHeaderLabel>Transaction Fee</ModalHeaderLabel>
-          </ModalHeaderContainer>
-          <CloseIcon onClick={close} />
-        </ModalHeader>
+        <MiddleTitleHeader>
+          <p>Transaction Fee</p>
+        </MiddleTitleHeader>
+
+        <CloseContainer><CloseIcon onClick={close} /></CloseContainer>
 
         <TransactionFeeContainer>
           {transactionFeeOptions(model.fees, model.feeRate).map((item) => (

@@ -8,7 +8,7 @@ import {useAppStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel, CookieInfo, PrivacyLink } from "./styles"
 
 const Account = observer(() => {
-  const {persistDataLoaded,  runtime: {isLoading}, user: {isAgreeCookie, agreeCookie} } = useAppStore();
+  const { persistDataLoaded, runtime: {isLoading}, user: {isAgreeCookie, agreeCookie} } = useAppStore();
   const { balance, rate, refresh } = useBalance();
 
   return (

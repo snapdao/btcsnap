@@ -59,7 +59,7 @@ const Settings = observer(({open, close}: SettingProps) => {
                 <ArrowRight size={18} />
               </span>
             </SettingItem>
-            <Network open={currentVisible === SettingOptions.Network} close={closeDialog} />
+            {currentVisible === SettingOptions.Network && <Network open={true} close={closeDialog} />}
 
             <SettingItem onClick={() => openDialog(SettingOptions.AddressType)} >
               <span>Address Type</span>
@@ -68,7 +68,7 @@ const Settings = observer(({open, close}: SettingProps) => {
                 <ArrowRight size={18} />
               </span>
             </SettingItem>
-            <AddressType open={currentVisible === SettingOptions.AddressType} close={closeDialog} />
+            {currentVisible === SettingOptions.AddressType && <AddressType open={true} close={closeDialog} />}
 
             <SettingItem onClick={() => { setDynamicAddress(!dynamicAddress)} } >
               <span>Dynamic Address</span>

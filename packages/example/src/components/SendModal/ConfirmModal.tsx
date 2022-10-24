@@ -5,6 +5,10 @@ import {Container, Divider, Loader, Modal, TransitionablePortal} from 'semantic-
 import BTCValue from './BTCValue';
 import CloseIcon from "../Icons/CloseIcon";
 import { trackSendClick, trackSendConfirm } from "../../tracking";
+import {
+  MiddleTitleHeader,
+  CloseContainer
+} from "./styles"
 
 export type ConfirmModalProps = {
   model: SendViewModel;
@@ -12,6 +16,7 @@ export type ConfirmModalProps = {
 
 const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
   const { model } = props;
+
   return (
     <TransitionablePortal
       open={model.confirmOpen}
@@ -20,13 +25,14 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
         <button
           onClick={() => { trackSendClick(model.network); model.setConfirmOpen(true) }}
           className={`action-button ${model.valid ? 'action-button-primary' : 'action-button-disable'}`}
+          disabled={!model.valid}
         >
           Send
         </button>
       }
     >
       <Modal
-        style={{ width: 440, marginTop: 76, borderRadius: 20 }}
+        style={{ width: 440, marginTop: 76, borderRadius: 20, position: 'relative' }}
         open={true}
         openOnTriggerClick={model.valid}
       >
@@ -34,11 +40,12 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
           <><Loader /></> :
           <>
             <Container className={'colored-container'}>
-              <div className={'modal-header'}>
-                <span />
-                <span className={'text-weight-bold'}>Confirm Transaction</span>
-                <CloseIcon onClick={() => model.setConfirmOpen(false)} />
-              </div>
+              <MiddleTitleHeader>
+                <p>Confirm Transaction</p>
+              </MiddleTitleHeader>
+
+              <CloseContainer><CloseIcon onClick={() => model.setConfirmOpen(false)} /></CloseContainer>
+
               <div className={'modal-confirm-box vertical-center'}>
                 <span className={'text-weight-bold text-secondary confirm-top-span'}>
                   You're Sending
@@ -87,13 +94,13 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                     value={model.totalAmount}
                     size={'normal'}
                     fontWeight={'bold'}
-                    unit={model.mainUnit}
+                    unit={model.sendInitUnit}
                   />
                 </div>
                 <p className='currencyValue'>=<span>{model.totalCurrency}</span> USD</p>
               </div>
               <button
-                style={{ marginTop: 72 }}
+                style={{ marginTop: 44 }}
                 className={
                   'action-button action-button-primary action-button-size-full-width confirm-action-button'
                 }

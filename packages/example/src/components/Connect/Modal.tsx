@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from "semantic-ui-react";
 import { useAppStore } from '../../mobx';
 import CloseIcon from '../Icons/CloseIcon';
@@ -15,7 +15,7 @@ const BasicModal = ({open, close, children, isDisabled = false}: ConnectModalPro
   return (
     <Modal
       size="mini"
-      className="Connect-Modal-Container"
+      className={'Connect-Modal-Container fade-in'}
       open={open}
     >
       <Modal.Content>
