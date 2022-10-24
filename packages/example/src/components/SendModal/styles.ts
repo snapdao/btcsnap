@@ -36,27 +36,37 @@ export const SendHeader = styled.div`
   padding: 20px 20px 0 20px;
 `
 
-export const SendHeaderLabel = styled.div`
+export const LeftTitleHeader = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-  margin-top: 0;
-  svg {
-    width: 36px;
-    height: 36px;
-    margin: 0 4px 0 0;
-  }
-  svg path {
-    fill: #F58300;
-  }
-  h3 {
-    font-weight: 600;
+  height: 40px;
+  margin: 20px 20px 0;
+  p {
+    height: 24px;
     font-size: 16px;
+    font-weight: 600;
     line-height: 24px;
-    margin: 0;
-    text-transform: uppercase;
+    margin-left: 4px;
   }
+`
+
+export const MiddleTitleHeader = styled.div`
+  height: 40px;
+  margin: 20px 20px 0;
+  padding: 8px 0;
+  p {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 24px;
+  }
+`
+
+export const CloseContainer = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
 `
 
 export const SendTitle = styled.span`
@@ -251,25 +261,6 @@ export const CancelButton = styled.button`
 `
 
 // ----- Transaction Fee -----
-export const ModalHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 20px 0 168px;
-`
-
-export const ModalHeaderContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-
-export const ModalHeaderLabel = styled.span`
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 600;
-`
 
 export const TransactionFeeContainer = styled.div`
   padding: 20px 32px 24px 32px;

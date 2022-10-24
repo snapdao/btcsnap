@@ -31,8 +31,8 @@ const TxList = observer(({txList, network}: TxCardProps) => {
         current && transactions.length > 0 ? (
           <TxListContent>
             {transactions.map(tx =>
-               <TransactionItem
-                key={tx.ID}
+              <TransactionItem
+                key={`${tx.ID}-${tx.type}`}
                 type={tx.type === TransactionTypes.Send ? TransactionType.SEND : TransactionType.RECEIVED}
                 amount={tx.amount}
                 address={tx.address}

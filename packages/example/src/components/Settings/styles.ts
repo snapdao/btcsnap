@@ -122,7 +122,7 @@ export const NetworkContainer = styled.div`
   padding: 20px 20px 24px;
 `
 
-export const NetworkItem = styled.div`
+export const NetworkItem = styled.div<{checked: boolean}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -130,8 +130,8 @@ export const NetworkItem = styled.div`
   margin-bottom: 8px;
   border-radius: 12px;
   :hover {
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.04);
+    cursor: ${props => props.checked ? "default" : "pointer"};
+    background: ${props => props.checked ? "#FFFFFF" : "rgba(0, 0, 0, 0.04)"};
     transition: 0.25s;
   }
   :not(:hover) {

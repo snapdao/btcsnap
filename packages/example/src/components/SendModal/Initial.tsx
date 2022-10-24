@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 
@@ -12,8 +12,8 @@ import ArrowDown from '../Icons/ArrowDown';
 
 import {
   SendContainer,
-  SendHeader,
-  SendHeaderLabel,
+  LeftTitleHeader,
+  CloseContainer,
   SendTitle,
   SendBody,
   SendAmountContainer,
@@ -50,13 +50,12 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
   return (
     <>
       <SendContainer>
-        <SendHeader>
-          <SendHeaderLabel>
-            <SendIcon size={36} />
-            <h3>SEND</h3>
-          </SendHeaderLabel>
-          <CloseIcon onClick={close} />
-        </SendHeader>
+        <LeftTitleHeader>
+          <SendIcon size={36} />
+          <p>SEND</p>
+        </LeftTitleHeader>
+
+        <CloseContainer><CloseIcon onClick={close} /></CloseContainer>
 
         <SendBody>
           <SendTitle>Amount</SendTitle>
@@ -120,7 +119,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
             />
           </SendToInput>
 
-          {!model.toValid && (<SendTextError>Enter a Valid Wallet Address</SendTextError>)}
+          {!model.isAddressValid && (<SendTextError>Enter a Valid Wallet Address</SendTextError>)}
         </SendToContainer>
 
         <SendButtonContainer>
