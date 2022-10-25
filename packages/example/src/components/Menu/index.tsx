@@ -14,7 +14,8 @@ const Menu = () => {
   }, [setVisible])
 
   const openSettingModal = useCallback(() => {
-    setIsSettingModalOpen(true)
+    setIsSettingModalOpen(true);
+    setVisible(false)
   }, [setIsSettingModalOpen])
 
   const closeSettingModal = useCallback(() => {
