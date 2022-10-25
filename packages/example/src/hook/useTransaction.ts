@@ -59,6 +59,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
         })
         .catch(e => {
           setLoading(false);
+          setTxList([]);
           logger.error(e)
         })
     } else {
