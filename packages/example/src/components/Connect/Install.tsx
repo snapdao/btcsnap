@@ -6,11 +6,12 @@ import Modal from "./Modal";
 interface InstallProps {
   open: boolean;
   close: () => void;
+  isFirstStep?: boolean;
 }
 
-const Install = ({open, close}: InstallProps) => {
+const Install = ({open, close, isFirstStep}: InstallProps) => {
   return (
-    <Modal open={open} close={close}>
+    <Modal open={open} close={close} isFirstStep={isFirstStep}>
       <FlaskIcon className="Connect-flask-icon"/>
       <h2>Install MetaMask Flask</h2>
       <p className="Connect-install">You will need to install the MetaMask Flask extension in order to use Bitcoin Snap.</p>

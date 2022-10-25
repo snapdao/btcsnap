@@ -33,9 +33,7 @@ export const useBalance = () => {
     }
 
     if (current) {
-      if(count === 0) {
-        setStatus(AppStatus.FetchBalance);
-      }
+      setStatus(AppStatus.FetchBalance);
       queryBalance(current)
         .then(({balance, rate}) => {
           setBalance(balance);

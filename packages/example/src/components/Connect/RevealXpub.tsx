@@ -21,6 +21,7 @@ export interface RevealXpubProps {
   open: boolean;
   close: () => void;
   onRevealed: () => void;
+  isFirstStep?: boolean;
 }
 
 interface ErrorMessage {
@@ -28,7 +29,7 @@ interface ErrorMessage {
   code: number
 }
 
-const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
+const RevealXpub = observer(({open, close, onRevealed, isFirstStep}: RevealXpubProps) => {
   const { settings: { network, scriptType }, current, runtime: { setStatus } } = useAppStore();
   const [isRevealing, setIsRevealing] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -64,7 +65,7 @@ const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
       }
       setIsRevealing(false);
     })
-  }, [isRevealing, setIsRevealing, network, current?.xpub],)
+  }, [isRevealing, setIsRevealing, network, scriptType, current?.xpub],)
 
   const closeError = () => {
     setFatalErrorMessage({message: '', code: 0})
@@ -73,7 +74,7 @@ const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
 
   return (
     <>
-      <Modal open={open && !fatalErrorMessage.message} close={close} isDisabled={isRevealing}>
+      <Modal open={open && !fatalErrorMessage.message} close={close} isDisabled={isRevealing} isFirstStep={isFirstStep}>
         <ConnectIcon className="Connect-flask-icon" />
         <h2>Get Addresses for <br/> Bitcoin Snap</h2>
         <p style={{ marginBottom: 100}} className="Connect-install">Your Bitcoin account addresses will be created along with your MetaMask public key.</p>

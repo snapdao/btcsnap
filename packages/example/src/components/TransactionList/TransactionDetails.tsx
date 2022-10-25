@@ -39,8 +39,8 @@ const TransactionDetails = (({network, open, close, details}:TransactionProps) =
   const isFailed = details.status === TransactionStatus.Failed;
   const isPending = details.status === TransactionStatus.Pending;
   const isSendType = details.type === TransactionTypes.Send;
-  const transactionFrom = `${details.from.substring(0, 8)}...${details.from.substring(details.from.length - 8)}`;
-  const transactionTo = `${details.to.substring(0, 8)}...${details.to.substring(details.from.length - 8)}`;
+  const transactionFrom = `${details.from.slice(0, 8)}...${details.from.slice(-8)}`;
+  const transactionTo = `${details.to.slice(0, 8)}...${details.to.slice(-8)}`;
   let Icon;
 
   switch(details.status) {

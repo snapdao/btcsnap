@@ -25,17 +25,45 @@
   font-size: 14px;
   line-height: 20px;
 }
-.fade-in {
-  animation: fadeInLeft 0.3s ease-in-out;
+.fade-up {
+  animation: fadeInUp 0.25s ease-in-out;
+}
+.fade-left {
+  animation: fadeInLeft 0.25s ease-in-out;
+}
+.fade-out-left {
+  animation: fadeOutLeft 0.25s ease-in-out;
 }
 
-@keyframes fadeInLeft{
+@keyframes fadeInUp {
   0% {
     opacity: 0;
-    transform: translate3d(-10%,0,0)
+    transform: translateY(40px)
   }
   100% {
     opacity: 1;
     transform: none
+  }
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100px)
+  }
+  100% {
+    opacity: 1;
+    transform: none
+  }
+}
+
+@keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+    transform: none
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100px)
   }
 }

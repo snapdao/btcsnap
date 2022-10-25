@@ -2,7 +2,6 @@ import { types } from 'mobx-state-tree';
 import { Coins, SupportedCoins } from '../constant/supportedCoins';
 import Address from './address';
 import { BitcoinNetwork, BitcoinScriptType } from "../interface";
-import { getAppStore } from "./index";
 import { IAddressIn } from "./types";
 import { coinManager } from "../services/CoinManager";
 import { generateAddressId } from "./utils";
@@ -43,10 +42,9 @@ const Account = types
   .actions((self) => ({
     syncXPub: async () => {
       try {
-        const appStore = getAppStore();
         const mfp = self.mfp;
         const scriptType = self.scriptType;
-        const network = appStore.settings.network;
+        const network = self.network;
 
         const coin = network === BitcoinNetwork.Main ? "BTC" : "BTC_TESTNET";
         const path = EXTENDED_PUBKEY_PATH[network][scriptType];

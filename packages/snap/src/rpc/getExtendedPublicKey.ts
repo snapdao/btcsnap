@@ -14,7 +14,7 @@ export const pathMap: Record<ScriptType, string[]> = {
 export const CRYPTO_CURVE = "secp256k1";
 
 export async function extractAccountPrivateKey(wallet: Wallet, network: Network, scriptType: ScriptType): Promise<{node:BIP32Interface, mfp: string}> {
-    const path = pathMap[scriptType]
+    const path = [...pathMap[scriptType]]
     if (network != networks.bitcoin) {
         path[path.length - 1] = "1'";
     }
