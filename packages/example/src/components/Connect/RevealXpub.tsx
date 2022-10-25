@@ -64,7 +64,7 @@ const RevealXpub = observer(({open, close, onRevealed}: RevealXpubProps) => {
       }
       setIsRevealing(false);
     })
-  }, [isRevealing, setIsRevealing, network, current?.xpub],)
+  }, [isRevealing, setIsRevealing, network, scriptType, current?.xpub],)
 
   const closeError = () => {
     setFatalErrorMessage({message: '', code: 0})
