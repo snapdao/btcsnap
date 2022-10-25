@@ -20,15 +20,15 @@ interface ConnectModalProps {
 const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = false}: ConnectModalProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(open);
   const openedBefore = useRef<boolean>();
-  
+
   useEffect(() => {
-    if(open){
+    if (open) {
       setIsVisible(true);
       openedBefore.current = true;
-    } else if(openedBefore.current) {
+    } else if (openedBefore.current) {
       setTimeout(() => {
         setIsVisible(false);
-      }, 0.25)
+      }, 250)
       openedBefore.current = false;
     }
   }, [open, isVisible, openedBefore])
@@ -43,7 +43,7 @@ const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = fa
       open={isVisible}
     >
       <Modal.Content>
-        <CloseIcon onClick={() =>!isDisabled && close() } isDisabled={isDisabled} />
+        <CloseIcon onClick={() => !isDisabled && close()} isDisabled={isDisabled}/>
         <div className="Connect-Modal-Content">
           {children}
         </div>
