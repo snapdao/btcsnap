@@ -25,6 +25,7 @@ const Index = observer(() => {
     runtime: {status, setStatus, connected, setConnected}
   } = useAppStore();
   const [step, setStep] = useState<ConnectStep>(ConnectStep.Done);
+  const [firstStep, setFirstStep] = useState<ConnectStep>();
 
   useEffect(() => {
     if(!persistDataLoaded){
@@ -42,11 +43,13 @@ const Index = observer(() => {
       nextStep = ConnectStep.Install;
     }
     setStep(nextStep);
+    setFirstStep(nextStep);
   }, [current, setStep, persistDataLoaded])
 
   const closeModal = useCallback(() => {
+    setFirstStep(step);
     setStatus(AppStatus.ConnectClosed);
-  }, [])
+  }, [step])
 
   if(status === AppStatus.ConnectClosed){
     return null;
@@ -55,15 +58,21 @@ const Index = observer(() => {
   return (
     <>
       <Browsers open={step === ConnectStep.Browser} close={closeModal} />
-      <Install open={step === ConnectStep.Install} close={closeModal} />
+      <Install
+        open={step === ConnectStep.Install}
+        isFirstStep={firstStep === ConnectStep.Install}
+        close={closeModal}
+      />
       <Connect
         open={step === ConnectStep.Connect}
+        isFirstStep={firstStep === ConnectStep.Connect}
         close={closeModal}
         onConnected={() => {
           setStep(ConnectStep.Reveal);
           setConnected(true);
         }}/>
       <RevealXpub
+        isFirstStep={firstStep === ConnectStep.Reveal}
         open={step === ConnectStep.Reveal}
         close={closeModal}
         onRevealed={() => {setStep(ConnectStep.Done)}}

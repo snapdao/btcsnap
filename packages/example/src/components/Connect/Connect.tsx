@@ -11,9 +11,10 @@ interface ConnectProps {
   open: boolean;
   close: () => void;
   onConnected: () => void;
+  isFirstStep?: boolean
 }
 
-const Connect = ({open, close, onConnected}: ConnectProps) => {
+const Connect = ({open, close, onConnected, isFirstStep}: ConnectProps) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const connectMetaMask = useCallback(async () => {
@@ -30,7 +31,7 @@ const Connect = ({open, close, onConnected}: ConnectProps) => {
   }, [setIsConnecting, onConnected])
 
   return (
-    <Modal open={open} close={close} isDisabled={isConnecting}>
+    <Modal open={open} close={close} isDisabled={isConnecting} isFirstStep={isFirstStep}>
       <ConnectIcon className="Connect-flask-icon" />
       <h2>Connect to MetaMask Bitcoin Snap</h2>
       <p className="Connect-install">If you do not have Bitcoin Snap installed, you will be prompted to do so.</p>
