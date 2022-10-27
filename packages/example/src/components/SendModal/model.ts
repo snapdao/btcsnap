@@ -279,7 +279,7 @@ class SendViewModel {
   }
 
   get isEmptyAmount() {
-    return this.sendAmountText === '';
+    return this.sendAmountText === '' || Number(this.sendAmountText) === 0;
   }
 
   get amountValid() {
