@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { Modal } from "semantic-ui-react";
-import YellowCard from "./image/YellowCard.svg";
-import BlueCard from "./image/BlueCard.svg";
 
 export const CurrentPage = styled.div<{open: boolean}>`
   position: fixed;
@@ -95,38 +93,7 @@ export const WalletListContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-`
-
-
-export const WalletCardContainer = styled.div<{type: 'bitcoin' | 'lightning'}>`
-  padding: 16px 20px;
-  width: 240px;
-  height: 135px;
-  border-radius: 16px;
-  background-image: url(${props => props.type === 'bitcoin' ? YellowCard : BlueCard});
-`
-
-export const WalletCardHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  
-  span {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 20px;
-    color: #FFFFFF;
-    text-transform: capitalize;
-  }
-`
-
-export const WalletCardAmount = styled.div`
-  margin-top: 12px;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 28px;
-  color: #F7F9FC;
+  gap: 4px;
 `
 
 export const LightningWalletTipsContainer = styled.div`

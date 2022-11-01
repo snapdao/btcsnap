@@ -16,11 +16,11 @@ import {
   WalletListHeader,
   WalletListModal
 } from "./sytles";
-import InfoIcon from "../Icons/InfoIcon";
 
 export const WalletList = ({open, close}: any) => {
   const {current} = useAppStore()
   const [visible, setVisible] = useState<boolean>(open)
+  const [selectedWallet, setSelectedWallet] = useState<string>('');
   const [isHoveringAddingTips, setIsHoveringAddTips] = useState<boolean>(false)
   const parentNode = useRef<any>()
 
@@ -60,8 +60,20 @@ export const WalletList = ({open, close}: any) => {
 
               <WalletListContentContainer>
                 <WalletListContent>
-                  <WalletCard key={current?.id} type={'bitcoin'} balance={0.0001}/>
-                  <WalletCard key={'lightning-wallet-01'} type={'lightning'} balance={10000}/>
+                  <WalletCard
+                    key={current?.id}
+                    walletType={'bitcoin'}
+                    balance={0.0001}
+                    selected={selectedWallet === current?.id}
+                    onClick={() => { setSelectedWallet(current?.id!)}}
+                  />
+                  <WalletCard
+                    key={'lightning-wallet-01'}
+                    walletType={'lightning'}
+                    balance={10000}
+                    selected={selectedWallet === 'lightning-wallet-01'}
+                    onClick={() => { setSelectedWallet('lightning-wallet-01')}}
+                  />
                   <LightningWalletTipsContainer
                     onMouseEnter={() => setIsHoveringAddTips(true) }
                     onMouseLeave={() => setIsHoveringAddTips(false) }
