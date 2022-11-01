@@ -70,8 +70,7 @@ describe('index', () => {
           method: 'btc_getLNDataFromSnap',
           params: {
             walletId: LNDataToSnap.walletId,
-            key: KeyOptions.Credential,
-            hdPath: LNDataToSnap.hdPath
+            key: KeyOptions.Credential
           },
         },
       }),
@@ -144,8 +143,7 @@ describe('index', () => {
           params: {
             walletId: LNDataToSnap.walletId,
             credential: LNDataToSnap.credential,
-            password: LNDataToSnap.password,
-            hdPath: LNDataToSnap.password
+            password: LNDataToSnap.password
           }
         },
       });
@@ -160,8 +158,7 @@ describe('index', () => {
           method: 'btc_getLNDataFromSnap',
           params: {
             walletId: LNDataToSnap.walletId,
-            key: KeyOptions.Credential,
-            hdPath: LNDataToSnap.hdPath
+            key: KeyOptions.Credential
           }
         },
       });
@@ -175,8 +172,7 @@ describe('index', () => {
         request: {
           method: 'btc_signLNInvoice',
           params: {
-            invoice: LNDataToSnap.invoice,
-            hdPath: LNDataToSnap.hdPath
+            invoice: LNDataToSnap.invoice
           }
         },
       });
