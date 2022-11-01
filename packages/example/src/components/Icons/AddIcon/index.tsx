@@ -1,7 +1,7 @@
 import React from "react";
 import { AddIconContainer } from "./styles";
 
-export const AddIcon = (props: React.ButtonHTMLAttributes<HTMLDivElement>) => {
+export const AddIcon = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <AddIconContainer {...props}>
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
