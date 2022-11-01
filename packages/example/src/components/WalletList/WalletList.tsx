@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { TransitionablePortal } from "semantic-ui-react";
+import { Popup, TransitionablePortal } from "semantic-ui-react";
 import { ReactComponent as LightningIcon } from './image/lightning.svg';
 import { WalletCard } from "./WalletCard";
 import { useAppStore } from "../../mobx";
@@ -16,6 +16,7 @@ import {
   WalletListHeader,
   WalletListModal
 } from "./sytles";
+import InfoIcon from "../Icons/InfoIcon";
 
 export const WalletList = ({open, close}: any) => {
   const {current} = useAppStore()
@@ -49,7 +50,12 @@ export const WalletList = ({open, close}: any) => {
             <WalletListContainer>
               <WalletListHeader>
                 <span>wallets</span>
-                <AddIcon onClick={addLightningWallet} />
+                <Popup
+                  position='top center'
+                  content={'Add a Lightning Wallet'}
+                  inverted
+                  trigger={<AddIcon onClick={addLightningWallet} />}
+                />
               </WalletListHeader>
 
               <WalletListContentContainer>
