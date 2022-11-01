@@ -1,6 +1,7 @@
 import React from 'react'
 import { BitcoinUnit } from "../../interface";
 import { WalletCardAmount, WalletCardContainer, WalletCardHeader, } from "./sytles";
+import { MoreIcon } from "../Icons/MoreIcon";
 
 interface WalletCardProps {
   type: 'bitcoin' | 'lightning';
@@ -15,7 +16,7 @@ export const WalletCard = ({type, balance}: WalletCardProps) => {
     <WalletCardContainer type={type}>
       <WalletCardHeader>
         <span>{type}</span>
-        <span>...</span>
+        <MoreIcon />
       </WalletCardHeader>
       <WalletCardAmount>
         {balance} {unit}
