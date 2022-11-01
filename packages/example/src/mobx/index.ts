@@ -12,7 +12,7 @@ export const {store: persistedStore, persistor} = createPersistor({
   storageKey: STORAGE_KEY,
   storageAdapter,
   options: {
-    whitelist: ['accounts', 'current', 'settings', 'user', '_version'],
+    whitelist: ['accounts', 'current', 'settings', 'user', 'lightning', '_version'],
   },
 });
 
