@@ -16,9 +16,10 @@ import {
   WalletListHeader,
   WalletListModal
 } from "./sytles";
+import { observer } from "mobx-react-lite";
 
-export const WalletList = ({open, close}: any) => {
-  const {current} = useAppStore()
+export const WalletList = observer(({open, close}: any) => {
+  const {current, lightning} = useAppStore()
   const [visible, setVisible] = useState<boolean>(open)
   const [selectedWallet, setSelectedWallet] = useState<string>('');
   const [isHoveringAddingTips, setIsHoveringAddTips] = useState<boolean>(false)
@@ -29,6 +30,12 @@ export const WalletList = ({open, close}: any) => {
   }, [open])
 
   const addLightningWallet = () => {
+    const newWallet = lightning.createWallet({
+      id: 'wallet-id' + Math.random(),
+      userId: 'user-id' + Math.random(),
+      name: ''
+    })
+    lightning.applyWallet(newWallet)
     console.log("Add Lightning Wallet");
   }
 
@@ -52,9 +59,20 @@ export const WalletList = ({open, close}: any) => {
                 <span>wallets</span>
                 <Popup
                   position='top center'
-                  content={'Add a Lightning Wallet'}
+                  content={
+                    lightning.hasReachedLimitation
+                      ? 'Wallet Reaches Limitation'
+                      : 'Add a Lightning Wallet'
+                  }
                   inverted
-                  trigger={<AddIcon onClick={addLightningWallet} />}
+                  trigger={
+                    <span>
+                      <AddIcon
+                        onClick={addLightningWallet}
+                        disabled={lightning.hasReachedLimitation}
+                      />
+                    </span>
+                  }
                 />
               </WalletListHeader>
 
@@ -65,28 +83,42 @@ export const WalletList = ({open, close}: any) => {
                     walletType={'bitcoin'}
                     balance={0.0001}
                     selected={selectedWallet === current?.id}
-                    onClick={() => { setSelectedWallet(current?.id!)}}
+                    onClick={() => {
+                      setSelectedWallet(current?.id!)
+                    }}
                   />
-                  <WalletCard
-                    key={'lightning-wallet-01'}
-                    walletType={'lightning'}
-                    balance={10000}
-                    selected={selectedWallet === 'lightning-wallet-01'}
-                    onClick={() => { setSelectedWallet('lightning-wallet-01')}}
-                  />
-                  <LightningWalletTipsContainer
-                    onMouseEnter={() => setIsHoveringAddTips(true) }
-                    onMouseLeave={() => setIsHoveringAddTips(false) }
-                    onClick={addLightningWallet}
-                  >
-                    <StyledLightningTipsIcon>
-                      {isHoveringAddingTips ? <AddIcon /> : <LightningIcon />}
-                    </StyledLightningTipsIcon>
-                    <LightningWalletTipsContent>
-                      <span>Add Lightning Wallets</span>
-                      <p>Fast transaction timings and low transaction fees</p>
-                    </LightningWalletTipsContent>
-                  </LightningWalletTipsContainer>
+                  {
+                    lightning.wallets.map(wallet => (
+                      <WalletCard
+                        key={wallet.id}
+                        id={wallet.id}
+                        walletType={'lightning'}
+                        name={wallet.name}
+                        balance={10000}
+                        selected={selectedWallet === wallet.id}
+                        onClick={() => {
+                          setSelectedWallet(wallet.id)
+                        }}
+                      />
+                    ))
+                  }
+                  {
+                    !lightning.hasLightningWallet && (
+                      <LightningWalletTipsContainer
+                        onMouseEnter={() => setIsHoveringAddTips(true)}
+                        onMouseLeave={() => setIsHoveringAddTips(false)}
+                        onClick={addLightningWallet}
+                      >
+                        <StyledLightningTipsIcon>
+                          {isHoveringAddingTips ? <AddIcon/> : <LightningIcon/>}
+                        </StyledLightningTipsIcon>
+                        <LightningWalletTipsContent>
+                          <span>Add Lightning Wallets</span>
+                          <p>Fast transaction timings and low transaction fees</p>
+                        </LightningWalletTipsContent>
+                      </LightningWalletTipsContainer>
+                    )
+                  }
                 </WalletListContent>
               </WalletListContentContainer>
 
@@ -96,4 +128,4 @@ export const WalletList = ({open, close}: any) => {
       </AccountPageShadow>
     </CurrentPage>
   )
-}
+})
