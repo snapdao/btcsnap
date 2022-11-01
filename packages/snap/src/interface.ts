@@ -32,8 +32,7 @@ export interface SaveLNDataToSnap{
   params: {
     walletId: string,
     credential: string,
-    password: string,
-    hdPath: string
+    password: string
   }
 }
 
@@ -41,16 +40,14 @@ export interface GetLNDataFromSnap{
   method: "btc_getLNDataFromSnap";
   params: {
     walletId: string,
-    key: KeyOptions,
-    hdPath: string
+    key: KeyOptions
   }
 }
 
 export interface SignLNInvoice{
   method: "btc_signLNInvoice";
   params: {
-    invoice: string,
-    hdPath: string
+    invoice: string
   }
 }
 
@@ -89,6 +86,8 @@ export enum KeyOptions {
   Password = "password",
   Credential = "credential"
 }
+
+export const LNHdPath = "m/84'/0'/0'/0/0";
 
 export interface PersistedData {
   network?: BitcoinNetwork,

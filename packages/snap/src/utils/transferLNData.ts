@@ -18,28 +18,28 @@ export const switchUnits = (letters: string) => {
 }
 
 export const calcTime = (sec: number) => {
-  let min = 0;
-  let hour = 0;
-  let result = '';
-  if(sec < 60) {
-    return sec + 's';
+  sec = Number(sec);
+  let h = Math.floor(sec / 3600);
+  let m = Math.floor(sec % 3600 / 60);
+  let s = Math.floor(sec % 3600 % 60);
+
+  let hDisplay = h > 0 ? h + "h" : "";
+  let mDisplay = m > 0 ? m + "m" : "";
+  let sDisplay = s > 0 ? s + "s" : "";
+  return hDisplay + mDisplay + sDisplay;
+}
+
+export const transferInvoiceContent = (domain: string, invoice: string, ) => {
+  const decodedInvoice = require('light-bolt11-decoder').decode(invoice).sections;
+  const invoiceContent = {
+    domain: domain,
+    type: 'paid_invoice',
+    network: decodedInvoice.find((item:any) => item.name === 'coin_network').value.bech32,
+    amount: switchUnits(decodedInvoice.find((item:any) => item.name === 'amount').letters),
+    expiry_time: calcTime(decodedInvoice.find((item:any) => item.name === 'expiry').value),
+    description: decodedInvoice.find((item:any) => item.name === 'description').value,
   }
-  if(sec >= 60) {
-    min = Math.trunc(sec / 60);
-    sec = Math.trunc(sec % 60);
-    if(min >= 60) {
-      hour = Math.trunc(min / 60);
-      min = Math.trunc(min % 60);
-    }
-  }
-  if(sec > 0) {
-    result = sec + 's'
-  }
-  if(min > 0) {
-    result = min + "m" + result;
-  }
-  if(hour > 0) {
-    result = hour + "h" + result;
-  }
+  const result = JSON.stringify(invoiceContent, null, 2)
+
   return result;
 }

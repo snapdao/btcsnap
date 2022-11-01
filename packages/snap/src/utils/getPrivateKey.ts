@@ -2,13 +2,14 @@ import * as bip32 from 'bip32';
 import { BIP32Interface } from "bip32";
 import { BitcoinNetwork, SLIP10Node, Wallet } from "../interface";
 import { getNetwork } from '../bitcoin/getNetwork';
+import { fromHdPathToObj } from "../bitcoin/cryptoPath";
 
 const CRYPTO_CURVE = "secp256k1";
 
 export const getPrivateKey = async (wallet: Wallet, hdPath: string) => {
-  let nodePath = hdPath.split("/");
-  let network = nodePath[2] === "0" ? getNetwork(BitcoinNetwork.Main) : getNetwork(BitcoinNetwork.Test);
-  let path = nodePath.slice(0,3);
+  const nodePath = fromHdPathToObj(hdPath);
+  const network = nodePath.coinType === "0" ? getNetwork(BitcoinNetwork.Main) : getNetwork(BitcoinNetwork.Test);
+  const path = hdPath.split("/").slice(0,3);
 
   const slip10Node = await wallet.request({
     method: "snap_getBip32Entropy",

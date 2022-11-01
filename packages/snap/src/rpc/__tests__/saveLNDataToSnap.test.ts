@@ -16,8 +16,7 @@ describe('saveLNDataToSnap', () => {
       walletStub,
       LNDataToSnap.walletId,
       LNDataToSnap.credential,
-      LNDataToSnap.password,
-      LNDataToSnap.hdPath
+      LNDataToSnap.password
     );
     expect(walletStub.rpcStubs.snap_getBip32Entropy).toBeCalledTimes(1);
     expect(walletStub.rpcStubs.snap_manageState).toBeCalledTimes(3);
