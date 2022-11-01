@@ -5,6 +5,7 @@ import { IAccount, IAccountIn } from "./types";
 import Runtime, { runtimeInitialState } from "./runtime";
 import { BitcoinNetwork, BitcoinScriptType } from "../interface";
 import User, { userInitialState } from './user';
+import Lightning, { lightningInitialState } from "./lightning";
 
 export const storeInitialState = {
   accounts: [],
@@ -12,6 +13,7 @@ export const storeInitialState = {
   settings: settingsInitialState,
   runtime: runtimeInitialState,
   user: userInitialState,
+  lightning: lightningInitialState,
   _version: 0,
   _rehydrated: false,
 };
@@ -22,6 +24,7 @@ const AppStore = types
     current: types.maybe(types.reference(Account)),
     settings: Settings,
     runtime: Runtime,
+    lightning: Lightning,
     user: User,
     _version: types.number,
     _rehydrated: types.boolean,
