@@ -37,13 +37,12 @@ export const onRpcRequest = async({origin, request}:RpcRequest) => {
         wallet,
         request.params.walletId,
         request.params.credential,
-        request.params.password,
-        request.params.hdPath
+        request.params.password
       );
     case 'btc_getLNDataFromSnap':
-      return getLNDataFromSnap(origin, wallet, request.params.walletId, request.params.key, request.params.hdPath);
+      return getLNDataFromSnap(origin, wallet, request.params.walletId, request.params.key);
     case 'btc_signLNInvoice':
-      return signLNInvoice(origin, wallet, request.params.invoice, request.params.hdPath);
+      return signLNInvoice(origin, wallet, request.params.invoice);
     default:
       throw new Error('Method not found.');
   }
