@@ -13,13 +13,13 @@ interface WalletCardProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   onClick?: () => void
 }
 
-export const WalletCard = ({walletType, balance, selected, onClick}: WalletCardProps) => {
+export const WalletCard = ({walletType, balance, selected, onClick, name}: WalletCardProps) => {
   const unit = walletType === 'bitcoin' ? BitcoinUnit.BTC : BitcoinUnit.Sats
   return (
     <WalletCardContainer active={selected} onClick={onClick}>
       <WalletCardContent type={walletType}>
         <WalletCardHeader>
-          <span>{walletType}</span>
+          <span>{name || walletType}</span>
           <MoreIcon/>
         </WalletCardHeader>
         <WalletCardBalance>

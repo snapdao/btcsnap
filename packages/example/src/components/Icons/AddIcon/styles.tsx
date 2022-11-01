@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const AddIconContainer = styled.div`
+export const AddIconContainer = styled.button`
+  padding: 0;
   box-sizing: border-box;
   height: 24px;
   width: 24px;
@@ -11,10 +12,13 @@ export const AddIconContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #FFFFFF;
+  cursor: pointer;
 
   :hover {
     background: rgba(0, 0, 0, 0.04);
     transition: 0.25s;
-    cursor: pointer;
+    :disabled {
+      cursor: not-allowed;
+    }
   }
 `
