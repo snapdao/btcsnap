@@ -30,7 +30,7 @@ If you would like to integrate BitcoinSnap into your dapp, you can make use of o
 4. Ensure you're connected to the 'Testnet' version of the app via settings
 5. Request for some testnet Bitcoin via [Coinfaucet](https://coinfaucet.eu/en/btc-testnet/) or [Bitcoinfaucet](https://bitcoinfaucet.uo1.net/) and start experimenting
 
-Check out this [video](https://www.youtube.com/watch?v=9B-nnnaFq0o) to see how BitcoinSnap works.
+Check out this [video](https://www.youtube.com/watch?v=MfkeWLWciIE) to see how BitcoinSnap works.
 
 *Note: MetaMask Flask is an experimental playground for developers and is not to be confused with the normal MetaMask wallet app. Running multiple instances of MetaMask in the same browser profile will break all dapp interaction. 
 
