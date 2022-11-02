@@ -1,7 +1,7 @@
 import { getPrivateKey } from "../utils/getPrivateKey";
 import { Wallet, PersistedData, KeyOptions, LNHdPath } from "../interface";
 import { getPersistedData } from "../utils/manageState";
-import CryptoJS from "crypto-js";
+import CryptoJs from "crypto-js";
 
 export async function getLNDataFromSnap(
   domain: string,
@@ -25,10 +25,15 @@ export async function getLNDataFromSnap(
       });
       if(result) {
         const lightning = await getPersistedData<PersistedData['lightning']>(wallet, "lightning", {});
-        const encryptedCredential = lightning[walletId].credential;
+        const encryptText = lightning[walletId].credential;
+        const salt = CryptoJs.enc.Hex.parse(encryptText.substring(0, 32));
+        const iv = CryptoJs.enc.Hex.parse(encryptText.substring(32, 64));
+        const encrypted = encryptText.substring(64);
         const privateKey = (await getPrivateKey(wallet, LNHdPath)).toString('hex');
-        const credential = CryptoJS.AES.decrypt(encryptedCredential, privateKey);
-        return credential.toString(CryptoJS.enc.Utf8);
+        const key = CryptoJs.PBKDF2(privateKey, salt, { keySize: 512/32, iterations: 1000 });
+        const credential = CryptoJs.AES.decrypt(encrypted, key, {iv: iv});
+
+        return credential.toString(CryptoJs.enc.Utf8);
       } else {
         throw new Error('User reject to access the key');
       }
