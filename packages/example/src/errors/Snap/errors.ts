@@ -38,6 +38,11 @@ export const PsbtValidateErrors = [
 
 export const SnapRequestErrors = [
   {
+    code: 20000,
+    name: 'NoPermission',
+    message: 'Unauthorized to perform action.'
+  },
+  {
     code: 20001,
     name: 'RejectKey',
     message: 'User reject to access the key'
