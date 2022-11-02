@@ -1,2 +1,5 @@
+export { validateRequest } from './validateRequest'
 export { getExtendedPublicKey } from './getExtendedPublicKey'
 export { signPsbt } from './signPSBT'
+export { getMasterFingerprint } from './getMasterFingerprint'
+export { manageNetwork } from './manageNetwork'

@@ -22,9 +22,10 @@
 }
 
 .Connect-button {
-  width: 100%;
+  position: absolute;
+  bottom: 40px;
+  width: 280px;
   height: 48px;
-  background: #111214;
   border-radius: 16px;
   display: flex;
   justify-content: center;
@@ -41,6 +42,12 @@
   background-color: #F58300;
   cursor: pointer;
   color: #FFFFFF;
+  transition: 0.25s;
+}
+
+.Connect-button:not(:hover) {
+  background: #111214;
+  transition: 0.25s;
 }
 
 .Connect-button:disabled {
@@ -48,6 +55,7 @@
 }
 
 .Connect-snap-link {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,7 +63,60 @@
   color: #FF6C0A;
   margin: 16px 0 64px;
 }
+.Connect-snap-link span {
+  position: absolute;
+  right: -18px;
+  display: inline-block;
+  height: 18px;
+}
 
 .Connect-snap-link:hover {
   color: #F58300;
+  transition: 0.25s;
 }
+
+.Connect-snap-link:hover span {
+  right: -24px;
+  transition: 0.25s;
+}
+
+.Connect-snap-link:not(:hover) span {
+  right: -18px;
+  transition: 0.25s;
+}
+
+.content {
+  position: relative;
+}
+
+
+.Connect-Modal-Container .Close-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.Connect-Modal-Container .Close-container-disabled {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.msg {
+  margin: 8px 0 16px;
+}
+
+.desc {
+  padding-bottom: 24px;
+}
+
+.Loading-icon {
+  animation: iconRotate 1s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes iconRotate {
+  0% {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+

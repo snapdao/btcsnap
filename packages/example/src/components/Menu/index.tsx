@@ -2,39 +2,44 @@ import React, { useCallback, useState } from "react";
 import { ReactComponent as MenuIcon } from "./image/menu.svg";
 import MenuPanel from "./MenuPanel";
 import Settings from "../Settings";
-import "./index.css"
+import { Transition } from 'semantic-ui-react';
+import { MenuContainer, MenuButton } from "./styles";
 
 const Menu = () => {
-  const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false);
-
-  const openMenuPanel = useCallback(() => {
-    setIsPanelOpen(true)
-  }, [setIsPanelOpen])
+  const [visible, setVisible] = useState<boolean>(false);
 
   const closeMenuPanel = useCallback(() => {
-    setIsPanelOpen(false)
-  }, [setIsPanelOpen])
+    setVisible(false)
+  }, [setVisible])
 
   const openSettingModal = useCallback(() => {
-    setIsSettingModalOpen(true)
-    setIsPanelOpen(false)
-  }, [setIsPanelOpen, setIsSettingModalOpen])
+    setIsSettingModalOpen(true);
+    setVisible(false)
+  }, [setIsSettingModalOpen])
 
   const closeSettingModal = useCallback(() => {
     setIsSettingModalOpen(false)
   }, [setIsSettingModalOpen])
 
+  const settingClick = useCallback(() => {
+    setVisible(visible => !visible)
+  },[setVisible])
+
   return (
-    <div className="Menu-container">
-      <div className="Menu-button" onClick={openMenuPanel}>
+    <MenuContainer>
+      <MenuButton onClick={settingClick}>
         <MenuIcon />
-      </div>
-      {
-        isPanelOpen && <MenuPanel close={closeMenuPanel} openSettingModal={openSettingModal} />
-      }
-      <Settings open={isSettingModalOpen} close={closeSettingModal} />
-    </div>
+      </MenuButton>
+      <Transition.Group animation={'slide down'} duration={'200'}>
+        {visible && (
+          <div>
+            <MenuPanel openSettingModal={openSettingModal} close={closeMenuPanel} />
+          </div>
+        )}
+      </Transition.Group>
+      { isSettingModalOpen && <Settings open={isSettingModalOpen} close={closeSettingModal} />}
+    </MenuContainer>
   );
 };
 

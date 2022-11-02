@@ -4,9 +4,15 @@ export enum BitcoinNetwork {
 }
 
 export enum BitcoinScriptType {
-  P2PKH,
-  P2SH,
-  P2WPKH,
+  P2PKH = "P2PKH",
+  P2SH_P2WPKH = "P2SH-P2WPKH",
+  P2WPKH = "P2WPKH",
+}
+
+export enum BitcoinUnit {
+  BTC = 'BTC',
+  Sats = 'Sats',
+  Currency = 'Currency'
 }
 
 export type Utxo = {
@@ -14,7 +20,9 @@ export type Utxo = {
   transactionHash: string;
   index: number;
   value: number;
-  rawHex?: string;
+  pubkey: Buffer;
+  rawHex: string;
+  path: string;
 };
 
 export type Address = {

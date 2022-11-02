@@ -1,102 +1,135 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Container, Divider } from 'semantic-ui-react';
 import SendViewModel from './model';
 
 import './index.css';
 import ConfirmModal from "./ConfirmModal";
+import TransactionFee from "./TransactionFee"
 import CloseIcon from "../Icons/CloseIcon";
 import SendIcon from "../Icons/SendIcon";
+import SwitchIcon from "../Icons/SwitchIcon";
+import ArrowDown from '../Icons/ArrowDown';
+
+import {
+  SendContainer,
+  LeftTitleHeader,
+  CloseContainer,
+  SendTitle,
+  SendBody,
+  SendAmountContainer,
+  SendAmountInput,
+  SendAmountMax,
+  SendTextError,
+  SendAmountItem,
+  SendAmountTransition,
+  SendAmountFee,
+  DividerLine,
+  SendAvailableContainer,
+  SendToContainer,
+  SendToInput,
+  SendButtonContainer,
+  CancelButton, SendAvailableText,
+} from "./styles";
 
 export type InitialProps = {
   model: SendViewModel;
+  close: () => void;
 };
 
-const Initial: FunctionComponent<InitialProps> = observer(({ model }) => {
+const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => {
+  const [transactionFee, setTransactionFee] = useState<boolean>(false);
+
+  const openTransactionFee = () => {
+    setTransactionFee(true);
+  }
+
+  const closeTransactionFee = () => {
+    setTransactionFee(false);
+  }
+
   return (
-    <div>
-      <Container className={'colored-container'}>
-        <div className={'modal-header'}>
-          <span
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <SendIcon size={36} />
-            <span style={{marginLeft: 4, fontWeight: 600 }}>SEND</span>
-          </span>
-          <CloseIcon onClick={() => model.setSendOpen(false)} />
-        </div>
-        <div className={'modal-body'}>
-          <div className={'modal-section'}>
-            <span className={'amount'}>
-              Amount
-            </span>
-            <div className={'amount-input-box'}>
-              <label style={{ fontSize: 16, color: '#F58300' }}>
+    <>
+      <SendContainer>
+        <LeftTitleHeader>
+          <SendIcon size={36} />
+          <p>SEND</p>
+        </LeftTitleHeader>
+
+        <CloseContainer><CloseIcon onClick={close} /></CloseContainer>
+
+        <SendBody>
+          <SendTitle>Amount</SendTitle>
+          <SendAmountContainer>
+            <SendAmountItem>
+              <SendAmountInput>
                 <input
                   autoFocus
-                  className={'amount-input'}
                   size={model.amountLength}
-                  value={model.amountText}
-                  onChange={e => {
-                    model.handleSendInput(e.target.value);
-                  }}
+                  value={model.sendAmountMain}
+                  onChange={e => { model.handleSendInput(e.target.value); }}
                   placeholder="0"
                 />
-                {model.unit}
-              </label>
-            </div>
-            {!model.amountValid && (
-              <div className={'text-error'}>
-                Insufficient Funds
-              </div>
-            )}
-            <div className={'fee'}>
-              <span className={'text-secondary text-weight-bold'}>Fee</span>
-              <span className={'text-secondary'}>
-                <span className={'fee-amount'}>{model.feeText}</span>
-                <span style={{ marginLeft: '1ch' }}>{model.unit}</span>
-              </span>
-            </div>
-          </div>
-          <Divider />
-          <div className={'modal-section available-btc'}>
-            <span className={'text-secondary text-weight-bold'}>Available</span>
-            <span className={'text-secondary'}>
-              <span className={'available-amount'}>{model.availableBtc}</span>
-              <span style={{ marginLeft: '1ch' }}>{model.unit}</span>
-            </span>
-          </div>
-        </div>
-      </Container>
-      <Container className={'modal-bottom-container'}>
-        <div className={'to-container'}>
-          <span className={'text-secondary text-weight-bold'}>To</span>
-          <input
-            className={'to-input'}
-            placeholder="Paste or input the destination address"
-            value={model.to}
-            onChange={e => {
-              model.setTo(e.target.value);
-            }}
-          />
-        </div>
-        <Divider className={'bottom-divider'} />
-        {!model.toValid && (
-          <div className={'text-error'}>Enter a Valid Wallet Address</div>
-        )}
-        <div className={model.toValid ? 'send-actions-container' : 'actions-container-error'}>
-          <button
-            className={'send-action-button action-button-secondary'}
-            onClick={() => model.setSendOpen(false)}>
+                <span onClick={() => model.switchUnits()}>{model.mainUnit}<SwitchIcon /></span>
+              </SendAmountInput>
+              <SendAmountMax onClick={() => {
+                if(model.availableAmount){
+                  model.availableMax();
+                }
+              }}>MAX</SendAmountMax>
+            </SendAmountItem>
+
+            {!model.amountValid && (<SendTextError>Insufficient Funds</SendTextError>)}
+
+            <SendAmountItem>
+              <SendAmountTransition><span>{model.sendAmountSecondary}</span><span>{model.secondaryUnit}</span></SendAmountTransition>
+              <SendAmountFee>
+                <SendTitle>Fee</SendTitle>
+                <span onClick={openTransactionFee}>
+                  <span>{model.feeText}</span>
+                  <span>{model.mainUnit}</span>
+                  <ArrowDown />
+                </span>
+              </SendAmountFee>
+            </SendAmountItem>
+          </SendAmountContainer>
+
+          <TransactionFee open={transactionFee} close={closeTransactionFee} model={model} />
+
+          <DividerLine />
+
+          <SendAvailableContainer>
+            <SendTitle>Balance</SendTitle>
+            <SendAvailableText>
+              <span>{model.availableAmount}</span>{model.sendInitUnit}
+              <span>/</span>
+              <span>{model.availableCurrency}</span>{model.sendCurrencyUnit}
+            </SendAvailableText>
+          </SendAvailableContainer>
+        </SendBody>
+      </SendContainer>
+
+      <SendContainer>
+        <SendToContainer>
+          <SendTitle>To</SendTitle>
+          <SendToInput>
+            <input
+              placeholder="Paste or input the destination address"
+              value={model.to}
+              onChange={e => {model.setTo(e.target.value)}}
+            />
+          </SendToInput>
+
+          {!model.isAddressValid && (<SendTextError>Enter a Valid Wallet Address</SendTextError>)}
+        </SendToContainer>
+
+        <SendButtonContainer>
+          <CancelButton onClick={close}>
             Cancel
-          </button>
+          </CancelButton>
           <ConfirmModal model={model} />
-        </div>
-      </Container>
-    </div>
+        </SendButtonContainer>
+      </SendContainer>
+    </>
   );
 });
 

@@ -2,7 +2,7 @@
 
 [![0.3.1](https://badge.fury.io/js/btcsnap.png)](https://badge.fury.io/js/btcsnap)
 
-`BitcoinSnap` is the world's first application allowing users to directly manage Bitcoin within the MetaMask interface, without having to wrap tokens. Since Snaps is pre-release software, the alpha version of BitcoinSnap is currently live on [Metamask Flask](https://metamask.io/flask/) only, a canary distribution for developers that provides access to upcoming features.
+`BitcoinSnap` is the world's first application allowing users to directly manage Bitcoin within the MetaMask interface, without having to wrap tokens. Since Snaps is pre-release software, BitcoinSnap is currently live on [Metamask Flask](https://metamask.io/flask/) only, a canary distribution for developers that provides access to upcoming features.
 
 *Note: MetaMask Flask is an experimental playground for developers and is not to be confused with the normal [MetaMask wallet app](https://metamask.io/).
 
@@ -36,7 +36,8 @@ const result: string = await ethereum.request({
       {
         method: 'btc_getPublicExtendedKey',
         params: {
-          network: "Main" // for testnet use "Test" ,
+          network: "Main", // for testnet use "Test" ,
+          scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
         },
       },
     ],
@@ -53,8 +54,9 @@ const result: { txId:string, txHex:string } = await ethereum.request({
         {
           method: 'btc_signPsbt',
           params: {
-            psbt: base64Psbt // base64 string for the pbst,
-            network: "Main" // for testnet use "Test",
+            psbt: base64Psbt, // base64 string for the pbst,
+            network: "Main", // for testnet use "Test",
+            scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
           },
         },
       ],
@@ -78,6 +80,12 @@ Use the following command to run tests:
 yarn test
 ```
 
+#### Testing Coverage
+
+| File       | % Stmts | % Branch | % Funcs | % Lines |
+|------------|---------|----------|---------|---------|
+| All files  |    97.2 |    91.34 |     100 |   97.14 |
+
 ## Live Example
 
-If you would like to integrate BitcoinSnap into your dapp, you can use the following codes [here](https://github.com/KeystoneHQ/btcsnap/tree/master/packages/example).
+If you would like to integrate BitcoinSnap into your dapp, you can use the following codes [here](https://github.com/snapdao/btcsnap/tree/master/packages/example).

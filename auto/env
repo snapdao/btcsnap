@@ -1,2 +1,0 @@
-timestamp=$(TZ=Frankfurt/Germany date +%Y%m%d%H%M)
-app_name=keystone

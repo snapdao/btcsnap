@@ -1,7 +1,8 @@
 export interface GetPublicExtendedKeyRequest{
     method: "btc_getPublicExtendedKey";
     params: {
-      network: BitcoinNetwork
+      network: BitcoinNetwork,
+      scriptType: ScriptType
     }
 }
 
@@ -9,11 +10,25 @@ export interface SignPsbt{
   method: "btc_signPsbt";
   params: {
     psbt: string,
-    network: BitcoinNetwork
+    network: BitcoinNetwork,
+    scriptType: ScriptType
   }
 }
 
-export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt
+export interface GetMasterFingerprint{
+  method: "btc_getMasterFingerprint";
+}
+
+export interface ManageNetwork {
+  method: "btc_network";
+  params: {
+    action: "get" | "set";
+    network?: BitcoinNetwork;
+  }
+}
+
+
+export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt | GetMasterFingerprint | ManageNetwork
 
 export type BTCMethodCallback = (
   originString: string,
@@ -22,12 +37,14 @@ export type BTCMethodCallback = (
 
 export interface Wallet {
   registerRpcMessageHandler: (fn: BTCMethodCallback) => unknown;
-  request(options: {method: string; params?: unknown[]}): Promise<unknown>;
+  request<T>(options: {method: string; params?: unknown[] | Record<string, any>}): Promise<T>;
 }
 
 
 export enum ScriptType {
     P2PKH = "P2PKH",
+    P2SH_P2WPKH = "P2SH-P2WPKH",
+    P2WPKH = "P2WPKH"
 }
 
 export enum BitcoinNetwork {
@@ -35,49 +52,49 @@ export enum BitcoinNetwork {
   Test = "test",
 }
 
+export interface PersistedData {
+  network?: BitcoinNetwork
+}
 
-export interface BIP44CoinTypeNode {
+export interface SLIP10Node {
   /**
-   * The BIP-44 `coin_type` value of this node.
+   * The 0-indexed path depth of this node.
    */
-  readonly coin_type: number;
+  readonly depth: number;
 
   /**
-   * The 0-indexed BIP-44 path depth of this node.
-   *
-   * Since this is a `coin_type` node, it will be the number `2`.
+   * The fingerprint of the master node, i.e., the node at depth 0. May be
+   * undefined if this node was created from an extended key.
    */
-  readonly depth: 2;
+  readonly masterFingerprint?: number;
 
   /**
-   * The hexadecimal-encoded string representation of the private key for this node.
+   * The fingerprint of the parent key, or 0 if this is a master node.
+   */
+  readonly parentFingerprint: number;
+
+  /**
+   * The index of the node, or 0 if this is a master node.
+   */
+  readonly index: number;
+
+  /**
+   * The private key of this node.
    */
   readonly privateKey: string;
 
   /**
-   * The hexadecimal-encoded string representation of the public key for this node.
+   * The public key of this node.
    */
   readonly publicKey: string;
 
   /**
-   * The hexadecimal-encoded string representation of the chain code for this node.
+   * The chain code of this node.
    */
   readonly chainCode: string;
 
   /**
-   * A human-readable representation of the BIP-44 HD tree path of this node.
-   *
-   * Since this is a `coin_type` node, it will be of the form:
-   *
-   * `m / 44' / coin_type'`
-   *
-   * Recall that a complete BIP-44 HD tree path consists of the following nodes:
-   *
-   * `m / 44' / coin_type' / account' / change / address_index`
-   *
-   * With the following depths:
-   *
-   * `0 / 1 / 2 / 3 / 4 / 5`
+   * The name of the curve used by the node.
    */
-  readonly path: string;
+  readonly curve: 'ed25519' | 'secp256k1';
 }

@@ -1,19 +1,20 @@
 import secp256k1 from 'secp256k1';
 import { BIP32Interface } from 'bip32';
-import { Psbt, HDSigner, networks } from 'bitcoinjs-lib'
-
-import { BitcoinNetwork } from '../interface'
-
+import { HDSigner, Psbt } from 'bitcoinjs-lib';
+import { BitcoinNetwork } from '../interface';
+import { PsbtValidator } from '../bitcoin/PsbtValidator';
+import { PsbtHelper } from '../bitcoin/PsbtHelper';
+import { getNetwork } from './getNetwork';
 
 export class AccountSigner implements HDSigner {
     publicKey: Buffer;
     fingerprint: Buffer;
 
-    private node: BIP32Interface
-    constructor(accountNode: BIP32Interface) {
+    private readonly node: BIP32Interface
+    constructor(accountNode: BIP32Interface, mfp?: Buffer) {
         this.node = accountNode;
         this.publicKey = this.node.publicKey
-        this.fingerprint = this.node.fingerprint
+        this.fingerprint = mfp || this.node.fingerprint
     }
 
     derivePath(path: string): HDSigner {
@@ -22,20 +23,22 @@ export class AccountSigner implements HDSigner {
             if (splitPath[0] == 'm') {
                 splitPath = splitPath.slice(1)
             }
+            if (splitPath.length > 2) {
+                splitPath = splitPath.slice(-2);
+            }
             const childNode = splitPath.reduce((prevHd, indexStr) => {
                 let index;
                 if (indexStr.slice(-1) === `'`) {
                     index = parseInt(indexStr.slice(0, -1), 10);
                     return prevHd.deriveHardened(index);
-                }
-                else {
+                } else {
                     index = parseInt(indexStr, 10);
                     return prevHd.derive(index);
                 }
             }, this.node)
-            return new AccountSigner(childNode)
+            return new AccountSigner(childNode, this.fingerprint)
         } catch (e) {
-            throw new Error('invaild path')
+            throw new Error('invalid path')
         }
     }
 
@@ -52,31 +55,34 @@ const validator = (pubkey: Buffer, msghash: Buffer, signature: Buffer) => {
 
 export class BtcTx {
     private tx: Psbt;
-    constructor(base64Psbt: string) {
-        this.tx = Psbt.fromBase64(base64Psbt)
+    private network: BitcoinNetwork;
+
+    constructor(base64Psbt: string, network: BitcoinNetwork) {
+        this.tx = Psbt.fromBase64(base64Psbt, { network: getNetwork(network) })
+        this.network = network;
     }
 
     validateTx(accountSigner: AccountSigner) {
-        let result = true;
-        this.tx.txInputs.forEach((each, index) => {
-            result = this.tx.inputHasHDKey(index, accountSigner)
-        })
-        return result;
+        const validator = new PsbtValidator(this.tx, this.network);
+        return validator.validate(accountSigner);
     }
 
     extractPsbtJson() {
-        return {
-            inputs: this.tx.txInputs.map(each => ({
-                prevTxId: each.hash.toString('hex'),
-                index: each.index,
-                sequence: each.sequence
-            })),
-            outputs: this.tx.txOutputs.map(each => ({
-                script: each.script.toString('hex'),
-                value: each.value,
-                address: each.address
-            }))
+        const psbtHelper = new PsbtHelper(this.tx, this.network);
+        const changeAddress = psbtHelper.changeAddresses
+
+        const transaction = {
+            from: psbtHelper.fromAddresses.join(","),
+            to: psbtHelper.toAddresses.join(","),
+            value: psbtHelper.sendAmount,
+            fee: psbtHelper.fee,
+            network: "testnet",
         }
+
+        if(changeAddress.length > 0){
+            return {...transaction, changeAddress: changeAddress.join(",")}
+        }
+        return transaction
     }
 
     extractPsbtJsonString() {
@@ -85,30 +91,21 @@ export class BtcTx {
 
 
     signTx(accountSigner: AccountSigner) {
-        this.tx.signAllInputsHD(accountSigner)
-        if (this.tx.validateSignaturesOfAllInputs(validator)) {
-            this.tx.finalizeAllInputs();
-            const txId = this.tx.extractTransaction().getId();
-            const txHex = this.tx.extractTransaction().toHex();
-            return {
-                txId,
-                txHex
+        try {
+            this.tx.signAllInputsHD(accountSigner)
+            if (this.tx.validateSignaturesOfAllInputs(validator)) {
+                this.tx.finalizeAllInputs();
+                const txId = this.tx.extractTransaction().getId();
+                const txHex = this.tx.extractTransaction().toHex();
+                return {
+                    txId,
+                    txHex
+                }
+            } else {
+                throw new Error('Signature verification failed');
             }
-        } else {
-            throw new Error('signature verification failed')
+        } catch (e) {
+            throw new Error('Sign transaction failed');
         }
     }
 }
-
-
-export function getNetwork(network: BitcoinNetwork) {
-    switch (network) {
-        case BitcoinNetwork.Main:
-            return networks.bitcoin
-        case BitcoinNetwork.Test:
-            return networks.regtest
-        default:
-            return networks.bitcoin
-    }
-}
-

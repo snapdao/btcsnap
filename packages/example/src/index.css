@@ -5,6 +5,10 @@ html, body, h1, h2, h3, h4, h5, p, span, div, button, a {
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
+html {
+  background: #F0F3FA;
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;

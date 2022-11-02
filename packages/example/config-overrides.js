@@ -1,6 +1,9 @@
 const webpack = require('webpack');
+const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 
 module.exports = function override(config, env) {
+    const isNonDevEnv = process.env.ENV === 'staging' || process.env.ENV === 'production';
+
     //do stuff with the webpack config...
     config.resolve.fallback = {
         url: require.resolve('url'),
@@ -18,11 +21,25 @@ module.exports = function override(config, env) {
             Buffer: ['buffer', 'Buffer'],
         }),
         new webpack.DefinePlugin({
-            DATAAPI: JSON.stringify(process.env.DATAAPI),
             PROJECT_TOKEN: JSON.stringify(process.env.PROJECT_TOKEN),
+            BACKEND_API_DOMAIN: JSON.stringify(process.env.BACKEND_API_DOMAIN),
+            BACKEND_API_AUTH: JSON.stringify(process.env.BACKEND_API_AUTH),
             ENV: JSON.stringify(process.env.ENV),
+            SENTRY_SOURCE: JSON.stringify(process.env.SENTRY_SOURCE),
         })
     );
 
+    if(isNonDevEnv){
+        config.plugins.push(
+            new SentryWebpackPlugin({
+                authToken: process.env.SENTRY_AUTH_TOKEN,
+                org: process.env.SENTRY_ORG,
+                project: process.env.SENTRY_PROJECT,
+                release: process.env.SENTRY_RELEASE,
+                include: "build/",
+            }),
+        )
+    }
+
     return config;
-  }
+}

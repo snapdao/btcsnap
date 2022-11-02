@@ -1,5 +1,8 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { BitcoinNetwork, BitcoinScriptType } from '../interface';
+import { SnapError } from "../errors";
+import { logger } from "../logger";
+
 declare global {
   interface Window {
     ethereum: MetaMaskInpageProvider;
@@ -19,7 +22,7 @@ export async function connect(cb: (connected: boolean) => void) {
         {
           wallet_snap: {
             [snapId]: {
-              version: '0.4.0',
+              version: '0.5.0-beta.11',
             },
           },
         },
@@ -35,21 +38,27 @@ export async function connect(cb: (connected: boolean) => void) {
 
 /**
  *
- * get the extened publicKey from btcsnap
+ * get the extended publicKey from btcsnap
  *
  * @param network
+ * @param scriptType
+ * @param cb?
  * @returns
  */
 
+interface ExtendedPublicKey {
+  xpub: string;
+  mfp: string;
+}
+
 export async function getExtendedPublicKey(
   network: BitcoinNetwork,
-  cb?: Function,
-) {
+  scriptType: BitcoinScriptType,
+): Promise<ExtendedPublicKey> {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 
-  let result = null;
   try {
-    result = await ethereum.request({
+    return await ethereum.request({
       method: 'wallet_invokeSnap',
       params: [
         snapId,
@@ -57,18 +66,60 @@ export async function getExtendedPublicKey(
           method: 'btc_getPublicExtendedKey',
           params: {
             network: networkParams,
+            scriptType,
           },
         },
       ],
-    });
-  } finally {
-    if (cb){
-      cb(result);
-    }
+    }) as ExtendedPublicKey;
+  } catch (err: any) {
+    const error = new SnapError(err?.message || "Get extended public key failed")
+    logger.error(error);
+    throw error;
   }
 }
 
-export async function signPsbt(base64Psbt: string, network: BitcoinNetwork) {
+export async function getMasterFingerprint() {
+  try {
+    return await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: [
+        snapId,
+        {
+          method: 'btc_getMasterFingerprint',
+        },
+      ],
+    });
+  } catch (err: any) {
+    const error = new SnapError(err?.message || "Snap get master fingerprint failed")
+    logger.error(error);
+    return "";
+  }
+}
+
+export async function updateNetworkInSnap(network: BitcoinNetwork) {
+  const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
+  try {
+    return await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: [
+        snapId,
+        {
+          method: 'btc_network',
+          params: {
+            action: "set",
+            network: networkParams,
+          }
+        },
+      ],
+    });
+  } catch (err: any) {
+    const error = new SnapError(err?.message || "Snap set Network failed")
+    logger.error(error);
+    throw error;
+  }
+}
+
+export async function signPsbt(base64Psbt: string, network: BitcoinNetwork, scriptType: BitcoinScriptType) {
   const networkParams = network === BitcoinNetwork.Main ? 'main' : 'test';
 
   try {
@@ -81,12 +132,14 @@ export async function signPsbt(base64Psbt: string, network: BitcoinNetwork) {
           params: {
             psbt: base64Psbt,
             network: networkParams,
+            scriptType,
           },
         },
       ],
     })) as Promise<{ txId: string; txHex: string }>;
-  } catch (err) {
-    console.error(err);
-    throw new Error('Sign PSBT error');
+  } catch (err: any) {
+    const error = new SnapError(err?.message || "Sign PSBT failed");
+    logger.error(error);
+    throw error;
   }
 }

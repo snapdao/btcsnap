@@ -1,31 +1,34 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
-
 import SendViewModel from './model';
 import { observer } from 'mobx-react-lite';
 import BTCValue from './BTCValue';
-
 import './index.css';
 import { ReactComponent as SendSuccess } from '../../assets/send_success.svg';
 import { ReactComponent as SendFailed } from '../../assets/send_failed.svg';
 import { ReactComponent as ArrowRight } from '../../assets/arrow_right.svg';
-import { useKeystoneStore } from "../../mobx";
-import { storeTransaction } from "../../lib/txStorage";
 import CloseIcon from "../Icons/CloseIcon";
+import {
+  Button,
+  FailedContainer,
+  FailedText
+} from "./styles"
+import { useAppStore } from '../../mobx';
+import { AppStatus } from '../../mobx/runtime';
 
 export type SuccessProps = {
   model: SendViewModel;
+  close: () => void;
 };
 
-const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
-  const { global: {bip44Xpub}, addTransaction } = useKeystoneStore();
+const Result = observer(({ model, close }: SuccessProps) => {
+  const { runtime: {setStatus}} = useAppStore();
 
   useEffect(() => {
-    if(model.status === 'success' && !!model.sentTx){
-      addTransaction(model.sentTx)
-      storeTransaction(bip44Xpub, model.sentTx);
+    if(model.status === 'success'){
+      setStatus(AppStatus.FetchBalance)
     }
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -33,7 +36,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
         <div className={'modal-header'}>
           <span />
           <span />
-          <CloseIcon onClick={() => model.setSendOpen(false)} />
+          <CloseIcon onClick={close} />
         </div>
         <div className={'vertical-center result-content-container'}>
           {model.status === 'success' && (
@@ -61,7 +64,7 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
               value={model.amountText}
               size={'large'}
               fontWeight={'normal'}
-              unit={model.unit}
+              unit={model.mainUnit}
             />
           </div>
           <div
@@ -73,63 +76,43 @@ const Result: FunctionComponent<SuccessProps> = observer(({ model }) => {
           </div>
         </div>
       </Container>
-      <Container>
-        <div className={'modal-section vertical-center'}>
-          {model.status === 'success' && (
-            <div className={'result-failed-section'}>
-              <div
-                className={
-                  'text-secondary text-align-center text-size-normal text-line-height-normal'
-                }
-              >
-                <p className={'result-sucess-p'}>The network may still need up to 60 mins to completely process the transaction</p>
-              </div>
-              <div
-                className={'vertical-center'}
-                style={{ marginTop: 54, width: '100%' }}>
-                <button
-                  onClick={() => model.setSendOpen(false)}
-                  className={
-                    'action-button action-button-primary action-button-size-full-width ok-action-button'
-                  }>
-                  OK
-                </button>
-                <a
-                  href={model.transactionLink}
-                  target={'_blank'}
-                  className={'explorer-link text-weight-bold all-center'}
-                  style={{ color: '#FF6C0A', marginTop: 20, lineHeight: '20px'}}>
-                  View on Explorer
-                </a>
-              </div>
-            </div>
-          )}
-          {model.status === 'failed' && (
-            <div className={'result-failed-section'}>
-              <div
-                className={
-                  'text-secondary text-align-center text-size-normal text-line-height-normal'
-                }
-              >
-                <p className={'result-failed-p'}>Reason of the failed transaction.</p>
-                <p className={'result-failed-p'}>{model.errorMessage}</p>
-              </div>
-              <div
-                className={'vertical-center'}
-                style={{ marginTop: 84, width: '100%' }}>
-                <button
-                  onClick={() => model.setSendOpen(false)}
-                  className={
-                    'action-button action-button-primary action-button-size-full-width ok-action-button'
-                  }
-                >
-                  OK
-                </button>
-              </div>
-            </div>
-          )}
+
+      {model.status === 'success' && (
+        <div className={'result-failed-section'}>
+          <div
+            className={
+              'text-secondary text-align-center text-size-normal text-line-height-normal'
+            }
+          >
+            <p className={'result-sucess-p'}>The network may still need up to 60 mins to completely process the transaction</p>
+          </div>
+          <div
+            className={'vertical-center'}
+            style={{ marginTop: 54, width: '100%' }}>
+            <button
+              onClick={close}
+              className={
+                'action-button action-button-primary action-button-size-full-width ok-action-button'
+              }>
+              OK
+            </button>
+            <a
+              href={model.transactionLink}
+              target={'_blank'}
+              className={'explorer-link text-weight-bold all-center'}
+              style={{ color: '#FF6C0A', marginTop: 20, lineHeight: '20px'}}>
+              View on Explorer
+            </a>
+          </div>
         </div>
-      </Container>
+      )}
+
+      {model.status === 'failed' && (
+        <FailedContainer>
+          <FailedText>{model.errorMessage.message}<span> [{model.errorMessage.code}] </span>.</FailedText>
+          <Button onClick={close}>OK</Button>
+        </FailedContainer>
+      )}
     </div>
   );
 });

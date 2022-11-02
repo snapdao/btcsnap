@@ -3,51 +3,67 @@ import { ReactComponent as SettingIcon } from "../../assets/settings.svg"
 import { ReactComponent as GitHub } from "./image/github.svg"
 import { ReactComponent as Discord } from "./image/discord.svg"
 import { ReactComponent as Disconnect } from "./image/disconnect.svg"
+import { ReactComponent as Connect } from "./image/connect.svg"
 import { useOutsideCallback } from "./useOutsideClick";
-import { useKeystoneStore } from "../../mobx";
-import { updateStoredXpub } from "../../lib/globalStorage";
+import { useAppStore } from "../../mobx";
+import {
+  MenuItemsContainer,
+  MenuItem,
+  MenuItemSpan,
+  MenuItemLink,
+  MenuDivider,
+  MenuItemIsConnect
+} from "./styles"
 
 interface MenuPanelProps {
-  close: () => void;
   openSettingModal: () => void;
+  close: () => void;
 }
 
-const MenuPanel = ({close, openSettingModal}: MenuPanelProps) => {
-  const { global: { updateBip44Xpub, network, updateConnectionStatus } } = useKeystoneStore();
+const MenuPanel = ({openSettingModal, close}: MenuPanelProps) => {
+  const { disconnectAccount, current, runtime: {continueConnect} } = useAppStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 
   const disconnect = () => {
-    updateBip44Xpub("");
-    updateStoredXpub("", network);
-    updateConnectionStatus(false);
+    disconnectAccount();
     close();
   }
 
   return (
-    <div ref={menuPanelRef} className="Menu-items-container">
-      <div className="Menu-item" onClick={openSettingModal}>
+    <MenuItemsContainer ref={menuPanelRef}>
+      <MenuItem onClick={openSettingModal}>
         <SettingIcon />
-        <span>Settings</span>
-      </div>
-      <div className="Menu-item" onClick={close}>
-        <a href="https://github.com/KeystoneHQ/btcsnap" target="_blank" rel="noopener noreferrer">
+        <MenuItemSpan>Settings</MenuItemSpan>
+      </MenuItem>
+      <MenuItem onClick={close}>
+        <MenuItemLink href="https://github.com/snapdao/btcsnap" target="_blank" rel="noopener noreferrer">
           <GitHub />
-          <span>GitHub</span>
-        </a>
-      </div>
-      <div className="Menu-item" onClick={close}>
-        <a href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
+          <MenuItemSpan>GitHub</MenuItemSpan>
+        </MenuItemLink>
+      </MenuItem>
+      <MenuItem onClick={close}>
+        <MenuItemLink href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
           <Discord />
-          <span>Feedback</span>
-        </a>
-      </div>
-      <hr className="Menu-divider"/>
-      <div className="Menu-item highlight" onClick={disconnect}>
-        <Disconnect />
-        <span>Disconnect</span>
-      </div>
-    </div>
+          <MenuItemSpan>Feedback</MenuItemSpan>
+        </MenuItemLink>
+      </MenuItem>
+      <MenuDivider />
+      {current
+        ? (
+          <MenuItem onClick={disconnect}>
+            <Disconnect />
+            <MenuItemIsConnect>Disconnect</MenuItemIsConnect>
+          </MenuItem>
+        )
+        : (
+          <MenuItem onClick={continueConnect}>
+            <Connect />
+            <MenuItemIsConnect connect>Connect</MenuItemIsConnect>
+          </MenuItem>
+        )
+      }
+    </MenuItemsContainer>
   );
 };
 

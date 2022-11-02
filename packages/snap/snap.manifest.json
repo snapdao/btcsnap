@@ -1,13 +1,13 @@
 {
-  "version": "0.4.0",
-  "description": "btcsnap: Metamask snap to manage your bitcoin",
+  "version": "0.5.0-beta.11",
+  "description": "btcsnap: Metamask Snap to manage your bitcoin",
   "proposedName": "btcsnap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/KeystoneHQ/btcsnap"
+    "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "AjV7QBSXOwNWtTZmbdPIiI+Tp1ThrizGUX8dGKntdsA=",
+    "shasum": "YwcI0lB579SIHUElrkLHDm8pf5Da+AmoRUspvLuI+64=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -18,8 +18,57 @@
   },
   "initialPermissions": {
     "snap_confirm": {},
-    "snap_getBip44Entropy_0": {},
-    "snap_getBip44Entropy_1": {}
+    "snap_manageState": {},
+    "snap_getBip32Entropy": [
+      {
+        "path": [
+          "m",
+          "44'",
+          "0'"
+        ],
+        "curve": "secp256k1"
+      },
+      {
+        "path": [
+          "m",
+          "44'",
+          "1'"
+        ],
+        "curve": "secp256k1"
+      },
+      {
+        "path": [
+          "m",
+          "49'",
+          "0'"
+        ],
+        "curve": "secp256k1"
+      },
+      {
+        "path": [
+          "m",
+          "49'",
+          "1'"
+        ],
+        "curve": "secp256k1"
+      },
+      {
+        "path": [
+          "m",
+          "84'",
+          "0'"
+        ],
+        "curve": "secp256k1"
+      },
+      {
+        "path": [
+          "m",
+          "84'",
+          "1'"
+        ],
+        "curve": "secp256k1"
+      }
+    ]
   },
   "manifestVersion": "0.1"
 }

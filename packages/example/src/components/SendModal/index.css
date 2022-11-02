@@ -144,6 +144,7 @@
 .explorer-link:hover {
     color: #FF6C0A;
     text-decoration: underline;
+    transition: 0.25s;
 }
 
 .text-weight-normal {
@@ -255,6 +256,7 @@ input:focus-visible {
 
 .send-action-button:hover, .confirm-action-button:hover, .ok-action-button:hover {
     background-color: #F58300;
+    transition: 0.25s;
 }
 
 .action-button-primary, .action-button-secondary, .action-button-disable {
@@ -268,11 +270,20 @@ input:focus-visible {
 }
 
 .action-button-primary {
-    background-color: #111214;
     color: white;
 }
 
+.action-button-primary:hover {
+    background-color: #F58300;
+    transition: 0.25s;
+}
+.action-button-primary:not(:hover) {
+    background-color: #111214;
+    transition: 0.25s;
+}
+
 .action-button-disable {
+    cursor: no-drop;
     background-color: #E1E6F0;
     color: #9095A3;
 }
@@ -300,7 +311,7 @@ input:focus-visible {
 
 .result-failed-section {
     width: 100%;
-    padding: 24px 32px 32px;
+    padding: 68px 32px 32px;
 }
 
 .result-sucess-p {
@@ -310,4 +321,14 @@ input:focus-visible {
 .result-failed-p {
     line-height: 24px;
     margin-bottom: 10px;
+}
+
+.currencyValue {
+    color: #656D85;
+    text-align: right;
+    margin-top: 8px;
+}
+
+.currencyValue span {
+    color: #111214;
 }
