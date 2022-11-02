@@ -11,7 +11,15 @@ export async function saveLNDataToSnap(
   password: string
 ) {
   const privateKey = (await getPrivateKey(wallet, LNHdPath)).toString('hex');
-  const encryptText = CryptoJs.AES.encrypt(credential, privateKey).toString();
+  const salt = CryptoJs.lib.WordArray.random(16);
+  const key = CryptoJs.PBKDF2(privateKey, salt, {
+    keySize: 16,
+    iterations: 1000
+  });
+
+  const iv = CryptoJs.lib.WordArray.random(16);
+  const encrypted = CryptoJs.AES.encrypt(credential, key, {iv: iv});
+  const encryptText = salt.toString() + iv.toString() + encrypted.toString();
   const result = await getPersistedData(wallet, 'lightning', {});
   const newLightning = {
     ...result,
