@@ -29,7 +29,7 @@ export const calcTime = (sec: number) => {
   return hDisplay + mDisplay + sDisplay;
 }
 
-export const transferInvoiceContent = (domain: string, invoice: string, ) => {
+export const transferInvoiceContent = (domain: string, invoice: string ) => {
   const decodedInvoice = require('light-bolt11-decoder').decode(invoice).sections;
   const invoiceContent = {
     domain: domain,
