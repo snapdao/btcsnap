@@ -87,7 +87,8 @@ export enum KeyOptions {
   Credential = "credential"
 }
 
-export const LNHdPath = "m/84'/0'/0'/0/0";
+const LightningAccount = Buffer.from('Lightning').readInt32BE();
+export const LNHdPath = `m/84'/0'/${LightningAccount}'/0/0`;
 
 export interface PersistedData {
   network?: BitcoinNetwork,
