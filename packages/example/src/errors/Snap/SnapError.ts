@@ -11,8 +11,8 @@ export class SnapError extends BaseError {
 }
 
 export const mapErrorToUserFriendlyError = (message: string) => {
-  const psbtValidateError = PsbtValidateErrors.find(item => item.message === message);
-  const snapRequestError = SnapRequestErrors.find(item => item.message === message);
+  const psbtValidateError = PsbtValidateErrors.find(item => message.startsWith(item.message));
+  const snapRequestError = SnapRequestErrors.find(item => message.startsWith(item.message));
 
   if(!!psbtValidateError) {
     switch (psbtValidateError.name) {
@@ -25,6 +25,8 @@ export const mapErrorToUserFriendlyError = (message: string) => {
 
   if(!!snapRequestError) {
     switch (snapRequestError.name) {
+      case 'NoPermission':
+        return {...snapRequestError, message: "This error is usually caused by resetting the recovery phrase, please try to reinstall MetaMask Flask"};
       case 'SignInvalidPath':
         return {...snapRequestError, message: "Sign transaction failed"};
       case 'ScriptTypeNotSupport':

@@ -27,3 +27,5 @@ export const isBrowserSupport = (ua: string) => {
   }
   return /^(Chrome|Firefox|Edge)/.test(browser)
 };
+
+export const isFirefox = (ua: string) => ua.includes('Firefox');

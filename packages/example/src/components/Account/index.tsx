@@ -22,7 +22,6 @@ const Account = observer(() => {
           <Aside refreshBalance={refresh}/>
           <AccountLabel>
             Powered by <a href='https://metamask.io/snaps/' target='_blank'>MetaMask Snaps </a>
-            | <a href='' target='_blank'>Audited by SlowMist</a>
           </AccountLabel>
         </AccountContainer>
         <Transition visible={!isAgreeCookie && persistDataLoaded} animation={'fade up'} duration={'300'}>
@@ -30,7 +29,7 @@ const Account = observer(() => {
             <div>
               <p>
                 We use cookies to improve the user experience of our product. By continuing to use this site,
-                you agree to our <PrivacyLink>Privacy Policy</PrivacyLink>.
+                you agree to our Privacy Policy.
               </p>
               <span onClick={agreeCookie}>OK</span>
             </div>
