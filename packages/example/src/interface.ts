@@ -30,3 +30,8 @@ export type Address = {
   path: string;
   pubkey: Buffer;
 };
+
+export enum WalletType {
+  BitcoinWallet = 'bitcoinWallet',
+  LightningWallet = 'lightningWallet'
+}
