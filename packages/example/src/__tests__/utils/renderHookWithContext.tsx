@@ -47,7 +47,12 @@ export const defaultStore = {
   settings: { dynamicAddress: true},
   runtime: {setStatus: jest.fn()},
   count: 5,
-  refresh: jest.fn()
+  refresh: jest.fn(),
+  user: {
+    isFirstLogin: false,
+    firstLogin: jest.fn(),
+    showCreateLN: jest.fn()
+  }
 }
 
 export const renderHooksWithContext = (hook: any,store = defaultStore) => {
