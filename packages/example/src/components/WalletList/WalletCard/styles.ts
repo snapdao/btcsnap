@@ -7,6 +7,7 @@ export const WalletCardContainer = styled.div<{active: boolean}>`
   border-radius: 24px;
   transition: 0.25s;
   border: 2px solid ${props => props.active ? '#F58300' : 'transparent'};
+  cursor: default;
 `
 
 export const WalletCardContent = styled.div<{type: 'bitcoin' | 'lightning'}>`

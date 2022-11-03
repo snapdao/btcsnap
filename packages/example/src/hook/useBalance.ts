@@ -7,9 +7,10 @@ import { queryCoinV2 } from "../api/v2/coin";
 import { queryCoinV1 } from "../api/v1/coin";
 import { IAccount } from '../mobx/types';
 import { logger } from "../logger";
+import { WalletType } from "../interface";
 
 export const useBalance = () => {
-  const {current, runtime: {setStatus}} = useAppStore();
+  const {current, currentWalletType, runtime: {setStatus}} = useAppStore();
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
   const [rate, setRate] = useState(0);
@@ -33,7 +34,8 @@ export const useBalance = () => {
       }
     }
 
-    if (current) {
+    const shouldFetchBitcoinWalletBalance = current && currentWalletType === WalletType.BitcoinWallet;
+    if (shouldFetchBitcoinWalletBalance) {
       !count && setStatus(AppStatus.FetchBalance);
       setLoadingBalance(true);
       queryBalance(current)
@@ -51,7 +53,7 @@ export const useBalance = () => {
     } else {
       setBalance(0);
     }
-  }, [current, count]);
+  }, [current, currentWalletType, count]);
 
   return {
     balance,

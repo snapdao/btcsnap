@@ -29,6 +29,11 @@ const Lightning = types
       self.wallets.push(wallet);
       self.current = wallet;
     },
+    switchWallet(userId: string) {
+      const existWallet = self.wallets.find((wallet) => wallet.userId === userId);
+      if (!existWallet) throw new Error(`#store_error: cannot find account#${userId}`);
+      self.current = existWallet;
+    },
   })))
 
 export default Lightning;

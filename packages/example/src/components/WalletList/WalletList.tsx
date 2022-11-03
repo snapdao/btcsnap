@@ -17,9 +17,10 @@ import {
   WalletListModal
 } from "./sytles";
 import { observer } from "mobx-react-lite";
+import { BitcoinUnit, WalletType } from "../../interface";
 
 export const WalletList = observer(({open, close}: any) => {
-  const {current, lightning} = useAppStore()
+  const {current, lightning, user: {bitcoinUnit}, switchToWallet} = useAppStore()
   const [visible, setVisible] = useState<boolean>(open)
   const [selectedWallet, setSelectedWallet] = useState<string>('');
   const [isHoveringAddingTips, setIsHoveringAddTips] = useState<boolean>(false)
@@ -33,7 +34,8 @@ export const WalletList = observer(({open, close}: any) => {
     const newWallet = lightning.createWallet({
       id: 'wallet-id' + Math.random(),
       userId: 'user-id' + Math.random(),
-      name: ''
+      name: '',
+      unit: BitcoinUnit.Sats
     })
     lightning.applyWallet(newWallet)
     console.log("Add Lightning Wallet");
@@ -84,8 +86,12 @@ export const WalletList = observer(({open, close}: any) => {
                     balance={0.0001}
                     selected={selectedWallet === current?.id}
                     onClick={() => {
-                      setSelectedWallet(current?.id!)
+                      if(current) {
+                        setSelectedWallet(current.id);
+                        switchToWallet(WalletType.BitcoinWallet, current.xpub);
+                      }
                     }}
+                    unit={bitcoinUnit}
                   />
                   {
                     lightning.wallets.map(wallet => (
@@ -97,8 +103,10 @@ export const WalletList = observer(({open, close}: any) => {
                         balance={10000}
                         selected={selectedWallet === wallet.id}
                         onClick={() => {
-                          setSelectedWallet(wallet.id)
+                          setSelectedWallet(wallet.id);
+                          switchToWallet(WalletType.LightningWallet, wallet.userId);
                         }}
+                        unit={wallet.unit}
                       />
                     ))
                   }
