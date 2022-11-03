@@ -52,6 +52,9 @@ describe('useBalance', () => {
       current: undefined,
       runtime: {
         setStatus: jest.fn()
+      },
+      user: {
+        isFirstLogin: false
       }
     }
     const {result} = renderHooksWithContext(() => useBalance(), store as any);
