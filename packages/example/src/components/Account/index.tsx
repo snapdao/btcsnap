@@ -6,10 +6,16 @@ import Aside from "./Aside";
 import { useBalance } from "../../hook/useBalance";
 import {useAppStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel, CookieInfo, PrivacyLink } from "./styles"
+import LNSetupModal from '../SetupLightning';
 
 const Account = observer(() => {
-  const { persistDataLoaded, runtime: {isLoading}, user: {isAgreeCookie, agreeCookie} } = useAppStore();
+  const {
+    persistDataLoaded,
+    runtime: {isLoading},
+    user: {isAgreeCookie, agreeCookie, isShowCreateLN, showCreateLN}
+  } = useAppStore();
   const { balance, rate, refresh, loadingBalance } = useBalance();
+
 
   return (
     <>
@@ -19,11 +25,14 @@ const Account = observer(() => {
       <AccountBackground>
         <AccountContainer>
           <Main balance={balance} rate={rate} />
-          <Aside refreshBalance={refresh} loadingBalance={loadingBalance}/>
+          <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
           <AccountLabel>
             Powered by <a href='https://metamask.io/snaps/' target='_blank'>MetaMask Snaps </a>
           </AccountLabel>
         </AccountContainer>
+
+        {isShowCreateLN && <LNSetupModal open={isShowCreateLN} close={() => showCreateLN(false)} />}
+
         <Transition visible={!isAgreeCookie && persistDataLoaded} animation={'fade up'} duration={'300'}>
           <CookieInfo>
             <div>
