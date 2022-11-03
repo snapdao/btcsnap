@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from "../../mobx";
 import { BitcoinNetwork, BitcoinUnit } from "../../interface";
@@ -11,14 +11,14 @@ import {
   ActionContainer,
   ActionContainerItem,
   ActionLabel,
+  BalanceContainer,
+  BalanceLabel,
   BalanceLeftArrow,
   BalanceLeftItem,
   BalanceLeftLabel,
   BalanceRightItem,
   BalanceRightLabel,
   BalanceRightLine,
-  BalanceContainer,
-  BalanceLabel,
   CurrencyContainer,
   LogoContainer,
   TestnetSpan,
@@ -45,12 +45,11 @@ enum MainModal {
 }
 
 const Main = observer(({balance, rate}: MainProps) => {
-  const { settings: { network }, current, runtime: {continueConnect}} = useAppStore();
+  const { settings: { network }, current, currentUnit, updateCurrentWalletUnit, currentWalletType, runtime: {continueConnect}} = useAppStore();
   const unit = bitcoinUnitMap[network];
   const [openedModal, setOpenedModal] = useState<MainModal | null>(null)
-  const [mainUnit, setMainUnit] = useState<BitcoinUnit>(BitcoinUnit.BTC);
-  const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(BitcoinUnit.Sats);
-  const currentBalance = mainUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
+  const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC);
+  const currentBalance = currentUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
 
   const openModal = useCallback((modal: MainModal) => {
     if(!current) {
@@ -69,9 +68,13 @@ const Main = observer(({balance, rate}: MainProps) => {
       continueConnect();
       return
     }
-    setMainUnit(secondaryUnit);
-    setSecondaryUnit(mainUnit);
+    updateCurrentWalletUnit(secondaryUnit);
+    setSecondaryUnit(currentUnit);
   }
+
+  useEffect(() => {
+    setSecondaryUnit(currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC);
+  }, [currentWalletType])
 
   return (
     <AccountMain>
@@ -86,7 +89,7 @@ const Main = observer(({balance, rate}: MainProps) => {
         <BalanceLabel>current balance</BalanceLabel>
         <BalanceLeftItem>
           <BalanceLeftLabel onClick={() => {openModal(MainModal.Details)}}>
-            {currentBalance} {unit[mainUnit]}
+            {currentBalance} {unit[currentUnit]}
           </BalanceLeftLabel>
           <BalanceLeftArrow><ArrowRight size={25}/></BalanceLeftArrow>
         </BalanceLeftItem>
@@ -122,7 +125,7 @@ const Main = observer(({balance, rate}: MainProps) => {
         <AccountDetail
           open={openedModal === MainModal.Details}
           balance={currentBalance}
-          unit={unit[mainUnit]}
+          unit={unit[currentUnit]}
           close={closeModal}
         />
       }
@@ -130,7 +133,7 @@ const Main = observer(({balance, rate}: MainProps) => {
       { openedModal === MainModal.Send &&
         <SendModal
           network={network}
-          unit={mainUnit}
+          unit={currentUnit}
           scriptType={current?.scriptType!}
           close={closeModal}
           currencyRate={rate}
