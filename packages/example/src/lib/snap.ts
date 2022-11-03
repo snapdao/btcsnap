@@ -22,7 +22,7 @@ export async function connect(cb: (connected: boolean) => void) {
         {
           wallet_snap: {
             [snapId]: {
-              version: '0.5.0-beta.11',
+              version: '1.0.0',
             },
           },
         },
