@@ -52,7 +52,6 @@
     "bitcoinjs-message": "^2.2.0",
     "bs58check": "^2.1.2",
     "create-hash": "^1.2.0",
-    "invoices": "^2.2.0",
     "light-bolt11-decoder": "^2.1.0"
   },
   "publishConfig": {
