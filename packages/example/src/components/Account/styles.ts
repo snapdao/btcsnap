@@ -85,10 +85,29 @@ export const AccountAsideContainer = styled.div`
 `
 
 export const AsideHeading = styled.div`
-  margin-right: 16px;
   display: flex;
-  align-items: flex-end;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
+`
+
+export const AsideBitcoinContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  margin-right: 16px;
+  background: #FFFFFF;
+  border: 1px solid #E1E6F0;
+  border-radius: 14px;
+  cursor: pointer;
+`
+
+export const AsideBitcoinLeft = styled.span`
+  margin: 0 12px;
+  color: #111214;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
 `
 
 export const TestnetMark = styled.div`
@@ -167,6 +186,15 @@ export const LogoContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+`
+
+export const TestnetSpan = styled.span`
+  padding: 4px 8px;
+  margin-left: 8px;
+  color: #656D85;
+  font-weight: 600;
+  background: #E1E6F0;
+  border-radius: 10px;
 `
 
 export const BalanceContainer = styled.div`
