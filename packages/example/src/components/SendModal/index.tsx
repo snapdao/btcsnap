@@ -1,4 +1,4 @@
-import { Modal } from 'semantic-ui-react';
+import { Modal, TransitionablePortal } from 'semantic-ui-react';
 import React, { useEffect, useMemo } from 'react';
 
 import './index.css'
@@ -47,16 +47,22 @@ const SendContainer = ({network, scriptType, close, unit, currencyRate}: Contain
 const SendModal = observer((props: { model: SendViewModel, close: () => void }) => {
   const { model, close } = props;
   return (
-    <Modal
-      style={{width: 440, minHeight: 640, borderRadius: 20, position: 'relative'}}
-      onOpen={() => {
-        model.resetState();
-      }}
+    <TransitionablePortal
       open={true}
+      transition={{ animation: 'fade up', duration: '300' }}
+      closeOnDocumentClick={false}
     >
-      {model.status === 'initial' && <Initial model={model} close={close} />}
-      {model.status !== 'initial' && <Result model={model} close={close} />}
-    </Modal>
+      <Modal
+        style={{width: 440, minHeight: 640, borderRadius: 20, position: 'relative'}}
+        onOpen={() => {
+          model.resetState();
+        }}
+        open={true}
+      >
+        {model.status === 'initial' && <Initial model={model} close={close} />}
+        {model.status !== 'initial' && <Result model={model} close={close} />}
+      </Modal>
+    </TransitionablePortal>
   );
 });
 
