@@ -82,4 +82,9 @@ export const SnapRequestErrors = [
     name: 'ActionNotSupport',
     message: 'Action not supported'
   },
+  {
+    code: 20009,
+    name: 'UserReject',
+    message: 'User rejected the request.'
+  }
 ]

@@ -2,7 +2,7 @@ import {types} from 'mobx-state-tree';
 import { BitcoinNetwork, BitcoinScriptType } from "../interface";
 
 export const settingsInitialState = {
-  network: BitcoinNetwork.Test,
+  network: BitcoinNetwork.Main,
   scriptType: BitcoinScriptType.P2WPKH,
   dynamicAddress: false,
 };
