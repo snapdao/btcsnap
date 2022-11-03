@@ -9,7 +9,7 @@ import { IAccount } from '../mobx/types';
 import { logger } from "../logger";
 
 export const useBalance = () => {
-  const {current, runtime: {setStatus}} = useAppStore();
+  const {current, user: {isFirstLogin, firstLogin, showCreateLN}, runtime: {setStatus}} = useAppStore();
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
   const [rate, setRate] = useState(0);
@@ -18,6 +18,9 @@ export const useBalance = () => {
   const refresh = () => {
     setCount(count + 1);
   };
+  useEffect(() => {
+    setStatus(AppStatus.FetchBalance)
+  },[])
 
   useEffect(() => {
     const queryBalance = async (current: IAccount) => {
@@ -42,9 +45,12 @@ export const useBalance = () => {
           setRate(rate);
           setStatus(AppStatus.Ready);
           setLoadingBalance(false);
+          !isFirstLogin && showCreateLN(true);
+          firstLogin();
         })
         .catch((e) => {
           logger.error(e);
+          setLoadingBalance(false);
           setStatus(AppStatus.Ready);
           setLoadingBalance(false);
         });
