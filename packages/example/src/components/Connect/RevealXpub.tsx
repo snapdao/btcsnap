@@ -35,7 +35,9 @@ const RevealXpub = observer(({open, close, onRevealed, isFirstStep}: RevealXpubP
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [fatalErrorMessage, setFatalErrorMessage] = useState<ErrorMessage>({message: '', code: 0});
   const [shouldShowErrorMessage,setShowErrorMessage] = useState<boolean>(false);
-  const expectError = SnapRequestErrors.find(item => item.name === 'RejectKey')!;
+  const expectErrorMessages = SnapRequestErrors
+    .filter(item => item.name === 'RejectKey' || 'UserReject')
+    .map(error => error.message);
 
   const getXpub = useCallback(async () => {
     setIsRevealing(true);
@@ -54,7 +56,7 @@ const RevealXpub = observer(({open, close, onRevealed, isFirstStep}: RevealXpubP
       }
       setIsRevealing(false);
     }).catch((err: SnapError) => {
-      if(err.message === expectError.message) {
+      if(expectErrorMessages.includes(err.message)) {
         setErrorMessage(err.message);
         setShowErrorMessage(true);
         setTimeout(() => {
