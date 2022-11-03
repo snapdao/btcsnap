@@ -1,29 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Popup, TransitionablePortal } from "semantic-ui-react";
-import { ReactComponent as LightningIcon } from './image/lightning.svg';
 import { WalletCard } from "./WalletCard";
 import { useAppStore } from "../../mobx";
 import { AddIcon } from "../Icons/AddIcon";
 import {
   AccountPageShadow,
   CurrentPage,
-  LightningWalletTipsContainer,
-  LightningWalletTipsContent,
-  StyledLightningTipsIcon,
   WalletListContainer,
   WalletListContent,
   WalletListContentContainer,
   WalletListHeader,
   WalletListModal
-} from "./sytles";
+} from "./styles";
 import { observer } from "mobx-react-lite";
 import { BitcoinUnit, WalletType } from "../../interface";
+import { AddLightningWallet } from "./AddLightningWallet";
 
 export const WalletList = observer(({open, close}: any) => {
   const {current, lightning, user: {bitcoinUnit}, switchToWallet} = useAppStore()
   const [visible, setVisible] = useState<boolean>(open)
   const [selectedWallet, setSelectedWallet] = useState<string>('');
-  const [isHoveringAddingTips, setIsHoveringAddTips] = useState<boolean>(false)
+
   const parentNode = useRef<any>()
 
   useEffect(() => {
@@ -110,23 +107,7 @@ export const WalletList = observer(({open, close}: any) => {
                       />
                     ))
                   }
-                  {
-                    !lightning.hasLightningWallet && (
-                      <LightningWalletTipsContainer
-                        onMouseEnter={() => setIsHoveringAddTips(true)}
-                        onMouseLeave={() => setIsHoveringAddTips(false)}
-                        onClick={addLightningWallet}
-                      >
-                        <StyledLightningTipsIcon>
-                          {isHoveringAddingTips ? <AddIcon/> : <LightningIcon/>}
-                        </StyledLightningTipsIcon>
-                        <LightningWalletTipsContent>
-                          <span>Add Lightning Wallets</span>
-                          <p>Fast transaction timings and low transaction fees</p>
-                        </LightningWalletTipsContent>
-                      </LightningWalletTipsContainer>
-                    )
-                  }
+                  <AddLightningWallet onAddWallet={addLightningWallet} />
                 </WalletListContent>
               </WalletListContentContainer>
 
