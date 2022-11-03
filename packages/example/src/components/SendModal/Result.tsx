@@ -26,7 +26,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
 
   useEffect(() => {
     if(model.status === 'success'){
-      setStatus(AppStatus.FetchBalance)
+      setStatus(AppStatus.RefreshApp)
     }
   }, []);
 
