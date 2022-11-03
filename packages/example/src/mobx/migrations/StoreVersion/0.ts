@@ -31,5 +31,8 @@ export type StoreVersion_0 = {
     scriptType: BitcoinScriptType;
     dynamicAddress: boolean;
   };
+  user: {
+    isAgreeCookie: boolean;
+  }
   _version: number;
 };
