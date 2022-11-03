@@ -13,6 +13,7 @@ export const useBalance = () => {
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
   const [rate, setRate] = useState(0);
+  const [loadingBalance, setLoadingBalance] = useState<boolean>(false);
 
   const refresh = () => {
     setCount(count + 1);
@@ -33,16 +34,19 @@ export const useBalance = () => {
     }
 
     if (current) {
-      setStatus(AppStatus.FetchBalance);
+      !count && setStatus(AppStatus.FetchBalance);
+      setLoadingBalance(true);
       queryBalance(current)
         .then(({balance, rate}) => {
           setBalance(balance);
           setRate(rate);
           setStatus(AppStatus.Ready);
+          setLoadingBalance(false);
         })
         .catch((e) => {
           logger.error(e);
           setStatus(AppStatus.Ready);
+          setLoadingBalance(false);
         });
     } else {
       setBalance(0);
@@ -53,5 +57,6 @@ export const useBalance = () => {
     balance,
     rate,
     refresh,
+    loadingBalance
   };
 };

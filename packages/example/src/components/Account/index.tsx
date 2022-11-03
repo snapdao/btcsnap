@@ -9,7 +9,7 @@ import { AccountBackground, AccountContainer, AccountLabel, CookieInfo, PrivacyL
 
 const Account = observer(() => {
   const { persistDataLoaded, runtime: {isLoading}, user: {isAgreeCookie, agreeCookie} } = useAppStore();
-  const { balance, rate, refresh } = useBalance();
+  const { balance, rate, refresh, loadingBalance } = useBalance();
 
   return (
     <>
@@ -19,7 +19,7 @@ const Account = observer(() => {
       <AccountBackground>
         <AccountContainer>
           <Main balance={balance} rate={rate} />
-          <Aside refreshBalance={refresh}/>
+          <Aside refreshBalance={refresh} loadingBalance={loadingBalance}/>
           <AccountLabel>
             Powered by <a href='https://metamask.io/snaps/' target='_blank'>MetaMask Snaps </a>
           </AccountLabel>

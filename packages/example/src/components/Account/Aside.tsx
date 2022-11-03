@@ -19,18 +19,27 @@ import {
 } from "./styles";
 import { AppStatus } from '../../mobx/runtime';
 
-const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
+interface AsideProps {
+  loadingBalance: boolean;
+  refreshBalance: () => void;
+}
+
+const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
   const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false);
   const {settings: {network}, current, runtime: {continueConnect, status}} = useAppStore();
   const {txList, refresh: refreshTransactions, loading} = useTransaction({size: 5});
+  const isRefreshing = loading || loadingBalance;
 
   const refresh = useCallback(() => {
+    if(isRefreshing){
+      return;
+    }
     refreshBalance();
     refreshTransactions();
-  }, [refreshBalance, refreshTransactions])
+  }, [refreshBalance, refreshTransactions, isRefreshing])
 
   useEffect(() => {
-    if(status === AppStatus.FetchBalance) {
+    if(status === AppStatus.RefreshApp) {
       refresh();
     }
   }, [status])
@@ -62,7 +71,7 @@ const Aside = observer(({refreshBalance}: { refreshBalance: () => void }) => {
             all transactions
             <span><ArrowRight size={18}/></span>
           </TransactionLink>
-          <RefreshIcon onClick={refresh} loading={loading}/>
+          <RefreshIcon onClick={refresh} loading={isRefreshing}/>
         </AccountAsideRefresh>
       </AccountAsideContainer>
 

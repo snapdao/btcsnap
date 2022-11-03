@@ -5,6 +5,7 @@ export enum AppStatus {
   ConnectClosed = 'connectClosed',
   Register = "register",
   FetchBalance = "fetchBalance",
+  RefreshApp = "refreshApp",
   Ready = "ready"
 }
 
