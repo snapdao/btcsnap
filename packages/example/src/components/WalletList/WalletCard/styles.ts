@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import YellowCard from "../image/YellowCard.svg";
 import BlueCard from "../image/BlueCard.svg";
+import { WalletType } from "../../../interface";
 
 export const WalletCardContainer = styled.div<{active: boolean}>`
   padding: 6px;
@@ -10,12 +11,14 @@ export const WalletCardContainer = styled.div<{active: boolean}>`
   cursor: default;
 `
 
-export const WalletCardContent = styled.div<{type: 'bitcoin' | 'lightning'}>`
+export const WalletCardContent = styled.div<{type: WalletType, available: boolean}>`
   padding: 16px 20px;
   width: 240px;
   height: 135px;
   border-radius: 16px;
-  background-image: url(${props => props.type === 'bitcoin' ? YellowCard : BlueCard});
+  background-image: url(${props => props.type === WalletType.BitcoinWallet ? YellowCard : BlueCard});
+  opacity: ${props => props.available ? 1 : 0.3};
+
   :hover {
     filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08)) drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.16));
   }
