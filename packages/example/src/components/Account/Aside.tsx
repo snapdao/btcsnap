@@ -21,6 +21,7 @@ import {
 import { AppStatus } from '../../mobx/runtime';
 import Joyride, {ACTIONS, Placement} from 'react-joyride';
 import Tooltip from '../SetupLightning/Tooltip';
+import { WalletList } from "../WalletList";
 
 interface AsideProps {
   loadingBalance: boolean;
@@ -29,6 +30,7 @@ interface AsideProps {
 
 const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
   const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false);
+  const [shouldShowWalletList, setShouldShowWalletList] = useState<boolean>(false);
   const {
     current,
     settings: {network},
@@ -92,7 +94,10 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
             tooltipComponent={Tooltip}
           />
           { !!current &&
-            <AsideBitcoinContainer id='first-step'>
+            <AsideBitcoinContainer 
+                id='first-step'
+                onClick={() => {setShouldShowWalletList(true)}}
+            >
               <AsideBitcoinLeft>BTC Wallet</AsideBitcoinLeft>
               <Bitcoin />
             </AsideBitcoinContainer>
@@ -109,6 +114,11 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
           </TransactionLink>
           <RefreshIcon onClick={refresh} loading={isRefreshing}/>
         </AccountAsideRefresh>
+
+        <WalletList
+          open={shouldShowWalletList}
+          close={() => {setShouldShowWalletList(false)}}
+        />
       </AccountAsideContainer>
 
       {isTransactionValue &&
