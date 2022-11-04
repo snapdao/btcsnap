@@ -18,7 +18,7 @@ const User = types
   .model('User', {
     isAgreeCookie: types.boolean,
     LNWalletStep: types.optional(types.number, LNWalletStepStatus.Default),
-    bitcoinUnit: types.enumeration(Object.values(BitcoinUnit)),
+    bitcoinUnit: types.optional(types.enumeration(Object.values(BitcoinUnit)), BitcoinUnit.BTC),
   })
   .actions((self) => ({
     agreeCookie:() => {

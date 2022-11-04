@@ -17,6 +17,11 @@ const Lightning = types
     },
     get hasReachedLimitation() {
       return self.wallets.length >= 10
+    },
+    get nextWalletName(){
+      const prefix = "Lightning"
+      const index = self.wallets.length
+      return index ? `${prefix} ${index + 1}` : prefix;
     }
   })))
   .actions((self => ({
@@ -31,9 +36,15 @@ const Lightning = types
     },
     switchWallet(userId: string) {
       const existWallet = self.wallets.find((wallet) => wallet.userId === userId);
-      if (!existWallet) throw new Error(`#store_error: cannot find account#${userId}`);
+      if (!existWallet) throw new Error(`#store_error: cannot find wallet#${userId}`);
       self.current = existWallet;
     },
+    removeWallet(userId: string) {
+      const walletToRemove = self.wallets.find((wallet) => wallet.userId === userId);
+      if (!walletToRemove) throw new Error(`#store_error: cannot find wallet#${userId}`);
+      self.wallets.remove(walletToRemove);
+      self.current = undefined
+    }
   })))
 
 export default Lightning;
