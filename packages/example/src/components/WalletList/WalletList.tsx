@@ -13,29 +13,29 @@ import {
   WalletListModal
 } from "./styles";
 import { observer } from "mobx-react-lite";
-import { BitcoinUnit, WalletType } from "../../interface";
+import { BitcoinNetwork, BitcoinUnit, WalletType } from "../../interface";
 import { AddLightningWallet } from "./AddLightningWallet";
+import { generateLightningWalletId } from "../../mobx/utils";
 
 export const WalletList = observer(({open, close}: any) => {
-  const {current, lightning, user: {bitcoinUnit}, switchToWallet} = useAppStore()
+  const {current, lightning, user: {bitcoinUnit}, switchToWallet, settings: {network}} = useAppStore()
   const [visible, setVisible] = useState<boolean>(open)
   const [selectedWallet, setSelectedWallet] = useState<string>('');
-
-  const parentNode = useRef<any>()
+  const parentNode = useRef<any>();
+  const shouldDisableAddition = network === BitcoinNetwork.Test || lightning.hasReachedLimitation;
 
   useEffect(() => {
     setVisible(open)
   }, [open])
 
-  const addLightningWallet = () => {
+  const addLightningWallet = (userId: string, name = '') => {
     const newWallet = lightning.createWallet({
-      id: 'wallet-id' + Math.random(),
-      userId: 'user-id' + Math.random(),
-      name: '',
+      id: generateLightningWalletId(),
+      userId,
+      name: name || lightning.nextWalletName,
       unit: BitcoinUnit.Sats
     })
     lightning.applyWallet(newWallet)
-    console.log("Add Lightning Wallet");
   }
 
   return (
@@ -44,6 +44,7 @@ export const WalletList = observer(({open, close}: any) => {
         <TransitionablePortal
           open={visible}
           transition={{animation: 'fade left', duration: 250}}
+          closeOnDocumentClick={false}
         >
           <WalletListModal
             open={open}
@@ -59,16 +60,21 @@ export const WalletList = observer(({open, close}: any) => {
                 <Popup
                   position='top center'
                   content={
-                    lightning.hasReachedLimitation
-                      ? 'Wallet Reaches Limitation'
-                      : 'Add a Lightning Wallet'
+                    network === BitcoinNetwork.Test ?
+                      'Not available on Testnet'
+                      : lightning.hasReachedLimitation
+                        ? 'Wallet Reaches Limitation'
+                        : 'Add a Lightning Wallet'
                   }
                   inverted
                   trigger={
                     <span>
                       <AddIcon
-                        onClick={addLightningWallet}
-                        disabled={lightning.hasReachedLimitation}
+                        onClick={() => {
+                          const userId = 'user-id' + Math.random()
+                          addLightningWallet(userId)
+                        }}
+                        disabled={shouldDisableAddition}
                       />
                     </span>
                   }
@@ -78,12 +84,14 @@ export const WalletList = observer(({open, close}: any) => {
               <WalletListContentContainer>
                 <WalletListContent>
                   <WalletCard
+                    id={current?.id || ''}
+                    name={'Bitcoin'}
                     key={current?.id}
-                    walletType={'bitcoin'}
+                    walletType={WalletType.BitcoinWallet}
                     balance={0.0001}
                     selected={selectedWallet === current?.id}
                     onClick={() => {
-                      if(current) {
+                      if (current) {
                         setSelectedWallet(current.id);
                         switchToWallet(WalletType.BitcoinWallet, current.xpub);
                       }
@@ -94,20 +102,26 @@ export const WalletList = observer(({open, close}: any) => {
                     lightning.wallets.map(wallet => (
                       <WalletCard
                         key={wallet.id}
-                        id={wallet.id}
-                        walletType={'lightning'}
+                        id={wallet.userId}
+                        walletType={WalletType.LightningWallet}
                         name={wallet.name}
                         balance={10000}
                         selected={selectedWallet === wallet.id}
                         onClick={() => {
-                          setSelectedWallet(wallet.id);
-                          switchToWallet(WalletType.LightningWallet, wallet.userId);
+                          if (network === BitcoinNetwork.Main) {
+                            setSelectedWallet(wallet.id);
+                            switchToWallet(WalletType.LightningWallet, wallet.userId);
+                          }
                         }}
                         unit={wallet.unit}
+                        available={network === BitcoinNetwork.Main}
                       />
                     ))
                   }
-                  <AddLightningWallet onAddWallet={addLightningWallet} />
+                  <AddLightningWallet onAddWallet={() => {
+                    const userId = 'user-id' + Math.random()
+                    addLightningWallet(userId)
+                  }}/>
                 </WalletListContent>
               </WalletListContentContainer>
 

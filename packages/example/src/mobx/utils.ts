@@ -9,6 +9,7 @@ export const generateId = (prefix?: string) => () => {
 };
 
 export const generateAccountId = generateId("account");
+export const generateLightningWalletId = generateId("ln-wallet");
 export const generateAddressId = generateId("address");
 export const generateAssetId = generateId("asset");
 
