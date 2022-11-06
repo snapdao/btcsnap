@@ -3,6 +3,7 @@ import Menu from "../Menu";
 import TxList from "./TxList";
 import RefreshIcon from "../Icons/RefreshIcon";
 import { useAppStore } from "../../mobx";
+import { LNWalletStepStatus } from "../../mobx/user"
 import { observer } from "mobx-react-lite";
 import { useTransaction } from "../../hook/useTransaction";
 import { ReactComponent as Bitcoin } from "./image/bitcoin.svg"
@@ -32,7 +33,7 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
     current,
     settings: {network},
     runtime: {continueConnect, status},
-    user: {firstLogin,isShowUserGuide, showUserGuide}
+    user: {LNWalletStep, setLNWalletStep}
   } = useAppStore();
   const {txList, refresh: refreshTransactions, loading} = useTransaction({size: 5});
   const isRefreshing = loading || loadingBalance;
@@ -62,8 +63,7 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
 
   const confirmUserGuide = (data:any) => {
     if(data.action === ACTIONS.RESET) {
-      showUserGuide(false);
-      firstLogin();
+      setLNWalletStep(LNWalletStepStatus.Done)
     }
   }
 
@@ -81,7 +81,7 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
         <AsideHeading>
           <Joyride
             callback={confirmUserGuide}
-            run={isShowUserGuide}
+            run={LNWalletStep === LNWalletStepStatus.UserGuide}
             steps={steps}
             hideCloseButton={true}
             styles={{

@@ -1,31 +1,28 @@
 import {types} from 'mobx-state-tree';
 
+export enum LNWalletStepStatus {
+  Default,
+  CreateWallet,
+  UserGuide,
+  Done
+}
+
 export const userInitialState = {
   isAgreeCookie: false,
-  isFirstLogin: false,
-  isShowCreateLN: false,
-  isShowUserGuide: false
+  LNWalletStep: LNWalletStepStatus.Default
 };
 
 const User = types
   .model('User', {
     isAgreeCookie: types.boolean,
-    isFirstLogin: types.boolean,
-    isShowCreateLN: types.boolean,
-    isShowUserGuide: types.boolean
+    LNWalletStep: types.number
   })
   .actions((self) => ({
     agreeCookie:() => {
       self.isAgreeCookie = true
     },
-    firstLogin:() => {
-      self.isFirstLogin = true
-    },
-    showCreateLN:(status:boolean) => {
-      self.isShowCreateLN = status
-    },
-    showUserGuide:(status:boolean) => {
-      self.isShowUserGuide = status
+    setLNWalletStep:(status:number) => {
+      self.LNWalletStep = status
     }
   }))
 
