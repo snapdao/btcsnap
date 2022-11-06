@@ -12,15 +12,20 @@ import {
   ConfettiContainer
 } from "./styles"
 import { useAppStore } from '../../mobx';
+import { LNWalletStepStatus } from "../../mobx/user"
 import CloseIcon from "../Icons/CloseIcon";
 
 interface LastStepProps {
   open: boolean;
-  close: () => void;
 }
 
-const SetupLightning = observer(({open, close}: LastStepProps) => {
-  const { user: {showUserGuide}} = useAppStore();
+const SetupLightning = observer(({open}: LastStepProps) => {
+  const { user: {setLNWalletStep}} = useAppStore();
+
+  const useWallet = () => {
+    setLNWalletStep(LNWalletStepStatus.UserGuide)
+  }
+
   const createLightningWallets = () => {
     // TODO
   }
@@ -34,12 +39,12 @@ const SetupLightning = observer(({open, close}: LastStepProps) => {
         />:
         <></>
       }
-      <CloseContainer><CloseIcon onClick={() => {showUserGuide(true),close()}} /></CloseContainer>
+      <CloseContainer><CloseIcon onClick={useWallet} /></CloseContainer>
       <LastStepIcon><SendSuccess /></LastStepIcon>
       <LastStepTitle>Your Bitcoin Wallet is Ready!</LastStepTitle>
       <LastStepText>You’ve successfully setup your wallet!</LastStepText>
       <CreateButton onClick={createLightningWallets}>Create Lightning Wallets</CreateButton>
-      <StartButton onClick={() => {showUserGuide(true), close()}}>Start Using Now</StartButton>
+      <StartButton onClick={useWallet}>Start Using Now</StartButton>
       <div></div>
     </LNSetupModal>
   )
