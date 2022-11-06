@@ -18,9 +18,6 @@ export const useBalance = () => {
   const refresh = () => {
     setCount(count + 1);
   };
-  useEffect(() => {
-    setStatus(AppStatus.FetchBalance)
-  },[])
 
   useEffect(() => {
     const queryBalance = async (current: IAccount) => {
