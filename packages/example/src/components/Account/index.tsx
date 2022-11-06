@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from "mobx-react-lite";
 import { Loader, Modal, Transition } from 'semantic-ui-react';
 import Main from "./Main";
@@ -8,15 +8,24 @@ import {useAppStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel, CookieInfo, PrivacyLink } from "./styles"
 import { useRegisterXpub } from "../../hook/useRegisterXpub";
 import LNSetupModal from '../SetupLightning';
+import { AppStatus } from '../../mobx/runtime';
+import { LNWalletStepStatus } from "../../mobx/user"
 
 const Account = observer(() => {
   const {
+    current,
     persistDataLoaded,
-    runtime: {isLoading},
-    user: {isAgreeCookie, agreeCookie, isShowCreateLN, showCreateLN}
+    runtime: {isLoading, status},
+    user: {isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep}
   } = useAppStore();
   const { balance, rate, refresh, loadingBalance } = useBalance();
   useRegisterXpub()
+
+  useEffect(() => {
+    if(!!current && status === AppStatus.Ready  && !loadingBalance && LNWalletStep === LNWalletStepStatus.Default){
+      setLNWalletStep(LNWalletStepStatus.CreateWallet)
+    }
+  }, [current, status, loadingBalance])
 
   return (
     <>
@@ -33,7 +42,9 @@ const Account = observer(() => {
           </AccountLabel>
         </AccountContainer>
 
-        {isShowCreateLN && <LNSetupModal open={isShowCreateLN} close={() => showCreateLN(false)} />}
+        {LNWalletStep === LNWalletStepStatus.CreateWallet &&
+          <LNSetupModal open={LNWalletStep === LNWalletStepStatus.CreateWallet} />
+        }
 
         {/*  TODO  make cookie visible by removing the false below */}
         <Transition visible={!isAgreeCookie && persistDataLoaded && false} animation={'fade up'} duration={'300'}>
