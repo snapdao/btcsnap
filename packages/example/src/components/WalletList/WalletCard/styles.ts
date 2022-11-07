@@ -18,9 +18,10 @@ export const WalletCardContent = styled.div<{type: WalletType, available: boolea
   border-radius: 16px;
   background-image: url(${props => props.type === WalletType.BitcoinWallet ? YellowCard : BlueCard});
   opacity: ${props => props.available ? 1 : 0.3};
+  transition: 0.25s;
 
   :hover {
-    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08)) drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.16));
+    filter: ${props => props.available ? 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08)) drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.16))' : 'none'};
   }
 `
 

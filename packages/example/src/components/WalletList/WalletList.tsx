@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Popup, TransitionablePortal } from "semantic-ui-react";
+import { TransitionablePortal } from "semantic-ui-react";
 import { WalletCard } from "./WalletCard";
 import { useAppStore } from "../../mobx";
 import { AddIcon } from "../Icons/AddIcon";
@@ -16,11 +16,17 @@ import { observer } from "mobx-react-lite";
 import { BitcoinNetwork, WalletType } from "../../interface";
 import { AddLightningWallet } from "./AddLightningWallet";
 import { createLightningWallet } from "../../services/LightningService/createLightningWallet";
+import { Popup } from "../../kits/Popup";
 
 export const WalletList = observer(({open, close}: any) => {
-  const {current, lightning, user: {bitcoinUnit}, switchToWallet, settings: {network}} = useAppStore()
+  const {current, lightning, user: {bitcoinUnit}, switchToWallet, settings: {network}, currentWalletType} = useAppStore()
   const [visible, setVisible] = useState<boolean>(open)
-  const [selectedWallet, setSelectedWallet] = useState<string>('');
+  const [selectedWallet, setSelectedWallet] = useState<string>(() => {
+    if(lightning.hasLightningWallet){
+      return (currentWalletType === WalletType.BitcoinWallet ? current?.id : lightning.current?.id) || '';
+    }
+    return '';
+  });
   const parentNode = useRef<any>();
   const shouldDisableAddition = network === BitcoinNetwork.Test || lightning.hasReachedLimitation;
 
@@ -53,10 +59,9 @@ export const WalletList = observer(({open, close}: any) => {
                     network === BitcoinNetwork.Test ?
                       'Not available on Testnet'
                       : lightning.hasReachedLimitation
-                        ? 'Wallet Reaches Limitation'
+                        ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
                         : 'Add a Lightning Wallet'
                   }
-                  inverted
                   trigger={
                     <span>
                       <AddIcon
