@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from "mobx-react-lite";
 import { Loader, Modal, Transition } from 'semantic-ui-react';
 import Main from "./Main";
@@ -9,9 +9,13 @@ import { AccountBackground, AccountContainer, AccountLabel, CookieInfo, PrivacyL
 import { useRegisterXpub } from "../../hook/useRegisterXpub";
 import LNSetupModal from '../SetupLightning';
 import { AppStatus } from '../../mobx/runtime';
-import { LNWalletStepStatus } from "../../mobx/user"
+import { LNWalletStepStatus } from "../../mobx/user";
+import CreateWallet from "../SetupLightning/CreateWallet";
+import RecoveryKey from '../SetupLightning/RecoveryKey';
 
 const Account = observer(() => {
+  const[showCreateWallet, setShowCreateWallet] = useState<boolean>(false);
+  const[showRecoveryKey, setShowRecoveryKey] = useState<boolean>(false);
   const {
     current,
     persistDataLoaded,
@@ -26,6 +30,16 @@ const Account = observer(() => {
       setLNWalletStep(LNWalletStepStatus.CreateWallet)
     }
   }, [current, status, loadingBalance])
+
+  const createWallet = () => {
+    setShowCreateWallet(true);
+    setLNWalletStep(LNWalletStepStatus.Done);
+  }
+
+  const recoveryKey = () => {
+    setShowCreateWallet(false);
+    setShowRecoveryKey(true)
+  }
 
   return (
     <>
@@ -42,7 +56,9 @@ const Account = observer(() => {
           </AccountLabel>
         </AccountContainer>
 
-        {LNWalletStep === LNWalletStepStatus.CreateWallet && <LNSetupModal />}
+        {LNWalletStep === LNWalletStepStatus.CreateWallet && <LNSetupModal createWallet={createWallet}/>}
+        {showCreateWallet && <CreateWallet close={recoveryKey} />}
+        {showRecoveryKey && <RecoveryKey close={() => setShowRecoveryKey(false)} /> }
 
         {/*  TODO  make cookie visible by removing the false below */}
         <Transition visible={!isAgreeCookie && persistDataLoaded && false} animation={'fade up'} duration={'300'}>
