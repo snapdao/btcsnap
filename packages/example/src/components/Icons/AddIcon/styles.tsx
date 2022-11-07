@@ -21,4 +21,13 @@ export const AddIconContainer = styled.button`
       cursor: not-allowed;
     }
   }
+
+  :disabled {
+    background: #F7F9FC;
+    svg {
+      path {
+        fill: #C5CAD6;
+      }
+    }
+  }
 `
