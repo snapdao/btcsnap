@@ -15,7 +15,7 @@ export const userInitialState = {
 const User = types
   .model('User', {
     isAgreeCookie: types.boolean,
-    LNWalletStep: types.number
+    LNWalletStep: types.optional(types.number, LNWalletStepStatus.Default)
   })
   .actions((self) => ({
     agreeCookie:() => {

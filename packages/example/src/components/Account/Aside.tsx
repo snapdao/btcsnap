@@ -40,7 +40,7 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
 
   const steps = [
     {
-      target: '.first-step',
+      target: '#first-step',
       content: 'You can create a lightning wallet here at any point of time.',
       disableBeacon: true,
       placement: 'bottom-end' as Placement
@@ -92,8 +92,8 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
             tooltipComponent={Tooltip}
           />
           { !!current &&
-            <AsideBitcoinContainer className='first-step'>
-              <AsideBitcoinLeft>Bitcoin</AsideBitcoinLeft>
+            <AsideBitcoinContainer id='first-step'>
+              <AsideBitcoinLeft>BTC Wallet</AsideBitcoinLeft>
               <Bitcoin />
             </AsideBitcoinContainer>
           }
