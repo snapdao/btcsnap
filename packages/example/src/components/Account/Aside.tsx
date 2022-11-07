@@ -3,10 +3,10 @@ import Menu from "../Menu";
 import TxList from "./TxList";
 import RefreshIcon from "../Icons/RefreshIcon";
 import { useAppStore } from "../../mobx";
+import { LNWalletStepStatus } from "../../mobx/user"
 import { observer } from "mobx-react-lite";
 import { useTransaction } from "../../hook/useTransaction";
-import { BitcoinNetwork } from "../../interface";
-import NetworkIcon from "../Icons/Network";
+import { ReactComponent as Bitcoin } from "./image/bitcoin.svg"
 import ArrowRight from '../Icons/ArrowRight';
 import TransactionList from '../TransactionList';
 import {
@@ -14,10 +14,13 @@ import {
   AccountAsideContainer,
   AsideHeading,
   AccountAsideRefresh,
-  TestnetMark,
-  TransactionLink
+  TransactionLink,
+  AsideBitcoinContainer,
+  AsideBitcoinLeft
 } from "./styles";
 import { AppStatus } from '../../mobx/runtime';
+import Joyride, {ACTIONS, Placement} from 'react-joyride';
+import Tooltip from '../SetupLightning/Tooltip';
 
 interface AsideProps {
   loadingBalance: boolean;
@@ -26,9 +29,23 @@ interface AsideProps {
 
 const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
   const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false);
-  const {settings: {network}, current, runtime: {continueConnect, status}} = useAppStore();
+  const {
+    current,
+    settings: {network},
+    runtime: {continueConnect, status},
+    user: {LNWalletStep, setLNWalletStep}
+  } = useAppStore();
   const {txList, refresh: refreshTransactions, loading} = useTransaction({size: 5});
   const isRefreshing = loading || loadingBalance;
+
+  const steps = [
+    {
+      target: '#first-step',
+      content: 'You can create a lightning wallet here at any point of time.',
+      disableBeacon: true,
+      placement: 'bottom-end' as Placement
+    }
+  ]
 
   const refresh = useCallback(() => {
     if(isRefreshing){
@@ -44,6 +61,12 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
     }
   }, [status])
 
+  const confirmUserGuide = (data:any) => {
+    if(data.action === ACTIONS.RESET) {
+      setLNWalletStep(LNWalletStepStatus.Done)
+    }
+  }
+
   const openTransaction = () => {
     if(!current) {
       continueConnect();
@@ -56,12 +79,25 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
     <AccountAside>
       <AccountAsideContainer>
         <AsideHeading>
-          { network === BitcoinNetwork.Test && (
-            <TestnetMark>
-              <NetworkIcon network={network}/> Testnet
-            </TestnetMark>
-          )}
-          <Menu/>
+          <Joyride
+            callback={confirmUserGuide}
+            run={LNWalletStep === LNWalletStepStatus.UserGuide}
+            steps={steps}
+            hideCloseButton={true}
+            styles={{
+              spotlight: {
+                borderRadius: 22
+              }
+            }}
+            tooltipComponent={Tooltip}
+          />
+          { !!current &&
+            <AsideBitcoinContainer id='first-step'>
+              <AsideBitcoinLeft>BTC Wallet</AsideBitcoinLeft>
+              <Bitcoin />
+            </AsideBitcoinContainer>
+          }
+          <Menu />
         </AsideHeading>
 
         <TxList network={network} txList={txList}/>

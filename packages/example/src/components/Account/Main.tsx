@@ -21,6 +21,7 @@ import {
   BalanceLabel,
   CurrencyContainer,
   LogoContainer,
+  TestnetSpan,
   MarketPrice
 } from './styles'
 
@@ -77,7 +78,7 @@ const Main = observer(({balance, rate}: MainProps) => {
       <LogoContainer>
         {network === BitcoinNetwork.Main
           ? <Logo />
-          : <LogoTestnet />
+          : <><LogoTestnet /><TestnetSpan>Testnet</TestnetSpan></>
         }
       </LogoContainer>
 
