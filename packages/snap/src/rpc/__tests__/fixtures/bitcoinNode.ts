@@ -17,3 +17,24 @@ export const bip44 = {
   slip10Node: bip44AccountNode,
   xpub: "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj"
 }
+
+export const LNDataFromSnap = {
+  lightning: {
+    id00000001: {
+      credential: "U2FsdGVkX1+2LDCSQfLhQ6NFbqWn2pVk0t0snVYXEof07w8kRUHOffJ6X5ocK3Ox",
+      password: "ln_password_1"
+    }
+  }
+}
+
+export const LNDataToSnap = {
+   domain : 'www.justsnap.io',
+   walletId: "id00000001",
+   credential: "testAdmin:123456",
+   password: "testPassword",
+   invoice: "lnbc100u1p34k6pppp5332v7z238qt7jrhjz5mkhckdx2uuc50d8xzpfyanj8p3plav9z5sdq8w3jhxaqcqzpgxqyz5vqsp5stj40j57779ahamqp9p3rpq0eudt75f9kxw7yyhuwwaxfmuqsqzq9qyyssqqudc8qc5np9rj5ypn6p9jlafn5sc02nwp60at38cwem4ycz9p9pqdlknk5k3yfayh3pzhndjt2gev8g4rqtnr6art5cagr2c0f3xkxqqfx27k5"
+}
+
+export const LNSignature = {
+  signature: "H5sxH1dkJP6Hx2mrkUb2s2EzmbC1TxO3gWObK8P0DiJwYBIZLNzaqYMLWiFJTlR0DPzsOx5/ddNeHJr+sUPVwe0="
+}

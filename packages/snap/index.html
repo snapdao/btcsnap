@@ -3,6 +3,7 @@
   </head>
     <title>Hello, Snaps!</title>
     <link rel="icon" type="image/svg" href="./images/icon.svg"/>
+    <link rel="stylesheet" type="text/css" href="./index.css">
   </head>
 
   <body>
@@ -28,6 +29,10 @@
     <button class="getPubKey">Get extended Public Key</button>
     <button class="getMFP">Get Master Fingerprint</button>
     <button class="signPsbt">Sign Psbt</button>
+    <button class="saveData">Save data to Snap</button>
+    <button class="getData">Get data from Snap</button>
+    <button class="signLNInvoice">Sign LN Invoice</button>
+
     <div id="extendedPubKey" style="margin-top:5px"></div>
     <div id="mfp" style="margin-top:5px"></div>
     <div id="txId" style="margin-top:5px"></div>
@@ -41,11 +46,17 @@
     const sendButton = document.querySelector('button.getPubKey')
     const getMfpButton = document.querySelector('button.getMFP')
     const signButton = document.querySelector('button.signPsbt')
+    const saveDataButton = document.querySelector('button.saveData')
+    const getDataButton = document.querySelector('button.getData')
+    const signLNInvoiceButton = document.querySelector('button.signLNInvoice')
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', getPubKey)
     getMfpButton.addEventListener('click', getMFP)
     signButton.addEventListener('click', signPsbt)
+    saveDataButton.addEventListener('click', saveData)
+    getDataButton.addEventListener('click', getData)
+    signLNInvoiceButton.addEventListener('click', signLNInvoice)
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -115,6 +126,63 @@
         const node3 = document.getElementById("txHex")
         node3.textContent = `txHex: ${response.txHex}`
       } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    // save data to Snap
+    async function saveData () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_saveLNDataToSnap',
+            params: {
+              walletId: "id00000001",
+              credential: "testAdmin:12345678",
+              password: "ln_password_1"
+            }
+          }]
+        })
+      } catch(err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    // get data from Snap
+    async function getData () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_getLNDataFromSnap',
+            params: {
+              walletId: "id00000001",
+              key: "credential"
+            }
+          }]
+        })
+      } catch(err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    // sign Lightning Invoice
+    async function signLNInvoice () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_signLNInvoice',
+            params: {
+              invoice: "lnbc100u1p34k6pppp5332v7z238qt7jrhjz5mkhckdx2uuc50d8xzpfyanj8p3plav9z5sdq8w3jhxaqcqzpgxqyz5vqsp5stj40j57779ahamqp9p3rpq0eudt75f9kxw7yyhuwwaxfmuqsqzq9qyyssqqudc8qc5np9rj5ypn6p9jlafn5sc02nwp60at38cwem4ycz9p9pqdlknk5k3yfayh3pzhndjt2gev8g4rqtnr6art5cagr2c0f3xkxqqfx27k5",
+            }
+          }]
+        })
+      } catch(err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)
       }

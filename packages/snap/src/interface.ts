@@ -27,8 +27,38 @@ export interface ManageNetwork {
   }
 }
 
+export interface SaveLNDataToSnap{
+  method: "btc_saveLNDataToSnap";
+  params: {
+    walletId: string,
+    credential: string,
+    password: string
+  }
+}
 
-export type MetamaskBTCRpcRequest = GetPublicExtendedKeyRequest | SignPsbt | GetMasterFingerprint | ManageNetwork
+export interface GetLNDataFromSnap{
+  method: "btc_getLNDataFromSnap";
+  params: {
+    walletId: string,
+    key: KeyOptions
+  }
+}
+
+export interface SignLNInvoice{
+  method: "btc_signLNInvoice";
+  params: {
+    invoice: string
+  }
+}
+
+export type MetamaskBTCRpcRequest =
+  GetPublicExtendedKeyRequest |
+  SignPsbt |
+  GetMasterFingerprint |
+  ManageNetwork |
+  SaveLNDataToSnap |
+  GetLNDataFromSnap |
+  SignLNInvoice;
 
 export type BTCMethodCallback = (
   originString: string,
@@ -42,9 +72,9 @@ export interface Wallet {
 
 
 export enum ScriptType {
-    P2PKH = "P2PKH",
-    P2SH_P2WPKH = "P2SH-P2WPKH",
-    P2WPKH = "P2WPKH"
+  P2PKH = "P2PKH",
+  P2SH_P2WPKH = "P2SH-P2WPKH",
+  P2WPKH = "P2WPKH"
 }
 
 export enum BitcoinNetwork {
@@ -52,8 +82,22 @@ export enum BitcoinNetwork {
   Test = "test",
 }
 
+export enum KeyOptions {
+  Password = "password",
+  Credential = "credential"
+}
+
+const LightningAccount = Buffer.from('Lightning').readInt32BE();
+export const LNHdPath = `m/84'/0'/${LightningAccount}'/0/0`;
+
 export interface PersistedData {
-  network?: BitcoinNetwork
+  network?: BitcoinNetwork,
+  lightning?: {
+    [walletId: string]: {
+      credential: string;
+      password: string
+    }
+  }
 }
 
 export interface SLIP10Node {
