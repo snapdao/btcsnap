@@ -13,9 +13,9 @@ import {
   WalletListModal
 } from "./styles";
 import { observer } from "mobx-react-lite";
-import { BitcoinNetwork, BitcoinUnit, WalletType } from "../../interface";
+import { BitcoinNetwork, WalletType } from "../../interface";
 import { AddLightningWallet } from "./AddLightningWallet";
-import { generateLightningWalletId } from "../../mobx/utils";
+import { createLightningWallet } from "../../services/LightningService/createLightningWallet";
 
 export const WalletList = observer(({open, close}: any) => {
   const {current, lightning, user: {bitcoinUnit}, switchToWallet, settings: {network}} = useAppStore()
@@ -27,16 +27,6 @@ export const WalletList = observer(({open, close}: any) => {
   useEffect(() => {
     setVisible(open)
   }, [open])
-
-  const addLightningWallet = (userId: string, name = '') => {
-    const newWallet = lightning.createWallet({
-      id: generateLightningWalletId(),
-      userId,
-      name: name || lightning.nextWalletName,
-      unit: BitcoinUnit.Sats
-    })
-    lightning.applyWallet(newWallet)
-  }
 
   return (
     <CurrentPage open={open}>
@@ -72,7 +62,7 @@ export const WalletList = observer(({open, close}: any) => {
                       <AddIcon
                         onClick={() => {
                           const userId = 'user-id' + Math.random()
-                          addLightningWallet(userId)
+                          createLightningWallet(userId)
                         }}
                         disabled={shouldDisableAddition}
                       />
@@ -120,7 +110,7 @@ export const WalletList = observer(({open, close}: any) => {
                   }
                   <AddLightningWallet onAddWallet={() => {
                     const userId = 'user-id' + Math.random()
-                    addLightningWallet(userId)
+                    createLightningWallet(userId)
                   }}/>
                 </WalletListContent>
               </WalletListContentContainer>
