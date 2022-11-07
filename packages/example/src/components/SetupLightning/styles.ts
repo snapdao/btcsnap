@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Confetti from "react-confetti";
-import {Modal} from "semantic-ui-react"
+import { Modal } from "semantic-ui-react"
+import { Button as SnapButton } from "snapkit"
 
 
 export const Container = styled.div`
@@ -29,10 +30,12 @@ export const Button = styled.button`
   border: none;
   border-radius: 10px;
   cursor: pointer;
+
   :hover {
     background-color: #F58300;
     transition: 0.25s;
   }
+
   :not(:hover) {
     background: #111214;
     transition: 0.25s;
@@ -45,14 +48,21 @@ export const LNSetupModal = styled(Modal)`
   && {
     height: 514px;
     width: 360px;
-    border-radius:20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 32px;
     border-radius: 20px;
+    && > div {
+      background: radial-gradient(50% 50% at 0% 0%, rgba(255, 182, 10, 0.12) 0%, rgba(255, 182, 10, 0) 100%), radial-gradient(50% 50% at 100% 0%, rgba(255, 108, 10, 0.14) 0%, rgba(255, 108, 10, 0) 100%);
+      border-radius: 20px;
+    }
   }
+`
+
+export const LNSetupModalContent = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 32px;
 `
 
 export const LastStepIcon = styled.div`
@@ -77,60 +87,52 @@ export const LastStepText = styled.p`
   margin: 8px 0 0 0;
 `
 
-export const CreateButton = styled.button`
-  position: absolute;
-  bottom: 128px;
-  width: 280px;
-  height: 48px;
-  padding: 12px 24px;
-  margin: 0 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid #E1E6F0;
-  border-radius: 16px;
-  :hover {
-    background: rgba(0, 0, 0, 0.04);
-    transition: 0.25s;
-  }
-  :not(:hover) {
-    color: #111214;
-    background: #FFFFFF;
-    transition: 0.25s;
-  }
-  :disabled {
-    background-color: #E1E6F0;
+export const ButtonsContainer = styled.div`
+  width: 100%;
+  flex: 1;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  
+  & > span {
+    display: block;
+    margin: 8px 0;
+    text-align: center;
+    color: #9095A3;
+    height: 24px;
   }
 `
 
-export const StartButton = styled.button`
-  position: absolute;
-  bottom: 40px;
-  width: 280px;
-  height: 48px;
-  padding: 12px 24px;
-  margin: 0 8px;
+export const CreateButton = styled(SnapButton)`
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid #E1E6F0;
+  border-radius: 16px;
+  transition: 0.25s;
+
+  && {
+    background: #FFFFFF;
+    :hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+  }
+`
+
+export const StartButton = styled(SnapButton)`
   color: #FFFFFF;
   font-size: 16px;
   font-weight: 600;
-  cursor: pointer;
-  border: 1px solid #E1E6F0;
-  border-radius: 16px;
-  :hover {
-    background-color: #F58300;
-    transition: 0.25s;
-  }
-  :not(:hover) {
-    background: #111214;
-    transition: 0.25s;
-  }
-  :disabled {
-    background-color: #E1E6F0;
+  transition: 0.25s;
+  && {
+    :hover {
+      background-color: #F58300;
+    }
   }
 `
 
 export const ConfettiContainer = styled(Confetti)`
-  inset: ${props => -(props.height!/2 - 257)}px 0 0 ${props => -(props.width!/2 - 180)}px !important;
+  inset: ${props => -(props.height! / 2 - 257)}px 0 0 ${props => -(props.width! / 2 - 180)}px !important;
 `
 
 export const CloseContainer = styled.div`
