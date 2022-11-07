@@ -20,6 +20,7 @@ import {
 import { ReactComponent as RecoveryKeyIcon } from "./image/recoveryKey.svg";
 import { ReactComponent as EyeIcon } from "./image/eye.svg";
 import { ReactComponent as Download } from "./image/download.svg";
+import { TransitionablePortal } from 'semantic-ui-react';
 
 interface CreateWalletProps {
   close: () => void;
@@ -32,43 +33,48 @@ const SetupLightning = observer(({close}: CreateWalletProps) => {
   }
 
   return (
-    <RecoverKeyModal open={true}>
-      <RecoveryContainer>
-        <Header>
-          <RecoveryKeyIcon />
-          <p>recovery key</p>
-        </Header>
+    <TransitionablePortal
+      open={true}
+      transition={{ animation: 'fade left', duration: '300' }}
+    >
+      <RecoverKeyModal open={true}>
+        <RecoveryContainer>
+          <Header>
+            <RecoveryKeyIcon />
+            <p>recovery key</p>
+          </Header>
 
-        <RecoveryTop>
-          <RecoveryTitle>
-            This secret key is the <span>only way</span> to recover your lightning wallet. Please save it somewhere safe.
-          </RecoveryTitle>
+          <RecoveryTop>
+            <RecoveryTitle>
+              This secret key is the <span>only way</span> to recover your lightning wallet. Please save it somewhere safe.
+            </RecoveryTitle>
 
-          <RecoveryKeyBox>
-            <RecoveryKeyMask>
-              <EyeIcon /><span>Hover here to view the recovery key</span>
-            </RecoveryKeyMask>
-            <RecoveryKey>
-              {/* TODO */}
-            </RecoveryKey>
-          </RecoveryKeyBox>
+            <RecoveryKeyBox>
+              <RecoveryKeyMask>
+                <EyeIcon /><span>Hover here to view the recovery key</span>
+              </RecoveryKeyMask>
+              <RecoveryKey>
+                {/* TODO */}
+              </RecoveryKey>
+            </RecoveryKeyBox>
 
-          <KeyBoxContainer>
-            <DownloadButton icon={<Download />} onClick={downloadFile} >
-              <span>download key file</span>
-            </DownloadButton>
-          </KeyBoxContainer>
-        </RecoveryTop>
-      </RecoveryContainer>
+            <KeyBoxContainer>
+              <DownloadButton icon={<Download />} onClick={downloadFile} >
+                <span>download key file</span>
+              </DownloadButton>
+            </KeyBoxContainer>
+          </RecoveryTop>
+        </RecoveryContainer>
 
-      <RecoveryBottom>
-        <GoToWalletContainer>
-          <SavedCheckbox checked={isChecked} onClick={() => setIsChecked(!isChecked)} />
-          <GoToWalletTip>I‘ve saved it somewhere safe</GoToWalletTip>
-        </GoToWalletContainer>
-        <GoToWalletButton onClick={close} disabled={!isChecked}>go to my wallet</GoToWalletButton>
-      </RecoveryBottom>
-    </RecoverKeyModal>
+        <RecoveryBottom>
+          <GoToWalletContainer>
+            <SavedCheckbox checked={isChecked} onClick={() => setIsChecked(!isChecked)} />
+            <GoToWalletTip>I‘ve saved it somewhere safe</GoToWalletTip>
+          </GoToWalletContainer>
+          <GoToWalletButton onClick={close} disabled={!isChecked}>go to my wallet</GoToWalletButton>
+        </RecoveryBottom>
+      </RecoverKeyModal>
+    </TransitionablePortal>
   )
 })
 
