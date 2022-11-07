@@ -129,7 +129,7 @@ const AppStore = types
     }
   }))
   .actions((self => ({
-    switchToWallet(walletType: WalletType, walletId: string) {
+    switchToWallet(walletType: WalletType, walletId = '') {
       self.switchWalletType(walletType);
       switch (walletType) {
         case WalletType.BitcoinWallet:

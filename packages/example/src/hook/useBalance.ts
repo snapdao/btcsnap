@@ -52,6 +52,7 @@ export const useBalance = () => {
         });
     } else {
       setBalance(0);
+      setStatus(AppStatus.Ready);
     }
   }, [current, currentWalletType, count]);
 
