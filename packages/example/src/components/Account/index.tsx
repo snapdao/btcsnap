@@ -42,9 +42,7 @@ const Account = observer(() => {
           </AccountLabel>
         </AccountContainer>
 
-        {LNWalletStep === LNWalletStepStatus.CreateWallet &&
-          <LNSetupModal open={LNWalletStep === LNWalletStepStatus.CreateWallet} />
-        }
+        {LNWalletStep === LNWalletStepStatus.CreateWallet && <LNSetupModal />}
 
         {/*  TODO  make cookie visible by removing the false below */}
         <Transition visible={!isAgreeCookie && persistDataLoaded && false} animation={'fade up'} duration={'300'}>
