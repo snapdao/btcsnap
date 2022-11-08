@@ -1,2 +1,0 @@
-export { LightningSend } from './LightningSend'
-

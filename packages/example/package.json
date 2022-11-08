@@ -21,6 +21,7 @@
     "bip32": "^2.0.6",
     "bitcoin-address-validation": "^2.2.1",
     "bitcoinjs-lib": "^6.0.1",
+    "bolt11": "^1.4.0",
     "buffer": "^6.0.3",
     "coinselect": "^3.1.12",
     "crypto-browserify": "^3.12.0",
