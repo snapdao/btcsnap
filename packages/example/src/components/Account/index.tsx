@@ -24,7 +24,8 @@ const Account = observer(() => {
             Powered by <a href='https://metamask.io/snaps/' target='_blank'>MetaMask Snaps </a>
           </AccountLabel>
         </AccountContainer>
-        <Transition visible={!isAgreeCookie && persistDataLoaded} animation={'fade up'} duration={'300'}>
+        {/*  TODO  make cookie visible by removing the false below */}
+        <Transition visible={!isAgreeCookie && persistDataLoaded && false} animation={'fade up'} duration={'300'}>
           <CookieInfo>
             <div>
               <p>
