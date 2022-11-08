@@ -36,6 +36,11 @@ export const useReceiveAddress = () => {
     if(receiveAddress) {
       setAddress(receiveAddress.address);
       setPath(`M/0/${receiveAddress.index}`);
+    } else {
+      const address = current.deriveAddress(0);
+      current.addAddress(address, dynamicAddress);
+      setAddress(address.address);
+      setPath(`M/0/${address.index}`);
     }
   }
 
