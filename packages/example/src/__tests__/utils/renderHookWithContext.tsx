@@ -1,6 +1,7 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 import { MobxStoreProvider } from "../../mobx";
+import { WalletType } from "../../interface";
 
 export const defaultStore = {
   current: {
@@ -47,7 +48,8 @@ export const defaultStore = {
   settings: { dynamicAddress: true},
   runtime: {setStatus: jest.fn()},
   count: 5,
-  refresh: jest.fn()
+  refresh: jest.fn(),
+  currentWalletType: WalletType.BitcoinWallet,
 }
 
 export const renderHooksWithContext = (hook: any,store = defaultStore) => {
