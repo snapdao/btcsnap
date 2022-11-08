@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from "../../mobx";
-import { BitcoinNetwork, BitcoinUnit } from "../../interface";
+import { BitcoinNetwork, BitcoinUnit, WalletType } from "../../interface";
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
 import AccountDetail from './Details';
@@ -32,6 +32,7 @@ import ArrowRight from "../Icons/ArrowRight";
 import { bitcoinUnitMap } from "../../lib/unit"
 import SendIcon from "../Icons/SendIcon";
 import { satoshiToBTC } from "../../lib/helper";
+import { LightningSend } from "../LightningSend";
 
 export interface MainProps {
   balance: number; // Satoshi
@@ -130,14 +131,25 @@ const Main = observer(({balance, rate}: MainProps) => {
         />
       }
 
-      { openedModal === MainModal.Send &&
-        <SendModal
-          network={network}
-          unit={currentUnit}
-          scriptType={current?.scriptType!}
-          close={closeModal}
-          currencyRate={rate}
-        />
+      { openedModal === MainModal.Send ? (
+          currentWalletType === WalletType.BitcoinWallet 
+            ? (
+              <SendModal
+                network={network}
+                unit={currentUnit}
+                scriptType={current?.scriptType!}
+                close={closeModal}
+                currencyRate={rate}
+              />
+            ) : (
+              <LightningSend
+                balance={balance}
+                close={closeModal}
+                exchangeRate={rate}
+                feeRange={'1 - 13'}
+              />
+            )
+        ) : null
       }
 
       { openedModal === MainModal.Receive && <ReceiveModal open={openedModal === MainModal.Receive} close={closeModal}/> }
