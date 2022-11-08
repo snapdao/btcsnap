@@ -32,7 +32,7 @@
   animation: fadeInLeft 0.25s ease-in-out;
 }
 .fade-out-left {
-  animation: fadeOutLeft 0.25s ease-in-out;
+  animation: fadeOutToLeft 0.25s ease-in-out;
 }
 
 @keyframes fadeInUp {
@@ -57,7 +57,7 @@
   }
 }
 
-@keyframes fadeOutLeft {
+@keyframes fadeOutToLeft {
   0% {
     opacity: 1;
     transform: none

@@ -102,25 +102,12 @@ export const AsideBitcoinContainer = styled.div`
   cursor: pointer;
 `
 
-export const AsideBitcoinLeft = styled.span`
+export const WalletNameContainer = styled.span`
   margin: 0 12px;
   color: #111214;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
-`
-
-export const TestnetMark = styled.div`
-  width: 99px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  background: #F0F3FA;
-  border-radius: 16px;
-  font-weight: 600;
-  color: #111214;
 `
 
 export const AccountAsideRefresh = styled.div`

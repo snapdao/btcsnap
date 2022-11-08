@@ -3,8 +3,9 @@ import Account from "./account";
 import Settings, { settingsInitialState } from "./settings";
 import { IAccount, IAccountIn } from "./types";
 import Runtime, { runtimeInitialState } from "./runtime";
-import { BitcoinNetwork, BitcoinScriptType } from "../interface";
+import { BitcoinNetwork, BitcoinScriptType, BitcoinUnit, WalletType } from "../interface";
 import User, { userInitialState } from './user';
+import Lightning, { lightningInitialState } from "./lightning";
 
 export const storeInitialState = {
   accounts: [],
@@ -12,6 +13,8 @@ export const storeInitialState = {
   settings: settingsInitialState,
   runtime: runtimeInitialState,
   user: userInitialState,
+  lightning: lightningInitialState,
+  currentWalletType: WalletType.BitcoinWallet,
   _version: 0,
   _rehydrated: false,
 };
@@ -22,6 +25,8 @@ const AppStore = types
     current: types.maybe(types.reference(Account)),
     settings: Settings,
     runtime: Runtime,
+    lightning: Lightning,
+    currentWalletType: types.enumeration(Object.values(WalletType)),
     user: User,
     _version: types.number,
     _rehydrated: types.boolean,
@@ -108,5 +113,42 @@ const AppStore = types
       self.resetRuntime();
     }
   }))
+  .views((self) => ({
+    get currentUnit() {
+      switch (self.currentWalletType) {
+        case WalletType.BitcoinWallet:
+          return self.user.bitcoinUnit || BitcoinUnit.BTC;
+        case WalletType.LightningWallet:
+          return self.lightning.current?.unit || BitcoinUnit.Sats;
+      }
+    },
+  }))
+  .actions((self) => ({
+    switchWalletType(walletType: WalletType){
+      self.currentWalletType = walletType
+    }
+  }))
+  .actions((self => ({
+    switchToWallet(walletType: WalletType, walletId = '') {
+      self.switchWalletType(walletType);
+      switch (walletType) {
+        case WalletType.BitcoinWallet:
+          self.switchAccount(walletId);
+          return;
+        case WalletType.LightningWallet:
+          self.lightning.switchWallet(walletId)
+          return;
+      }
+    },
+    updateCurrentWalletUnit(targetUnit: BitcoinUnit) {
+      switch (self.currentWalletType) {
+        case WalletType.BitcoinWallet:
+          self.current && self.user.setBitcoinUnit(targetUnit)
+          return;
+        case WalletType.LightningWallet:
+          self.lightning.current && self.lightning.current.setUnit(targetUnit)
+      }
+    }
+  })))
 
 export default AppStore;

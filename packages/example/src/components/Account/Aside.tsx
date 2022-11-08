@@ -7,6 +7,7 @@ import { LNWalletStepStatus } from "../../mobx/user"
 import { observer } from "mobx-react-lite";
 import { useTransaction } from "../../hook/useTransaction";
 import { ReactComponent as Bitcoin } from "./image/bitcoin.svg"
+import { ReactComponent as Lightning } from "./image/lightning.svg"
 import ArrowRight from '../Icons/ArrowRight';
 import TransactionList from '../TransactionList';
 import {
@@ -16,11 +17,13 @@ import {
   AccountAsideRefresh,
   TransactionLink,
   AsideBitcoinContainer,
-  AsideBitcoinLeft
+  WalletNameContainer
 } from "./styles";
 import { AppStatus } from '../../mobx/runtime';
 import Joyride, {ACTIONS, Placement} from 'react-joyride';
 import Tooltip from '../SetupLightning/Tooltip';
+import { WalletList } from "../WalletList";
+import { WalletType } from "../../interface";
 
 interface AsideProps {
   loadingBalance: boolean;
@@ -29,14 +32,17 @@ interface AsideProps {
 
 const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
   const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false);
+  const [shouldShowWalletList, setShouldShowWalletList] = useState<boolean>(false);
   const {
     current,
     settings: {network},
     runtime: {continueConnect, status},
-    user: {LNWalletStep, setLNWalletStep}
+    user: {LNWalletStep, setLNWalletStep},
+    lightning, currentWalletType,
   } = useAppStore();
   const {txList, refresh: refreshTransactions, loading} = useTransaction({size: 5});
   const isRefreshing = loading || loadingBalance;
+  const currentWalletName = currentWalletType === WalletType.BitcoinWallet ? 'BTC Wallet' : lightning.current?.name;
 
   const steps = [
     {
@@ -92,9 +98,12 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
             tooltipComponent={Tooltip}
           />
           { !!current &&
-            <AsideBitcoinContainer id='first-step'>
-              <AsideBitcoinLeft>BTC Wallet</AsideBitcoinLeft>
-              <Bitcoin />
+            <AsideBitcoinContainer 
+                id='first-step'
+                onClick={() => {setShouldShowWalletList(true)}}
+            >
+              <WalletNameContainer>{currentWalletName}</WalletNameContainer>
+              {currentWalletType === WalletType.BitcoinWallet ? <Bitcoin /> : <Lightning />}
             </AsideBitcoinContainer>
           }
           <Menu />
@@ -109,6 +118,11 @@ const Aside = observer(({refreshBalance, loadingBalance}: AsideProps) => {
           </TransactionLink>
           <RefreshIcon onClick={refresh} loading={isRefreshing}/>
         </AccountAsideRefresh>
+
+        <WalletList
+          open={shouldShowWalletList}
+          close={() => {setShouldShowWalletList(false)}}
+        />
       </AccountAsideContainer>
 
       {isTransactionValue &&
