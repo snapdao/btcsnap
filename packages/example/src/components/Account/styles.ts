@@ -492,7 +492,7 @@ export const CookieInfo = styled.div`
   height: 64px;
   background: #FFFFFF;
   margin-left: -264px;
-  z-index: 9;
+  z-index: 10000;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
   & > div {
     display: flex;
