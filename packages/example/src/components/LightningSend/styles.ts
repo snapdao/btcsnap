@@ -152,7 +152,8 @@ export const InvoiceInfo = styled.div`
 `
 
 export const InvoiceDescription = styled.div`
-  p {
+  & > p {
+    width: 100%;
     margin: 8px 0 0;
     white-space: nowrap;
     overflow: hidden;

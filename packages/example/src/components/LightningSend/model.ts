@@ -87,6 +87,8 @@ class LightningSendViewModel {
   setExpireTotalSeconds(expireSeconds: number){
     this.expireTotalSeconds = expireSeconds
   }
+
+  payInvoice() {}
 }
 
 export default LightningSendViewModel;
