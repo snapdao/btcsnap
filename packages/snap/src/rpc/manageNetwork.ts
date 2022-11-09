@@ -1,5 +1,6 @@
 import { BitcoinNetwork, Wallet } from '../interface';
 import { getPersistedData, updatePersistedData } from '../utils/manageState';
+import { RequestErrors, SnapError } from "../errors";
 
 export async function manageNetwork(origin: string, wallet: Wallet, action: 'get' | 'set', target?: BitcoinNetwork): Promise<string | void> {
   switch (action) {
@@ -22,6 +23,6 @@ export async function manageNetwork(origin: string, wallet: Wallet, action: 'get
         return "";
       }
     default:
-      throw Error('Action not supported');
+      throw SnapError.of(RequestErrors.ActionNotSupport);
   }
 }

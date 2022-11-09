@@ -38,5 +38,13 @@ export const RequestErrors = {
   UserReject: {
     code: 20009,
     message: 'User rejected the request.'
+  },
+  KeyNotSupported: {
+    code: 20010,
+    message: 'Key cannot be recognized'
+  },
+  DomainNotAllowed: {
+    code: 20011,
+    message: 'Domain not allowed'
   }
 }
