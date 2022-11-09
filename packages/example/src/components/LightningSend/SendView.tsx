@@ -1,22 +1,26 @@
 import React, { useRef } from 'react'
 import {
+  AmountCurrencyContainer,
+  AmountInput,
+  AmountTitle,
+  Button,
+  ButtonsContainer,
+  HighLight,
+  InvoiceDescription,
+  InvoiceError,
+  InvoiceInfo,
+  InvoiceInfoContainer,
   InvoiceInput,
   InvoiceTitle,
+  LightningSendContainer,
   LightningSendMainContainer,
   LightningSendModal,
   LightningSendSecondaryContainer,
-  SendMainHeader,
-  SendModalContent,
-  ButtonsContainer,
-  Button,
+  MetaMaskInteractionTips,
   PrimaryButton,
-  AmountInput,
-  AmountTitle,
-  InvoiceInfo,
-  InvoiceInfoContainer,
-  InvoiceError,
   SendMainContent,
-  AmountCurrencyContainer, HighLight, InvoiceDescription, LightningSendContainer
+  SendMainHeader,
+  SendModalContent
 } from "./styles";
 import SendIcon from "../Icons/SendIcon";
 import CloseIcon from "../Icons/CloseIcon";
@@ -24,6 +28,8 @@ import LightningSendViewModel from "./model";
 import { observer } from "mobx-react-lite";
 import { Popup } from "../../kits/Popup";
 import { ConfirmView } from "./ConfirmView";
+import { Loader, Modal } from "semantic-ui-react";
+import { Message, MessageType } from "../../kits/Message";
 
 export const SendView = observer(({model, close}: { model: LightningSendViewModel, close: () => void }) => {
   const {hours, minutes} = model.expireTime;
@@ -115,6 +121,7 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
                 disabled={!model.isInvoiceValid}
                 onClick={() => {
                   model.setIsConfirmModalOpen(true)
+                  model.setError(undefined);
                 }}
               >
                 Send
@@ -124,6 +131,13 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
         </SendModalContent>
         {
           model.isConfirmModalOpen && <ConfirmView model={model} parentNode={sendModalRef.current}/>
+        }
+        <Modal open={model.showMetaMaskTips} style={{ backgroundColor: 'transparent'}}>
+          <Loader />
+          <MetaMaskInteractionTips>Continue at MetaMask</MetaMaskInteractionTips>
+        </Modal>
+        {
+          model.isRequestDenied && <Message type={MessageType.Error}>Payment failed. Please try again.</Message>
         }
       </LightningSendContainer>
     </LightningSendModal>
