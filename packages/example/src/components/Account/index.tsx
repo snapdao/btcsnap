@@ -22,6 +22,7 @@ const Account = observer(() => {
           <Aside refreshBalance={refresh} loadingBalance={loadingBalance}/>
           <AccountLabel>
             Powered by <a href='https://metamask.io/snaps/' target='_blank'>MetaMask Snaps </a>
+            | <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank'>Audited by SlowMist</a>
           </AccountLabel>
         </AccountContainer>
         {/*  TODO  make cookie visible by removing the false below */}
@@ -30,7 +31,7 @@ const Account = observer(() => {
             <div>
               <p>
                 We use cookies to improve the user experience of our product. By continuing to use this site,
-                you agree to our Privacy Policy.
+                you agree to our <PrivacyLink>Privacy Policy</PrivacyLink>.
               </p>
               <span onClick={agreeCookie}>OK</span>
             </div>
