@@ -2,6 +2,7 @@ import {getHDNode} from '../utils/getHDNode';
 import {Wallet, PersistedData, KeyOptions, LNHdPath} from '../interface';
 import {getPersistedData} from '../utils/manageState';
 import CryptoJs from 'crypto-js';
+import { RequestErrors, SnapError } from "../errors";
 
 export async function getLNDataFromSnap(
   domain: string,
@@ -50,9 +51,9 @@ export async function getLNDataFromSnap(
 
         return credential.toString(CryptoJs.enc.Utf8);
       } else {
-        throw new Error('User reject to access the key');
+        throw SnapError.of(RequestErrors.UserReject);
       }
     default:
-      throw new Error('Key cannot be recognized');
+      throw SnapError.of(RequestErrors.KeyNotSupported);
   }
 }

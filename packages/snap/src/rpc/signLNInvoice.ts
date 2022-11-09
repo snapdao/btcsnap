@@ -2,6 +2,7 @@ import {Wallet, LNHdPath} from '../interface';
 import {getHDNode} from '../utils/getHDNode';
 import {transferInvoiceContent} from '../utils/transferLNData';
 import bitcoinMessage from 'bitcoinjs-message';
+import { RequestErrors, SnapError } from "../errors";
 
 export async function signLNInvoice(
   domain: string,
@@ -27,6 +28,6 @@ export async function signLNInvoice(
       .toString('base64');
     return signature;
   } else {
-    throw new Error('User reject the sign request');
+    throw SnapError.of(RequestErrors.RejectSign);
   }
 }

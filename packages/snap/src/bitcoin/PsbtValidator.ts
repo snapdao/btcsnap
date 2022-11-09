@@ -3,6 +3,7 @@ import { AccountSigner } from './index';
 import { BitcoinNetwork } from '../interface';
 import { PsbtHelper } from '../bitcoin/PsbtHelper';
 import { fromHdPathToObj } from './cryptoPath';
+import { PsbtValidateErrors, SnapError } from "../errors";
 
 const BITCOIN_MAINNET_COIN_TYPE = 0;
 const BITCOIN_TESTNET_COIN_TYPE = 1;
@@ -14,7 +15,7 @@ export class PsbtValidator {
   private readonly tx: Psbt;
   private readonly snapNetwork: BitcoinNetwork;
   private psbtHelper: PsbtHelper;
-  private error = '';
+  private error: SnapError | null = null;
 
   constructor(psbt: Psbt, network: BitcoinNetwork) {
     this.tx = psbt;
@@ -29,7 +30,7 @@ export class PsbtValidator {
   allInputsHaveRawTxHex() {
     const result = this.tx.data.inputs.every((input, index) => !!input.nonWitnessUtxo);
     if (!result) {
-      this.error = 'Not all inputs have prev Tx raw hex';
+      this.error = SnapError.of(PsbtValidateErrors.InputsDataInsufficient);
     }
     return result;
   }
@@ -42,7 +43,7 @@ export class PsbtValidator {
       })
     )
     if (!result) {
-      this.error = 'Not every input matches network';
+      this.error = SnapError.of(PsbtValidateErrors.InputsNetworkNotMatch);
     }
     return result;
   }
@@ -62,7 +63,7 @@ export class PsbtValidator {
     })
 
     if (!result) {
-      this.error = 'Not every output matches network';
+      this.error = SnapError.of(PsbtValidateErrors.OutputsNetworkNotMatch);
     }
     return result;
   }
@@ -72,7 +73,7 @@ export class PsbtValidator {
       this.tx.inputHasHDKey(index, accountSigner),
     );
     if (!result) {
-      this.error = 'Not all inputs belongs to current account';
+      this.error = SnapError.of(PsbtValidateErrors.InputNotSpendable);
     }
     return result;
   }
@@ -85,7 +86,7 @@ export class PsbtValidator {
       return true;
     });
     if (!result) {
-      this.error = 'Change address doesn\'t belongs to current account';
+      this.error = SnapError.of(PsbtValidateErrors.ChangeAddressInvalid);
     }
     return result;
   }
@@ -93,7 +94,7 @@ export class PsbtValidator {
   feeUnderThreshold() {
     const result = this.psbtHelper.fee < PsbtValidator.FEE_THRESHOLD;
     if (!result) {
-      this.error = 'Too much fee';
+      this.error = SnapError.of(PsbtValidateErrors.FeeTooHigh);
     }
     return result;
   }
@@ -110,13 +111,13 @@ export class PsbtValidator {
     const result = this.psbtHelper.inputAmount === witnessAmount;
 
     if (!result) {
-      this.error = 'Transaction input amount not match';
+      this.error = SnapError.of(PsbtValidateErrors.AmountNotMatch);
     }
     return result;
   }
 
   validate(accountSigner: AccountSigner) {
-    this.error = '';
+    this.error = null;
 
     this.allInputsHaveRawTxHex() &&
     this.everyInputMatchesNetwork() &&
@@ -127,7 +128,7 @@ export class PsbtValidator {
     this.witnessUtxoValueMatchesNoneWitnessOnes();
 
     if (this.error) {
-      throw Error(this.error);
+      throw this.error
     }
     return true;
   }

@@ -10,6 +10,7 @@ import {
   getLNDataFromSnap,
   signLNInvoice,
 } from './rpc';
+import { SnapError, RequestErrors } from "./errors";
 
 declare let wallet: Wallet;
 
@@ -65,6 +66,6 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
     case 'btc_signLNInvoice':
       return signLNInvoice(origin, wallet, request.params.invoice);
     default:
-      throw new Error('Method not found.');
+      throw SnapError.of(RequestErrors.MethodNotSupport);
   }
 };
