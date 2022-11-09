@@ -79,16 +79,16 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
                     <InvoiceInfo>
                       <span>Balance</span>
                       <span>
-                      <HighLight>{model.balance}</HighLight> Sats /
-                      <HighLight>{model.balanceInCurrency}</HighLight> USD
-                    </span>
+                        <HighLight>{model.balance}</HighLight> Sats /
+                        <HighLight>{model.balanceInCurrency}</HighLight> USD
+                      </span>
                     </InvoiceInfo>
                     <InvoiceInfo>
                       <span>Expires in</span>
                       <span>
-                      <HighLight>{hours}</HighLight> H
-                      <HighLight>{" "}{minutes}</HighLight> Mins
-                    </span>
+                        <HighLight>{hours}</HighLight> H
+                        <HighLight>{" "}{minutes}</HighLight> Mins
+                      </span>
                     </InvoiceInfo>
                     {
                       !!model.description && (
@@ -117,7 +117,7 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
                   model.setIsConfirmModalOpen(true)
                 }}
               >
-                Confirm
+                Send
               </PrimaryButton>
             </ButtonsContainer>
           </LightningSendSecondaryContainer>
