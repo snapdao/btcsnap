@@ -1,7 +1,7 @@
-import { Instance, SnapshotIn, SnapshotOut } from "mobx-state-tree";
-import Account from "./account";
-import Address from "./address";
-import AppStore from "./store";
+import { Instance, SnapshotIn, SnapshotOut } from 'mobx-state-tree';
+import Account from './account';
+import Address from './address';
+import AppStore from './store';
 
 export interface IStore extends Instance<typeof AppStore> {}
 

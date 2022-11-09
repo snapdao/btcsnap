@@ -1,8 +1,7 @@
-import styled from "styled-components";
-import Confetti from "react-confetti";
-import { Modal, Checkbox } from "semantic-ui-react";
-import { Button as SnapButton } from "snapkit"
-
+import styled, { css } from 'styled-components';
+import Confetti from 'react-confetti';
+import { Modal, Checkbox } from 'semantic-ui-react';
+import { Button as SnapButton } from 'snapkit';
 
 export const Container = styled.div`
   position: relative;
@@ -11,13 +10,13 @@ export const Container = styled.div`
   padding: 16px;
   background: #fff8f3;
   border-radius: 8px;
-`
+`;
 
 export const Text = styled.p`
   color: #111214;
   font-size: 14px;
   line-height: 20px;
-`
+`;
 
 export const Button = styled.button`
   position: absolute;
@@ -26,13 +25,13 @@ export const Button = styled.button`
   width: 62px;
   height: 32px;
   padding: 6px 12px;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
 
   :hover {
-    background-color: #F58300;
+    background-color: #f58300;
     transition: 0.25s;
   }
 
@@ -40,7 +39,7 @@ export const Button = styled.button`
     background: #111214;
     transition: 0.25s;
   }
-`
+`;
 
 // ----- Last Step -----
 
@@ -50,11 +49,20 @@ export const LNSetupModal = styled(Modal)`
     width: 360px;
     border-radius: 20px;
     && > div {
-      background: radial-gradient(50% 50% at 0% 0%, rgba(255, 182, 10, 0.12) 0%, rgba(255, 182, 10, 0) 100%), radial-gradient(50% 50% at 100% 0%, rgba(255, 108, 10, 0.14) 0%, rgba(255, 108, 10, 0) 100%);
+      background: radial-gradient(
+          50% 50% at 0% 0%,
+          rgba(255, 182, 10, 0.12) 0%,
+          rgba(255, 182, 10, 0) 100%
+        ),
+        radial-gradient(
+          50% 50% at 100% 0%,
+          rgba(255, 108, 10, 0.14) 0%,
+          rgba(255, 108, 10, 0) 100%
+        );
       border-radius: 20px;
     }
   }
-`
+`;
 
 export const LNSetupModalContent = styled.div`
   height: 100%;
@@ -63,13 +71,13 @@ export const LNSetupModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 40px 32px;
-`
+`;
 
 export const LastStepIcon = styled.div`
   width: 96px;
   height: 96px;
   margin: 40px auto 0;
-`
+`;
 
 export const LastStepTitle = styled.h2`
   color: #111214;
@@ -77,15 +85,15 @@ export const LastStepTitle = styled.h2`
   line-height: 30px;
   text-align: center;
   margin-top: 16px;
-`
+`;
 
 export const LastStepText = styled.p`
-  color: #9095A3;
+  color: #9095a3;
   text-align: center;
   font-size: 16px;
   line-height: 24px;
   margin: 8px 0 0 0;
-`
+`;
 
 export const ButtonsContainer = styled.div`
   width: 100%;
@@ -94,52 +102,53 @@ export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  
+
   & > span {
     display: block;
     margin: 8px 0;
     text-align: center;
-    color: #9095A3;
+    color: #9095a3;
     height: 24px;
   }
-`
+`;
 
 export const CreateButton = styled(SnapButton)`
   font-size: 16px;
   font-weight: 600;
-  border: 1px solid #E1E6F0;
+  border: 1px solid #e1e6f0;
   border-radius: 16px;
   transition: 0.25s;
 
   && {
-    background: #FFFFFF;
+    background: #ffffff;
     :hover {
       background: rgba(0, 0, 0, 0.04);
     }
   }
-`
+`;
 
 export const StartButton = styled(SnapButton)`
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 600;
   transition: 0.25s;
   && {
     :hover {
-      background-color: #F58300;
+      background-color: #f58300;
     }
   }
-`
+`;
 
 export const ConfettiContainer = styled(Confetti)`
-  inset: ${props => -(props.height! / 2 - 257)}px 0 0 ${props => -(props.width! / 2 - 180)}px !important;
-`
+  inset: ${(props) => -(props.height! / 2 - 257)}px 0 0
+    ${(props) => -(props.width! / 2 - 180)}px !important;
+`;
 
 export const CloseContainer = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-`
+`;
 
 export const Header = styled.div`
   display: flex;
@@ -155,7 +164,7 @@ export const Header = styled.div`
     line-height: 24px;
     margin-left: 4px;
   }
-`
+`;
 
 // Create wallet
 
@@ -164,43 +173,42 @@ export const CreateWalletModal = styled(Modal)`
     position: relative;
     width: 440px;
     height: 640px;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 20px;
   }
-`
-
+`;
 
 export const CreateContentTop = styled.div`
   padding: 0 32px;
   margin-top: 48px;
-`
+`;
 
 export const CreateContentBottom = styled.div`
   padding: 32px;
-`
+`;
 
 export const CreateContent = styled.div`
   height: 580px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
+`;
 
 export const CreateTitle = styled.p`
-  color: #9095A3;
+  color: #9095a3;
   text-transform: capitalize;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
-`
+`;
 
 export const CreateInput = styled.input`
   width: 376px;
   height: 48px;
   outline: none;
   border: none;
-  border-bottom: 1px solid #E1E6F0;
-`
+  border-bottom: 1px solid #e1e6f0;
+`;
 
 export const CreateLNWalletButton = styled(SnapButton)`
   width: 376px;
@@ -210,23 +218,23 @@ export const CreateLNWalletButton = styled(SnapButton)`
   border: none;
   transition: 0.25s;
   && > div {
-    color: #FFFFFF;
+    color: white;
   }
   && {
     :hover {
-      background: #F58300;
+      background: #f58300;
     }
-    :not(:hover) {
+    :not(:disabled, :hover) {
       background: #111214;
     }
   }
-`
+`;
 
 export const ImportLNWalletLink = styled.span`
   display: inline-block;
   width: 100%;
   margin-top: 24px;
-  color: #656D85;
+  color: #656d85;
   text-align: center;
   text-transform: capitalize;
   font-weight: 600;
@@ -235,9 +243,9 @@ export const ImportLNWalletLink = styled.span`
   cursor: pointer;
   transition: 0.25s;
   :hover {
-    color: #F58300;
+    color: #f58300;
   }
-`
+`;
 
 // Recovery Key
 
@@ -246,48 +254,52 @@ export const RecoverKeyModal = styled(Modal)`
     position: relative;
     width: 440px;
     height: 640px;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 20px;
   }
-`
+`;
 
 export const RecoveryContainer = styled.div`
   position: relative;
-  height: 348px;
-  background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
-`
+  height: 336px;
+  background: linear-gradient(
+    185.06deg,
+    rgba(255, 108, 10, 0.012) 4.07%,
+    rgba(255, 108, 10, 0.06) 95.93%
+  );
+`;
 
 export const RecoveryTop = styled.div`
   padding: 0 32px;
   margin-top: 40px;
-`
+`;
 
 export const RecoveryTitle = styled.p`
-  margin-top: 32px;
+  margin: 32px 0 24px;
   color: #111214;
   text-align: center;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   span {
-    color: #FF6C0A;
+    color: #ff6c0a;
   }
-`
+`;
 
 export const RecoveryKeyBox = styled.div`
   position: relative;
   width: 376px;
-  height: 100px;
+  min-height: 76px;
   padding: 14px 24px;
   margin-bottom: 32px;
   border-radius: 16px;
   background: rgba(0, 0, 0, 0.1);
-`
+`;
 
 export const KeyBoxContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 export const RecoveryKeyMask = styled.div`
   position: absolute;
@@ -297,12 +309,12 @@ export const RecoveryKeyMask = styled.div`
   justify-content: center;
   align-items: center;
   width: 376px;
-  height: 100px;
-  padding: 40px 52px;
+  min-height: 76px;
+  padding: 28px 26px;
   border-radius: 16px;
   span {
     margin-left: 8px;
-    color: #FFFFFF;
+    color: #ffffff;
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
@@ -317,7 +329,7 @@ export const RecoveryKeyMask = styled.div`
     backdrop-filter: blur(4px);
     transition: 0.25s;
   }
-`
+`;
 
 export const RecoveryKey = styled.p`
   color: #111214;
@@ -325,7 +337,7 @@ export const RecoveryKey = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-`
+`;
 
 export const DownloadButton = styled(SnapButton)`
   width: 178px;
@@ -336,22 +348,31 @@ export const DownloadButton = styled(SnapButton)`
   font-weight: 600;
   border-radius: 10px;
   transition: 0.25s;
+  border: 1px solid #e1e6f0;
+  border-radius: 10px;
+  white-space: nowrap;
+  & .icon-prefix {
+    color: #656d85;
+  }
   && > div {
-    color: #FFFFFF;
+    color: #000;
     padding: 0;
     & > div:last-child {
       margin-left: 4px;
     }
   }
   && {
+    background: #fff;
     :hover {
-      background: #F58300;
-    }
-    :not(:hover) {
-      background: #111214;
+      background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.04),
+          rgba(0, 0, 0, 0.04)
+        ),
+        #ffffff;
     }
   }
-`
+`;
 
 export const RecoveryBottom = styled.div`
   display: flex;
@@ -359,52 +380,52 @@ export const RecoveryBottom = styled.div`
   justify-content: flex-end;
   height: 272px;
   padding: 0 32px 32px;
-`
+`;
 
 export const SavedCheckbox = styled(Checkbox)`
   & > label {
     &::after {
-      color: #FFFFFF !important;
-      background: #F58300;
+      color: #ffffff !important;
+      background: #f58300;
     }
   }
-`
+`;
 
 export const GoToWalletContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-`
+`;
 
 export const GoToWalletTip = styled.span`
   margin-left: 12px;
-  color: #656D85;
+  color: #656d85;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-`
+`;
 
 export const GoToWalletButton = styled(SnapButton)`
   width: 376px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-transform: capitalize;
   font-size: 16px;
   font-weight: 600;
   transition: 0.25s;
   && > div {
-    color: #FFFFFF;
+    color: #ffffff;
   }
   && {
     :hover {
-      background: #F58300;
+      background: #f58300;
     }
     :not(:hover) {
       background: #111214;
     }
     :disabled {
       cursor: no-drop;
-      background: #E1E6F0;
+      background: #e1e6f0;
     }
   }
-`
+`;
