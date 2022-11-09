@@ -22,7 +22,7 @@ const Account = observer(() => {
           <Aside refreshBalance={refresh} loadingBalance={loadingBalance}/>
           <AccountLabel>
             Powered by <a href='https://metamask.io/snaps/' target='_blank'>MetaMask Snaps </a>
-            | <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank'>Audited by SlowMist</a>
+            | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank'>SlowMist</a>
           </AccountLabel>
         </AccountContainer>
         {/*  TODO  make cookie visible by removing the false below */}
