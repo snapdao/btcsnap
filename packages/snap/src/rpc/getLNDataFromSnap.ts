@@ -1,17 +1,24 @@
-import { getPrivateKey } from "../utils/getPrivateKey";
-import { Wallet, PersistedData, KeyOptions, LNHdPath } from "../interface";
-import { getPersistedData } from "../utils/manageState";
-import CryptoJs from "crypto-js";
+import {getHDNode} from '../utils/getPrivateKey';
+import {Wallet, PersistedData, KeyOptions, LNHdPath} from '../interface';
+import {getPersistedData} from '../utils/manageState';
+import CryptoJs from 'crypto-js';
 
 export async function getLNDataFromSnap(
   domain: string,
   wallet: Wallet,
-  walletId: string,
-  key: KeyOptions
+  key: KeyOptions,
+  walletId?: string,
 ): Promise<string> {
-  switch(key) {
+  switch (key) {
+    case KeyOptions.PubKey:
+      console.log('trigger');
+      return (await getHDNode(wallet, LNHdPath)).publicKey.toString('hex');
     case KeyOptions.Password:
-      const lightning = await getPersistedData<PersistedData['lightning']>(wallet, "lightning", {});
+      const lightning = await getPersistedData<PersistedData['lightning']>(
+        wallet,
+        'lightning',
+        {},
+      );
       return lightning[walletId].password;
     case KeyOptions.Credential:
       const result = await wallet.request({
@@ -23,14 +30,23 @@ export async function getLNDataFromSnap(
           },
         ],
       });
-      if(result) {
-        const lightning = await getPersistedData<PersistedData['lightning']>(wallet, "lightning", {});
+      if (result) {
+        const lightning = await getPersistedData<PersistedData['lightning']>(
+          wallet,
+          'lightning',
+          {},
+        );
         const encryptText = lightning[walletId].credential;
         const salt = CryptoJs.enc.Hex.parse(encryptText.substring(0, 32));
         const iv = CryptoJs.enc.Hex.parse(encryptText.substring(32, 64));
         const encrypted = encryptText.substring(64);
-        const privateKey = (await getPrivateKey(wallet, LNHdPath)).toString('hex');
-        const key = CryptoJs.PBKDF2(privateKey, salt, { keySize: 512/32, iterations: 1000 });
+        const privateKey = (
+          await getHDNode(wallet, LNHdPath)
+        ).privateKey.toString('hex');
+        const key = CryptoJs.PBKDF2(privateKey, salt, {
+          keySize: 512 / 32,
+          iterations: 1000,
+        });
         const credential = CryptoJs.AES.decrypt(encrypted, key, {iv: iv});
 
         return credential.toString(CryptoJs.enc.Utf8);
