@@ -186,3 +186,9 @@ export const PrimaryButton = styled(Button)`
     }
   }
 `
+
+export const MetaMaskInteractionTips = styled.p`
+  color: #FFFFFF;
+  text-align: center;
+  margin-top: 100px;
+`

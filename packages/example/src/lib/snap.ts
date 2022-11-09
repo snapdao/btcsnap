@@ -212,3 +212,24 @@ export async function saveLNDataToSnap({
     throw error;
   }
 }
+
+export async function signLNInvoice(invoice: string): Promise<string | undefined | null> {
+  try {
+    return ethereum.request<string>({
+      method: 'wallet_invokeSnap',
+      params: [
+        snapId,
+        {
+          method: 'btc_signLNInvoice',
+          params: {
+            invoice,
+          },
+        },
+      ],
+    });
+  } catch (err: any) {
+    const error = new SnapError(err?.message || "Sign invoice failed");
+    logger.error(error);
+    throw error;
+  }
+}

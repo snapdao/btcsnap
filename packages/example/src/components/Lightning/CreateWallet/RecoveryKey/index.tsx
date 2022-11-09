@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
-  WrapModal,
-  Container,
-  Top,
-  Title,
-  Box,
-  Mask,
-  Text,
-  BoxContainer,
   ActionButton,
   Bottom,
+  Box,
+  BoxContainer,
+  Container,
+  GoToWalletButton,
   GoToWalletContainer,
   GoToWalletTip,
+  Mask,
   SavedCheckbox,
-  GoToWalletButton,
+  Text,
+  Title,
+  Top,
+  WrapModal,
 } from './styles';
 import { ReactComponent as KeyIcon } from '../image/recoveryKey.svg';
 import { ReactComponent as EyeIcon } from '../image/eye.svg';
 import { ReactComponent as Download } from '../image/download.svg';
-import { ReactComponent as Checked } from '../../../../assets/vector.svg';
 import { ReactComponent as Copy } from '../image/copy.svg';
 import { TransitionablePortal } from 'semantic-ui-react';
 import saveData from '../../../../utils/save';
@@ -27,7 +26,7 @@ import { useAppStore } from '../../../../mobx';
 import { Header } from '../../styles';
 import { WalletType } from '../../../../interface';
 import { copyToClipboard } from '../../../../utils/clipboard';
-import Message from '../../../../kits/Message';
+import { Message, MessageType } from '../../../../kits/Message';
 
 interface CreateWalletProps {
   close: () => void;
@@ -104,7 +103,7 @@ const RecoveryKey = observer(({ close, recoveryKey }: CreateWalletProps) => {
         </Container>
 
         {copyToClipboardStatus && (
-          <Message icon={<Checked />}> Copied to clipboard</Message>
+          <Message type={MessageType.Succeed}>Copied to clipboard</Message>
         )}
 
         <Bottom>
