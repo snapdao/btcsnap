@@ -99,7 +99,7 @@ export const ConfirmView = ({model, parentNode}: { model: LightningSendViewModel
             <PrimaryButton
               primary
               disabled={!model.isInvoiceValid}
-              onClick={model.payInvoice}
+              onClick={model.signInvoice}
             >
               Confirm
             </PrimaryButton>
