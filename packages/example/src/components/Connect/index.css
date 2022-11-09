@@ -109,14 +109,3 @@
 .desc {
   padding-bottom: 24px;
 }
-
-.Loading-icon {
-  animation: iconRotate 1s infinite;
-  animation-timing-function: linear;
-}
-
-@keyframes iconRotate {
-  0% {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
-}
-
