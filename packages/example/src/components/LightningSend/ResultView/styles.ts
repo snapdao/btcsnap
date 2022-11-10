@@ -1,15 +1,5 @@
 import styled from "styled-components";
-import { Modal } from "semantic-ui-react";
 import { Button as SnapButton } from "snapkit";
-
-export const ResultModal = styled(Modal)`
-  && {
-    height: 640px;
-    width: 440px;
-    padding: 0;
-    border-radius: 20px;
-  }
-`
 
 export const ResultContent = styled.div`
   height: 100%;
@@ -25,14 +15,8 @@ export const ResultMainContainer = styled.div`
   flex-direction: column;
 `
 
-export const ResultMainHeader = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-`
-
 export const ResultMainContent = styled.div`
-  margin-top: 4px;
+  margin-top: 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,6 +38,18 @@ export const PaymentAmount = styled.p`
   font-size: 36px;
   line-height: 48px;
   color: #111214;
+  position: relative;
+  & > span {
+    display: block;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #F58300;
+    position: absolute;
+    right: -36px;
+    top: 18px;
+    align-self: end;
+  }
 `
 
 export const PaymentParticipantContainer = styled.div`

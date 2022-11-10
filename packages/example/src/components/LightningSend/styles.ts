@@ -1,14 +1,8 @@
 import styled from "styled-components";
-import { Modal } from "semantic-ui-react";
 import { Button as SnapButton } from "snapkit";
+import { Modal } from "../../kits/Modal";
 
 export const LightningSendModal = styled(Modal)`
-  && {
-    height: 640px;
-    width: 440px;
-    padding: 0;
-    border-radius: 20px;
-  }
 `
 
 export const LightningSendContainer = styled.div`
@@ -39,14 +33,10 @@ export const LightningSendMainContainer = styled.div`
 export const SendMainHeader = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-
-  & > div {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+  gap: 4px;
+  width: auto;
 
   span {
     font-weight: 600;
@@ -153,7 +143,7 @@ export const InvoiceInfo = styled.div`
 
 export const InvoiceDescription = styled.div`
   & > p {
-    width: 100%;
+    max-width: 100%;
     margin: 8px 0 0;
     white-space: nowrap;
     overflow: hidden;
