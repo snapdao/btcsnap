@@ -1,6 +1,10 @@
-import { PersistedData, Wallet } from '../interface';
+import {PersistedData, Wallet} from '../interface';
 
-export const getPersistedData = async <T>(wallet: Wallet, key: keyof PersistedData, defaultValue: T): Promise<T> => {
+export const getPersistedData = async <T>(
+  wallet: Wallet,
+  key: keyof PersistedData,
+  defaultValue: T,
+): Promise<T> => {
   const persistedData = await wallet.request<PersistedData>({
     method: 'snap_manageState',
     params: ['get'],
@@ -11,7 +15,11 @@ export const getPersistedData = async <T>(wallet: Wallet, key: keyof PersistedDa
   return defaultValue;
 };
 
-export const updatePersistedData = async (wallet: Wallet, key: keyof PersistedData, value: any) => {
+export const updatePersistedData = async (
+  wallet: Wallet,
+  key: keyof PersistedData,
+  value: any,
+) => {
   const persistedData = await wallet.request<PersistedData>({
     method: 'snap_manageState',
     params: ['get'],
@@ -19,7 +27,7 @@ export const updatePersistedData = async (wallet: Wallet, key: keyof PersistedDa
   const updatedData = {
     ...persistedData,
     [key]: value,
-  }
+  };
 
   await wallet.request({
     method: 'snap_manageState',
