@@ -22,7 +22,6 @@ class LightningSendViewModel {
 
   constructor(
     public balance: number,
-    public feeRange: string,
     public exchangeRate: number,
   ) {
     makeAutoObservable(this);
@@ -63,14 +62,25 @@ class LightningSendViewModel {
     }
   };
 
+  get minFee() {
+    return Math.floor(this.amount * 0.003);
+  }
+
+  get maxFee() {
+    return Math.floor(this.amount * 0.01) + 1;
+  }
+
+  get feeRange() {
+    return `${this.minFee} - ${this.maxFee}`;
+  }
+
   get isInvoiceValid() {
     return !!this.decodedInvoice;
   }
 
   get ableToSend() {
-    if(this.isInvoiceValid){
-      // TODO: Add fee
-      return this.balance >= this.amount
+    if (this.isInvoiceValid) {
+      return this.balance >= (this.amount + this.maxFee);
     }
     return false;
   }

@@ -146,7 +146,6 @@ const Main = observer(({balance, rate}: MainProps) => {
                 balance={balance}
                 close={closeModal}
                 exchangeRate={rate}
-                feeRange={'1 - 13'}
               />
             )
         ) : null
