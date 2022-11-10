@@ -14,7 +14,6 @@ import {
   InvoiceTitle,
   LightningSendContainer,
   LightningSendMainContainer,
-  LightningSendModal,
   LightningSendSecondaryContainer,
   MetaMaskInteractionTips,
   PrimaryButton,
@@ -23,29 +22,26 @@ import {
   SendModalContent
 } from "./styles";
 import SendIcon from "../Icons/SendIcon";
-import CloseIcon from "../Icons/CloseIcon";
 import LightningSendViewModel from "./model";
 import { observer } from "mobx-react-lite";
 import { Popup } from "../../kits/Popup";
 import { ConfirmView } from "./ConfirmView";
-import { Loader, Modal } from "semantic-ui-react";
+import { Loader, Modal as SemanticModal } from "semantic-ui-react";
 import { Message, MessageType } from "../../kits/Message";
+import { Modal } from "../../kits/Modal";
 
 export const SendView = observer(({model, close}: { model: LightningSendViewModel, close: () => void }) => {
   const {hours, minutes} = model.expireTime;
   const sendModalRef = useRef<any>();
 
   return (
-    <LightningSendModal open={true} closeOnDocumentClick={false}>
+    <Modal close={close}>
       <LightningSendContainer ref={sendModalRef}>
         <SendModalContent>
           <LightningSendMainContainer>
             <SendMainHeader>
-              <div>
-                <SendIcon size={36}/>
-                <span>SEND</span>
-              </div>
-              <CloseIcon onClick={close}/>
+              <SendIcon size={36}/>
+              <span>SEND</span>
             </SendMainHeader>
             <SendMainContent>
               <InvoiceTitle>
@@ -54,6 +50,7 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
               <InvoiceInput
                 autoFocus={true}
                 onChange={model.setInvoice}
+                value={model.invoice}
                 placeholder='Lightning Invoice'
                 isValid={!model.shouldShowInvoiceNotValidError}
               />
@@ -118,7 +115,7 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
               <Button onClick={close}>Cancel</Button>
               <PrimaryButton
                 primary
-                disabled={!model.isInvoiceValid}
+                disabled={!model.ableToSend}
                 onClick={() => {
                   model.setIsConfirmModalOpen(true)
                   model.setError(undefined);
@@ -132,14 +129,14 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
         {
           model.isConfirmModalOpen && <ConfirmView model={model} parentNode={sendModalRef.current}/>
         }
-        <Modal open={model.showMetaMaskTips} style={{ backgroundColor: 'transparent'}}>
+        <SemanticModal open={model.showMetaMaskTips} style={{ backgroundColor: 'transparent'}}>
           <Loader />
           <MetaMaskInteractionTips>Continue at MetaMask</MetaMaskInteractionTips>
-        </Modal>
+        </SemanticModal>
         {
           model.isRequestDenied && <Message type={MessageType.Error}>Payment failed. Please try again.</Message>
         }
       </LightningSendContainer>
-    </LightningSendModal>
+    </Modal>
   )
 });

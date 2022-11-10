@@ -1,13 +1,10 @@
 import styled from "styled-components";
-import { Modal } from "semantic-ui-react";
 import { InvoiceInfo, InvoiceInfoContainer } from "../styles";
+import { Modal } from "../../../kits/Modal";
 
 export const ConfirmModal = styled(Modal)`
-  && {
+  &&& {
     height: 564px;
-    width: 440px;
-    padding: 0;
-    border-radius: 20px;
     position: absolute;
     bottom: 0;
   }
@@ -20,7 +17,7 @@ export const ConfirmModalContent = styled.div`
 `
 
 export const ConfirmMainContainer = styled.div`
-  padding: 20px 20px 0;
+  padding: 20px 32px 0;
   background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
 `
 
@@ -86,16 +83,21 @@ export const SendingAmount = styled.span`
     line-height: 24px;
     color: #F58300;
     position: absolute;
-    right: -50px;
-    top: 50%;
+    right: -36px;
+    top: 18px;
     align-self: end;
   }
 `
 
 export const SendingTo = styled.span`
   margin: 12px 0 0;
-  font-weight: 600;
+  font-weight: 400;
   color: #111214;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 `
 
 export const ConfirmInfoContainer = styled(InvoiceInfoContainer)``
