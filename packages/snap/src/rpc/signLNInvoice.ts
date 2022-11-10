@@ -1,5 +1,5 @@
 import {Wallet, LNHdPath} from '../interface';
-import {getHDNode} from '../utils/getPrivateKey';
+import {getHDNode} from '../utils/getHDNode';
 import {transferInvoiceContent} from '../utils/transferLNData';
 import bitcoinMessage from 'bitcoinjs-message';
 

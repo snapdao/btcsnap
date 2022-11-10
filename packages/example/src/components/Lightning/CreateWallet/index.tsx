@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { ReactComponent as LightningIcon } from './image/lightning.svg';
-import CloseIcon from '../Icons/CloseIcon';
+import { ReactComponent as LightningIcon } from '../image/lightning.svg';
+import CloseIcon from '../../Icons/CloseIcon';
 import {
   CreateWalletModal,
-  Header,
-  CloseContainer,
   CreateContentTop,
   CreateContentBottom,
   CreateContent,
@@ -14,9 +12,10 @@ import {
   CreateLNWalletButton,
   ImportLNWalletLink,
 } from './styles';
+import { CloseContainer, Header } from '../styles';
 import { TransitionablePortal } from 'semantic-ui-react';
-import { useAppStore } from '../../mobx';
-import LoadingIcon from '../Icons/Loading';
+import { useAppStore } from '../../../mobx';
+import LoadingIcon from '../../Icons/Loading';
 
 interface CreateWalletProps {
   close: () => void;
@@ -24,7 +23,7 @@ interface CreateWalletProps {
   loading: boolean;
 }
 
-const SetupLightning = observer(
+const CreateWallet = observer(
   ({ close, loading, create }: CreateWalletProps) => {
     const [walletName, setWalletName] = useState('');
     const {
@@ -48,10 +47,8 @@ const SetupLightning = observer(
             <CreateContentTop>
               <CreateTitle>wallet name</CreateTitle>
               <CreateInput
-                onInput={({ target }) => {
-                  setWalletName(
-                    (target as EventTarget & { value: string }).value,
-                  );
+                onInput={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                  setWalletName(target.value);
                 }}
                 autoFocus
                 placeholder={nextWalletName}
@@ -72,4 +69,4 @@ const SetupLightning = observer(
   },
 );
 
-export default SetupLightning;
+export default CreateWallet;
