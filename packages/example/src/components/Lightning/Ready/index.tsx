@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { ReactComponent as SendSuccess } from '../../assets/send_success.svg';
+import { ReactComponent as SendSuccess } from '../../../assets/send_success.svg';
 import {
   LNSetupModal,
-  CloseContainer,
   LastStepIcon,
   LastStepTitle,
   LastStepText,
@@ -13,22 +12,31 @@ import {
   LNSetupModalContent,
   ButtonsContainer,
 } from './styles';
-import { useAppStore } from '../../mobx';
-import { LNWalletStepStatus } from '../../mobx/user';
-import CloseIcon from '../Icons/CloseIcon';
+import CloseIcon from '../../Icons/CloseIcon';
 import { TransitionablePortal } from 'semantic-ui-react';
+import { useAppStore } from '../../../mobx';
+import { LightningContext } from '../ctx';
+import { LNWalletStepStatus } from '../../../mobx/user';
+import { CloseContainer } from '../styles';
 
-interface UserOperations {
-  createWallet: () => void;
-}
-
-const SetupLightning = observer(({ createWallet }: UserOperations) => {
+const Ready = observer(() => {
   const {
     user: { setLNWalletStep },
   } = useAppStore();
-  const useWallet = () => {
+
+  const onUserGuide = () => {
     setLNWalletStep(LNWalletStepStatus.UserGuide);
   };
+
+  const { state, update } = useContext(LightningContext);
+
+  function showCreateWallet() {
+    setLNWalletStep(LNWalletStepStatus.CreateWallet);
+    update({
+      ...state,
+      setupStep: 'createWallet',
+    });
+  }
 
   return (
     <TransitionablePortal
@@ -41,7 +49,7 @@ const SetupLightning = observer(({ createWallet }: UserOperations) => {
             height={window.innerHeight}
           />
           <CloseContainer>
-            <CloseIcon onClick={useWallet} />
+            <CloseIcon onClick={onUserGuide} />
           </CloseContainer>
           <LastStepIcon>
             <SendSuccess />
@@ -49,11 +57,11 @@ const SetupLightning = observer(({ createWallet }: UserOperations) => {
           <LastStepTitle>Your Bitcoin Wallet is Ready!</LastStepTitle>
           <LastStepText>You’ve successfully setup your wallet!</LastStepText>
           <ButtonsContainer>
-            <CreateButton onClick={createWallet}>
+            <CreateButton onClick={showCreateWallet}>
               Create Lightning Wallets
             </CreateButton>
             <span>or</span>
-            <StartButton primary onClick={useWallet}>
+            <StartButton primary onClick={onUserGuide}>
               Start Using Now
             </StartButton>
           </ButtonsContainer>
@@ -63,4 +71,4 @@ const SetupLightning = observer(({ createWallet }: UserOperations) => {
   );
 });
 
-export default SetupLightning;
+export default Ready;

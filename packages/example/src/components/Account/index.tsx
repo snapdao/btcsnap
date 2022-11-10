@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Loader, Modal, Transition } from 'semantic-ui-react';
 import { useRegisterXpub } from "../../hook/useRegisterXpub";
@@ -11,16 +11,11 @@ import {
   AccountContainer,
   AccountLabel,
   CookieInfo,
-  PrivacyLink,
 } from './styles';
-import LNSetupModal from '../SetupLightning';
+import LNSetupModal from '../Lightning';
 import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
-import CreateWallet from '../SetupLightning/CreateWallet';
-import RecoveryKey from '../SetupLightning/RecoveryKey';
-import { useLNWallet } from '../../hook/useLNWallet';
-import { WalletType } from '../../interface';
-import { getLNWalletData, KeyOptions } from '../../lib/snap';
+import { LightningContext, LightningContextProvider } from '../Lightning/ctx';
 
 const Account = observer(() => {
   const {
@@ -32,12 +27,6 @@ const Account = observer(() => {
   const { balance, rate, refresh, loadingBalance } = useBalance();
   useRegisterXpub()
 
-  const [showCreateWallet, setShowCreateWallet] = useState(false);
-  const [recoveryKey, setRecoveryKey] = useState({
-    show: false,
-    key: '',
-  });
-
   useEffect(() => {
     if (
       !!current &&
@@ -45,7 +34,7 @@ const Account = observer(() => {
       !loadingBalance &&
       LNWalletStep === LNWalletStepStatus.Default
     ) {
-      setLNWalletStep(LNWalletStepStatus.CreateWallet);
+      onShowCreateWallet();
     }
   }, [current, status, loadingBalance]);
 
@@ -54,38 +43,13 @@ const Account = observer(() => {
     setLNWalletStep(LNWalletStepStatus.Done);
   };
 
-  const onCloseCreateWallet = () => {
-    setShowCreateWallet(false);
-  };
+  const { state, update } = useContext(LightningContext);
 
-  const lnWallet = useLNWallet();
-  const onCreateLightning = async (name: string) => {
-    try {
-      await lnWallet.create(name);
-    } catch (e) {
-      console.error('create lightning error', e);
-    }
-  };
-
-  useEffect(() => {
-    const credential = lnWallet.wallet?.credential;
-    if (!credential) return;
-    const key = `lndhub://${credential.login}:${credential.password}@https://lndhub.io`;
-    setShowCreateWallet(false);
-    setRecoveryKey({
-      show: true,
-      key,
-    });
-  }, [lnWallet.wallet]);
-
-  const onShowCreateWallet = async () => {
-    setShowCreateWallet(true);
-  };
-
-  const onCloseRecoveryKey = () => {
-    setRecoveryKey({
-      show: false,
-      key: '',
+  const onShowCreateWallet = () => {
+    setLNWalletStep(LNWalletStepStatus.CreateWallet);
+    update({
+      ...state,
+      setupStep: 'createWallet',
     });
   };
 
@@ -94,56 +58,40 @@ const Account = observer(() => {
       <Modal open={isLoading}>
         <Loader inverted />
       </Modal>
-      <AccountBackground>
-        <AccountContainer>
-          <Main balance={balance} rate={rate} />
-          <Aside
-            refreshBalance={refresh}
-            loadingBalance={loadingBalance}
-            showCreateWallet={onShowCreateWallet}
-          />
-          <AccountLabel>
-            Powered by{' '}
-            <a href="https://metamask.io/snaps/" target="_blank">
-              MetaMask Snaps{' '}
-            </a>
-            | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank'>SlowMist</a>
-          </AccountLabel>
-        </AccountContainer>
+      <LightningContextProvider>
+        <AccountBackground>
+          <AccountContainer>
+            <Main balance={balance} rate={rate} />
+            <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
+            <AccountLabel>
+              Powered by{' '}
+              <a href="https://metamask.io/snaps/" target="_blank">
+                MetaMask Snaps{' '}
+              </a>
+              | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank'>SlowMist</a>
+            </AccountLabel>
+          </AccountContainer>
 
-        {LNWalletStep === LNWalletStepStatus.CreateWallet && (
           <LNSetupModal createWallet={createWallet} />
-        )}
-        {showCreateWallet && (
-          <CreateWallet
-            create={onCreateLightning}
-            loading={lnWallet.createLoading}
-            close={onCloseCreateWallet}
-          />
-        )}
-        {recoveryKey.show && (
-          <RecoveryKey
-            recoveryKey={recoveryKey.key}
-            close={onCloseRecoveryKey}
-          />
-        )}
 
-        {/*  TODO  make cookie visible by removing the false below */}
-        <Transition
-          visible={!isAgreeCookie && persistDataLoaded && false}
-          animation={'fade up'}
-          duration={'300'}>
-          <CookieInfo>
-            <div>
-              <p>
-                We use cookies to improve the user experience of our product. By
-                continuing to use this site, you agree to our Privacy Policy.
-              </p>
-              <span onClick={agreeCookie}>OK</span>
-            </div>
-          </CookieInfo>
-        </Transition>
-      </AccountBackground>
+          {/*  TODO  make cookie visible by removing the false below */}
+          <Transition
+            visible={!isAgreeCookie && persistDataLoaded && false}
+            animation={'fade up'}
+            duration={'300'}>
+            <CookieInfo>
+              <div>
+                <p>
+                  We use cookies to improve the user experience of our product.
+                  By continuing to use this site, you agree to our Privacy
+                  Policy.
+                </p>
+                <span onClick={agreeCookie}>OK</span>
+              </div>
+            </CookieInfo>
+          </Transition>
+        </AccountBackground>
+      </LightningContextProvider>
     </>
   );
 });

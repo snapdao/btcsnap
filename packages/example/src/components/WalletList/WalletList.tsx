@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { TransitionablePortal } from 'semantic-ui-react';
 import { WalletCard } from './WalletCard';
 import { useAppStore } from '../../mobx';
@@ -16,16 +16,20 @@ import { observer } from 'mobx-react-lite';
 import { BitcoinNetwork, WalletType } from '../../interface';
 import { AddLightningWallet } from './AddLightningWallet';
 import { Popup } from '../../kits/Popup';
+import { LightningContext } from '../Lightning/ctx';
+import { LNWalletStepStatus } from '../../mobx/user';
 
-export const WalletList = observer(({ open, close, showCreateWallet }: any) => {
+export const WalletList = observer(({ open, close }: any) => {
   const {
     current,
     lightning,
-    user: { bitcoinUnit },
+    user: { bitcoinUnit, setLNWalletStep },
     switchToWallet,
     settings: { network },
     currentWalletType,
   } = useAppStore();
+
+  const { state, update } = useContext(LightningContext);
 
   const [visible, setVisible] = useState<boolean>(open);
   const selectedWallet = useMemo(() => {
@@ -37,7 +41,12 @@ export const WalletList = observer(({ open, close, showCreateWallet }: any) => {
       );
     }
     return current?.id;
-  }, [current?.id, lightning.current?.id, currentWalletType]);
+  }, [
+    current?.id,
+    lightning.current?.id,
+    lightning.hasLightningWallet,
+    currentWalletType,
+  ]);
 
   const parentNode = useRef<any>();
   const shouldDisableAddition =
@@ -46,6 +55,14 @@ export const WalletList = observer(({ open, close, showCreateWallet }: any) => {
   useEffect(() => {
     setVisible(open);
   }, [open]);
+
+  function showCreateWallet() {
+    setLNWalletStep(LNWalletStepStatus.CreateWallet);
+    update({
+      ...state,
+      setupStep: 'createWallet',
+    });
+  }
 
   return (
     <CurrentPage open={open}>
@@ -76,9 +93,7 @@ export const WalletList = observer(({ open, close, showCreateWallet }: any) => {
                   trigger={
                     <span>
                       <AddIcon
-                        onClick={() => {
-                          showCreateWallet();
-                        }}
+                        onClick={showCreateWallet}
                         disabled={shouldDisableAddition}
                       />
                     </span>
@@ -93,7 +108,7 @@ export const WalletList = observer(({ open, close, showCreateWallet }: any) => {
                     name={'Bitcoin'}
                     key={current?.id}
                     walletType={WalletType.BitcoinWallet}
-                    balance={0.0001}
+                    balance={0}
                     selected={selectedWallet === current?.id}
                     onClick={() => {
                       if (current) {
@@ -108,7 +123,7 @@ export const WalletList = observer(({ open, close, showCreateWallet }: any) => {
                       id={wallet.userId}
                       walletType={WalletType.LightningWallet}
                       name={wallet.name}
-                      balance={10000}
+                      balance={0}
                       selected={selectedWallet === wallet.id}
                       onClick={() => {
                         if (network === BitcoinNetwork.Main) {
@@ -122,11 +137,7 @@ export const WalletList = observer(({ open, close, showCreateWallet }: any) => {
                       available={network === BitcoinNetwork.Main}
                     />
                   ))}
-                  <AddLightningWallet
-                    onAddWallet={() => {
-                      showCreateWallet();
-                    }}
-                  />
+                  <AddLightningWallet onAddWallet={showCreateWallet} />
                 </WalletListContent>
               </WalletListContentContainer>
             </WalletListContainer>
