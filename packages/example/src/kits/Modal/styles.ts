@@ -26,4 +26,5 @@ export const CloseIconContainer = styled.div`
   position: absolute;
   right: 20px;
   top: 20px;
+  z-index: 100;
 `

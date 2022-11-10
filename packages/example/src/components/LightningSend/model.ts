@@ -11,7 +11,7 @@ class LightningSendViewModel {
   public status: SendStatus = SendStatus.Init;
   public isConfirmModalOpen: boolean = false;
 
-  private invoice: string = '';
+  public invoice: string = '';
   private decodedInvoice: PaymentRequestObject | null = null;
   public shouldShowInvoiceNotValidError: boolean = false;
   public error: { message: string, code: number, name: string } | undefined = undefined;
@@ -65,6 +65,14 @@ class LightningSendViewModel {
 
   get isInvoiceValid() {
     return !!this.decodedInvoice;
+  }
+
+  get ableToSend() {
+    if(this.isInvoiceValid){
+      // TODO: Add fee
+      return this.balance >= this.amount
+    }
+    return false;
   }
 
   get expireTime() {
