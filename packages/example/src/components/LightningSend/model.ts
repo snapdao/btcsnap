@@ -94,6 +94,10 @@ class LightningSendViewModel {
     return ['UserReject', 'RejectSign'].includes(this.error?.name || '')
   }
 
+  setStatus(status: SendStatus) {
+    this.status = status
+  }
+
   setError(error: { message: string, code: number, name: string } | undefined) {
     this.error = error;
   }
