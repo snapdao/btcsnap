@@ -9,12 +9,11 @@ interface LightningSendProps {
   close: () => void;
   exchangeRate: number;
   balance: number;
-  feeRange: string;
 }
 
-export const LightningSend = observer(({close, feeRange, balance, exchangeRate}: LightningSendProps) => {
+export const LightningSend = observer(({close, balance, exchangeRate}: LightningSendProps) => {
   const model = useMemo(() => {
-    return new LightningSendViewModel(balance, feeRange, exchangeRate);
+    return new LightningSendViewModel(balance, exchangeRate);
   }, []);
 
   return (
