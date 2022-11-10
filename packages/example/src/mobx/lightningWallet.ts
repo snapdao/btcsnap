@@ -1,5 +1,5 @@
-import {types} from 'mobx-state-tree';
-import { BitcoinUnit } from "../interface";
+import { types } from 'mobx-state-tree';
+import { BitcoinUnit } from '../interface';
 
 const LightningWallet = types
   .model('LightningWallet', {
@@ -11,7 +11,7 @@ const LightningWallet = types
   .actions((self) => ({
     setUnit: (unit: BitcoinUnit) => {
       self.unit = unit;
-    }
-  }))
+    },
+  }));
 
 export default LightningWallet;

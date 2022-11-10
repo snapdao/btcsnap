@@ -1,4 +1,4 @@
-import {getHDNode} from '../utils/getPrivateKey';
+import {getHDNode} from '../utils/getHDNode';
 import {Wallet, PersistedData, KeyOptions, LNHdPath} from '../interface';
 import {getPersistedData} from '../utils/manageState';
 import CryptoJs from 'crypto-js';
@@ -11,7 +11,6 @@ export async function getLNDataFromSnap(
 ): Promise<string> {
   switch (key) {
     case KeyOptions.PubKey:
-      console.log('trigger');
       return (await getHDNode(wallet, LNHdPath)).publicKey.toString('hex');
     case KeyOptions.Password:
       const lightning = await getPersistedData<PersistedData['lightning']>(

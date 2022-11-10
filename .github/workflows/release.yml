@@ -27,6 +27,8 @@ jobs:
           PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
           BACKEND_API_AUTH: ${{ secrets.BACKEND_API_AUTH }}
           BACKEND_API_DOMAIN: ${{ secrets.BACKEND_API_DOMAIN }}
+          SNAP_BACKEND_API_DOMAIN: ${{ secrets.SNAP_BACKEND_API_DOMAIN }}
+          SNAP_BACKEND_API_AUTH: ${{ secrets.SNAP_BACKEND_API_AUTH }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_SOURCE: ${{ secrets.SENTRY_SOURCE }}
