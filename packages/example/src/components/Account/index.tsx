@@ -6,10 +6,12 @@ import Aside from "./Aside";
 import { useBalance } from "../../hook/useBalance";
 import {useAppStore} from "../../mobx";
 import { AccountBackground, AccountContainer, AccountLabel, CookieInfo, PrivacyLink } from "./styles"
+import { useRegisterXpub } from "../../hook/useRegisterXpub";
 
 const Account = observer(() => {
   const { persistDataLoaded, runtime: {isLoading}, user: {isAgreeCookie, agreeCookie} } = useAppStore();
   const { balance, rate, refresh, loadingBalance } = useBalance();
+  useRegisterXpub()
 
   return (
     <>

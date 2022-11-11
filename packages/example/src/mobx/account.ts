@@ -63,9 +63,6 @@ const Account = types
     getAddress: (address: string) => {
       return self.addresses.find((a) => a.address === address);
     },
-    getReceiveAddress: () => {
-      return self.addresses.find((addr) => addr.index === self.receiveAddressIndex);
-    }
   }))
   .actions((self) => ({
     afterCreate: () => {
@@ -98,6 +95,18 @@ const Account = types
       };
       return Address.create(addressIn);
     },
+  }))
+  .views((self) => ({
+    get receiveAddress() {
+      const receiveAddress = self.addresses.find((addr) => addr.index === self.receiveAddressIndex);
+      if(receiveAddress){
+        return receiveAddress
+      } else {
+        const address = self.deriveAddress(0);
+        self.addAddress(address, false);
+        return address;
+      }
+    }
   }))
   .actions((self) => ({
     validateAndAddAddress: (addressIn: IAddressIn, isDynamic: boolean) => {

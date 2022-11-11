@@ -25,18 +25,16 @@ export const useReceiveAddress = () => {
     } catch (e) {
       logger.error(e);
       return {
-        index: current.receiveAddressIndex,
-        address: current.getReceiveAddress()
+        index: current.receiveAddress.index,
+        address: current.receiveAddress.address
       }
     }
   }, [])
 
   const setReceiveAddress = (current: IAccount) => {
-    const receiveAddress = current.getReceiveAddress();
-    if(receiveAddress) {
-      setAddress(receiveAddress.address);
-      setPath(`M/0/${receiveAddress.index}`);
-    }
+    const receiveAddress = current.receiveAddress;
+    setAddress(receiveAddress.address);
+    setPath(`M/0/${receiveAddress.index}`);
   }
 
   useEffect(() => {

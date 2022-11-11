@@ -33,14 +33,14 @@ export const defaultStore = {
     hasSyncXPub: true,
 
     persistDataLoaded: true,
-    getReceiveAddress: jest.fn().mockReturnValue({
+    receiveAddress: {
       "id": "address-3b5d46ef-de3b-4f69-8290-0c7712ba5267",
       "address": "tb1ql0tm4heyl9nq3utm8egky7ftjfk8r3vpaxlsut",
       "parent": "account-d2ecd721-8701-4302-af95-925f1bbfde44",
       "coinCode": "BTC_TESTNET_NATIVE_SEGWIT",
       "change": 0,
       "index": 2
-    }),
+    },
     validateAndAddAddress: jest.fn(),
     loadMoreTxs: jest.fn()
   },
