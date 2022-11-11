@@ -25,7 +25,7 @@ export async function signLNInvoice(
     const privateKey = (await getHDNode(wallet, LNHdPath)).privateKey;
     const signature = bitcoinMessage
       .sign(invoice, privateKey, true)
-      .toString('base64');
+      .toString('hex');
     return signature;
   } else {
     throw SnapError.of(RequestErrors.RejectSign);

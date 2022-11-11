@@ -42,11 +42,7 @@ describe('getLNDataFromSnap', () => {
   });
 
   it('should throw error if user use the wrong key', async () => {
-<<<<<<< HEAD
-    const key = 'wrongKey';
-=======
     const key = 'wrongKey' as any;
->>>>>>> a6e39c3 (Replace errors with SnapError)
     walletStub.rpcStubs.snap_confirm.mockResolvedValue(true);
 
     await expect(
