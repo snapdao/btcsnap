@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   WrapModal,
@@ -19,22 +19,22 @@ import {
 import { ReactComponent as KeyIcon } from '../image/recoveryKey.svg';
 import { ReactComponent as EyeIcon } from '../image/eye.svg';
 import { ReactComponent as Download } from '../image/download.svg';
-import { ReactComponent as Checked } from '../../../assets/vector.svg';
+import { ReactComponent as Checked } from '../../../../assets/vector.svg';
 import { ReactComponent as Copy } from '../image/copy.svg';
 import { TransitionablePortal } from 'semantic-ui-react';
-import saveData from '../../../utils/save';
-import { useAppStore } from '../../../mobx';
-import { LightningContext } from '../ctx';
-import { Header } from '../styles';
-import { WalletType } from '../../../interface';
-import { copyToClipboard } from '../../../utils/clipboard';
-import Message from '../../../kits/Message';
+import saveData from '../../../../utils/save';
+import { useAppStore } from '../../../../mobx';
+import { Header } from '../../styles';
+import { WalletType } from '../../../../interface';
+import { copyToClipboard } from '../../../../utils/clipboard';
+import Message from '../../../../kits/Message';
 
 interface CreateWalletProps {
   close: () => void;
+  recoveryKey: string;
 }
 
-const RecoveryKey = observer(({ close }: CreateWalletProps) => {
+const RecoveryKey = observer(({ close, recoveryKey }: CreateWalletProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [copyToClipboardStatus, setCopyToClipboardStatus] =
     useState<boolean>(false);
@@ -45,11 +45,9 @@ const RecoveryKey = observer(({ close }: CreateWalletProps) => {
     switchWalletType,
   } = useAppStore();
 
-  const { state } = useContext(LightningContext);
-
   async function copyKey() {
-    if (!state.recoveryKey || !current?.name) return;
-    const copyStatus = await copyToClipboard({ text: state.recoveryKey });
+    if (!recoveryKey || !current?.name) return;
+    const copyStatus = await copyToClipboard({ text: recoveryKey });
     if (copyStatus) {
       setCopyToClipboardStatus(true);
       setTimeout(() => {
@@ -58,8 +56,8 @@ const RecoveryKey = observer(({ close }: CreateWalletProps) => {
     }
   }
   function downloadFile() {
-    if (!state.recoveryKey || !current?.name) return;
-    saveData(state.recoveryKey, current.name + ' backup.txt');
+    if (!recoveryKey || !current?.name) return;
+    saveData(recoveryKey, current.name + ' backup.txt');
   }
 
   function onGoToMyWallet() {
@@ -91,7 +89,7 @@ const RecoveryKey = observer(({ close }: CreateWalletProps) => {
                 <EyeIcon />
                 <span>Hover your cursor over here to view the key</span>
               </Mask>
-              <Text>{state.recoveryKey}</Text>
+              <Text>{recoveryKey}</Text>
             </Box>
 
             <BoxContainer>

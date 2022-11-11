@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { ReactComponent as SendSuccess } from '../../../assets/send_success.svg';
 import {
@@ -15,7 +14,6 @@ import {
 import CloseIcon from '../../Icons/CloseIcon';
 import { TransitionablePortal } from 'semantic-ui-react';
 import { useAppStore } from '../../../mobx';
-import { LightningContext } from '../ctx';
 import { LNWalletStepStatus } from '../../../mobx/user';
 import { CloseContainer } from '../styles';
 
@@ -24,18 +22,12 @@ const Ready = observer(() => {
     user: { setLNWalletStep },
   } = useAppStore();
 
-  const onUserGuide = () => {
+  function onToUserGuide() {
     setLNWalletStep(LNWalletStepStatus.UserGuide);
-  };
+  }
 
-  const { state, update } = useContext(LightningContext);
-
-  function showCreateWallet() {
+  function onToCreateWallet() {
     setLNWalletStep(LNWalletStepStatus.CreateWallet);
-    update({
-      ...state,
-      setupStep: 'createWallet',
-    });
   }
 
   return (
@@ -49,7 +41,7 @@ const Ready = observer(() => {
             height={window.innerHeight}
           />
           <CloseContainer>
-            <CloseIcon onClick={onUserGuide} />
+            <CloseIcon onClick={onToUserGuide} />
           </CloseContainer>
           <LastStepIcon>
             <SendSuccess />
@@ -57,11 +49,11 @@ const Ready = observer(() => {
           <LastStepTitle>Your Bitcoin Wallet is Ready!</LastStepTitle>
           <LastStepText>You’ve successfully setup your wallet!</LastStepText>
           <ButtonsContainer>
-            <CreateButton onClick={showCreateWallet}>
+            <CreateButton onClick={onToCreateWallet}>
               Create Lightning Wallets
             </CreateButton>
             <span>or</span>
-            <StartButton primary onClick={onUserGuide}>
+            <StartButton primary onClick={onToUserGuide}>
               Start Using Now
             </StartButton>
           </ButtonsContainer>
