@@ -82,8 +82,7 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
                     <InvoiceInfo>
                       <span>Balance</span>
                       <span>
-                        <HighLight>{model.balance}</HighLight> Sats /
-                        <HighLight>{model.balanceInCurrency}</HighLight> USD
+                        <HighLight>{model.balance}</HighLight> Sats / <HighLight>{model.balanceInCurrency}</HighLight> USD
                       </span>
                     </InvoiceInfo>
                     <InvoiceInfo>
@@ -136,6 +135,9 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
         {
           model.isRequestDenied && <Message type={MessageType.Error}>Payment failed. Please try again.</Message>
         }
+        <SemanticModal open={model.isPaying} style={{ backgroundColor: 'transparent'}}>
+          <Loader />
+        </SemanticModal>
       </LightningSendContainer>
     </Modal>
   )

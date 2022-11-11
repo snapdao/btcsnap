@@ -6,10 +6,13 @@ import { SendStatus } from "./types";
 import { satoshiToBTC } from "../../lib/helper";
 import { signLNInvoice } from "../../lib/snap";
 import { SnapRequestErrors } from "../../errors/Snap/errors";
+import { payInvoice } from "../../api/lightning/payInvoice";
+import { logger } from "../../logger";
 
 class LightningSendViewModel {
   public status: SendStatus = SendStatus.Init;
   public isConfirmModalOpen: boolean = false;
+  public isPaying: boolean = false;
 
   public invoice: string = '';
   private decodedInvoice: PaymentRequestObject | null = null;
@@ -47,7 +50,7 @@ class LightningSendViewModel {
     this.invoice = inputInvoice;
     try {
       this.decodedInvoice = lightningPayReq.decode(inputInvoice)
-      this.shouldShowInvoiceNotValidError = false;
+      this.setShouldShowInvoice(false);
       const expireDateTime = new Date((this.decodedInvoice?.timeExpireDate || 0) * 1000)
       this.expireTotalSeconds = Math.floor((expireDateTime.getTime() - new Date().getTime()) / 1000);
       this.timerInterval = setInterval(() => {
@@ -57,7 +60,7 @@ class LightningSendViewModel {
       this.decodedInvoice = null;
       this.expireTotalSeconds = 0;
       setTimeout(() => {
-        this.shouldShowInvoiceNotValidError = !!inputInvoice
+        this.setShouldShowInvoice(!!inputInvoice)
       }, 500)
     }
   };
@@ -120,6 +123,14 @@ class LightningSendViewModel {
     this.error = error;
   }
 
+  setShouldShowInvoice(hasError: boolean) {
+    this.shouldShowInvoiceNotValidError = hasError;
+  }
+
+  setIsPaying(isPaying: boolean) {
+    this.isPaying = isPaying;
+  }
+
   setExpireTotalSeconds(expireSeconds: number) {
     this.expireTotalSeconds = expireSeconds
   }
@@ -128,12 +139,26 @@ class LightningSendViewModel {
     this.isConfirmModalOpen = false;
     this.showMetaMaskTips = true;
     if (this.invoice) {
+      let signature = ''
       try {
-        const signature = await signLNInvoice(this.invoice);
+        signature = await signLNInvoice(this.invoice) || '';
         this.showMetaMaskTips = false;
       } catch (e: any) {
         this.error = SnapRequestErrors.find(error => error.message === e.message)!;
         this.showMetaMaskTips = false;
+      }
+
+      if (signature) {
+        try {
+          this.setIsPaying(true)
+          const payResult = await payInvoice(this.invoice, signature.slice(2));
+          this.setStatus(payResult ? SendStatus.Succeed : SendStatus.Failed)
+          this.setIsPaying(false)
+        } catch (e) {
+          this.setStatus(SendStatus.Failed)
+          this.setIsPaying(false)
+          logger.error(e);
+        }
       }
     }
   }
