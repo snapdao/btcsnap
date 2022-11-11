@@ -1,13 +1,13 @@
 import React from 'react';
 import { makeAutoObservable, reaction } from "mobx";
 import lightningPayReq, { PaymentRequestObject } from "bolt11";
-import { covertSecondsToHM } from "../../lib/datetime";
+import { covertSecondsToHM } from "../../../lib/datetime";
 import { SendStatus } from "./types";
-import { satoshiToBTC } from "../../lib/helper";
-import { signLNInvoice } from "../../lib/snap";
-import { SnapRequestErrors } from "../../errors/Snap/errors";
-import { payInvoice } from "../../api/lightning/payInvoice";
-import { logger } from "../../logger";
+import { satoshiToBTC } from "../../../lib/helper";
+import { signLNInvoice } from "../../../lib/snap";
+import { SnapRequestErrors } from "../../../errors/Snap/errors";
+import { payInvoice } from "../../../api/lightning/payInvoice";
+import { logger } from "../../../logger";
 
 class LightningSendViewModel {
   public status: SendStatus = SendStatus.Init;
@@ -82,6 +82,7 @@ class LightningSendViewModel {
   }
 
   get ableToSend() {
+    return true;
     if (this.isInvoiceValid) {
       return this.balance >= (this.amount + this.maxFee);
     }
