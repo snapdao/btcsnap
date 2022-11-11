@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { InvoiceInfo, InvoiceInfoContainer } from "../styles";
-import { Modal } from "../../../kits/Modal";
+import { Modal } from "../../../../kits";
 
 export const ConfirmModal = styled(Modal)`
   &&& {

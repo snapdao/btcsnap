@@ -17,8 +17,8 @@ import { ReactComponent as PayInvoiceSucceed } from "./images/succeed.svg";
 import { ReactComponent as PayInvoiceFailed } from "./images/failed.svg";
 import { ReactComponent as ToIcon } from "./images/to.svg";
 import { SendStatus } from "../types";
-import { Modal } from "../../../kits/Modal";
-import { useAppStore } from "../../../mobx";
+import { Modal } from "../../../../kits";
+import { useAppStore } from "../../../../mobx";
 import { observer } from "mobx-react-lite";
 
 export const ResultView = observer(({model, close}: { model: LightningSendViewModel, close: () => void }) => {

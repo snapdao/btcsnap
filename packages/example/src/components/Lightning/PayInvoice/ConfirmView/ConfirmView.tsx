@@ -13,7 +13,7 @@ import {
 } from "./styles";
 import { ConfirmModalContent, ConfirmMainHeader } from "./styles";
 import { HighLight, InvoiceDescription, PrimaryButton } from "../styles";
-import { Popup } from "../../../kits/Popup";
+import { Popup } from "../../../../kits";
 
 export const ConfirmView = ({model, parentNode}: { model: LightningSendViewModel, parentNode: any }) => {
   const {hours, minutes} = model.expireTime;
