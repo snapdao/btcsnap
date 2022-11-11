@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Loader, Modal, Transition } from 'semantic-ui-react';
 import Main from './Main';
@@ -14,7 +14,6 @@ import {
 import LNSetupModal from '../Lightning';
 import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
-import { LightningContext, LightningContextProvider } from '../Lightning/ctx';
 
 const Account = observer(() => {
   const {
@@ -24,32 +23,16 @@ const Account = observer(() => {
     user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
   } = useAppStore();
   const { balance, rate, refresh, loadingBalance } = useBalance();
+  const currentReadyLoaded =
+    !!current &&
+    status === AppStatus.Ready &&
+    LNWalletStep === LNWalletStepStatus.Default;
 
   useEffect(() => {
-    if (
-      !!current &&
-      status === AppStatus.Ready &&
-      !loadingBalance &&
-      LNWalletStep === LNWalletStepStatus.Default
-    ) {
-      onShowCreateWallet();
+    if (currentReadyLoaded && !loadingBalance) {
+      setLNWalletStep(LNWalletStepStatus.Ready);
     }
   }, [current, status, loadingBalance]);
-
-  const createWallet = () => {
-    onShowCreateWallet();
-    setLNWalletStep(LNWalletStepStatus.Done);
-  };
-
-  const { state, update } = useContext(LightningContext);
-
-  const onShowCreateWallet = () => {
-    setLNWalletStep(LNWalletStepStatus.CreateWallet);
-    update({
-      ...state,
-      setupStep: 'createWallet',
-    });
-  };
 
   return (
     <>
@@ -57,38 +40,35 @@ const Account = observer(() => {
         <Loader inverted />
       </Modal>
 
-      <LightningContextProvider>
-        <AccountBackground>
-          <AccountContainer>
-            <Main balance={balance} rate={rate} />
-            <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
-            <AccountLabel>
-              Powered by{' '}
-              <a href="https://metamask.io/snaps/" target="_blank">
-                MetaMask Snaps{' '}
-              </a>
-            </AccountLabel>
-          </AccountContainer>
+      <AccountBackground>
+        <AccountContainer>
+          <Main balance={balance} rate={rate} />
+          <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
+          <AccountLabel>
+            Powered by{' '}
+            <a href="https://metamask.io/snaps/" target="_blank">
+              MetaMask Snaps{' '}
+            </a>
+          </AccountLabel>
+        </AccountContainer>
 
-          <LNSetupModal createWallet={createWallet} />
+        <LNSetupModal />
 
-          <Transition
-            visible={!isAgreeCookie && persistDataLoaded}
-            animation={'fade up'}
-            duration={'300'}>
-            <CookieInfo>
-              <div>
-                <p>
-                  We use cookies to improve the user experience of our product.
-                  By continuing to use this site, you agree to our Privacy
-                  Policy.
-                </p>
-                <span onClick={agreeCookie}>OK</span>
-              </div>
-            </CookieInfo>
-          </Transition>
-        </AccountBackground>
-      </LightningContextProvider>
+        <Transition
+          visible={!isAgreeCookie && persistDataLoaded}
+          animation={'fade up'}
+          duration={'300'}>
+          <CookieInfo>
+            <div>
+              <p>
+                We use cookies to improve the user experience of our product. By
+                continuing to use this site, you agree to our Privacy Policy.
+              </p>
+              <span onClick={agreeCookie}>OK</span>
+            </div>
+          </CookieInfo>
+        </Transition>
+      </AccountBackground>
     </>
   );
 });

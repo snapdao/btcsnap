@@ -1,35 +1,39 @@
-import {types} from 'mobx-state-tree';
-import { BitcoinUnit } from "../interface";
+import { types } from 'mobx-state-tree';
+import { BitcoinUnit } from '../interface';
 
 export enum LNWalletStepStatus {
   Default,
+  Ready,
   CreateWallet,
   UserGuide,
-  Done
+  Done,
 }
 
 export const userInitialState = {
   isAgreeCookie: false,
   LNWalletStep: LNWalletStepStatus.Default,
-  bitcoinUnit: BitcoinUnit.BTC
+  bitcoinUnit: BitcoinUnit.BTC,
 };
 
 const User = types
   .model('User', {
     isAgreeCookie: types.boolean,
     LNWalletStep: types.optional(types.number, LNWalletStepStatus.Default),
-    bitcoinUnit: types.optional(types.enumeration(Object.values(BitcoinUnit)), BitcoinUnit.BTC),
+    bitcoinUnit: types.optional(
+      types.enumeration(Object.values(BitcoinUnit)),
+      BitcoinUnit.BTC,
+    ),
   })
   .actions((self) => ({
-    agreeCookie:() => {
-      self.isAgreeCookie = true
+    agreeCookie: () => {
+      self.isAgreeCookie = true;
     },
-    setLNWalletStep:(status:number) => {
-      self.LNWalletStep = status
+    setLNWalletStep: (status: LNWalletStepStatus) => {
+      self.LNWalletStep = status;
     },
     setBitcoinUnit: (targetUnit: BitcoinUnit) => {
-      self.bitcoinUnit = targetUnit
-    }
-  }))
+      self.bitcoinUnit = targetUnit;
+    },
+  }));
 
 export default User;

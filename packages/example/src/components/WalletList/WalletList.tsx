@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { TransitionablePortal } from 'semantic-ui-react';
 import { WalletCard } from './WalletCard';
 import { useAppStore } from '../../mobx';
@@ -16,7 +16,6 @@ import { observer } from 'mobx-react-lite';
 import { BitcoinNetwork, WalletType } from '../../interface';
 import { AddLightningWallet } from './AddLightningWallet';
 import { Popup } from '../../kits/Popup';
-import { LightningContext } from '../Lightning/ctx';
 import { LNWalletStepStatus } from '../../mobx/user';
 
 export const WalletList = observer(({ open, close }: any) => {
@@ -28,8 +27,6 @@ export const WalletList = observer(({ open, close }: any) => {
     settings: { network },
     currentWalletType,
   } = useAppStore();
-
-  const { state, update } = useContext(LightningContext);
 
   const [visible, setVisible] = useState<boolean>(open);
   const selectedWallet = useMemo(() => {
@@ -58,10 +55,6 @@ export const WalletList = observer(({ open, close }: any) => {
 
   function showCreateWallet() {
     setLNWalletStep(LNWalletStepStatus.CreateWallet);
-    update({
-      ...state,
-      setupStep: 'createWallet',
-    });
   }
 
   return (
