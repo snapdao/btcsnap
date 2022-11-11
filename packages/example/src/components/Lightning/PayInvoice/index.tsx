@@ -5,13 +5,13 @@ import { SendView } from "./SendView";
 import { ResultView } from "./ResultView";
 import { observer } from "mobx-react-lite";
 
-interface LightningSendProps {
+interface PayInvoiceProps {
   close: () => void;
   exchangeRate: number;
   balance: number;
 }
 
-export const LightningSend = observer(({close, balance, exchangeRate}: LightningSendProps) => {
+export const PayInvoice = observer(({close, balance, exchangeRate}: PayInvoiceProps) => {
   const model = useMemo(() => {
     return new LightningSendViewModel(balance, exchangeRate);
   }, []);

@@ -21,14 +21,12 @@ import {
   SendMainHeader,
   SendModalContent
 } from "./styles";
-import SendIcon from "../Icons/SendIcon";
+import SendIcon from "../../Icons/SendIcon";
 import LightningSendViewModel from "./model";
 import { observer } from "mobx-react-lite";
-import { Popup } from "../../kits/Popup";
 import { ConfirmView } from "./ConfirmView";
 import { Loader, Modal as SemanticModal } from "semantic-ui-react";
-import { Message, MessageType } from "../../kits/Message";
-import { Modal } from "../../kits/Modal";
+import { Modal, Popup, Message, MessageType } from "../../../kits";
 
 export const SendView = observer(({model, close}: { model: LightningSendViewModel, close: () => void }) => {
   const {hours, minutes} = model.expireTime;

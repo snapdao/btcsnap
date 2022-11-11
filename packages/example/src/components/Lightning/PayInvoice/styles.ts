@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button as SnapButton } from "snapkit";
-import { Modal } from "../../kits/Modal";
+import { Modal } from "../../../kits";
 
 export const LightningSendModal = styled(Modal)`
 `
