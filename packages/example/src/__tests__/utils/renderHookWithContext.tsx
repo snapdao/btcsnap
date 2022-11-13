@@ -45,7 +45,10 @@ export const defaultStore = {
     loadMoreTxs: jest.fn(),
   },
   settings: { dynamicAddress: true },
-  runtime: { setStatus: jest.fn() },
+  runtime: {
+    setStatus: jest.fn(),
+    setCurrencyRate: jest.fn()
+  },
   count: 5,
   refresh: jest.fn(),
   currentWalletType: WalletType.BitcoinWallet,
