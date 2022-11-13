@@ -15,6 +15,7 @@ import {
 import LNSetupModal from '../Lightning';
 import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
+import { useCurrencyRate } from "../../hook/useCurrencyRate";
 
 const Account = observer(() => {
   const {
@@ -23,7 +24,8 @@ const Account = observer(() => {
     runtime: { isLoading, status },
     user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
   } = useAppStore();
-  const { balance, rate, refresh, loadingBalance } = useBalance();
+  const { balance, refresh, loadingBalance } = useBalance();
+  const { refreshCurrencyRate } = useCurrencyRate();
   useRegisterXpub()
 
   const currentReadyLoaded =
@@ -45,7 +47,7 @@ const Account = observer(() => {
 
       <AccountBackground>
         <AccountContainer>
-          <Main balance={balance} rate={rate} />
+          <Main balance={balance} />
           <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
           <AccountLabel>
             Powered by{' '}
