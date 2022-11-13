@@ -39,7 +39,7 @@ export const Message = ({children, duration = 1500, type = MessageType.Succeed}:
     <MessageContainer>
       <MessageContent>
         {messageTypeIcon}
-        <MessageCopy>
+        <MessageCopy type={type}>
           {children}
         </MessageCopy>
       </MessageContent>

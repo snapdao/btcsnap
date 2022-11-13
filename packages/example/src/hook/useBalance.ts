@@ -7,12 +7,14 @@ import { queryCoinV2 } from '../api';
 import { IAccount } from '../mobx/types';
 import { logger } from '../logger';
 import { WalletType } from '../interface';
+import { balance as queryLightningBalance } from "../api/lightning/balance";
 
 export const useBalance = () => {
   const {
     current,
     currentWalletType,
     runtime: { setStatus },
+    lightning,
   } = useAppStore();
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
@@ -35,27 +37,35 @@ export const useBalance = () => {
       }
     };
 
-    const shouldFetchBitcoinWalletBalance =
-      current && currentWalletType === WalletType.BitcoinWallet;
-    if (shouldFetchBitcoinWalletBalance) {
-      !count && setStatus(AppStatus.FetchBalance);
-      setLoadingBalance(true);
-      queryBalance(current)
-        .then(({ balance }) => {
-          setBalance(balance);
-          setStatus(AppStatus.Ready);
-          setLoadingBalance(false);
-        })
-        .catch((e) => {
-          logger.error(e);
-          setStatus(AppStatus.Ready);
-          setLoadingBalance(false);
-        });
+    if(currentWalletType === WalletType.BitcoinWallet) {
+      if (current) {
+        !count && setStatus(AppStatus.FetchBalance);
+        setLoadingBalance(true);
+        queryBalance(current)
+          .then(({ balance }) => {
+            setBalance(balance);
+            setStatus(AppStatus.Ready);
+            setLoadingBalance(false);
+          })
+          .catch((e) => {
+            logger.error(e);
+            setStatus(AppStatus.Ready);
+            setLoadingBalance(false);
+          });
+      } else {
+        setBalance(0);
+        setStatus(AppStatus.Ready);
+      }
     } else {
-      setBalance(0);
-      setStatus(AppStatus.Ready);
+      if (lightning.current) {
+        queryLightningBalance().then(response => {
+          setBalance(Number(response.BTC.AvailableBalance) || 0)
+        }).catch(e => {
+          setBalance(0)
+        })
+      }
     }
-  }, [current, currentWalletType, count]);
+  }, [current, currentWalletType, count, lightning.current]);
 
   return {
     balance,
