@@ -53,9 +53,11 @@ class LightningSendViewModel {
       this.setShouldShowInvoice(false);
       const expireDateTime = new Date((this.decodedInvoice?.timeExpireDate || 0) * 1000)
       this.expireTotalSeconds = Math.floor((expireDateTime.getTime() - new Date().getTime()) / 1000);
-      this.timerInterval = setInterval(() => {
-        this.setExpireTotalSeconds(this.expireTotalSeconds - 1)
-      }, 1000);
+      if (this.expireTotalSeconds > 0) {
+        this.timerInterval = setInterval(() => {
+          this.setExpireTotalSeconds(this.expireTotalSeconds - 1)
+        }, 1000);
+      }
     } catch (e) {
       this.decodedInvoice = null;
       this.expireTotalSeconds = 0;
@@ -81,12 +83,16 @@ class LightningSendViewModel {
     return !!this.decodedInvoice;
   }
 
+  get isBalanceEnoughToPay() {
+    return this.balance >= (this.amount + this.maxFee);
+  }
+
   get ableToSend() {
-    return true;
-    if (this.isInvoiceValid) {
-      return this.balance >= (this.amount + this.maxFee);
-    }
-    return false;
+    return this.isInvoiceValid && this.isBalanceEnoughToPay && !this.isInvoiceExpired;
+  }
+
+  get isInvoiceExpired() {
+    return this.expireTotalSeconds < 0;
   }
 
   get expireTime() {

@@ -106,6 +106,10 @@ export const AmountCurrencyContainer = styled.div`
   color: #656D85;
 `
 
+export const ErrorMessage = styled.span`
+  color: #F54814;
+`
+
 export const HighLight = styled.div`
   display: inline;
   color: #111214;
@@ -130,10 +134,7 @@ export const InvoiceInfo = styled.div`
   margin-top: 24px;
   display: flex;
   justify-content: space-between;
-
-  span {
-    color: #656D85;
-  }
+  color: #656D85;
 
   span:first-child {
     font-weight: 600;
