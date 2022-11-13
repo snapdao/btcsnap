@@ -5,6 +5,7 @@ import {
   AmountTitle,
   Button,
   ButtonsContainer,
+  ErrorMessage,
   HighLight,
   InvoiceDescription,
   InvoiceError,
@@ -19,7 +20,7 @@ import {
   PrimaryButton,
   SendMainContent,
   SendMainHeader,
-  SendModalContent
+  SendModalContent,
 } from "./styles";
 import SendIcon from "../../Icons/SendIcon";
 import LightningSendViewModel from "./model";
@@ -64,7 +65,11 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
                     <AmountTitle>Amount</AmountTitle>
                     <AmountInput readOnly value={`${model.amount} Sats`}/>
                     <AmountCurrencyContainer>
-                      <span>${model.amountInCurrency}</span>
+                      {
+                        model.isBalanceEnoughToPay
+                          ? <span>${model.amountInCurrency}</span>
+                          : <ErrorMessage>Insufficient Funds</ErrorMessage>
+                      }
                       <span>Fee <HighLight>{model.feeRange}</HighLight> Sats</span>
                     </AmountCurrencyContainer>
                   </>
@@ -85,10 +90,19 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
                     </InvoiceInfo>
                     <InvoiceInfo>
                       <span>Expires in</span>
-                      <span>
-                        <HighLight>{hours}</HighLight> H
-                        <HighLight>{" "}{minutes}</HighLight> Mins
-                      </span>
+                      {
+                        model.isInvoiceExpired
+                          ? (
+                            <ErrorMessage>
+                              {hours} H {minutes} Mins
+                            </ErrorMessage>
+                          ) : (
+                            <span>
+                              <HighLight>{hours}</HighLight> H
+                              <HighLight>{" "}{minutes}</HighLight> Mins
+                            </span>
+                          )
+                      }
                     </InvoiceInfo>
                     {
                       !!model.description && (
@@ -126,15 +140,15 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
         {
           model.isConfirmModalOpen && <ConfirmView model={model} parentNode={sendModalRef.current}/>
         }
-        <SemanticModal open={model.showMetaMaskTips} style={{ backgroundColor: 'transparent'}}>
-          <Loader />
+        <SemanticModal open={model.showMetaMaskTips} style={{backgroundColor: 'transparent'}}>
+          <Loader/>
           <MetaMaskInteractionTips>Continue at MetaMask</MetaMaskInteractionTips>
         </SemanticModal>
         {
           model.isRequestDenied && <Message type={MessageType.Error}>Payment failed. Please try again.</Message>
         }
-        <SemanticModal open={model.isPaying} style={{ backgroundColor: 'transparent'}}>
-          <Loader />
+        <SemanticModal open={model.isPaying} style={{backgroundColor: 'transparent'}}>
+          <Loader/>
         </SemanticModal>
       </LightningSendContainer>
     </Modal>
