@@ -36,5 +36,5 @@ export const LNDataToSnap = {
 }
 
 export const LNSignature = {
-  signature: "H5sxH1dkJP6Hx2mrkUb2s2EzmbC1TxO3gWObK8P0DiJwYBIZLNzaqYMLWiFJTlR0DPzsOx5/ddNeHJr+sUPVwe0="
+  signature: "1f9b311f576424fe87c769ab9146f6b3613399b0b54f13b781639b2bc3f40e22706012192cdcdaa9830b5a21494e54740cfcec3b1e7f75d35e1c9afeb143d5c1ed"
 }

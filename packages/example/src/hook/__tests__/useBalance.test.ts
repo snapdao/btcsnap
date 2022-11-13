@@ -1,6 +1,7 @@
 import { act } from '@testing-library/react-hooks';
 import { useBalance } from '../useBalance';
 import {
+  defaultStore,
   renderHooksWithContext,
 } from '../../__tests__/utils/renderHookWithContext';
 import { waitFor } from '@testing-library/react';
@@ -34,10 +35,8 @@ describe('useBalance', () => {
 
   it('should return balance as 0 when current does not exist', async () => {
     const store = {
+      ...defaultStore,
       current: undefined,
-      runtime: {
-        setStatus: jest.fn(),
-      },
     };
     const { result } = renderHooksWithContext(() => useBalance(), store as any);
 

@@ -67,7 +67,7 @@ describe('getLNDataFromSnap', () => {
         key,
         LNDataToSnap.walletId,
       ),
-    ).rejects.toThrowError('User reject to access the key');
+    ).rejects.toThrowError('User rejected the request.');
     expect(walletStub.rpcStubs.snap_getBip32Entropy).not.toHaveBeenCalled();
   });
 });

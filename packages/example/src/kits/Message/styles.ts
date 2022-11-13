@@ -1,4 +1,5 @@
 import styled  from "styled-components";
+import { MessageType } from "./index";
 
 export const MessageContainer = styled.div`
   width: 100%;
@@ -22,7 +23,7 @@ export const MessageContent = styled.div`
   gap: 4px;
 `
 
-export const MessageCopy = styled.span`
+export const MessageCopy = styled.span<{type: MessageType}>`
   font-weight: 600;
-  color: #F54814;
+  color: ${props => props.type === MessageType.Error ? '#F54814' : '#21A35D'};
 `
