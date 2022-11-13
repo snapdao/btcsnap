@@ -11,13 +11,15 @@ export enum AppStatus {
 
 export const runtimeInitialState = {
   status: AppStatus.Ready,
-  connected: false
+  connected: false,
+  currencyRate: 0,
 }
 
 const Runtime = types
   .model('Runtime', {
     status: types.enumeration(Object.values(AppStatus)),
     connected: types.boolean,
+    currencyRate: types.number,
   })
   .views((self) => ({
     get isLoading() {
@@ -31,6 +33,9 @@ const Runtime = types
     setConnected: (hasConnected: boolean) => {
       self.connected = hasConnected
     },
+    setCurrencyRate: (currencyRate: number) => {
+      self.currencyRate = currencyRate;
+    }
   }))
   .actions((self) => ({
     continueConnect: () => {
