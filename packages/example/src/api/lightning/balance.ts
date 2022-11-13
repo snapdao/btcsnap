@@ -1,13 +1,18 @@
-import { query } from './query';
+import { queryWithUserInfo } from './query';
 import { RequestType } from '../types';
 
 const endpoint = `/v1/snap/balance/`;
 
-export const balance = (userId: string, userPassword: string) => {
-  return query(
+interface LightningBalanceResponse {
+  BTC: {
+    AvailableBalance: string
+  }
+}
+
+export const balance = (): Promise<LightningBalanceResponse> => {
+  return queryWithUserInfo(
     endpoint,
-    RequestType.Post,
+    RequestType.Get,
     {},
-    { user_id: userId, user_password: userPassword },
   );
 };

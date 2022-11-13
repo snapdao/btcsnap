@@ -1,5 +1,3 @@
-import { BackendAsset } from '../v1/types';
-import { CHANNEL } from '../constant';
 import { query } from './query';
 import { RequestType } from '../types';
 
