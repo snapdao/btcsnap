@@ -1,4 +1,4 @@
-import { switchUnits, calcTime } from "../transferLNData"
+import { switchUnits, formatTime } from "../transferLNData"
 
 describe('switchUnits', () => {
   it(`should return invoice amount if letters has 'm'`, () => {
@@ -22,25 +22,20 @@ describe('switchUnits', () => {
   })
 })
 
-describe('calcTime', () => {
-  it('should return second if expire time less than 60s', () => {
-    const sec = 31;
-    expect(calcTime(sec)).toBe("31s")
-  })
-
+describe('formatTime', () => {
   it('should returns a time containing minutes if expire time more than 60s', () => {
     const sec = 90;
-    expect(calcTime(sec)).toBe("1m30s")
+    expect(formatTime(sec)).toBe("0H 1M")
   })
 
   it('should returns a time containing hours if expire time less than 3600s', () => {
     const sec = 86400;
-    expect(calcTime(sec)).toBe("24h")
+    expect(formatTime(sec)).toBe("24H 0M")
   })
 
   it('should returns a time containing hours, minutes and seconds if expire time less than 3600s', () => {
     const sec = 86490;
-    expect(calcTime(sec)).toBe("24h1m30s")
+    expect(formatTime(sec)).toBe("24H 1M")
   })
  
 })
