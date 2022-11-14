@@ -42,7 +42,7 @@ export const transferInvoiceContent = (domain: string, invoice: string ) => {
   const invoiceContent = {
     domain: domain,
     type: 'paid_invoice',
-    network: formattedInvoice.isMainnet ? 'mainnet' : 'testnet',
+    network: `Lightning on Bitcoin ${formattedInvoice.isMainnet ? 'mainnet' : 'testnet'}`,
     amount: `${formattedInvoice.amount} BTC`,
     expiry_time: formatTime(formattedInvoice.expireTime),
     description: formattedInvoice.description,
