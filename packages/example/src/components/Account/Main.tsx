@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from "../../mobx";
-import { BitcoinNetwork, BitcoinUnit } from "../../interface";
+import { BitcoinNetwork, BitcoinUnit, WalletType } from "../../interface";
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal'
 import AccountDetail from './Details';
@@ -32,10 +32,10 @@ import ArrowRight from "../Icons/ArrowRight";
 import { bitcoinUnitMap } from "../../lib/unit"
 import SendIcon from "../Icons/SendIcon";
 import { satoshiToBTC } from "../../lib/helper";
+import { PayInvoice } from "../Lightning/PayInvoice";
 
 export interface MainProps {
   balance: number; // Satoshi
-  rate: number;
 }
 
 enum MainModal {
@@ -44,8 +44,8 @@ enum MainModal {
   Details
 }
 
-const Main = observer(({balance, rate}: MainProps) => {
-  const { settings: { network }, current, currentUnit, updateCurrentWalletUnit, currentWalletType, runtime: {continueConnect}} = useAppStore();
+const Main = observer(({balance}: MainProps) => {
+  const { settings: { network }, current, currentUnit, updateCurrentWalletUnit, currentWalletType, runtime: {continueConnect, currencyRate}} = useAppStore();
   const unit = bitcoinUnitMap[network];
   const [openedModal, setOpenedModal] = useState<MainModal | null>(null)
   const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC);
@@ -98,7 +98,7 @@ const Main = observer(({balance, rate}: MainProps) => {
           <BalanceRightLabel onClick={switchUnits}>{unit[secondaryUnit]}</BalanceRightLabel>
         </BalanceRightItem>
         <CurrencyContainer isTestnet={network === BitcoinNetwork.Test}>
-          ≈ {(satoshiToBTC(balance) * rate).toFixed(2)} USD
+          ≈ {(satoshiToBTC(balance) * currencyRate).toFixed(2)} USD
         </CurrencyContainer>
       </BalanceContainer>
 
@@ -118,7 +118,7 @@ const Main = observer(({balance, rate}: MainProps) => {
       </ActionContainer>
 
       <MarketPrice isTestnet={network === BitcoinNetwork.Test}>
-        Market Price: <span>{rate} USD</span>
+        Market Price: <span>{currencyRate} USD</span>
       </MarketPrice>
 
       { openedModal === MainModal.Details &&
@@ -130,14 +130,24 @@ const Main = observer(({balance, rate}: MainProps) => {
         />
       }
 
-      { openedModal === MainModal.Send &&
-        <SendModal
-          network={network}
-          unit={currentUnit}
-          scriptType={current?.scriptType!}
-          close={closeModal}
-          currencyRate={rate}
-        />
+      { openedModal === MainModal.Send ? (
+          currentWalletType === WalletType.BitcoinWallet 
+            ? (
+              <SendModal
+                network={network}
+                unit={currentUnit}
+                scriptType={current?.scriptType!}
+                close={closeModal}
+                currencyRate={currencyRate}
+              />
+            ) : (
+              <PayInvoice
+                balance={balance}
+                close={closeModal}
+                exchangeRate={currencyRate}
+              />
+            )
+        ) : null
       }
 
       { openedModal === MainModal.Receive && <ReceiveModal open={openedModal === MainModal.Receive} close={closeModal}/> }

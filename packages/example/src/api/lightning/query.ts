@@ -3,6 +3,8 @@ import axios, { AxiosResponse } from 'axios';
 import { TIME_OUT } from '../constant';
 import * as querystring from 'querystring';
 import { SNAP_BACKEND_AUTH, SNAP_BACKEND_DOMAIN } from '../../config';
+import { getPassword } from "../../services/LightningService/getUserInfo";
+import { getAppStore } from "../../mobx";
 
 const fetchResult = (
   url: string,
@@ -76,3 +78,21 @@ export const query = async (
     throw e;
   }
 };
+
+export const queryWithUserInfo = async (
+  endPoint: string,
+  method: RequestType,
+  headers: Record<string, string>,
+  body = {}
+) => {
+  const { lightning: { current }} = getAppStore();
+  const userId = current!.userId;
+  const userPassword = await getPassword(userId);
+
+  const bodyWithUserInfo = {
+    ...body,
+    user_id: userId,
+    user_password: userPassword,
+  }
+  return query(endPoint, method, headers, bodyWithUserInfo)
+}

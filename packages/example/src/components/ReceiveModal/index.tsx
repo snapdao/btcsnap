@@ -8,7 +8,6 @@ import {
 import './index.css';
 import ReceiveIcon from '../Icons/ReceiveIcon';
 import LoadingIcon from '../Icons/Loading';
-import { ReactComponent as Checked } from '../../assets/vector.svg';
 import AddressBox from './AddressBox';
 import CloseIcon from '../Icons/CloseIcon';
 import InfoIcon from '../Icons/InfoIcon';
@@ -21,7 +20,7 @@ import { observer } from 'mobx-react-lite';
 import { useReceiveAddress } from '../../hook/useReceiveAddress';
 import { useAppStore } from '../../mobx';
 import { copyToClipboard } from '../../utils/clipboard';
-import Message from '../../kits/Message';
+import { Message, MessageType } from '../../kits/Message';
 
 type ReceiveModalProps = {
   open: boolean;
@@ -121,7 +120,7 @@ const ReceiveModal = observer(({ open, close }: ReceiveModalProps) => {
         </Container>
 
         {addressCopied && (
-          <Message icon={<Checked />}> Copied to clipboard</Message>
+          <Message type={MessageType.Succeed}>Copied to clipboard</Message>
         )}
       </Modal>
     </TransitionablePortal>

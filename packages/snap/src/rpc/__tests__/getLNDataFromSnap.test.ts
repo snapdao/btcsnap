@@ -42,7 +42,7 @@ describe('getLNDataFromSnap', () => {
   });
 
   it('should throw error if user use the wrong key', async () => {
-    const key = 'wrongKey';
+    const key = 'wrongKey' as any;
     walletStub.rpcStubs.snap_confirm.mockResolvedValue(true);
 
     await expect(
@@ -67,7 +67,7 @@ describe('getLNDataFromSnap', () => {
         key,
         LNDataToSnap.walletId,
       ),
-    ).rejects.toThrowError('User reject to access the key');
+    ).rejects.toThrowError('User rejected the request.');
     expect(walletStub.rpcStubs.snap_getBip32Entropy).not.toHaveBeenCalled();
   });
 });

@@ -17,29 +17,35 @@ export const switchUnits = (letters: string) => {
   }
 }
 
-export const calcTime = (sec: number) => {
-  sec = Number(sec);
-  let h = Math.floor(sec / 3600);
-  let m = Math.floor(sec % 3600 / 60);
-  let s = Math.floor(sec % 3600 % 60);
+export const formatTime = (sec: number) => {
+  const hours = Math.floor(sec / 3600);
+  const minutes = Math.floor(sec % 3600 / 60);
+  return `${hours}H ${minutes}M`;
+}
 
-  let hDisplay = h > 0 ? h + "h" : "";
-  let mDisplay = m > 0 ? m + "m" : "";
-  let sDisplay = s > 0 ? s + "s" : "";
-  return hDisplay + mDisplay + sDisplay;
+const getBoltField = (invoice: Record<string, any>, key: string) => invoice.find((item:any) => item.name === key)
+
+const formatInvoice = (invoice:string) => {
+  const decodedInvoice = require('light-bolt11-decoder').decode(invoice).sections;
+  const expireDatetime = getBoltField(decodedInvoice, 'timestamp').value + getBoltField(decodedInvoice, 'expiry').value;
+  return {
+    isMainnet: getBoltField(decodedInvoice, 'coin_network').value.bech32 === 'bc',
+    amount: switchUnits(getBoltField(decodedInvoice, 'amount').letters),
+    expireTime: expireDatetime - Math.floor(new Date().getTime() / 1000),
+    description: getBoltField(decodedInvoice, 'description').value
+  }
 }
 
 export const transferInvoiceContent = (domain: string, invoice: string ) => {
-  const decodedInvoice = require('light-bolt11-decoder').decode(invoice).sections;
+  const formattedInvoice = formatInvoice(invoice);
+
   const invoiceContent = {
     domain: domain,
     type: 'paid_invoice',
-    network: decodedInvoice.find((item:any) => item.name === 'coin_network').value.bech32,
-    amount: switchUnits(decodedInvoice.find((item:any) => item.name === 'amount').letters),
-    expiry_time: calcTime(decodedInvoice.find((item:any) => item.name === 'expiry').value),
-    description: decodedInvoice.find((item:any) => item.name === 'description').value,
+    network: `Lightning on Bitcoin ${formattedInvoice.isMainnet ? 'mainnet' : 'testnet'}`,
+    amount: `${formattedInvoice.amount} BTC`,
+    expiry_time: formatTime(formattedInvoice.expireTime),
+    description: formattedInvoice.description,
   }
-  const result = JSON.stringify(invoiceContent, null, 2)
-
-  return result;
+  return JSON.stringify(invoiceContent, null, 2)
 }

@@ -45,10 +45,20 @@ export const defaultStore = {
     loadMoreTxs: jest.fn(),
   },
   settings: { dynamicAddress: true },
-  runtime: { setStatus: jest.fn() },
-  count: 5,
+  runtime: {
+    setStatus: jest.fn(),
+    setCurrencyRate: jest.fn()
+  },
   refresh: jest.fn(),
   currentWalletType: WalletType.BitcoinWallet,
+  lightning: {
+    current: {
+      id: "ln-wallet-89738820-fb7a-4acd-ab20-19b4c0578d4e",
+      userId: "71ac9d4969b14f19fc9d9254f86156f604d84e6926b55afc342d5311750fe900",
+      name: "Lightning",
+      unit: "Sats"
+    }
+  }
 };
 
 export function renderHooksWithContext<T>(hook: () => T, store = defaultStore) {

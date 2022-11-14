@@ -3,21 +3,21 @@ import { useAppStore } from '../mobx';
 import { AppStatus } from '../mobx/runtime';
 import { SupportedCoins } from '../constant/supportedCoins';
 import { NETWORK_SCRIPT_TO_COIN } from '../constant/bitcoin';
-import { queryCoinV2 } from '../api/v2/coin';
-import { queryCoinV1 } from '../api/v1/coin';
+import { queryCoinV2 } from '../api';
 import { IAccount } from '../mobx/types';
 import { logger } from '../logger';
 import { WalletType } from '../interface';
+import { balance as queryLightningBalance } from "../api/lightning/balance";
 
 export const useBalance = () => {
   const {
     current,
     currentWalletType,
     runtime: { setStatus },
+    lightning,
   } = useAppStore();
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [rate, setRate] = useState(0);
   const [loadingBalance, setLoadingBalance] = useState<boolean>(false);
 
   const refresh = () => {
@@ -29,45 +29,46 @@ export const useBalance = () => {
       const coinCode: SupportedCoins =
         NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
       try {
-        const values = await Promise.all([
-          queryCoinV1(coinCode),
-          queryCoinV2(),
-        ]);
-        const [v1Res, v2Res] = values;
-        const rate = Number(v1Res.coins?.[coinCode]?.coinInfo?.rate) || 0;
-        const balance = Number(v2Res.coins[coinCode].balance) || 0;
-        return { balance, rate };
+        const response = await queryCoinV2()
+        const balance = Number(response.coins[coinCode].balance) || 0;
+        return { balance };
       } catch (e) {
         throw e;
       }
     };
 
-    const shouldFetchBitcoinWalletBalance =
-      current && currentWalletType === WalletType.BitcoinWallet;
-    if (shouldFetchBitcoinWalletBalance) {
-      !count && setStatus(AppStatus.FetchBalance);
-      setLoadingBalance(true);
-      queryBalance(current)
-        .then(({ balance, rate }) => {
-          setBalance(balance);
-          setRate(rate);
-          setStatus(AppStatus.Ready);
-          setLoadingBalance(false);
-        })
-        .catch((e) => {
-          logger.error(e);
-          setStatus(AppStatus.Ready);
-          setLoadingBalance(false);
-        });
+    if(currentWalletType === WalletType.BitcoinWallet) {
+      if (current) {
+        !count && setStatus(AppStatus.FetchBalance);
+        setLoadingBalance(true);
+        queryBalance(current)
+          .then(({ balance }) => {
+            setBalance(balance);
+            setStatus(AppStatus.Ready);
+            setLoadingBalance(false);
+          })
+          .catch((e) => {
+            logger.error(e);
+            setStatus(AppStatus.Ready);
+            setLoadingBalance(false);
+          });
+      } else {
+        setBalance(0);
+        setStatus(AppStatus.Ready);
+      }
     } else {
-      setBalance(0);
-      setStatus(AppStatus.Ready);
+      if (lightning.current) {
+        queryLightningBalance().then(response => {
+          setBalance(Number(response.BTC.AvailableBalance) || 0)
+        }).catch(e => {
+          setBalance(0)
+        })
+      }
     }
-  }, [current, currentWalletType, count]);
+  }, [current, currentWalletType, count, lightning.current]);
 
   return {
     balance,
-    rate,
     refresh,
     loadingBalance,
   };
