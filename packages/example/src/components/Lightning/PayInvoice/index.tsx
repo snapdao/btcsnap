@@ -18,8 +18,11 @@ export const PayInvoice = observer(({close, balance, exchangeRate}: PayInvoicePr
 
   return (
     <>
-      {model.status === SendStatus.Init && <SendView model={model} close={close} />}
-      {model.status !== SendStatus.Init && <ResultView model={model} close={close} />}
+      {
+        model.status === SendStatus.Init
+          ? <SendView model={model} close={close}/>
+          : <ResultView model={model} close={close}/>
+      }
     </>
   )
 });
