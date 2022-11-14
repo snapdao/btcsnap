@@ -115,7 +115,7 @@ class LightningSendViewModel {
   }
 
   get balanceInCurrency() {
-    return this.balance * this.exchangeRate;
+    return (satoshiToBTC(this.balance) * this.exchangeRate).toFixed(2);
   }
 
   get isRequestDenied() {

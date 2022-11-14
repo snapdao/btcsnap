@@ -93,9 +93,7 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
                       {
                         model.isInvoiceExpired
                           ? (
-                            <ErrorMessage>
-                              {hours} H {minutes} Mins
-                            </ErrorMessage>
+                            <ErrorMessage>expired</ErrorMessage>
                           ) : (
                             <span>
                               <HighLight>{hours}</HighLight> H

@@ -7,7 +7,7 @@
     "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "+3XSBOBBb+x+2K0qrg6hE3g1rYbejwt/XJIr79VJjDs=",
+    "shasum": "Pt7fJblZqxryN4Wmzd09VSGHPg8TchoiHDUyC5LKwRI=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

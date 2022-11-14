@@ -32,6 +32,7 @@ export const validateRequest = async (
       await validateNetwork(wallet, request.params.network);
     case 'btc_getLNDataFromSnap':
     case 'btc_saveLNDataToSnap':
+    case 'btc_signLNInvoice':
       await validateDomain(origin);
   }
 };
