@@ -130,6 +130,10 @@ class LightningSendViewModel {
     this.error = error;
   }
 
+  setShowMetaMaskTips(shouldShow: boolean){
+    this.showMetaMaskTips = shouldShow;
+  }
+
   setShouldShowInvoice(hasError: boolean) {
     this.shouldShowInvoiceNotValidError = hasError;
   }
@@ -143,16 +147,16 @@ class LightningSendViewModel {
   }
 
   signInvoice = async () => {
-    this.isConfirmModalOpen = false;
-    this.showMetaMaskTips = true;
+    this.setIsConfirmModalOpen(false);
+    this.setShowMetaMaskTips(true)
     if (this.invoice) {
       let signature = ''
       try {
         signature = await signLNInvoice(this.invoice) || '';
-        this.showMetaMaskTips = false;
+        this.setShowMetaMaskTips(false)
       } catch (e: any) {
         this.error = SnapRequestErrors.find(error => error.message === e.message)!;
-        this.showMetaMaskTips = false;
+        this.setShowMetaMaskTips(false)
       }
 
       if (signature) {
