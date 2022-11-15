@@ -33,9 +33,14 @@ const Lightning = types
       if (wallet) return wallet;
       return LightningWallet.create(walletInfo);
     },
-    applyWallet(wallet: any) {
-      self.wallets.push(wallet);
-      self.current = wallet;
+    applyWallet(otherWallet: any) {
+      const storedWallet = self.wallets.find(
+        (wallet) => wallet.userId === otherWallet.userId,
+      );
+      if (!storedWallet) {
+        self.wallets.push(otherWallet);
+      }
+      self.current = otherWallet;
     },
     switchWallet(userId: string) {
       const existWallet = self.wallets.find(
