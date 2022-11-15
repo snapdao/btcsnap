@@ -5,7 +5,7 @@ export const MessageContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  position: fixed;
+  position: absolute;
   top: 50px;
 `
 

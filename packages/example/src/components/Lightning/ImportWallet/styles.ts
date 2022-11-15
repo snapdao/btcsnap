@@ -4,14 +4,14 @@ import { Button as SnapButton } from "snapkit";
 
 export const ImportWalletModal = styled(Modal)`
   && {
-    height: 392px;
+    height: 476px;
     position: absolute;
     bottom: 0;
   }
 `
 
 export const ImportWalletContainer = styled.div`
-  padding: 20px 32px 32px;
+  margin: 20px 32px 32px;
   position: relative;
 `
 
@@ -27,15 +27,45 @@ export const ImportWalletHeader = styled.div`
   color: #111214;
 `
 
-export const KeyLabel = styled.label`
-  display: block;
-  height: 20px;
-  margin: 40px 0 12px;
+export const WalletNameContainer = styled.div`
+  margin-top: 32px;
+`
+
+export const WalletKeyContainer = styled.div`
+  margin-top: 24px;
+`
+
+export const Label = styled.label`
+  display: inline-block;
   font-weight: 600;
+  line-height: 20px;
   color: #9095A3;
 `
 
+export const WalletNameInput = styled.input`
+  width: 100%;
+  height: 48px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #e1e6f0;
+`
+
+export const KeyLabelContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+
+  & > div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+`
+
 export const KeyInputContainer = styled.div`
+  margin-top: 12px;
   width: 100%;
   height: 108px;
   position: relative;
@@ -76,6 +106,7 @@ export const UploaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: #FFFFFF;
+
   :hover {
     background: rgba(0, 0, 0, 0.04);
     border-color: #F58300;
@@ -89,13 +120,10 @@ export const Uploader = styled.input`
   display: none;
 `
 
-export const ImportWalletTips = styled.div`
-  margin-top: 12px;
+export const ImportWalletErrorTip = styled.p`
+  margin: 12px 0 0;
   height: 20px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 4px;
+  color: #F54814;
 `
 
 export const Button = styled(SnapButton)`
@@ -108,13 +136,13 @@ export const Button = styled(SnapButton)`
 
   && {
     :hover {
-      background-color: #E1E6F0;
+      background-color: #F58300;
     }
 
     :disabled {
       cursor: not-allowed;
       color: #9095A3;
-      background-color: #F0F3FA;
+      background-color: #E1E6F0;
     }
   }
 `
