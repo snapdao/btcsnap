@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { ReactComponent as LightningIcon } from './image/lightning.svg';
-import CloseIcon from '../../Icons/CloseIcon';
 import {
-  CreateWalletModal,
   CreateContentTop,
   CreateContentBottom,
   CreateContent,
   CreateTitle,
   CreateInput,
   CreateLNWalletButton,
-  ImportLNWalletLink,
+  ImportLNWalletLink, CreateWalletContainer,
 } from './styles';
-import { CloseContainer, Header } from '../styles';
-import { TransitionablePortal } from 'semantic-ui-react';
+import { Header } from '../styles';
 import { useAppStore } from '../../../mobx';
 import LoadingIcon from '../../Icons/Loading';
 import RecoveryKey from './RecoveryKey';
 import { useLNWallet } from '../../../hook/useLNWallet';
 import { LNWalletStepStatus } from '../../../mobx/user';
+import { ImportWallet } from "../ImportWallet";
+import { Modal } from "../../../kits";
 
 const CreateWallet = observer(() => {
   const [walletName, setWalletName] = useState('');
+  const [showImport, setShowImport] = useState<boolean>(false);
+  const parentNode = useRef<HTMLDivElement>(null);
 
   const {
     lightning: { nextWalletName },
@@ -54,17 +55,12 @@ const CreateWallet = observer(() => {
   return (
     <>
       {!recoveryKey ? (
-        <TransitionablePortal
-          open={true}
-          transition={{ animation: 'fade up', duration: '300' }}>
-          <CreateWalletModal open={true}>
+        <Modal>
+          <CreateWalletContainer ref={parentNode}>
             <Header>
               <LightningIcon />
               <p>add lightning wallet</p>
             </Header>
-            <CloseContainer>
-              <CloseIcon onClick={close} />
-            </CloseContainer>
 
             <CreateContent>
               <CreateContentTop>
@@ -89,11 +85,24 @@ const CreateWallet = observer(() => {
                     'create lightning wallet'
                   )}
                 </CreateLNWalletButton>
-                <ImportLNWalletLink>import lightning wallet</ImportLNWalletLink>
+                <ImportLNWalletLink
+                  onClick={() => { setShowImport(true)}}
+                >
+                  import lightning wallet
+                </ImportLNWalletLink>
               </CreateContentBottom>
             </CreateContent>
-          </CreateWalletModal>
-        </TransitionablePortal>
+
+            {
+              showImport &&
+                <ImportWallet
+                  close={() => { setShowImport(false)}}
+                  onSucceed={close}
+                  parent={parentNode.current!}
+                />
+            }
+          </CreateWalletContainer>
+        </Modal>
       ) : (
         <RecoveryKey recoveryKey={recoveryKey} close={close} />
       )}
