@@ -8,25 +8,23 @@ import {
   CreateTitle,
   CreateInput,
   CreateLNWalletButton,
-  ImportLNWalletLink, CreateWalletContainer,
+  ImportLNWalletLink, ContentContainer,
 } from './styles';
 import { Header } from '../styles';
 import { useAppStore } from '../../../mobx';
 import LoadingIcon from '../../Icons/Loading';
 import RecoveryKey from './RecoveryKey';
 import { useLNWallet } from '../../../hook/useLNWallet';
-import { LNWalletStepStatus } from '../../../mobx/user';
 import { ImportWallet } from "../ImportWallet";
 import { Modal } from "../../../kits";
 
-const CreateWallet = observer(() => {
+const CreateWallet = observer(({close}: {close: () => void}) => {
   const [walletName, setWalletName] = useState('');
   const [showImport, setShowImport] = useState<boolean>(false);
   const parentNode = useRef<HTMLDivElement>(null);
 
   const {
     lightning: { nextWalletName },
-    user: { setLNWalletStep },
   } = useAppStore();
 
   const [recoveryKey, setRecoveryKey] = useState('');
@@ -48,15 +46,11 @@ const CreateWallet = observer(() => {
     }
   }
 
-  function close() {
-    setLNWalletStep(LNWalletStepStatus.Done);
-  }
-
   return (
     <>
       {!recoveryKey ? (
-        <Modal>
-          <CreateWalletContainer ref={parentNode}>
+        <Modal onClose={close}>
+          <ContentContainer ref={parentNode}>
             <Header>
               <LightningIcon />
               <p>add lightning wallet</p>
@@ -101,7 +95,7 @@ const CreateWallet = observer(() => {
                   parent={parentNode.current!}
                 />
             }
-          </CreateWalletContainer>
+          </ContentContainer>
         </Modal>
       ) : (
         <RecoveryKey recoveryKey={recoveryKey} close={close} />
