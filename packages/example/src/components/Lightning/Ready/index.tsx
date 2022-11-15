@@ -16,18 +16,21 @@ import { TransitionablePortal } from 'semantic-ui-react';
 import { useAppStore } from '../../../mobx';
 import { LNWalletStepStatus } from '../../../mobx/user';
 import { CloseContainer } from '../styles';
+import { useState } from "react";
+import CreateWallet from "../CreateWallet";
 
 const Ready = observer(() => {
   const {
     user: { setLNWalletStep },
   } = useAppStore();
+  const [shouldShowCreateWallet, setShouldShowCreateWallet] = useState<boolean>(false);
 
   function onToUserGuide() {
     setLNWalletStep(LNWalletStepStatus.UserGuide);
   }
 
   function onToCreateWallet() {
-    setLNWalletStep(LNWalletStepStatus.CreateWallet);
+    setShouldShowCreateWallet(true);
   }
 
   return (
@@ -58,6 +61,9 @@ const Ready = observer(() => {
             </StartButton>
           </ButtonsContainer>
         </LNSetupModalContent>
+        {
+          shouldShowCreateWallet && <CreateWallet close={() => {setShouldShowCreateWallet(false)}} />
+        }
       </LNSetupModal>
     </TransitionablePortal>
   );

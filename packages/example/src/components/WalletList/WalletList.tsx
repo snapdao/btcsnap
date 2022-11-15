@@ -15,20 +15,22 @@ import {
 import { observer } from 'mobx-react-lite';
 import { BitcoinNetwork, WalletType } from '../../interface';
 import { AddLightningWallet } from './AddLightningWallet';
-import { Popup } from '../../kits/Popup';
-import { LNWalletStepStatus } from '../../mobx/user';
+import { Popup } from '../../kits';
+import CreateWallet from "../Lightning/CreateWallet";
 
 export const WalletList = observer(({ open, close }: any) => {
   const {
     current,
     lightning,
-    user: { bitcoinUnit, setLNWalletStep },
+    user: { bitcoinUnit },
     switchToWallet,
     settings: { network },
     currentWalletType,
   } = useAppStore();
 
   const [visible, setVisible] = useState<boolean>(open);
+  const [shouldShowCreateWallet, setShouldShowCreateWallet] = useState<boolean>(false);
+
   const selectedWallet = useMemo(() => {
     if (lightning.hasLightningWallet) {
       return (
@@ -54,7 +56,7 @@ export const WalletList = observer(({ open, close }: any) => {
   }, [open]);
 
   function showCreateWallet() {
-    setLNWalletStep(LNWalletStepStatus.CreateWallet);
+    setShouldShowCreateWallet(true);
   }
 
   return (
@@ -136,6 +138,10 @@ export const WalletList = observer(({ open, close }: any) => {
             </WalletListContainer>
           </WalletListModal>
         </TransitionablePortal>
+
+        {
+          shouldShowCreateWallet && <CreateWallet close={() => {setShouldShowCreateWallet(false)}} />
+        }
       </AccountPageShadow>
     </CurrentPage>
   );

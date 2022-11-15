@@ -12,7 +12,6 @@ const SetupLightning = observer(() => {
   return (
     <>
       {LNWalletStep === LNWalletStepStatus.Ready && <Ready />}
-      {LNWalletStep === LNWalletStepStatus.CreateWallet && <CreateWallet />}
     </>
   );
 });

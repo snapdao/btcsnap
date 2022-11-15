@@ -9,7 +9,7 @@ import {
   GoToWalletButton,
   GoToWalletContainer,
   GoToWalletTip,
-  Mask,
+  Mask, RecoverKeyContainer,
   SavedCheckbox,
   Text,
   Title,
@@ -27,6 +27,8 @@ import { Header } from '../../styles';
 import { WalletType } from '../../../../interface';
 import { copyToClipboard } from '../../../../utils/clipboard';
 import { Message, MessageType } from '../../../../kits/Message';
+import { Modal } from "../../../../kits";
+import { ContentContainer } from "../styles";
 
 interface CreateWalletProps {
   close: () => void;
@@ -67,10 +69,8 @@ const RecoveryKey = observer(({ close, recoveryKey }: CreateWalletProps) => {
   }
 
   return (
-    <TransitionablePortal
-      open={true}
-      transition={{ animation: 'fade left', duration: '300' }}>
-      <WrapModal open={true}>
+    <Modal>
+      <RecoverKeyContainer>
         <Container>
           <Header>
             <KeyIcon />
@@ -118,8 +118,8 @@ const RecoveryKey = observer(({ close, recoveryKey }: CreateWalletProps) => {
             go to my wallet
           </GoToWalletButton>
         </Bottom>
-      </WrapModal>
-    </TransitionablePortal>
+      </RecoverKeyContainer>
+    </Modal>
   );
 });
 

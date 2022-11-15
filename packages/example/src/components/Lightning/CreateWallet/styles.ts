@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button as SnapButton } from 'snapkit';
 
-export const CreateWalletContainer = styled.div`
+export const ContentContainer = styled.div`
   padding-top: 20px;
 `
 
