@@ -43,7 +43,7 @@ export const Header = styled.div`
   justify-content: left;
   align-items: center;
   height: 40px;
-  margin: 20px 20px 0;
+  margin: 0 20px 0;
   p {
     height: 24px;
     text-transform: uppercase;
