@@ -24,6 +24,9 @@ const Lightning = types
       const index = (lastIndex && +lastIndex) || self.wallets.length;
       return index ? `${prefix} ${index + 1}` : prefix;
     },
+    getWalletByUserId(userId: string) {
+      return self.wallets.find(wallet => wallet.userId === userId);
+    }
   }))
   .actions((self) => ({
     createWallet(walletInfo: any): any {
