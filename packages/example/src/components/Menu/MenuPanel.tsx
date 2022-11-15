@@ -43,7 +43,7 @@ const MenuPanel = ({openSettingModal, close}: MenuPanelProps) => {
         </MenuItemLink>
       </MenuItem>
       <MenuItem onClick={close}>
-        <MenuItemLink href="https://keyst.one/discord" target="_blank" rel="noopener noreferrer">
+        <MenuItemLink href="https://guild.xyz/justsnap" target="_blank" rel="noopener noreferrer">
           <Discord />
           <MenuItemSpan>Feedback</MenuItemSpan>
         </MenuItemLink>
