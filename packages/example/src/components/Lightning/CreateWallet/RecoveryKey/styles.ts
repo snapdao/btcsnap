@@ -1,16 +1,6 @@
 import styled from 'styled-components';
-import { Modal, Checkbox } from 'semantic-ui-react';
+import { Checkbox } from 'semantic-ui-react';
 import { Button as SnapButton } from 'snapkit';
-
-export const WrapModal = styled(Modal)`
-  && {
-    position: relative;
-    width: 440px;
-    height: 640px;
-    background: #ffffff;
-    border-radius: 20px;
-  }
-`;
 
 export const RecoverKeyContainer = styled.div`
   display: flex;

@@ -21,7 +21,7 @@ import {
 } from './styles';
 import { AppStatus } from '../../mobx/runtime';
 import Joyride, { ACTIONS, Placement } from 'react-joyride';
-import Tooltip from '../Lightning/Tooltip';
+import { UserGuide } from '../Lightning';
 import { WalletList } from '../WalletList';
 import { WalletType } from '../../interface';
 
@@ -104,7 +104,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
                 borderRadius: 22,
               },
             }}
-            tooltipComponent={Tooltip}
+            tooltipComponent={UserGuide}
           />
           {!!current && (
             <AsideBitcoinContainer

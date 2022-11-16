@@ -14,6 +14,22 @@ export const CreateContentBottom = styled.div`
   padding: 32px;
 `;
 
+export const Header = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 40px;
+  margin: 0 20px 0;
+  p {
+    height: 24px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-left: 4px;
+  }
+`;
+
 export const CreateContent = styled.div`
   height: 580px;
   display: flex;
