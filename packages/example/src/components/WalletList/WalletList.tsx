@@ -139,9 +139,8 @@ export const WalletList = observer(({ open, close }: any) => {
           </WalletListModal>
         </TransitionablePortal>
 
-        {
-          shouldShowCreateWallet && <CreateWallet close={() => {setShouldShowCreateWallet(false)}} />
-        }
+        <CreateWallet open={shouldShowCreateWallet} close={() => {setShouldShowCreateWallet(false)}} />
+
       </AccountPageShadow>
     </CurrentPage>
   );

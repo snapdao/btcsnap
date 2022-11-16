@@ -3,6 +3,7 @@ import { ImportWallet as View } from './ImportWallet';
 import { LightningImportWalletModel } from "./model";
 
 export interface ImportWalletProps {
+  open: boolean;
   close: () => void;
   onSucceed: () => void;
   parent: HTMLElement;

@@ -15,11 +15,12 @@ import { ConfirmModalContent, ConfirmMainHeader } from "./styles";
 import { HighLight, InvoiceDescription, PrimaryButton } from "../styles";
 import { Popup } from "../../../../kits";
 
-export const ConfirmView = ({model, parentNode}: { model: LightningSendViewModel, parentNode: any }) => {
+export const ConfirmView = ({open, model, parentNode}: { open: boolean, model: LightningSendViewModel, parentNode: any }) => {
   const {hours, minutes} = model.expireTime;
 
   return (
     <ConfirmModal
+      open={open}
       close={() => {
         model.setIsConfirmModalOpen(false)
       }}
