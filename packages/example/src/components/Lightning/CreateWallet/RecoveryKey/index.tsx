@@ -14,21 +14,17 @@ import {
   Text,
   Title,
   Top,
-  WrapModal,
 } from './styles';
 import { ReactComponent as KeyIcon } from '../image/recoveryKey.svg';
 import { ReactComponent as EyeIcon } from '../image/eye.svg';
 import { ReactComponent as Download } from '../image/download.svg';
 import { ReactComponent as Copy } from '../image/copy.svg';
-import { TransitionablePortal } from 'semantic-ui-react';
 import saveData from '../../../../utils/save';
 import { useAppStore } from '../../../../mobx';
-import { Header } from '../../styles';
+import { Header } from '../styles';
 import { WalletType } from '../../../../interface';
 import { copyToClipboard } from '../../../../utils/clipboard';
-import { Message, MessageType } from '../../../../kits/Message';
-import { Modal } from "../../../../kits";
-import { ContentContainer } from "../styles";
+import { Message, MessageType, Modal } from '../../../../kits';
 
 interface CreateWalletProps {
   close: () => void;

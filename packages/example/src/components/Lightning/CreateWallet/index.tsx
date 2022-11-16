@@ -9,8 +9,8 @@ import {
   CreateInput,
   CreateLNWalletButton,
   ImportLNWalletLink, ContentContainer,
+  Header,
 } from './styles';
-import { Header } from '../styles';
 import { useAppStore } from '../../../mobx';
 import LoadingIcon from '../../Icons/Loading';
 import RecoveryKey from './RecoveryKey';
@@ -49,7 +49,7 @@ const CreateWallet = observer(({close}: {close: () => void}) => {
   return (
     <>
       {!recoveryKey ? (
-        <Modal onClose={close}>
+        <Modal close={close}>
           <ContentContainer ref={parentNode}>
             <Header>
               <LightningIcon />

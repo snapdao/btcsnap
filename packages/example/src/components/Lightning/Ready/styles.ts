@@ -103,3 +103,9 @@ export const ConfettiContainer = styled(Confetti)`
   inset: ${(props) => -(props.height! / 2 - 257)}px 0 0
     ${(props) => -(props.width! / 2 - 180)}px !important;
 `;
+
+export const CloseContainer = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+`;
