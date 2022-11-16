@@ -12,7 +12,7 @@ import {
   AccountLabel,
   CookieInfo,
 } from './styles';
-import LNSetupModal from '../Lightning';
+import { LNSetupModal } from '../Lightning';
 import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
 import { useCurrencyRate } from "../../hook/useCurrencyRate";

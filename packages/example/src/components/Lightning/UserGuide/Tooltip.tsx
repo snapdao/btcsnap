@@ -21,7 +21,7 @@ interface iPageTourModal {
 
 // Component of User guide component
 
-const Tooltip = ({
+export const Tooltip = ({
   continuous,
   index,
   isLastStep,
@@ -41,5 +41,3 @@ const Tooltip = ({
     </Container>
   );
 };
-
-export default Tooltip;

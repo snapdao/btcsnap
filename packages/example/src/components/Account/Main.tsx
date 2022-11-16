@@ -32,7 +32,7 @@ import ArrowRight from "../Icons/ArrowRight";
 import { bitcoinUnitMap } from "../../lib/unit"
 import SendIcon from "../Icons/SendIcon";
 import { satoshiToBTC } from "../../lib/helper";
-import { PayInvoice } from "../Lightning/PayInvoice";
+import { PayInvoice } from "../Lightning";
 
 export interface MainProps {
   balance: number; // Satoshi

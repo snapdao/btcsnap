@@ -119,6 +119,7 @@ export class LightningImportWalletModel {
     if(!this.loginAndPassword){
       return
     }
+    this.setImportResult(ImportWalletResult.Init);
 
     try {
       this.setIsImporting(true);
