@@ -1,12 +1,34 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:regular,semibold&subset=latin,latin-ext');
 
-html, body, h1, h2, h3, h4, h5, p, span, div, button, a {
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+:root {
+  --c-n80: #111214;
+  --c-n50: #9095A3;
+  --c-n60: #656D85;
+  --c-ntd20: rgba(0, 0, 0, 0.2);
+  --c-ntd40: rgba(0, 0, 0, 0.4);
+  --c-pri50: #F58300;
+  --c-ntl80: rgba(255, 255, 255, 0.8);
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+span,
+div,
+button,
+a {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
 }
 
 html {
-  background: #F0F3FA;
+  background: #f0f3fa;
 }
 
 body {
@@ -22,19 +44,19 @@ code {
 
 /* Override semantic ui Modal default styles */
 .ui.modals.page {
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .ui.modal {
   box-shadow: none;
 }
 
-
 /* Global styles */
 button:hover {
   transition: 0.25s;
 }
 
-p, span {
+p,
+span {
   line-height: 20px;
 }

@@ -1,20 +1,20 @@
 import React from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { Container, Label } from 'semantic-ui-react';
-import './index.css'
+import './index.css';
 
 type AddressBoxProps = {
   address?: string;
 };
 
-const AddressBox = ({address}: AddressBoxProps) => {
+const AddressBox = ({ address }: AddressBoxProps) => {
   if (address) {
     return (
-      <Container textAlign='center'>
+      <Container textAlign="center">
         <div className={'address-box'}>
           <QRCodeCanvas value={address as string} size={204} />
         </div>
-        <span className='address-label'>{address}</span>
+        <span className="address-label">{address}</span>
       </Container>
     );
   }

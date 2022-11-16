@@ -1,4 +1,4 @@
-export default function saveData(data: string, fileName: string) {
+export default function saveData(data: string | Blob, fileName: string) {
   const a = document.createElement('a');
   document.body.appendChild(a);
   a.style.display = 'none';
