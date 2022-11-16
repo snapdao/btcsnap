@@ -6,6 +6,7 @@ import { importWallet } from "../../../api/lightning/importWallet";
 import { createLNWallet } from "../../../services/LightningService/createLightningWallet";
 import { logger } from "../../../logger";
 import { getAppStore } from "../../../mobx";
+import { ILightningWallet } from "../../../mobx/types";
 
 enum ImportWalletResult {
   Init,
@@ -115,7 +116,7 @@ export class LightningImportWalletModel {
     }
   }
 
-  importLightningWallet = async () => {
+  importLightningWallet = async (applyWallet: (newWallet: ILightningWallet) => void) => {
     if(!this.loginAndPassword){
       return
     }
@@ -126,10 +127,10 @@ export class LightningImportWalletModel {
       const pubkey = await getLNWalletData(KeyOptions.PubKey);
       const {login, password} = this.loginAndPassword;
       const {userId, userPassword} = await importWallet(pubkey!, login, password);
-      const newWallet = createLNWallet(userId, userPassword, {login, password}, this.walletName)
+      const newWallet = await createLNWallet(userId, userPassword, {login, password}, this.walletName);
       this.setImportResult(ImportWalletResult.Succeed);
       this.setIsImporting(false);
-      return newWallet;
+      await applyWallet(newWallet);
     } catch (e) {
       this.setImportResult(ImportWalletResult.Failed);
       this.setIsImporting(false);

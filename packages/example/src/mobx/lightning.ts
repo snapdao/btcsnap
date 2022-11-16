@@ -1,5 +1,6 @@
 import { types } from 'mobx-state-tree';
 import LightningWallet from './lightningWallet';
+import { ILightningWallet, ILightningWalletIn } from "./types";
 
 export const lightningInitialState = {
   wallets: [],
@@ -29,7 +30,7 @@ const Lightning = types
     }
   }))
   .actions((self) => ({
-    createWallet(walletInfo: any): any {
+    createWallet(walletInfo: ILightningWalletIn): ILightningWallet {
       const wallet = self.wallets.find(
         (wallet) => wallet.userId === walletInfo.userId,
       );
