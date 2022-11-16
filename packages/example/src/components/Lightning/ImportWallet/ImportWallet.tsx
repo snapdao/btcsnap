@@ -20,6 +20,7 @@ import { LightningImportWalletModel } from "./model";
 import { observer } from "mobx-react-lite";
 import { ImportWalletProps } from "./index";
 import { WalletType } from "../../../interface";
+import { ILightningWallet } from "../../../mobx/types";
 
 interface Props extends ImportWalletProps {
   model: LightningImportWalletModel
@@ -27,6 +28,11 @@ interface Props extends ImportWalletProps {
 
 export const ImportWallet = observer(({open, close, parent, onSucceed, model}: Props) => {
   const {lightning, switchWalletType} = useAppStore();
+  const applyWallet = (newWallet: ILightningWallet) => {
+    lightning.applyWallet(newWallet);
+    switchWalletType(WalletType.LightningWallet);
+    onSucceed();
+  }
 
   return (
     <ImportWalletModal open={open} close={close} mountNode={parent}>
@@ -84,13 +90,7 @@ export const ImportWallet = observer(({open, close, parent, onSucceed, model}: P
         <Button
           primary
           disabled={!model.isReadyToImport}
-          onClick={() => {
-            model.importLightningWallet().then(newWallet => {
-              lightning.applyWallet(newWallet);
-              switchWalletType(WalletType.LightningWallet);
-              onSucceed();
-            })
-          }}
+          onClick={() => model.importLightningWallet(applyWallet)}
         >
           {model.isImporting ? <LoadingIcon spin/> : 'Import'}
         </Button>
