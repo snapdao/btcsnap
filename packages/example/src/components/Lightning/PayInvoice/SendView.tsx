@@ -29,12 +29,12 @@ import { ConfirmView } from "./ConfirmView";
 import { Loader, Modal as SemanticModal } from "semantic-ui-react";
 import { Modal, Popup, Message, MessageType } from "../../../kits";
 
-export const SendView = observer(({model, close}: { model: LightningSendViewModel, close: () => void }) => {
+export const SendView = observer(({open, model, close}: { open: boolean, model: LightningSendViewModel, close: () => void }) => {
   const {hours, minutes} = model.expireTime;
   const sendModalRef = useRef<any>();
 
   return (
-    <Modal close={close}>
+    <Modal open={open} close={close}>
       <LightningSendContainer ref={sendModalRef}>
         <SendModalContent>
           <LightningSendMainContainer>
@@ -135,9 +135,9 @@ export const SendView = observer(({model, close}: { model: LightningSendViewMode
             </ButtonsContainer>
           </LightningSendSecondaryContainer>
         </SendModalContent>
-        {
-          model.isConfirmModalOpen && <ConfirmView model={model} parentNode={sendModalRef.current}/>
-        }
+
+        <ConfirmView open={model.isConfirmModalOpen} model={model} parentNode={sendModalRef.current}/>
+
         <SemanticModal open={model.showMetaMaskTips} style={{backgroundColor: 'transparent'}}>
           <Loader/>
           <MetaMaskInteractionTips>Continue at MetaMask</MetaMaskInteractionTips>

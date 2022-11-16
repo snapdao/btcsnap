@@ -18,7 +18,7 @@ import { useLNWallet } from '../../../hook/useLNWallet';
 import { ImportWallet } from "../ImportWallet";
 import { Modal } from "../../../kits";
 
-const CreateWallet = observer(({close}: {close: () => void}) => {
+const CreateWallet = observer(({open, close}: {open: boolean; close: () => void}) => {
   const [walletName, setWalletName] = useState('');
   const [showImport, setShowImport] = useState<boolean>(false);
   const parentNode = useRef<HTMLDivElement>(null);
@@ -49,7 +49,7 @@ const CreateWallet = observer(({close}: {close: () => void}) => {
   return (
     <>
       {!recoveryKey ? (
-        <Modal close={close}>
+        <Modal open={open} close={close}>
           <ContentContainer ref={parentNode}>
             <Header>
               <LightningIcon />
@@ -87,14 +87,15 @@ const CreateWallet = observer(({close}: {close: () => void}) => {
               </CreateContentBottom>
             </CreateContent>
 
-            {
-              showImport &&
-                <ImportWallet
-                  close={() => { setShowImport(false)}}
-                  onSucceed={close}
-                  parent={parentNode.current!}
-                />
-            }
+            <ImportWallet
+              open={showImport}
+              close={() => { setShowImport(false)}}
+              onSucceed={() => {
+                setShowImport(false);
+                close();
+              }}
+              parent={parentNode.current!}
+            />
           </ContentContainer>
         </Modal>
       ) : (
