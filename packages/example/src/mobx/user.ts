@@ -4,7 +4,6 @@ import { BitcoinUnit } from '../interface';
 export enum LNWalletStepStatus {
   Default,
   Ready,
-  CreateWallet,
   UserGuide,
   Done,
 }

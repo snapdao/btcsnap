@@ -25,11 +25,11 @@ interface Props extends ImportWalletProps {
   model: LightningImportWalletModel
 }
 
-export const ImportWallet = observer(({close, parent, onSucceed, model}: Props) => {
+export const ImportWallet = observer(({open, close, parent, onSucceed, model}: Props) => {
   const {lightning, switchWalletType} = useAppStore();
 
   return (
-    <ImportWalletModal close={close} mountNode={parent}>
+    <ImportWalletModal open={open} close={close} mountNode={parent}>
       <ImportWalletContainer>
         <ImportWalletHeader>
           Import Lightning Wallet

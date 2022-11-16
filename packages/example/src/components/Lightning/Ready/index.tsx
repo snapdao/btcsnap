@@ -65,9 +65,7 @@ export const Ready = observer(() => {
             </StartButton>
           </ButtonsContainer>
         </LNSetupModalContent>
-        {
-          shouldShowCreateWallet && <CreateWallet close={() => {setShouldShowCreateWallet(false)}} />
-        }
+        <CreateWallet open={shouldShowCreateWallet} close={() => {setShouldShowCreateWallet(false)}} />
       </LNSetupModal>
     </TransitionablePortal>
   );
