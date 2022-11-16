@@ -19,53 +19,41 @@ import {
   Tip,
   AmountBox,
   Description,
+  DownloadHiddenModal,
 } from './styles';
 
 export const DownloadModal = observer(
-  forwardRef(
-    (
-      { model, open = false }: { model: ReceiveViewModel; open?: boolean },
-      ref: any,
-    ) => {
-      return (
-        <Modal
-          style={{
-            width: 440,
-            borderRadius: '20px',
-            position: 'relative',
-          }}
-          open={open}
-          ref={ref}>
-          <ModalBackground style={{ height: 304 }}>
-            <ModalHeader>
-              <H3>Lightning Invoice</H3>
-            </ModalHeader>
-            <AddressContainer
-              style={{ marginTop: 24, width: 360, height: 360 }}>
-              <ContainerMask noHover>
-                <LightningIcon />
-              </ContainerMask>
-              <QRCodeCanvas value={model.qrcode} size={320} />
-            </AddressContainer>
-          </ModalBackground>
-          <Container style={{ marginTop: 156 }}>
-            <FlexCenter style={{ width: '100%', flexDirection: 'column' }}>
-              <Tip>Please Pay</Tip>
-              <AmountBox>
-                <Amount>{model.amount}</Amount>
-                <Unit>{model.mainUnit}</Unit>
-              </AmountBox>
-              <Description>{model.description}</Description>
-              <Footer>
-                <BitcoinIcon size={20} />
-                <Caption style={{ color: 'var(--c-n60)', marginLeft: 8 }}>
-                  btc.justsnap.io
-                </Caption>
-              </Footer>
-            </FlexCenter>
-          </Container>
-        </Modal>
-      );
-    },
-  ),
+  forwardRef(({ model }: { model: ReceiveViewModel }, ref: any) => {
+    return (
+      <DownloadHiddenModal ref={ref}>
+        <ModalBackground style={{ height: 304 }}>
+          <ModalHeader>
+            <H3>Lightning Invoice</H3>
+          </ModalHeader>
+          <AddressContainer style={{ marginTop: 24, width: 360, height: 360 }}>
+            <ContainerMask noHover>
+              <LightningIcon />
+            </ContainerMask>
+            <QRCodeCanvas value={model.qrcode} size={320} />
+          </AddressContainer>
+        </ModalBackground>
+        <Container style={{ marginTop: 156 }}>
+          <FlexCenter style={{ width: '100%', flexDirection: 'column' }}>
+            <Tip>Please Pay</Tip>
+            <AmountBox>
+              <Amount>{model.amount}</Amount>
+              <Unit>{model.mainUnit}</Unit>
+            </AmountBox>
+            <Description>{model.description}</Description>
+            <Footer>
+              <BitcoinIcon size={20} />
+              <Caption style={{ color: 'var(--c-n60)', marginLeft: 8 }}>
+                btc.justsnap.io
+              </Caption>
+            </Footer>
+          </FlexCenter>
+        </Container>
+      </DownloadHiddenModal>
+    );
+  }),
 );
