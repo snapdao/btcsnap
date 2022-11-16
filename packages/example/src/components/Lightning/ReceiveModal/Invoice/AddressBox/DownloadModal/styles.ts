@@ -1,0 +1,40 @@
+import { Container as BaseContainer } from 'semantic-ui-react';
+import { FlexCenter } from './../../../../../Layout/Flex/index';
+import styled from 'styled-components';
+import { Big, Body, Caption } from './../../../../../Layout/Text/Body/index';
+
+export const Container = styled(BaseContainer)`
+  position: relative;
+`;
+
+export const AmountBox = styled(FlexCenter)`
+  margin-top: 4px;
+  align-items: baseline;
+`;
+
+export const Amount = styled(Big)`
+  color: var(--c-n80);
+`;
+
+export const Tip = styled(Caption)`
+  color: var(--c-n60);
+`;
+
+export const Description = styled(Body).attrs({
+  as: 'p',
+})`
+  overflow: inherit;
+  display: inline-block;
+  color: var(--c-n60);
+  width: auto;
+  max-width: 100%;
+  overflow: hidden;
+  margin: 16px 0 80px;
+  padding: 0 32px;
+  overflow-wrap: break-word;
+`;
+
+export const Footer = styled(FlexCenter)`
+  position: absolute;
+  bottom: 20px;
+`;
