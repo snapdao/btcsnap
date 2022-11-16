@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { QRCodeCanvas } from 'qrcode.react';
-import { Ref, RefObject, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import { useEffect, useRef, useState } from 'react';
+import { Ref } from 'semantic-ui-react';
 import html2canvas from 'html2canvas';
 import { Message } from '../../../../../kits';
 import { copyToClipboard } from '../../../../../utils/clipboard';
@@ -14,7 +14,6 @@ import {
   Container,
   AddressContainer,
   AddressLabel,
-  DownloadContainer,
   ContainerMask,
 } from './styles';
 import saveData from '../../../../../utils/save';
@@ -28,7 +27,7 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [copyStatus, setCopyStatus] = useState(false);
 
-  const downloadDomRef = useRef<{ ref: RefObject<HTMLElement> }>();
+  const downloadDomRef = useRef<any>();
 
   async function onCopy() {
     const res = await copyToClipboard({ text: model.qrcode });
@@ -43,8 +42,8 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
 
   useEffect(() => {
     async function generate() {
-      if (!downloadDomRef?.current?.ref?.current) return;
-      const canvas = await html2canvas(downloadDomRef.current.ref.current);
+      if (!downloadDomRef?.current) return;
+      const canvas = await html2canvas(downloadDomRef.current);
       canvas.toBlob((blob) => {
         if (blob) {
           saveData(blob, 'lightning-invoice.jpg');
@@ -53,7 +52,7 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
       setShowDownloadModal(false);
     }
     generate();
-  }, [downloadDomRef?.current?.ref?.current]);
+  }, [downloadDomRef?.current]);
 
   if (model.qrcode) {
     return (
@@ -82,11 +81,11 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
             Copied to clipboard
           </Message>
         )}
-        <DownloadModal
-          ref={downloadDomRef}
-          open={showDownloadModal}
-          model={model}
-        />
+        {showDownloadModal && (
+          <Ref innerRef={downloadDomRef}>
+            <DownloadModal model={model} />
+          </Ref>
+        )}
       </>
     );
   }
