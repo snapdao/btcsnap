@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import LightningSendViewModel from "./model";
 import { SendStatus } from "./types";
 import { SendView } from "./SendView";
@@ -16,6 +16,9 @@ export const PayInvoice = observer(({close, balance, exchangeRate}: PayInvoicePr
     return new LightningSendViewModel(balance, exchangeRate);
   }, []);
 
+  useEffect(() => {
+    model.setExchangeRate(exchangeRate);
+  }, [exchangeRate])
   return (
     <>
       {

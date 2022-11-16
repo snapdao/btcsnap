@@ -53,6 +53,7 @@ export const ImportWallet = observer(({close, parent, onSucceed, model}: Props) 
           </KeyLabelContainer>
           <KeyInputContainer>
             <KeyInput
+              autoFocus
               id='credential'
               placeholder={'Enter or paste the Lightning wallet key here'}
               onChange={model.onCredentialInputChanged}
