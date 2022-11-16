@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useAppStore } from "../../mobx";
-import { BitcoinNetwork, BitcoinUnit, WalletType } from "../../interface";
+import { useAppStore } from '../../mobx';
+import { BitcoinNetwork, BitcoinUnit, WalletType } from '../../interface';
 import SendModal from '../SendModal';
-import ReceiveModal from '../ReceiveModal'
+import ReceiveModal from '../ReceiveModal';
 import AccountDetail from './Details';
 import {
   AccountMain,
@@ -22,17 +22,18 @@ import {
   CurrencyContainer,
   LogoContainer,
   TestnetSpan,
-  MarketPrice
-} from './styles'
+  MarketPrice,
+} from './styles';
 
-import { ReactComponent as Logo } from "./image/logo.svg";
-import { ReactComponent as LogoTestnet } from "./image/logo-testnet.svg";
-import ReceiveIcon from "../Icons/ReceiveIcon";
-import ArrowRight from "../Icons/ArrowRight";
-import { bitcoinUnitMap } from "../../lib/unit"
-import SendIcon from "../Icons/SendIcon";
-import { satoshiToBTC } from "../../lib/helper";
-import { PayInvoice } from "../Lightning";
+import { ReactComponent as Logo } from './image/logo.svg';
+import { ReactComponent as LogoTestnet } from './image/logo-testnet.svg';
+import ReceiveIcon from '../Icons/ReceiveIcon';
+import ArrowRight from '../Icons/ArrowRight';
+import { bitcoinUnitMap } from '../../lib/unit';
+import SendIcon from '../Icons/SendIcon';
+import { satoshiToBTC } from '../../lib/helper';
+import { PayInvoice } from '../Lightning/PayInvoice';
+import LightningReceiveModal from '../Lightning/ReceiveModal';
 
 export interface MainProps {
   balance: number; // Satoshi
@@ -41,61 +42,87 @@ export interface MainProps {
 enum MainModal {
   Send,
   Receive,
-  Details
+  Details,
 }
 
-const Main = observer(({balance}: MainProps) => {
-  const { settings: { network }, current, currentUnit, updateCurrentWalletUnit, currentWalletType, runtime: {continueConnect, currencyRate}} = useAppStore();
+const Main = observer(({ balance }: MainProps) => {
+  const {
+    settings: { network },
+    current,
+    currentUnit,
+    updateCurrentWalletUnit,
+    currentWalletType,
+    runtime: { continueConnect, currencyRate },
+  } = useAppStore();
   const unit = bitcoinUnitMap[network];
-  const [openedModal, setOpenedModal] = useState<MainModal | null>(null)
-  const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC);
-  const currentBalance = currentUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
+  const [openedModal, setOpenedModal] = useState<MainModal | null>(null);
+  const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(
+    currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC,
+  );
+  const currentBalance =
+    currentUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
 
-  const openModal = useCallback((modal: MainModal) => {
-    if(!current) {
-      continueConnect();
-      return
-    }
-    setOpenedModal(modal);
-  }, [current])
+  const openModal = useCallback(
+    (modal: MainModal) => {
+      if (!current) {
+        continueConnect();
+        return;
+      }
+      setOpenedModal(modal);
+    },
+    [current],
+  );
 
   const closeModal = useCallback(() => {
     setOpenedModal(null);
-  }, [])
+  }, []);
 
   const switchUnits = () => {
-    if(!current) {
+    if (!current) {
       continueConnect();
-      return
+      return;
     }
     updateCurrentWalletUnit(secondaryUnit);
     setSecondaryUnit(currentUnit);
-  }
+  };
 
   useEffect(() => {
-    setSecondaryUnit(currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC);
-  }, [currentWalletType])
+    setSecondaryUnit(
+      currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC,
+    );
+  }, [currentWalletType]);
 
   return (
     <AccountMain>
       <LogoContainer>
-        {network === BitcoinNetwork.Main
-          ? <Logo />
-          : <><LogoTestnet /><TestnetSpan>Testnet</TestnetSpan></>
-        }
+        {network === BitcoinNetwork.Main ? (
+          <Logo />
+        ) : (
+          <>
+            <LogoTestnet />
+            <TestnetSpan>Testnet</TestnetSpan>
+          </>
+        )}
       </LogoContainer>
 
       <BalanceContainer>
         <BalanceLabel>current balance</BalanceLabel>
         <BalanceLeftItem>
-          <BalanceLeftLabel onClick={() => {openModal(MainModal.Details)}}>
+          <BalanceLeftLabel
+            onClick={() => {
+              openModal(MainModal.Details);
+            }}>
             {currentBalance} {unit[currentUnit]}
           </BalanceLeftLabel>
-          <BalanceLeftArrow><ArrowRight size={25}/></BalanceLeftArrow>
+          <BalanceLeftArrow>
+            <ArrowRight size={25} />
+          </BalanceLeftArrow>
         </BalanceLeftItem>
         <BalanceRightItem>
           <BalanceRightLine>/</BalanceRightLine>
-          <BalanceRightLabel onClick={switchUnits}>{unit[secondaryUnit]}</BalanceRightLabel>
+          <BalanceRightLabel onClick={switchUnits}>
+            {unit[secondaryUnit]}
+          </BalanceRightLabel>
         </BalanceRightItem>
         <CurrencyContainer isTestnet={network === BitcoinNetwork.Test}>
           ≈ {(satoshiToBTC(balance) * currencyRate).toFixed(2)} USD
@@ -103,13 +130,19 @@ const Main = observer(({balance}: MainProps) => {
       </BalanceContainer>
 
       <ActionContainer>
-        <ActionContainerItem onClick={() => {openModal(MainModal.Send)}}>
+        <ActionContainerItem
+          onClick={() => {
+            openModal(MainModal.Send);
+          }}>
           <ActionButton>
             <SendIcon size={48} />
           </ActionButton>
           <ActionLabel>send</ActionLabel>
         </ActionContainerItem>
-        <ActionContainerItem onClick={() => {openModal(MainModal.Receive)}}>
+        <ActionContainerItem
+          onClick={() => {
+            openModal(MainModal.Receive);
+          }}>
           <ActionButton>
             <ReceiveIcon size={48} />
           </ActionButton>
@@ -121,36 +154,48 @@ const Main = observer(({balance}: MainProps) => {
         Market Price: <span>{currencyRate} USD</span>
       </MarketPrice>
 
-      { openedModal === MainModal.Details &&
+      {openedModal === MainModal.Details && (
         <AccountDetail
           open={openedModal === MainModal.Details}
           balance={currentBalance}
           unit={unit[currentUnit]}
           close={closeModal}
         />
-      }
+      )}
 
-      { openedModal === MainModal.Send ? (
-          currentWalletType === WalletType.BitcoinWallet 
-            ? (
-              <SendModal
-                network={network}
-                unit={currentUnit}
-                scriptType={current?.scriptType!}
-                close={closeModal}
-                currencyRate={currencyRate}
-              />
-            ) : (
-              <PayInvoice
-                balance={balance}
-                close={closeModal}
-                exchangeRate={currencyRate}
-              />
-            )
-        ) : null
-      }
+      {openedModal === MainModal.Send ? (
+        currentWalletType === WalletType.BitcoinWallet ? (
+          <SendModal
+            network={network}
+            unit={currentUnit}
+            scriptType={current?.scriptType!}
+            close={closeModal}
+            currencyRate={currencyRate}
+          />
+        ) : (
+          <PayInvoice
+            balance={balance}
+            close={closeModal}
+            exchangeRate={currencyRate}
+          />
+        )
+      ) : null}
 
-      { openedModal === MainModal.Receive && <ReceiveModal open={openedModal === MainModal.Receive} close={closeModal}/> }
+      {openedModal === MainModal.Receive &&
+        {
+          [WalletType.BitcoinWallet]: (
+            <ReceiveModal
+              open={openedModal === MainModal.Receive}
+              close={closeModal}
+            />
+          ),
+          [WalletType.LightningWallet]: (
+            <LightningReceiveModal
+              close={closeModal}
+              currencyRate={currencyRate}
+            />
+          ),
+        }[currentWalletType]}
     </AccountMain>
   );
 });
