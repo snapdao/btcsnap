@@ -1,7 +1,18 @@
+import { Card } from 'semantic-ui-react';
 import { Container as BaseContainer } from 'semantic-ui-react';
 import { FlexCenter } from './../../../../../Layout/Flex/index';
 import styled from 'styled-components';
 import { Big, Body, Caption } from './../../../../../Layout/Text/Body/index';
+
+export const DownloadHiddenModal = styled(Card)`
+  &&& {
+    position: fixed;
+    top: -100vh;
+    width: 440px;
+    border-radius: 20px;
+    box-shadow: 0 !important;
+  }
+`;
 
 export const Container = styled(BaseContainer)`
   position: relative;
