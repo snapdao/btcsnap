@@ -34,7 +34,7 @@ export class LightningImportWalletModel {
       return '';
     }
     if(!this.isCredentialValid){
-      return 'Invalid Lightning Wallet Key File';
+      return 'Invalid Lightning Wallet Key';
     }
     if(this.isWalletExist){
       return 'Wallet Already Exists';

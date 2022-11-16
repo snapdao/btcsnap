@@ -45,6 +45,10 @@ class LightningSendViewModel {
     this.isConfirmModalOpen = flag;
   };
 
+  setExchangeRate = (exchangeRate: number) => {
+    this.exchangeRate = exchangeRate;
+  }
+
   setInvoice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputInvoice = event.target.value;
     this.invoice = inputInvoice;
