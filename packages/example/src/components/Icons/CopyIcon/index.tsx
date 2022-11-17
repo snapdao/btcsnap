@@ -7,7 +7,7 @@ const CopyIcon = ({
   onClick,
 }: {
   size?: number;
-  style: CSSProperties;
+  style?: CSSProperties;
   onClick?: () => void;
 }) => {
   return (

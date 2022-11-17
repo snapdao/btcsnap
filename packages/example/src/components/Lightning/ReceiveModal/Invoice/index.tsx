@@ -69,15 +69,11 @@ const LightningReceiveQRCodeModal = observer(
               <Amount>{model.amountText}</Amount>
               <Unit>{model.defaultUnit}</Unit>
             </FlexCenter>
-            <FlexCenter>
-              <FlexBetween
-                style={{
-                  minWidth: model.isShowCurrency ? 246 : 0,
-                  gap: '0 10px',
-                }}>
+            <FlexCenter style={{ marginTop: 8 }}>
+              <FlexBetween style={{ gap: '0 24px' }}>
                 {model.isShowCurrency && (
                   <div>
-                    <CaptionN80>{model.amount}</CaptionN80>:{' '}
+                    <CaptionN80>{model.amount}</CaptionN80>{' '}
                     <CaptionN60>USD</CaptionN60>
                   </div>
                 )}

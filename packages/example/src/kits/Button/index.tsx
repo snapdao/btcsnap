@@ -1,10 +1,11 @@
-import { Button as BaseButton, ButtonProps } from 'snapkit';
+import { ButtonProps } from 'snapkit';
 import LoadingIcon from '../../components/Icons/Loading';
+import { ButtonWrap } from './styles';
 
 export const Button = ({ loading, children, ...args }: ButtonProps) => {
   return (
-    <BaseButton {...args}>
+    <ButtonWrap {...args}>
       {loading ? <LoadingIcon spin /> : children}
-    </BaseButton>
+    </ButtonWrap>
   );
 };

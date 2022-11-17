@@ -79,7 +79,7 @@ const LightningReceiveCreateModal = observer(
                 }}
                 value={model.description}
                 onChange={(ev: ChangeEvent<HTMLTextAreaElement>) => {
-                  let value = ev.target.value.trim();
+                  let value = ev.target.value;
                   value = value.replaceAll(/\n/g, '');
                   if (value.length > 250) return;
                   model.onChangeDescription(value);
@@ -106,7 +106,7 @@ const LightningReceiveCreateModal = observer(
                     primary
                     disabled={
                       !model.amount ||
-                      model.amount === '0' ||
+                      Number(model.amount) === 0 ||
                       !model.currencyRate ||
                       model.isCreating
                     }>
