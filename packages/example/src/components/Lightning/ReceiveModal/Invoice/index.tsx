@@ -58,7 +58,7 @@ const LightningReceiveQRCodeModal = observer(
           borderRadius: '20px',
           position: 'relative',
         }}
-        onClose={close}
+        close={close}
         open={true}
         closeOnDimmerClick={false}>
         <ModalBackground>
