@@ -3,9 +3,11 @@ import React from 'react';
 const LightningIcon = ({
   size = 48,
   onClick,
+  className = '',
 }: {
   size?: number;
   onClick?: () => void;
+  className?: string;
 }) => {
   return (
     <svg
@@ -14,6 +16,7 @@ const LightningIcon = ({
       viewBox="0 0 48 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={`lightning-icon ${className}`}
       onClick={onClick}>
       <rect
         x="1"

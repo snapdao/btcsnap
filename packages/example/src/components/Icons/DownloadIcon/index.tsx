@@ -17,6 +17,7 @@ const DownloadIcon = ({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={style}
+      className="download-icon"
       onClick={onClick}>
       <rect width="48" height="48" rx="14" fill="white" fillOpacity="0.8" />
       <path

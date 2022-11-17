@@ -8,6 +8,7 @@ import { ChangeEvent, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 import { useAppStore } from '../../../mobx';
+import { BitcoinUnit } from '../../../interface';
 
 type AmountInputProps = {
   model: ReceiveViewModel;
@@ -67,7 +68,33 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
         onChange={(ev: ChangeEvent<HTMLInputElement>) => {
           const value = ev.target.value.trim();
           const banList = ['-', '00'].includes(value);
-          if (!numberReg.test(value) || banList || Number(value) < 0) return;
+          const [int, dec] = value.split('.');
+          console.log('%c Line:71 🥑 int', 'color:#ea7e5c', int);
+          console.log('%c Line:71 🍋 dec', 'color:#ffdd4d', dec);
+
+          const isBTC = model.currUnit === BitcoinUnit.BTC;
+          const isSatoshi = model.currUnit === BitcoinUnit.Sats;
+          const currDecMaxLen = {
+            [BitcoinUnit.BTC]: 8,
+            [BitcoinUnit.Currency]: 2,
+            [BitcoinUnit.Sats]: 0,
+          }[model.currUnit];
+          const intMaxLen = int.length > (isBTC ? 2 : 9);
+          const decMaxLen = dec && dec.length > currDecMaxLen;
+          console.log('%c Line:83 🍭 decMaxLen', 'color:#ea7e5c', decMaxLen);
+
+          const isDisDotInput = isSatoshi && value?.at(-1) === '.';
+
+          if (
+            !numberReg.test(value) ||
+            banList ||
+            Number(value) < 0 ||
+            intMaxLen ||
+            decMaxLen ||
+            isDisDotInput
+          )
+            return;
+
           model.onChangeAmount(value);
         }}
         placeholder="0"

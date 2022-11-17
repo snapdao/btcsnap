@@ -15,8 +15,22 @@ export const ContainerMask = styled.div<{
   align-items: center;
   width: 100%;
   height: 100%;
-  transition: background 0.25s;
+  transition: all 0.25s;
   cursor: pointer;
+  &:hover {
+    backdrop-filter: blur(2.5px);
+    > {
+      .lightning-icon {
+        opacity: 0;
+      }
+      .download-icon {
+        opacity: 1;
+      }
+    }
+  }
+  > .download-icon {
+    opacity: 0;
+  }
   ${(props) =>
     !props?.noHover &&
     css`
@@ -26,7 +40,9 @@ export const ContainerMask = styled.div<{
     `}
 
   > svg {
+    position: absolute;
     pointer-events: none;
+    transition: all 0.25s !important;
   }
 `;
 
@@ -59,6 +75,11 @@ export const AddressLabel = styled.div`
   background: #f0f3fa;
   border-radius: 16px;
   height: 48px;
+  transition: background 0.25s;
+  cursor: pointer;
+  &:hover {
+    background: var(--sk-color-n30);
+  }
   > span {
     text-align: left;
     width: 100%;

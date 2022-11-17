@@ -67,17 +67,14 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
               }}
               onMouseLeave={() => setShowDownloadIcon(false)}
               onClick={onDownload}>
-              {showDownloadIcon ? (
-                <DownloadIcon style={{ color: 'var(--sk-color-b60)' }} />
-              ) : (
-                <LightningIcon />
-              )}
+              <DownloadIcon style={{ color: 'var(--sk-color-b60)' }} />
+              <LightningIcon />
             </ContainerMask>
             <QRCodeCanvas value={model.qrcode} size={256} />
           </AddressContainer>
-          <AddressLabel>
+          <AddressLabel onClick={onCopy}>
             <span>{model.qrcode}</span>
-            <CopyIcon onClick={onCopy} style={{ cursor: 'pointer' }} />
+            <CopyIcon />
           </AddressLabel>
         </Container>
         {copyStatus && (
