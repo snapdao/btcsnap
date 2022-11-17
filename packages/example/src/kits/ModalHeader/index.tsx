@@ -6,14 +6,22 @@ interface Props {
   left?: ReactNode;
   children?: ReactNode;
   onClose?: () => void;
+  showCloseIcon?: boolean;
 }
 
-const ModalHeader = ({ left, children, onClose }: Props) => {
+const ModalHeader = ({
+  left,
+  children,
+  onClose,
+  showCloseIcon = true,
+}: Props) => {
   return (
     <Container>
       <Left>{left}</Left>
       <Content>{children}</Content>
-      <Right>{onClose && <CloseIcon onClick={onClose} />}</Right>
+      <Right>
+        {onClose && showCloseIcon && <CloseIcon onClick={onClose} />}
+      </Right>
     </Container>
   );
 };

@@ -55,6 +55,7 @@ const LightningReceiveCreateModal = observer(
                   <H3 style={{ marginLeft: 4 }}>RECEIVE</H3>
                 </>
               }
+              showCloseIcon={!model.isCreating}
               onClose={() => close()}
             />
             <Container style={{ padding: 32 }}>
@@ -87,8 +88,12 @@ const LightningReceiveCreateModal = observer(
                 <Grid.Column width={8}>
                   <Button
                     onClick={onCreate}
-                    loading={!model.currencyRate}
-                    disabled={!model.amountText || !model.currencyRate}>
+                    loading={!model.currencyRate || model.isCreating}
+                    disabled={
+                      !model.amountText ||
+                      !model.currencyRate ||
+                      model.isCreating
+                    }>
                     <H3>Create Invoice</H3>
                   </Button>
                 </Grid.Column>

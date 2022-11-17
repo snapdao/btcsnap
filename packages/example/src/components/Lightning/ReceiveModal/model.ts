@@ -22,6 +22,7 @@ class ReceiveViewModel {
   currUnit: BitcoinUnit = BitcoinUnit.Sats;
   defaultUnit: BitcoinUnit = BitcoinUnit.Sats;
 
+  isCreating = false;
   qrcode = '';
   expiredDate: number = 0;
 
@@ -116,9 +117,27 @@ class ReceiveViewModel {
     this.step = step;
   }
 
+  getSatoshiFromAmount() {
+    if (this.amountText === '' || !this.currencyRate) return 0;
+    const amountNumber = BigNumber(this.amount).toNumber();
+
+    return (
+      {
+        [BitcoinUnit.BTC]: btcToSatoshi(amountNumber),
+        [BitcoinUnit.Currency]: {
+          [BitcoinUnit.BTC]: btcToSatoshi(
+            BigNumber(this.secondAmountText).toNumber(),
+          ),
+          [BitcoinUnit.Sats]: BigNumber(this.secondAmountText).toNumber(),
+        }[this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>],
+      }[this.currUnit as Exclude<BitcoinUnit, BitcoinUnit.Sats>] || amountNumber
+    );
+  }
+
   async onCreateReceive() {
+    this.isCreating = true;
     const res = await addInvoice({
-      amount: BigNumber(this.amount).toNumber(),
+      amount: this.getSatoshiFromAmount(),
       memo: this.description,
     });
     const decodeData = lightningPayReq.decode(res.paymentRequest);
@@ -126,6 +145,7 @@ class ReceiveViewModel {
     this.expiredDate =
       (decodeData.timeExpireDate || 0) * 1000 - new Date().getTime();
     this.step = ReceiveStep.Invoice;
+    this.isCreating = false;
     return res;
   }
 }
