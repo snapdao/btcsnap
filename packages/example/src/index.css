@@ -1,13 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:regular,semibold&subset=latin,latin-ext');
 
 :root {
-  --c-n80: #111214;
+  --c-n00: #FFFFFF;
   --c-n50: #9095A3;
   --c-n60: #656D85;
+  --c-n80: #111214;
   --c-ntd20: rgba(0, 0, 0, 0.2);
   --c-ntd40: rgba(0, 0, 0, 0.4);
   --c-pri50: #F58300;
   --c-ntl80: rgba(255, 255, 255, 0.8);
+
+  --sk-color-pri50: #F58300 !important;
 }
 
 html,
@@ -25,6 +28,17 @@ a {
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 html {

@@ -1,20 +1,19 @@
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
 import ModalHeader from '../../../../kits/ModalHeader';
 import ModalBackground from '../../../../kits/ModalBackground';
 import { H3 } from '../../../Layout/Text/Title';
 import ReceiveViewModel from '../model';
-import { FlexCenter } from '../../../Layout/Flex';
+import { FlexBetween, FlexCenter } from '../../../Layout/Flex';
 import {
   Amount,
   Unit,
-  BodyContainer,
-  Expire,
   ExpireValue,
   AddressBox,
   Description,
   DescriptionPopup,
+  CaptionN60,
+  CaptionN80,
 } from './styles';
 import { Popup } from 'snapkit';
 import { useEffect, useMemo, useState } from 'react';
@@ -30,7 +29,7 @@ const LightningReceiveQRCodeModal = observer(
   ({ model, close }: LightningReceiveQRCodeModalProps) => {
     const [isExpired, setIsExpired] = useState(false);
     const [date, { start, pause }] = useCountDown({
-      startTimeMilliseconds: model.expiredDate,
+      startTimeMilliseconds: model.expireCountDown,
       onCountDownEnd() {
         setIsExpired(true);
       },
@@ -68,17 +67,31 @@ const LightningReceiveQRCodeModal = observer(
           <Container style={{ padding: '24px 0 100px' }}>
             <FlexCenter style={{ alignItems: 'baseline' }}>
               <Amount>{model.amountText}</Amount>
-              <Unit>{model.mainUnit}</Unit>
+              <Unit>{model.defaultUnit}</Unit>
             </FlexCenter>
             <FlexCenter>
-              {!isExpired ? (
-                <>
-                  <Expire>Expires in:</Expire>
-                  <ExpireValue>{countDownFormat}</ExpireValue>
-                </>
-              ) : (
-                <ExpireValue>expired !</ExpireValue>
-              )}
+              <FlexBetween
+                style={{
+                  minWidth: model.isShowCurrency ? 246 : 0,
+                  gap: '0 10px',
+                }}>
+                {model.isShowCurrency && (
+                  <div>
+                    <CaptionN80>{model.amount}</CaptionN80>:{' '}
+                    <CaptionN60>USD</CaptionN60>
+                  </div>
+                )}
+                <div>
+                  {!isExpired ? (
+                    <>
+                      <CaptionN60>Expires in:</CaptionN60>
+                      <ExpireValue>{countDownFormat}</ExpireValue>
+                    </>
+                  ) : (
+                    <ExpireValue>expired !</ExpireValue>
+                  )}
+                </div>
+              </FlexBetween>
             </FlexCenter>
           </Container>
         </ModalBackground>

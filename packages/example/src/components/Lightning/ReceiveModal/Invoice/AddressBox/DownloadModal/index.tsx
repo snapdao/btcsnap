@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { QRCodeCanvas } from 'qrcode.react';
-import { forwardRef } from 'react';
-import { Modal } from 'semantic-ui-react';
+import { forwardRef, useMemo } from 'react';
+import dayjs from 'dayjs';
 import ModalBackground from '../../../../../../kits/ModalBackground';
 import ModalHeader from '../../../../../../kits/ModalHeader';
 import BitcoinIcon from '../../../../../Icons/BitcoinIcon';
@@ -10,7 +10,7 @@ import { FlexCenter } from '../../../../../Layout/Flex';
 import { Caption } from '../../../../../Layout/Text/Body';
 import { H3 } from '../../../../../Layout/Text/Title';
 import ReceiveViewModel from '../../../model';
-import { Unit } from '../../styles';
+import { CaptionN60, CaptionN80, Unit } from '../../styles';
 import { AddressContainer, ContainerMask } from '../styles';
 import {
   Container,
@@ -24,6 +24,11 @@ import {
 
 export const DownloadModal = observer(
   forwardRef(({ model }: { model: ReceiveViewModel }, ref: any) => {
+    const expiredDate = useMemo(() => {
+      if (!model.expiredDate) return '';
+      return dayjs(model.expiredDate).format('HH:mm MMM DD[,] YYYY');
+    }, [model.expiredDate]);
+
     return (
       <DownloadHiddenModal ref={ref}>
         <ModalBackground style={{ height: 304 }}>
@@ -41,9 +46,13 @@ export const DownloadModal = observer(
           <FlexCenter style={{ width: '100%', flexDirection: 'column' }}>
             <Tip>Please Pay</Tip>
             <AmountBox>
-              <Amount>{model.amount}</Amount>
-              <Unit>{model.mainUnit}</Unit>
+              <Amount>{model.amountText}</Amount>
+              <Unit style={{ marginLeft: 6 }}>{model.defaultUnit}</Unit>
             </AmountBox>
+            <FlexCenter style={{ marginTop: 16 }}>
+              <CaptionN60>Expires:</CaptionN60>
+              <CaptionN80 style={{ marginLeft: 8 }}>{expiredDate}</CaptionN80>
+            </FlexCenter>
             <Description>{model.description}</Description>
             <Footer>
               <BitcoinIcon size={20} />

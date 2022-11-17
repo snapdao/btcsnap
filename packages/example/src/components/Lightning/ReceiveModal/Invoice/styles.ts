@@ -22,12 +22,15 @@ export const Unit = styled(H4)`
   margin-left: 3px;
 `;
 
-export const Expire = styled(Caption)`
+export const CaptionN60 = styled(Caption)`
   color: var(--c-n60);
 `;
 
-export const ExpireValue = styled(Caption)`
+export const CaptionN80 = styled(Caption)`
   color: var(--c-n80);
+`;
+
+export const ExpireValue = styled(CaptionN80)`
   margin-left: 8px;
 `;
 

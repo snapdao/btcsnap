@@ -2,7 +2,8 @@ import { ChangeEvent, useState } from 'react';
 import {
   Container,
   Grid,
-  Modal,
+  Loader,
+  Modal as BaseModal,
   TransitionablePortal,
 } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
@@ -15,7 +16,10 @@ import ReceiveViewModel from '../model';
 import { BodyContainer } from './styles';
 import { Textarea } from '../../../../kits/Textarea';
 import { Button } from '../../../../kits/Button';
-import { Message, MessageType } from '../../../../kits';
+import { Message, MessageType, Modal } from '../../../../kits';
+import ModalLoading from './ModalLoading';
+import { FlexBetween } from '../../../Layout/Flex';
+import InputCount from './InputCount';
 
 type LightningReceiveCreateModalProps = {
   close: () => void;
@@ -39,7 +43,7 @@ const LightningReceiveCreateModal = observer(
         open
         onClose={close}
         transition={{ animation: 'fade up', duration: '300' }}>
-        <Modal
+        <BaseModal
           style={{
             width: 440,
             height: 640,
@@ -47,6 +51,7 @@ const LightningReceiveCreateModal = observer(
             position: 'relative',
           }}
           open={true}>
+          {(!model.currencyRate || model.isCreating) && <ModalLoading />}
           <ModalBackground>
             <ModalHeader
               left={
@@ -55,7 +60,6 @@ const LightningReceiveCreateModal = observer(
                   <H3 style={{ marginLeft: 4 }}>RECEIVE</H3>
                 </>
               }
-              showCloseIcon={!model.isCreating}
               onClose={() => close()}
             />
             <Container style={{ padding: 32 }}>
@@ -73,10 +77,21 @@ const LightningReceiveCreateModal = observer(
                 style={{
                   resize: 'none',
                 }}
-                onChange={(ev: ChangeEvent<HTMLTextAreaElement>) =>
-                  model.onChangeDescription(ev.target.value)
-                }
+                value={model.description}
+                onChange={(ev: ChangeEvent<HTMLTextAreaElement>) => {
+                  let value = ev.target.value.trim();
+                  value = value.replaceAll(/\n/g, '');
+                  if (value.length > 250) return;
+                  model.onChangeDescription(value);
+                }}
               />
+              <FlexBetween>
+                <div></div>
+                <InputCount
+                  length={model.description.length}
+                  showLength={200}
+                />
+              </FlexBetween>
             </Container>
             <Container>
               <Grid columns={2}>
@@ -88,9 +103,10 @@ const LightningReceiveCreateModal = observer(
                 <Grid.Column width={8}>
                   <Button
                     onClick={onCreate}
-                    loading={!model.currencyRate || model.isCreating}
+                    primary
                     disabled={
-                      !model.amountText ||
+                      !model.amount ||
+                      model.amount === '0' ||
                       !model.currencyRate ||
                       model.isCreating
                     }>
@@ -101,9 +117,13 @@ const LightningReceiveCreateModal = observer(
             </Container>
           </BodyContainer>
           {errorStatus && (
-            <Message type={MessageType.Error}>Creating Failed</Message>
+            <Message
+              type={MessageType.Error}
+              onClose={() => setErrorStatus(false)}>
+              Creating Failed
+            </Message>
           )}
-        </Modal>
+        </BaseModal>
       </TransitionablePortal>
     );
   },
