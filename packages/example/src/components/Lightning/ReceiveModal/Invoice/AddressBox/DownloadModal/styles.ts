@@ -7,7 +7,7 @@ import { Big, Body, Caption } from './../../../../../Layout/Text/Body/index';
 export const DownloadHiddenModal = styled(Card)`
   &&& {
     position: fixed;
-    top: -100vh;
+    top: -200vh;
     width: 440px;
     border-radius: 20px;
     box-shadow: 0 !important;
@@ -40,7 +40,7 @@ export const Description = styled(Body).attrs({
   width: auto;
   max-width: 100%;
   overflow: hidden;
-  margin: 16px 0 80px;
+  margin: 24px 0 80px;
   padding: 0 32px;
   overflow-wrap: break-word;
 `;
