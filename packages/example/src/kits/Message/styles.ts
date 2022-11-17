@@ -7,6 +7,7 @@ export const MessageContainer = styled.div`
   justify-content: center;
   position: absolute;
   top: 50px;
+  z-index: 300;
 `;
 
 export const MessageContent = styled.div`

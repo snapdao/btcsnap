@@ -25,6 +25,7 @@
     "buffer": "^6.0.3",
     "coinselect": "^3.1.12",
     "crypto-browserify": "^3.12.0",
+    "dayjs": "^1.11.6",
     "https-browserify": "^1.0.0",
     "html2canvas": "^1.4.1",
     "localforage": "^1.10.0",

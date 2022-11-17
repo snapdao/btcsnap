@@ -17,14 +17,15 @@ export enum ReceiveStep {
 class ReceiveViewModel {
   step = ReceiveStep.Create;
   amount = '';
-  description = ' ';
+  description = '';
   currencyRate: number | null = null;
   currUnit: BitcoinUnit = BitcoinUnit.Sats;
   defaultUnit: BitcoinUnit = BitcoinUnit.Sats;
 
   isCreating = false;
   qrcode = '';
-  expiredDate: number = 0;
+  expireCountDown: number = 0;
+  expiredDate?: string = '';
 
   constructor(defaultUnit: BitcoinUnit, currencyRate: number) {
     if (defaultUnit) {
@@ -35,34 +36,26 @@ class ReceiveViewModel {
     makeAutoObservable(this);
   }
 
-  get amountText() {
-    return this.amount;
-  }
-
   get secondAmountText() {
-    if (this.amountText === '' || !this.currencyRate) return '0';
+    if (this.amount === '' || !this.currencyRate) return '0';
 
     return clearEndZeros(
       {
         [BitcoinUnit.Sats]: BigNumber(
           satoshiToBTC(
-            BigNumber(this.amountText)
-              .multipliedBy(this.currencyRate)
-              .toNumber(),
+            BigNumber(this.amount).multipliedBy(this.currencyRate).toNumber(),
           ),
         ).toFixed(2),
-        [BitcoinUnit.BTC]: BigNumber(this.amountText)
+        [BitcoinUnit.BTC]: BigNumber(this.amount)
           .multipliedBy(this.currencyRate)
           .toFixed(2),
         [BitcoinUnit.Currency]: {
-          [BitcoinUnit.BTC]: BigNumber(this.amountText)
+          [BitcoinUnit.BTC]: BigNumber(this.amount)
             .dividedBy(this.currencyRate)
             .toFixed(8),
           [BitcoinUnit.Sats]: BigNumber(
             btcToSatoshi(
-              BigNumber(this.amountText)
-                .dividedBy(this.currencyRate)
-                .toNumber(),
+              BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
             ),
           ).toString(),
         }[this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>],
@@ -71,12 +64,32 @@ class ReceiveViewModel {
   }
 
   get mainUnit() {
-    return (
+    return this.currUnit === BitcoinUnit.Currency ? 'USD' : this.currUnit;
+  }
+
+  get amountText() {
+    if (this.amount === '' || !this.currencyRate) return '0';
+
+    return clearEndZeros(
       {
-        [BitcoinUnit.Currency]: 'USD',
-      }[this.currUnit as Extract<BitcoinUnit, BitcoinUnit.Currency>] ||
-      this.currUnit
+        [BitcoinUnit.BTC]: this.amount,
+        [BitcoinUnit.Sats]: this.amount,
+        [BitcoinUnit.Currency]: {
+          [BitcoinUnit.BTC]: BigNumber(
+            BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
+          ).toFixed(8),
+          [BitcoinUnit.Sats]: BigNumber(
+            btcToSatoshi(
+              BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
+            ),
+          ).toFixed(2),
+        }[this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>],
+      }[this.currUnit],
     );
+  }
+
+  get isShowCurrency() {
+    return this.mainUnit === 'USD';
   }
 
   get secondUnit() {
@@ -90,7 +103,7 @@ class ReceiveViewModel {
   }
 
   get amountLength() {
-    return this.amountText?.length || 1;
+    return this.amount?.length || 1;
   }
 
   onChangeAmount(value: string) {
@@ -117,7 +130,7 @@ class ReceiveViewModel {
     this.step = step;
   }
 
-  getSatoshiFromAmount() {
+  getInvoiceAmount() {
     if (this.amountText === '' || !this.currencyRate) return 0;
     const amountNumber = BigNumber(this.amount).toNumber();
 
@@ -135,18 +148,24 @@ class ReceiveViewModel {
   }
 
   async onCreateReceive() {
-    this.isCreating = true;
-    const res = await addInvoice({
-      amount: this.getSatoshiFromAmount(),
-      memo: this.description,
-    });
-    const decodeData = lightningPayReq.decode(res.paymentRequest);
-    this.qrcode = res.paymentRequest;
-    this.expiredDate =
-      (decodeData.timeExpireDate || 0) * 1000 - new Date().getTime();
-    this.step = ReceiveStep.Invoice;
-    this.isCreating = false;
-    return res;
+    try {
+      this.isCreating = true;
+      const res = await addInvoice({
+        amount: this.getInvoiceAmount(),
+        memo: this.description,
+      });
+      const decodeData = lightningPayReq.decode(res.paymentRequest);
+      console.log('%c Line:158 🍒 decodeData', 'color:#93c0a4', decodeData);
+      this.qrcode = res.paymentRequest;
+      this.expireCountDown =
+        (decodeData.timeExpireDate || 0) * 1000 - new Date().getTime();
+      this.expiredDate = decodeData.timeExpireDateString;
+      this.step = ReceiveStep.Invoice;
+      return res;
+    } catch (e) {
+      this.isCreating = false;
+      throw e;
+    }
   }
 }
 

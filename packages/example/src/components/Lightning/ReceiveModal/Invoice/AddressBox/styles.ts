@@ -24,6 +24,10 @@ export const ContainerMask = styled.div<{
         background: var(--c-ntl80);
       }
     `}
+
+  > svg {
+    pointer-events: none;
+  }
 `;
 
 export const AddressContainer = styled.div`

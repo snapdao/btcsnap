@@ -4,8 +4,10 @@ import { Body, Large } from '../../Layout/Text/Body';
 import SwitchIcon from '../../Icons/SwitchIcon';
 import { H3 } from '../../Layout/Text/Title';
 import ReceiveViewModel from './model';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
+import BigNumber from 'bignumber.js';
+import { useAppStore } from '../../../mobx';
 
 type AmountInputProps = {
   model: ReceiveViewModel;
@@ -23,7 +25,6 @@ const LargeInput = styled(Large)`
 
 export const Unit = styled.div`
   display: inline-block;
-  align-items: center;
   color: var(--c-pri50);
   cursor: pointer;
 `;
@@ -40,21 +41,44 @@ export const SecondUnit = styled(Body)`
 `;
 
 const AmountInput = observer(({ model }: AmountInputProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const {
+    runtime: { currencyRate },
+  } = useAppStore();
+
+  const numberReg = /^[+-]?\d*(?:[.,]\d*)?$/;
+  function focusInput() {
+    return inputRef.current?.focus();
+  }
+
+  useEffect(() => {
+    if (currencyRate) {
+      focusInput();
+    }
+  }, [currencyRate]);
+
   return (
     <Container>
       <LargeInput
         as="input"
-        autoFocus
+        ref={inputRef}
         size={model.amountLength}
-        value={model.amountText}
+        value={model.amount}
         onChange={(ev: ChangeEvent<HTMLInputElement>) => {
-          model.onChangeAmount(ev.target.value);
+          const value = ev.target.value.trim();
+          const banList = ['-', '00'].includes(value);
+          if (!numberReg.test(value) || banList || Number(value) < 0) return;
+          model.onChangeAmount(value);
         }}
         placeholder="0"
       />
-      <Unit onClick={() => model.onChangeViewUnit()}>
+      <Unit
+        onClick={() => {
+          model.onChangeViewUnit();
+          focusInput();
+        }}>
         <H3 style={{ display: 'inline-block' }}>{model.mainUnit}</H3>
-        <SwitchIcon />
+        <SwitchIcon style={{ marginBottom: -2 }} />
       </Unit>
       <Currency>
         <SecondAmount>{model.secondAmountText}</SecondAmount>

@@ -67,7 +67,11 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
               }}
               onMouseLeave={() => setShowDownloadIcon(false)}
               onClick={onDownload}>
-              {showDownloadIcon ? <DownloadIcon /> : <LightningIcon />}
+              {showDownloadIcon ? (
+                <DownloadIcon style={{ color: 'var(--sk-color-b60)' }} />
+              ) : (
+                <LightningIcon />
+              )}
             </ContainerMask>
             <QRCodeCanvas value={model.qrcode} size={256} />
           </AddressContainer>
