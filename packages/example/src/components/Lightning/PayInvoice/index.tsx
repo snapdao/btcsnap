@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import LightningSendViewModel from "./model";
 import { SendStatus } from "./types";
 import { SendView } from "./SendView";
@@ -16,13 +16,13 @@ export const PayInvoice = observer(({close, balance, exchangeRate}: PayInvoicePr
     return new LightningSendViewModel(balance, exchangeRate);
   }, []);
 
+  useEffect(() => {
+    model.setExchangeRate(exchangeRate);
+  }, [exchangeRate])
   return (
     <>
-      {
-        model.status === SendStatus.Init
-          ? <SendView model={model} close={close}/>
-          : <ResultView model={model} close={close}/>
-      }
+      <SendView open={model.status === SendStatus.Init} model={model} close={close}/>
+      <ResultView open={model.status !== SendStatus.Init} model={model} close={close}/>
     </>
   )
 });

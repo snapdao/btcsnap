@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { TransitionablePortal, ModalProps } from "semantic-ui-react";
 import { StyledModal, StyledModalContainer, CloseIconContainer } from "./styles";
 import CloseIcon from "../../components/Icons/CloseIcon";
 
-export const Modal = ({close, children, ...rest}: ModalProps) => {
-  const [isVisible, setIsVisible] = useState<boolean>(true);
+export const Modal = ({open, close, children, ...rest}: ModalProps) => {
+  const [isVisible, setIsVisible] = useState<boolean>(open || false);
+  const previousOpen = useRef<boolean>(false);
+
+  const closeModal = useCallback(() => {
+    setIsVisible(false);
+    setTimeout(close, 250);
+  }, [])
+
+  useEffect(() => {
+    if(previousOpen.current && !open){
+      previousOpen.current = false;
+      closeModal();
+    }
+    if(open) {
+      previousOpen.current = true;
+      setIsVisible(true);
+    }
+  }, [open, previousOpen])
 
   return (
     <TransitionablePortal
@@ -15,10 +32,7 @@ export const Modal = ({close, children, ...rest}: ModalProps) => {
       <StyledModal open={true} {...rest}>
         <StyledModalContainer>
           <CloseIconContainer>
-            <CloseIcon onClick={() => {
-              setIsVisible(false);
-              setTimeout(close, 250);
-            }}/>
+            <CloseIcon onClick={closeModal}/>
           </CloseIconContainer>
           {children}
         </StyledModalContainer>

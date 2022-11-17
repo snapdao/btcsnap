@@ -1,5 +1,6 @@
 import { types } from 'mobx-state-tree';
 import LightningWallet from './lightningWallet';
+import { ILightningWallet, ILightningWalletIn } from "./types";
 
 export const lightningInitialState = {
   wallets: [],
@@ -24,18 +25,26 @@ const Lightning = types
       const index = (lastIndex && +lastIndex) || self.wallets.length;
       return index ? `${prefix} ${index + 1}` : prefix;
     },
+    getWalletByUserId(userId: string) {
+      return self.wallets.find(wallet => wallet.userId === userId);
+    }
   }))
   .actions((self) => ({
-    createWallet(walletInfo: any): any {
+    createWallet(walletInfo: ILightningWalletIn): ILightningWallet {
       const wallet = self.wallets.find(
         (wallet) => wallet.userId === walletInfo.userId,
       );
       if (wallet) return wallet;
       return LightningWallet.create(walletInfo);
     },
-    applyWallet(wallet: any) {
-      self.wallets.push(wallet);
-      self.current = wallet;
+    applyWallet(otherWallet: any) {
+      const storedWallet = self.wallets.find(
+        (wallet) => wallet.userId === otherWallet.userId,
+      );
+      if (!storedWallet) {
+        self.wallets.push(otherWallet);
+      }
+      self.current = otherWallet;
     },
     switchWallet(userId: string) {
       const existWallet = self.wallets.find(

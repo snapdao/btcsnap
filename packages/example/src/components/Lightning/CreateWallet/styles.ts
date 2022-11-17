@@ -1,16 +1,9 @@
 import styled from 'styled-components';
-import { Modal, Checkbox } from 'semantic-ui-react';
 import { Button as SnapButton } from 'snapkit';
 
-export const CreateWalletModal = styled(Modal)`
-  && {
-    position: relative;
-    width: 440px;
-    height: 640px;
-    background: #ffffff;
-    border-radius: 20px;
-  }
-`;
+export const ContentContainer = styled.div`
+  padding-top: 20px;
+`
 
 export const CreateContentTop = styled.div`
   padding: 0 32px;
@@ -19,6 +12,22 @@ export const CreateContentTop = styled.div`
 
 export const CreateContentBottom = styled.div`
   padding: 32px;
+`;
+
+export const Header = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 40px;
+  margin: 0 20px 0;
+  p {
+    height: 24px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-left: 4px;
+  }
 `;
 
 export const CreateContent = styled.div`

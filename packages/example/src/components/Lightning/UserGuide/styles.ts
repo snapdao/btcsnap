@@ -37,25 +37,3 @@ export const Button = styled.button`
     transition: 0.25s;
   }
 `;
-
-export const Header = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  height: 40px;
-  margin: 20px 20px 0;
-  p {
-    height: 24px;
-    text-transform: uppercase;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    margin-left: 4px;
-  }
-`;
-
-export const CloseContainer = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-`;
