@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import CloseIcon from '../../components/Icons/CloseIcon';
+import CloseIcon from '../../../components/Icons/CloseIcon';
 import { Container, Content, Left, Right } from './styles';
 
 interface Props {

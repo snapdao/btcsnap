@@ -1,8 +1,8 @@
-import { Body, Caption } from '../../../Layout/Text/Body/index';
-import { H4 } from '../../../Layout/Text/Title/index';
+import { Body, Caption } from '../../../../kits/Layout/Text/Body/index';
+import { H4 } from '../../../../kits/Layout/Text/Title/index';
 import styled from 'styled-components';
 import { Container } from 'semantic-ui-react';
-import { Medium } from '../../../Layout/Text/Body';
+import { Medium } from '../../../../kits/Layout/Text/Body';
 import BaseAddressBox from './AddressBox';
 
 export const BodyContainer = styled(Container)`
