@@ -6,7 +6,6 @@ import { H3 } from '../../../kits/Layout/Text/Title';
 import ReceiveViewModel from './model';
 import { ChangeEvent, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
 import { useAppStore } from '../../../mobx';
 import { BitcoinUnit } from '../../../interface';
 
@@ -45,7 +44,7 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
     runtime: { currencyRate },
   } = useAppStore();
 
-  const numberReg = /^[+-]?\d*(?:[.,]\d*)?$/;
+  const numberReg = /^\d*(?:\.\d*)?$/;
   function focusInput() {
     return inputRef.current?.focus();
   }
@@ -65,7 +64,7 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
         value={model.amount}
         onChange={(ev: ChangeEvent<HTMLInputElement>) => {
           const value = ev.target.value.trim();
-          const banList = ['-', '00'].includes(value);
+          const banList = ['-', '00', '.'].includes(value);
           const [int, dec] = value.split('.');
 
           const isBTC = model.currUnit === BitcoinUnit.BTC;
