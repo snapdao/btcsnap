@@ -1,37 +1,44 @@
-import { MessageContainer, MessageContent, MessageCopy } from "./styles";
-import { useEffect, useState } from "react";
-import { ReactComponent as ErrorIcon } from "./images/error.svg"
+import { MessageContainer, MessageContent, MessageCopy } from './styles';
+import { useEffect, useState } from 'react';
+import { ReactComponent as ErrorIcon } from './images/error.svg';
 import { ReactComponent as SucceedIcon } from '../../assets/vector.svg';
 
 export enum MessageType {
   Error,
-  Succeed
+  Succeed,
 }
 
 interface MessageProps {
   children: string;
   type?: MessageType;
-  duration?: number
+  duration?: number;
+  onClose?: () => void;
 }
 
-export const Message = ({children, duration = 1500, type = MessageType.Succeed}: MessageProps) => {
+export const Message = ({
+  children,
+  duration = 1500,
+  type = MessageType.Succeed,
+  onClose,
+}: MessageProps) => {
   const [visible, setIsVisible] = useState<boolean>(true);
 
   useEffect(() => {
     if (visible) {
       setTimeout(() => {
-        setIsVisible(false)
-      }, duration)
+        setIsVisible(false);
+        onClose && onClose();
+      }, duration);
     }
-  }, [visible])
+  }, [visible]);
 
   let messageTypeIcon = null;
   switch (type) {
     case MessageType.Error:
-      messageTypeIcon = <ErrorIcon/>;
+      messageTypeIcon = <ErrorIcon />;
       break;
     case MessageType.Succeed:
-      messageTypeIcon = <SucceedIcon />
+      messageTypeIcon = <SucceedIcon />;
       break;
   }
 
@@ -39,10 +46,8 @@ export const Message = ({children, duration = 1500, type = MessageType.Succeed}:
     <MessageContainer>
       <MessageContent>
         {messageTypeIcon}
-        <MessageCopy type={type}>
-          {children}
-        </MessageCopy>
+        <MessageCopy type={type}>{children}</MessageCopy>
       </MessageContent>
     </MessageContainer>
   ) : null;
-}
+};

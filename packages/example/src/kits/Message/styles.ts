@@ -1,5 +1,5 @@
-import styled  from "styled-components";
-import { MessageType } from "./index";
+import styled from 'styled-components';
+import { MessageType } from './index';
 
 export const MessageContainer = styled.div`
   width: 100%;
@@ -7,12 +7,13 @@ export const MessageContainer = styled.div`
   justify-content: center;
   position: absolute;
   top: 50px;
-`
+  z-index: 300;
+`;
 
 export const MessageContent = styled.div`
   height: 40px;
-  background: #FFFFFF;
-  border: 0.5px solid #E1E6F0;
+  background: #ffffff;
+  border: 0.5px solid #e1e6f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   border-radius: 12px;
   display: flex;
@@ -21,9 +22,10 @@ export const MessageContent = styled.div`
   align-items: center;
   padding: 10px 16px;
   gap: 4px;
-`
+`;
 
-export const MessageCopy = styled.span<{type: MessageType}>`
+export const MessageCopy = styled.span<{ type: MessageType }>`
   font-weight: 600;
-  color: ${props => props.type === MessageType.Error ? '#F54814' : '#21A35D'};
-`
+  color: ${(props) =>
+    props.type === MessageType.Error ? '#F54814' : '#21A35D'};
+`;

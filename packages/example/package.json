@@ -25,7 +25,9 @@
     "buffer": "^6.0.3",
     "coinselect": "^3.1.12",
     "crypto-browserify": "^3.12.0",
+    "dayjs": "^1.11.6",
     "https-browserify": "^1.0.0",
+    "html2canvas": "^1.4.1",
     "localforage": "^1.10.0",
     "mixpanel-browser": "^2.45.0",
     "mobx": "^6.6.1",
@@ -46,6 +48,7 @@
     "stream-http": "^3.2.0",
     "styled-components": "^5.3.5",
     "typescript": "^4.6.2",
+    "react-textarea-autosize": "^8.4.0",
     "url": "^0.11.0",
     "web-vitals": "^2.1.4"
   },
