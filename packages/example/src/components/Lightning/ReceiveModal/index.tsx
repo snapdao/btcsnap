@@ -1,5 +1,4 @@
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
 import { useAppStore } from '../../../mobx';
 import ReceiveViewModel, { ReceiveStep } from './model';
 import LightningReceiveCreateModal from './Create';

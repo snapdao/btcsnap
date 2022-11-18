@@ -61,8 +61,8 @@ const useCountDown = ({
     });
   };
 
-  const countdown = (): NodeJS.Timeout => {
-    return setTimeout(
+  const countdown = (): number => {
+    return window.setTimeout(
       () =>
         setTimeLeftState({
           milliseconds: timeLeftState.milliseconds - interval,
@@ -85,12 +85,12 @@ const useCountDown = ({
   };
 
   useEffect(() => {
-    let clear: null | NodeJS.Timeout = null;
+    let clear: null | number = null;
     if (timerRunning) {
       clear = countdown();
     }
     return () => {
-      clear && clearTimeout(clear);
+      clear && window.clearTimeout(clear);
     };
   }, [timeLeftState, timerRunning]);
 
