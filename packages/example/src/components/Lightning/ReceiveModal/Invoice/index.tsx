@@ -20,13 +20,13 @@ import { useEffect, useMemo, useState } from 'react';
 import useCountDown from '../../../../hook/useCountdown';
 import { Modal } from '../../../../kits';
 
-type LightningReceiveQRCodeModalProps = {
+type LightningReceiveInvoiceModalProps = {
   close: () => void;
   model: ReceiveViewModel;
 };
 
-const LightningReceiveQRCodeModal = observer(
-  ({ model, close }: LightningReceiveQRCodeModalProps) => {
+const LightningReceiveInvoiceModal = observer(
+  ({ model, close }: LightningReceiveInvoiceModalProps) => {
     const [isExpired, setIsExpired] = useState(false);
     const [date, { start, pause }] = useCountDown({
       startTimeMilliseconds: model.expireCountDown,
@@ -102,4 +102,4 @@ const LightningReceiveQRCodeModal = observer(
   },
 );
 
-export default LightningReceiveQRCodeModal;
+export default LightningReceiveInvoiceModal;

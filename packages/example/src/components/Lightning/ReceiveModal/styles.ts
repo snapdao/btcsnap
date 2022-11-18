@@ -1,4 +1,3 @@
-import { MutableRefObject, Ref, RefObject } from 'react';
 import styled from 'styled-components';
 
 export const ReceiveContainer = styled.div`

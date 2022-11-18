@@ -39,28 +39,39 @@ class ReceiveViewModel {
   get secondAmountText() {
     if (this.amount === '' || !this.currencyRate) return '0';
 
-    return clearEndZeros(
-      {
-        [BitcoinUnit.Sats]: BigNumber(
+    let result = '';
+
+    switch (this.currUnit) {
+      case BitcoinUnit.Sats:
+        result = BigNumber(
           satoshiToBTC(
             BigNumber(this.amount).multipliedBy(this.currencyRate).toNumber(),
           ),
-        ).toFixed(2),
-        [BitcoinUnit.BTC]: BigNumber(this.amount)
+        ).toFixed(2);
+        break;
+      case BitcoinUnit.BTC:
+        result = BigNumber(this.amount)
           .multipliedBy(this.currencyRate)
-          .toFixed(2),
-        [BitcoinUnit.Currency]: {
-          [BitcoinUnit.BTC]: BigNumber(this.amount)
-            .dividedBy(this.currencyRate)
-            .toFixed(8),
-          [BitcoinUnit.Sats]: BigNumber(
-            btcToSatoshi(
-              BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
-            ),
-          ).toString(),
-        }[this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>],
-      }[this.currUnit],
-    );
+          .toFixed(2);
+        break;
+      case BitcoinUnit.Currency:
+        switch (this.defaultUnit) {
+          case BitcoinUnit.BTC:
+            result = BigNumber(this.amount)
+              .dividedBy(this.currencyRate)
+              .toFixed(8);
+            break;
+          case BitcoinUnit.Sats:
+            result = BigNumber(
+              btcToSatoshi(
+                BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
+              ),
+            ).toString();
+            break;
+        }
+    }
+
+    return clearEndZeros(result);
   }
 
   get mainUnit() {
@@ -70,22 +81,31 @@ class ReceiveViewModel {
   get amountText() {
     if (this.amount === '' || !this.currencyRate) return '0';
 
-    return clearEndZeros(
-      {
-        [BitcoinUnit.BTC]: this.amount,
-        [BitcoinUnit.Sats]: this.amount,
-        [BitcoinUnit.Currency]: {
-          [BitcoinUnit.BTC]: BigNumber(
-            BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
-          ).toFixed(8),
-          [BitcoinUnit.Sats]: BigNumber(
-            btcToSatoshi(
+    let result = '';
+
+    switch (this.currUnit) {
+      case BitcoinUnit.BTC:
+      case BitcoinUnit.Sats:
+        result = this.amount;
+        break;
+      case BitcoinUnit.Currency:
+        switch (this.defaultUnit) {
+          case BitcoinUnit.BTC:
+            result = BigNumber(
               BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
-            ),
-          ).toFixed(2),
-        }[this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>],
-      }[this.currUnit],
-    );
+            ).toFixed(8);
+            break;
+          case BitcoinUnit.Sats:
+            result = BigNumber(
+              btcToSatoshi(
+                BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
+              ),
+            ).toFixed(2);
+            break;
+        }
+    }
+
+    return clearEndZeros(result);
   }
 
   get isShowCurrency() {
@@ -93,13 +113,13 @@ class ReceiveViewModel {
   }
 
   get secondUnit() {
-    return (
-      {
-        [BitcoinUnit.Currency]: this.defaultUnit,
-        [BitcoinUnit.BTC]: 'USD',
-        [BitcoinUnit.Sats]: 'USD',
-      }[this.currUnit] + ''
-    );
+    switch (this.currUnit) {
+      case BitcoinUnit.BTC:
+      case BitcoinUnit.Sats:
+        return 'USD';
+      case BitcoinUnit.Currency:
+        return this.defaultUnit;
+    }
   }
 
   get amountLength() {
@@ -130,32 +150,35 @@ class ReceiveViewModel {
     this.step = step;
   }
 
-  getInvoiceAmount() {
+  get receiveAmount() {
     if (this.amountText === '' || !this.currencyRate) return 0;
     const amountNumber = BigNumber(this.amount).toNumber();
 
-    return (
-      {
-        [BitcoinUnit.BTC]: btcToSatoshi(amountNumber),
-        [BitcoinUnit.Currency]: {
-          [BitcoinUnit.BTC]: btcToSatoshi(
-            BigNumber(this.secondAmountText).toNumber(),
-          ),
-          [BitcoinUnit.Sats]: BigNumber(this.secondAmountText).toNumber(),
-        }[this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>],
-      }[this.currUnit as Exclude<BitcoinUnit, BitcoinUnit.Sats>] || amountNumber
-    );
+    switch (this.currUnit) {
+      case BitcoinUnit.BTC:
+        return btcToSatoshi(amountNumber);
+      case BitcoinUnit.Currency:
+        switch (
+          this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>
+        ) {
+          case BitcoinUnit.BTC:
+            return btcToSatoshi(BigNumber(this.secondAmountText).toNumber());
+          case BitcoinUnit.Sats:
+            return BigNumber(this.secondAmountText).toNumber();
+        }
+      default:
+        return amountNumber;
+    }
   }
 
   async onCreateReceive() {
     try {
       this.isCreating = true;
       const res = await addInvoice({
-        amount: this.getInvoiceAmount(),
+        amount: this.receiveAmount,
         memo: this.description,
       });
       const decodeData = lightningPayReq.decode(res.paymentRequest);
-      console.log('%c Line:158 🍒 decodeData', 'color:#93c0a4', decodeData);
       this.qrcode = res.paymentRequest;
       this.expireCountDown =
         (decodeData.timeExpireDate || 0) * 1000 - new Date().getTime();
