@@ -7,10 +7,8 @@ import {
   TransitionablePortal,
 } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import ModalHeader from '../../../../kits/ModalHeader';
 import ReceiveIcon from '../../../Icons/ReceiveIcon';
-import ModalBackground from '../../../../kits/ModalBackground';
-import { H3, H4 } from '../../../Layout/Text/Title';
+import { H3, H4 } from '../../../../kits/Layout/Text/Title';
 import AmountInput from '../AmountInput';
 import ReceiveViewModel from '../model';
 import { BodyContainer } from './styles';
@@ -18,7 +16,7 @@ import { Textarea } from '../../../../kits/Textarea';
 import { Button } from '../../../../kits/Button';
 import { Message, MessageType, Modal } from '../../../../kits';
 import ModalLoading from './ModalLoading';
-import { FlexBetween } from '../../../Layout/Flex';
+import { FlexBetween } from '../../../../kits/Layout/Flex';
 import InputCount from './InputCount';
 
 type LightningReceiveCreateModalProps = {
@@ -52,8 +50,8 @@ const LightningReceiveCreateModal = observer(
           }}
           open={true}>
           {(!model.currencyRate || model.isCreating) && <ModalLoading />}
-          <ModalBackground>
-            <ModalHeader
+          <Modal.Background>
+            <Modal.Header
               left={
                 <>
                   <ReceiveIcon size={36} />
@@ -66,7 +64,7 @@ const LightningReceiveCreateModal = observer(
               <H4 style={{ color: 'var(--c-n50)' }}>Amount</H4>
               <AmountInput model={model} />
             </Container>
-          </ModalBackground>
+          </Modal.Background>
           <BodyContainer style={{ padding: 32 }}>
             <Container>
               <H4>Description</H4>

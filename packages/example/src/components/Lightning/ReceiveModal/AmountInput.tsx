@@ -1,8 +1,8 @@
 import { Container } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Body, Large } from '../../Layout/Text/Body';
+import { Body, Large } from '../../../kits/Layout/Text/Body';
 import SwitchIcon from '../../Icons/SwitchIcon';
-import { H3 } from '../../Layout/Text/Title';
+import { H3 } from '../../../kits/Layout/Text/Title';
 import ReceiveViewModel from './model';
 import { ChangeEvent, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';

@@ -2,16 +2,15 @@ import { observer } from 'mobx-react-lite';
 import { QRCodeCanvas } from 'qrcode.react';
 import { forwardRef, useMemo } from 'react';
 import dayjs from 'dayjs';
-import ModalBackground from '../../../../../../kits/ModalBackground';
-import ModalHeader from '../../../../../../kits/ModalHeader';
 import BitcoinIcon from '../../../../../Icons/BitcoinIcon';
 import LightningIcon from '../../../../../Icons/LightningIcon';
-import { FlexCenter } from '../../../../../Layout/Flex';
-import { Caption } from '../../../../../Layout/Text/Body';
-import { H3 } from '../../../../../Layout/Text/Title';
+import { FlexCenter } from '../../../../../../kits/Layout/Flex';
+import { Caption } from '../../../../../../kits/Layout/Text/Body';
+import { H3 } from '../../../../../../kits/Layout/Text/Title';
 import ReceiveViewModel from '../../../model';
 import { CaptionN60, CaptionN80, Unit } from '../../styles';
 import { AddressContainer, ContainerMask } from '../styles';
+import { Modal } from '../../../../../../kits';
 import {
   Container,
   Amount,
@@ -31,17 +30,17 @@ export const DownloadModal = observer(
 
     return (
       <DownloadHiddenModal ref={ref}>
-        <ModalBackground style={{ height: 304 }}>
-          <ModalHeader>
+        <Modal.Background style={{ height: 304 }}>
+          <Modal.Header>
             <H3>Lightning Invoice</H3>
-          </ModalHeader>
+          </Modal.Header>
           <AddressContainer style={{ marginTop: 24, width: 360, height: 360 }}>
             <ContainerMask noHover>
               <LightningIcon />
             </ContainerMask>
             <QRCodeCanvas value={model.qrcode} size={320} />
           </AddressContainer>
-        </ModalBackground>
+        </Modal.Background>
         <Container style={{ marginTop: 156 }}>
           <FlexCenter style={{ width: '100%', flexDirection: 'column' }}>
             <Tip>Please Pay</Tip>
