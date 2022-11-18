@@ -30,8 +30,6 @@ export const Unit = styled.div`
   cursor: pointer;
 `;
 
-export const Currency = styled.div``;
-
 export const SecondAmount = styled(Body)`
   color: var(--c-ntd40);
 `;
@@ -69,8 +67,6 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
           const value = ev.target.value.trim();
           const banList = ['-', '00'].includes(value);
           const [int, dec] = value.split('.');
-          console.log('%c Line:71 🥑 int', 'color:#ea7e5c', int);
-          console.log('%c Line:71 🍋 dec', 'color:#ffdd4d', dec);
 
           const isBTC = model.currUnit === BitcoinUnit.BTC;
           const isSatoshi = model.currUnit === BitcoinUnit.Sats;
@@ -81,7 +77,6 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
           }[model.currUnit];
           const intMaxLen = int.length > (isBTC ? 2 : 9);
           const decMaxLen = dec && dec.length > currDecMaxLen;
-          console.log('%c Line:83 🍭 decMaxLen', 'color:#ea7e5c', decMaxLen);
 
           const isDisDotInput = isSatoshi && value?.at(-1) === '.';
 
@@ -107,10 +102,10 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
         <H3 style={{ display: 'inline-block' }}>{model.mainUnit}</H3>
         <SwitchIcon style={{ marginBottom: -2 }} />
       </Unit>
-      <Currency>
+      <div>
         <SecondAmount>{model.secondAmountText}</SecondAmount>
         <SecondUnit>{model.secondUnit}</SecondUnit>
-      </Currency>
+      </div>
     </Container>
   );
 });

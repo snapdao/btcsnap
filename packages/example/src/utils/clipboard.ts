@@ -16,7 +16,6 @@ export const copyToClipboard = async ({ text, message }: ICopyToClipboard) => {
     }
 
     await navigator.clipboard.writeText(copyValue);
-    console.log(message ?? 'Copied!!!');
     return true;
   } catch (error: any) {
     console.log(error.message || error);
