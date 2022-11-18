@@ -1,10 +1,8 @@
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import ModalHeader from '../../../../kits/ModalHeader';
-import ModalBackground from '../../../../kits/ModalBackground';
-import { H3 } from '../../../Layout/Text/Title';
+import { H3 } from '../../../../kits/Layout/Text/Title';
 import ReceiveViewModel from '../model';
-import { FlexBetween, FlexCenter } from '../../../Layout/Flex';
+import { FlexBetween, FlexCenter } from '../../../../kits/Layout/Flex';
 import {
   Amount,
   Unit,
@@ -17,7 +15,7 @@ import {
 } from './styles';
 import { Popup } from 'snapkit';
 import { useEffect, useMemo, useState } from 'react';
-import useCountDown from '../../../../hook/useCountdown';
+import useCountDown from '../../../../utils/hooks/useCountdown';
 import { Modal } from '../../../../kits';
 
 type LightningReceiveInvoiceModalProps = {
@@ -60,10 +58,10 @@ const LightningReceiveInvoiceModal = observer(
         close={close}
         open={true}
         closeOnDimmerClick={false}>
-        <ModalBackground>
-          <ModalHeader onClose={() => close()}>
+        <Modal.Background>
+          <Modal.Header onClose={() => close()}>
             <H3>Lightning Invoice</H3>
-          </ModalHeader>
+          </Modal.Header>
           <Container style={{ padding: '24px 0 100px' }}>
             <FlexCenter style={{ alignItems: 'baseline' }}>
               <Amount>{model.amountText}</Amount>
@@ -90,7 +88,7 @@ const LightningReceiveInvoiceModal = observer(
               </FlexBetween>
             </FlexCenter>
           </Container>
-        </ModalBackground>
+        </Modal.Background>
         <AddressBox model={model} />
         <Popup
           content={<DescriptionPopup>{model.description}</DescriptionPopup>}

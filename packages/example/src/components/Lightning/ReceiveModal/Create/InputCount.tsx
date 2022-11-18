@@ -1,6 +1,6 @@
 import { Loader } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Caption } from '../../../Layout/Text/Body';
+import { Caption } from '../../../../kits/Layout/Text/Body';
 
 const Container = styled(Caption)<{
   isMax?: boolean;
