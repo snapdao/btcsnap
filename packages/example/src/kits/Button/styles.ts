@@ -1,10 +1,16 @@
 import styled from 'styled-components';
-import { Button } from 'snapkit';
+import { Button, ButtonProps } from 'snapkit';
 
 export const ButtonWrap = styled(Button)`
   && {
+    font-weight: 600;
     &:disabled {
       cursor: not-allowed;
+    }
+
+    &.error {
+      background: var(--sk-color-r60);
+      color: white;
     }
   }
 `;

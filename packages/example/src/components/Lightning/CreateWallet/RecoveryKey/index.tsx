@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Key, ReactNode, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   ActionButton,
@@ -9,7 +9,8 @@ import {
   GoToWalletButton,
   GoToWalletContainer,
   GoToWalletTip,
-  Mask, RecoverKeyContainer,
+  Mask,
+  RecoverKeyContainer,
   SavedCheckbox,
   Text,
   Title,
@@ -27,96 +28,109 @@ import { copyToClipboard } from '../../../../utils/clipboard';
 import { Message, MessageType, Modal } from '../../../../kits';
 
 interface CreateWalletProps {
-  close: () => void;
+  open: boolean;
   recoveryKey: string;
+  close: () => void;
+  bottomAction?: ReactNode;
+  key?: Key;
 }
 
-const RecoveryKey = observer(({ close, recoveryKey }: CreateWalletProps) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [copyToClipboardStatus, setCopyToClipboardStatus] =
-    useState<boolean>(false);
+const RecoveryKey = observer(
+  ({ open, recoveryKey, bottomAction, key, close }: CreateWalletProps) => {
+    const [isChecked, setIsChecked] = useState<boolean>(false);
+    const [copyToClipboardStatus, setCopyToClipboardStatus] =
+      useState<boolean>(false);
 
-  const {
-    lightning: { current },
-    currentWalletType,
-    switchWalletType,
-  } = useAppStore();
+    const {
+      lightning: { current },
+      currentWalletType,
+      switchWalletType,
+    } = useAppStore();
 
-  async function copyKey() {
-    if (!recoveryKey || !current?.name) return;
-    const copyStatus = await copyToClipboard({ text: recoveryKey });
-    if (copyStatus) {
-      setCopyToClipboardStatus(true);
-      setTimeout(() => {
-        setCopyToClipboardStatus(false);
-      }, 1500);
+    async function copyKey() {
+      if (!recoveryKey || !current?.name) return;
+      const copyStatus = await copyToClipboard({ text: recoveryKey });
+      if (copyStatus) {
+        setCopyToClipboardStatus(true);
+        setTimeout(() => {
+          setCopyToClipboardStatus(false);
+        }, 1500);
+      }
     }
-  }
-  function downloadFile() {
-    if (!recoveryKey || !current?.name) return;
-    saveData(recoveryKey, current.name + ' backup.txt');
-  }
-
-  function onGoToMyWallet() {
-    if (currentWalletType !== WalletType.LightningWallet) {
-      switchWalletType(WalletType.LightningWallet);
+    function downloadFile() {
+      if (!recoveryKey || !current?.name) return;
+      saveData(recoveryKey, current.name + ' backup.txt');
     }
-    close();
-  }
 
-  return (
-    <Modal>
-      <RecoverKeyContainer>
-        <Container>
-          <Header>
-            <KeyIcon />
-            <p>recovery key</p>
-          </Header>
+    function onGoToMyWallet() {
+      if (currentWalletType !== WalletType.LightningWallet) {
+        switchWalletType(WalletType.LightningWallet);
+      }
+      close();
+    }
 
-          <Top>
-            <Title>
-              This secret key is the <span>only way</span> to recover your
-              lightning wallet. Please save it somewhere safe.
-            </Title>
+    return (
+      <Modal open={open} close={close} key={key}>
+        <RecoverKeyContainer>
+          <Container>
+            <Header>
+              <KeyIcon />
+              <p>recovery key</p>
+            </Header>
 
-            <Box>
-              <Mask>
-                <EyeIcon />
-                <span>Hover your cursor over here to view the key</span>
-              </Mask>
-              <Text>{recoveryKey}</Text>
-            </Box>
+            <Top>
+              <Title>
+                This secret key is the <span>only way</span> to recover your
+                lightning wallet. Please save it somewhere safe.
+              </Title>
 
-            <BoxContainer>
-              <ActionButton icon={<Copy />} onClick={copyKey}>
-                <span>Copy to Clipboard</span>
-              </ActionButton>
-              <ActionButton icon={<Download />} onClick={downloadFile}>
-                <span>download key file</span>
-              </ActionButton>
-            </BoxContainer>
-          </Top>
-        </Container>
+              <Box>
+                <Mask>
+                  <EyeIcon />
+                  <span>Hover your cursor over here to view the key</span>
+                </Mask>
+                <Text>{recoveryKey}</Text>
+              </Box>
 
-        {copyToClipboardStatus && (
-          <Message type={MessageType.Succeed}>Copied to clipboard</Message>
-        )}
+              <BoxContainer>
+                <ActionButton icon={<Copy />} onClick={copyKey}>
+                  <span>Copy to Clipboard</span>
+                </ActionButton>
+                <ActionButton icon={<Download />} onClick={downloadFile}>
+                  <span>download key file</span>
+                </ActionButton>
+              </BoxContainer>
+            </Top>
+          </Container>
 
-        <Bottom>
-          <GoToWalletContainer>
-            <SavedCheckbox
-              checked={isChecked}
-              onClick={() => setIsChecked(!isChecked)}
-            />
-            <GoToWalletTip>I‘ve saved it somewhere safe</GoToWalletTip>
-          </GoToWalletContainer>
-          <GoToWalletButton onClick={onGoToMyWallet} disabled={!isChecked}>
-            go to my wallet
-          </GoToWalletButton>
-        </Bottom>
-      </RecoverKeyContainer>
-    </Modal>
-  );
-});
+          {copyToClipboardStatus && (
+            <Message type={MessageType.Succeed}>Copied to clipboard</Message>
+          )}
+
+          <Bottom>
+            {!bottomAction ? (
+              <>
+                <GoToWalletContainer>
+                  <SavedCheckbox
+                    checked={isChecked}
+                    onClick={() => setIsChecked(!isChecked)}
+                  />
+                  <GoToWalletTip>I‘ve saved it somewhere safe</GoToWalletTip>
+                </GoToWalletContainer>
+                <GoToWalletButton
+                  onClick={onGoToMyWallet}
+                  disabled={!isChecked}>
+                  go to my wallet
+                </GoToWalletButton>
+              </>
+            ) : (
+              bottomAction
+            )}
+          </Bottom>
+        </RecoverKeyContainer>
+      </Modal>
+    );
+  },
+);
 
 export default RecoveryKey;

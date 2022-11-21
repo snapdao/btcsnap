@@ -6,10 +6,14 @@ import {
   CloseIconContainer,
 } from './styles';
 import CloseIcon from '../../components/Icons/CloseIcon';
-import ModalBackground from './ModalBackground';
-import ModalHeader from './ModalHeader';
+import ModalBackground from './Background';
+import ModalHeader from './Header';
+import ModalConfirm from './Confirm';
+import ModalLoading from './ModalLoading';
+import ModalFooter from './Footer';
+import ModalContainer from './Container';
 
-const Modal = ({ open, close, children, ...rest }: ModalProps) => {
+const Modal = ({ open, close, children, key, ...rest }: ModalProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(open || false);
   const previousOpen = useRef<boolean>(false);
 
@@ -33,7 +37,8 @@ const Modal = ({ open, close, children, ...rest }: ModalProps) => {
     <TransitionablePortal
       open={isVisible}
       transition={{ animation: 'fade up', duration: 250 }}
-      closeOnDocumentClick={false}>
+      closeOnDocumentClick={false}
+      key={key}>
       <StyledModal open={true} {...rest}>
         <StyledModalContainer>
           <CloseIconContainer>
@@ -48,5 +53,9 @@ const Modal = ({ open, close, children, ...rest }: ModalProps) => {
 
 Modal.Background = ModalBackground;
 Modal.Header = ModalHeader;
+Modal.Container = ModalContainer;
+Modal.Footer = ModalFooter;
+Modal.Confirm = ModalConfirm;
+Modal.Loading = ModalLoading;
 
 export { Modal };

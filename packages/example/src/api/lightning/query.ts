@@ -91,6 +91,7 @@ export const queryWithUserInfo = async (
   const userId = current!.userId;
   const userPassword = await getPassword(userId);
 
+  if (!userPassword) throw new Error('not found user password')
   const bodyWithUserInfo = {
     ...body,
     user_id: userId,
