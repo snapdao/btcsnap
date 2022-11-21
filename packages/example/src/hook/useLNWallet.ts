@@ -4,7 +4,11 @@ import {
   createWallet,
   CreateWalletResponse,
 } from '../api/lightning/createWallet';
-import { getLNWalletData, KeyOptions, saveLNDataToSnap } from '../lib/snap';
+import {
+  getLNWalletData,
+  GetLNWalletDataKey,
+  saveLNDataToSnap,
+} from '../lib/snap';
 import { createLightningWallet } from '../services/LightningService/createLightningWallet';
 
 export const useLNWallet = () => {
@@ -16,22 +20,29 @@ export const useLNWallet = () => {
 
   async function create(name: string) {
     setCreateLoading(true);
-    const pubkey = await getLNWalletData(KeyOptions.PubKey);
+    const pubkey = await getLNWalletData(GetLNWalletDataKey.PubKey);
     if (!pubkey) {
       console.error('pubkey not found');
       return;
     }
     const createRes = await createWallet(pubkey);
     const credential = createRes.credential;
-    if (!credential) return;
-    setWallet(createRes);
-
-    createLightningWallet(createRes.userId, name || nextWalletName);
+    if (!credential && !createRes.success) {
+      if (createRes.error_message) {
+        console.error('create error', createRes.error_message);
+      }
+      return;
+    }
     await saveLNDataToSnap({
       walletId: createRes.userId,
       credential: `${credential.login}:${credential.password}`,
       password: createRes.userPassword,
     });
+
+    setWallet(createRes);
+
+    createLightningWallet(createRes.userId, name || nextWalletName);
+
     setCreateLoading(false);
     return true;
   }

@@ -1,19 +1,26 @@
-import React, { useState } from "react";
-import { useAppStore } from "../../mobx";
-import Modal from "./Modal";
-import { observer } from "mobx-react-lite";
-import NetworkIcon from "../Icons/Network";
-import CloseIcon from "../Icons/CloseIcon";
-import { ReactComponent as SettingsIcon } from "../../assets/settings.svg";
-import { Divider } from "semantic-ui-react";
-import ArrowRight from "../Icons/ArrowRight";
-import { SettingHeader, SettingLabel, SettingContent, SettingItem, SettingRadio } from "./styles"
-import AddressType, { addressTypeOptions } from "./AddressType";
+import React, { useState } from 'react';
+import { useAppStore } from '../../mobx';
+import Modal from './Modal';
+import { observer } from 'mobx-react-lite';
+import NetworkIcon from '../Icons/Network';
+import CloseIcon from '../Icons/CloseIcon';
+import { ReactComponent as SettingsIcon } from '../../assets/settings.svg';
+import { Divider } from 'semantic-ui-react';
+import ArrowRight from '../Icons/ArrowRight';
+import {
+  SettingHeader,
+  SettingLabel,
+  SettingContent,
+  SettingItem,
+  SettingRadio,
+} from './styles';
+import AddressType, { addressTypeOptions } from './AddressType';
 // TODO:Hide before on-line.
 // import TermsOfService from "./TermsOfService";
 // import PrivacyPolicy from "./PrivacyPolicy";
-import Network from "./Network";
-import { VERSION } from "../../config";
+import Network from './Network';
+import { VERSION } from '../../config';
+import { WalletType } from '../../interface';
 
 interface SettingProps {
   open: boolean;
@@ -27,16 +34,21 @@ enum SettingOptions {
   Privacy,
 }
 
-const Settings = observer(({open, close}: SettingProps) => {
-  const { settings: { network, scriptType, dynamicAddress, setDynamicAddress }, current} = useAppStore();
+const Settings = observer(({ open, close }: SettingProps) => {
+  const {
+    settings: { network, scriptType, dynamicAddress, setDynamicAddress },
+    current,
+    lightning,
+    currentWalletType,
+  } = useAppStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const openDialog = (option: SettingOptions) => {
     setCurrentVisible(option);
-  }
+  };
 
   const closeDialog = () => {
     setCurrentVisible(null);
-  }
+  };
 
   return (
     <Modal open={open}>
@@ -49,7 +61,7 @@ const Settings = observer(({open, close}: SettingProps) => {
       </SettingHeader>
 
       <SettingContent>
-        {current &&
+        {current && currentWalletType === WalletType.BitcoinWallet && (
           <>
             <SettingItem onClick={() => openDialog(SettingOptions.Network)}>
               <span>Network</span>
@@ -59,24 +71,39 @@ const Settings = observer(({open, close}: SettingProps) => {
                 <ArrowRight size={18} />
               </span>
             </SettingItem>
-            {currentVisible === SettingOptions.Network && <Network open={true} close={closeDialog} />}
+            {currentVisible === SettingOptions.Network && (
+              <Network open={true} close={closeDialog} />
+            )}
 
-            <SettingItem onClick={() => openDialog(SettingOptions.AddressType)} >
+            <SettingItem onClick={() => openDialog(SettingOptions.AddressType)}>
               <span>Address Type</span>
               <span>
-                <span>{addressTypeOptions.find(option => option.type === scriptType)!.label}</span>
+                <span>
+                  {
+                    addressTypeOptions.find(
+                      (option) => option.type === scriptType,
+                    )!.label
+                  }
+                </span>
                 <ArrowRight size={18} />
               </span>
             </SettingItem>
-            {currentVisible === SettingOptions.AddressType && <AddressType open={true} close={closeDialog} />}
+            {currentVisible === SettingOptions.AddressType && (
+              <AddressType open={true} close={closeDialog} />
+            )}
 
-            <SettingItem onClick={() => { setDynamicAddress(!dynamicAddress)} } >
+            <SettingItem
+              onClick={() => {
+                setDynamicAddress(!dynamicAddress);
+              }}>
               <span>Dynamic Address</span>
-              <span><SettingRadio toggle checked={dynamicAddress} /></span>
+              <span>
+                <SettingRadio toggle checked={dynamicAddress} />
+              </span>
             </SettingItem>
-            <Divider style={{margin: '16px'}} />
+            <Divider style={{ margin: '16px' }} />
           </>
-        }
+        )}
         {/* TODO:Hide before on-line.  */}
         {/* <SettingItem onClick={() => openDialog(SettingOptions.Terms)}>
           <span>Terms of Service</span>

@@ -1,25 +1,32 @@
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
-export const LightningWalletTipsContainer = styled.div`
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
+export const LightningWalletTipsContainer = styled.div<{ isFixed: boolean }>`
+  ${(props) =>
+    props.isFixed
+      ? css`
+          position: absolute;
+          bottom: 0;
+          margin: 24px;
+        `
+      : css`
+          position: relative;
+          margin-top: 10px;
+        `}
   height: 92px;
   width: 240px;
-  border: 1px solid #E1E6F0;
+  border: 1px solid #e1e6f0;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transition: 0.25s;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   :hover {
-    background: rgba(0, 0, 0, 0.04);
     transition: 0.25s;
     cursor: pointer;
   }
-`
+`;
 
 export const LightningWalletTipsContent = styled.div`
   padding: 16px 16px 16px 48px;
@@ -33,12 +40,12 @@ export const LightningWalletTipsContent = styled.div`
     font-weight: 400;
     font-size: 12px;
     line-height: 18px;
-    color: #9095A3;
+    color: #9095a3;
   }
-`
+`;
 
 export const StyledLightningTipsIcon = styled.div`
   position: absolute;
   top: 16px;
   left: 16px;
-`
+`;
