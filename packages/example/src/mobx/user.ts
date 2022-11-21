@@ -16,6 +16,7 @@ export const userInitialState = {
 
 const User = types
   .model('User', {
+    name: types.optional(types.string, 'Bitcoin'),
     isAgreeCookie: types.boolean,
     LNWalletStep: types.optional(types.number, LNWalletStepStatus.Default),
     bitcoinUnit: types.optional(
@@ -32,6 +33,9 @@ const User = types
     },
     setBitcoinUnit: (targetUnit: BitcoinUnit) => {
       self.bitcoinUnit = targetUnit;
+    },
+    updateUser(name: string) {
+      self.name = name;
     },
   }));
 

@@ -1,10 +1,12 @@
-import { getLNWalletData, KeyOptions } from "../../lib/snap";
+import { getLNWalletData, GetLNWalletDataKey } from '../../lib/snap';
 
-export const getPassword = async (userId: string): Promise<string> =>{
+export const getPassword = async (
+  userId: string,
+): Promise<string | null | undefined> => {
   try {
-    const password = await getLNWalletData(KeyOptions.Password, userId);
-    return password || '';
+    const password = await getLNWalletData(GetLNWalletDataKey.Password, userId);
+    return password;
   } catch (e) {
-    return ''
+    return '';
   }
-}
+};

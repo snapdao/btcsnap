@@ -78,7 +78,7 @@ export const WalletListHeader = styled.div`
 export const WalletListContentContainer = styled.div`
   position: relative;
   width: 100%;
-  height: calc(624px);
+  height: 624px;
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

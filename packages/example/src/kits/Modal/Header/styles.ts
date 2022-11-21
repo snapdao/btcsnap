@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<{
+  enableXPadding?: boolean;
+}>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 20px 0;
+  padding: 20px ${(props) => (props.enableXPadding ? '20px' : '0')} 0;
+  min-height: 55px;
 `;
 
 export const Content = styled.span`

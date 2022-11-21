@@ -15,7 +15,6 @@ import { BodyContainer } from './styles';
 import { Textarea } from '../../../../kits/Textarea';
 import { Button } from '../../../../kits/Button';
 import { Message, MessageType, Modal } from '../../../../kits';
-import ModalLoading from './ModalLoading';
 import { FlexBetween } from '../../../../kits/Layout/Flex';
 import InputCount from './InputCount';
 
@@ -49,7 +48,7 @@ const LightningReceiveCreateModal = observer(
             position: 'relative',
           }}
           open={true}>
-          {(!model.currencyRate || model.isCreating) && <ModalLoading />}
+          {(!model.currencyRate || model.isCreating) && <Modal.Loading />}
           <Modal.Background>
             <Modal.Header
               left={
@@ -59,6 +58,7 @@ const LightningReceiveCreateModal = observer(
                 </>
               }
               onClose={() => close()}
+              style={{ padding: '20px' }}
             />
             <Container style={{ padding: 32 }}>
               <H4 style={{ color: 'var(--c-n50)' }}>Amount</H4>
@@ -91,29 +91,23 @@ const LightningReceiveCreateModal = observer(
                 />
               </FlexBetween>
             </Container>
-            <Container>
-              <Grid columns={2}>
-                <Grid.Column width={8}>
-                  <Button onClick={close}>
-                    <H3>Cancel</H3>
-                  </Button>
-                </Grid.Column>
-                <Grid.Column width={8}>
-                  <Button
-                    onClick={onCreate}
-                    primary
-                    disabled={
-                      !model.amount ||
-                      Number(model.amount) === 0 ||
-                      !model.currencyRate ||
-                      model.isCreating
-                    }>
-                    <H3>Create Invoice</H3>
-                  </Button>
-                </Grid.Column>
-              </Grid>
-            </Container>
           </BodyContainer>
+          <Modal.Footer>
+            <Button onClick={close}>
+              <H3>Cancel</H3>
+            </Button>
+            <Button
+              onClick={onCreate}
+              primary
+              disabled={
+                !model.amount ||
+                Number(model.amount) === 0 ||
+                !model.currencyRate ||
+                model.isCreating
+              }>
+              <H3>Create Invoice</H3>
+            </Button>
+          </Modal.Footer>
           {errorStatus && (
             <Message
               type={MessageType.Error}

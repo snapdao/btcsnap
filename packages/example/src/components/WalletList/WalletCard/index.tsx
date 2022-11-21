@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { BitcoinUnit, WalletType } from '../../../interface';
 import {
   WalletCardBalance,
   WalletCardContainer,
   WalletCardContent,
   WalletCardHeader,
+  WalletCardName,
 } from './styles';
 import { MoreIcon } from '../../Icons/MoreIcon';
 import { useAppStore } from '../../../mobx';
@@ -20,6 +21,7 @@ interface WalletCardProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   selected: boolean;
   onClick?: () => void;
   available?: boolean;
+  showEditWalletModal: (walletData: { id: string; type: WalletType }) => void;
 }
 
 export const WalletCard = observer(
@@ -32,19 +34,17 @@ export const WalletCard = observer(
     name,
     unit,
     available = true,
+    showEditWalletModal,
   }: WalletCardProps) => {
     const { lightning, switchToWallet, current } = useAppStore();
 
     const edit = useCallback(
       (event) => {
         event.stopPropagation();
-        if (walletType === WalletType.LightningWallet) {
-          // TODO: render edit modal
-          lightning.removeWallet(id);
-          if (!lightning.hasLightningWallet) {
-            switchToWallet(WalletType.BitcoinWallet, current?.xpub);
-          }
-        }
+        showEditWalletModal({
+          id,
+          type: walletType,
+        });
       },
       [id, walletType],
     );
@@ -61,7 +61,7 @@ export const WalletCard = observer(
       <WalletCardContainer active={selected} onClick={onClick}>
         <WalletCardContent type={walletType} available={available}>
           <WalletCardHeader>
-            <span>{name}</span>
+            <WalletCardName>{name}</WalletCardName>
             <MoreIcon onClick={edit} disabled={!available} />
           </WalletCardHeader>
           <WalletCardBalance>

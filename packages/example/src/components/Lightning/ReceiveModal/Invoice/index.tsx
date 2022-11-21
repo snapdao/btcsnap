@@ -59,7 +59,7 @@ const LightningReceiveInvoiceModal = observer(
         open={true}
         closeOnDimmerClick={false}>
         <Modal.Background>
-          <Modal.Header onClose={() => close()}>
+          <Modal.Header onClose={() => close()} showCloseIcon={false}>
             <H3>Lightning Invoice</H3>
           </Modal.Header>
           <Container style={{ padding: '24px 0 100px' }}>

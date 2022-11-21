@@ -16,20 +16,31 @@ import { observer } from 'mobx-react-lite';
 import { BitcoinNetwork, WalletType } from '../../interface';
 import { AddLightningWallet } from './AddLightningWallet';
 import { Popup } from '../../kits';
-import CreateWallet from "../Lightning/CreateWallet";
+import CreateWallet from '../Lightning/CreateWallet';
+import EditWallet from '../EditWallet';
 
 export const WalletList = observer(({ open, close }: any) => {
   const {
     current,
     lightning,
-    user: { bitcoinUnit },
+    user: { name, bitcoinUnit },
     switchToWallet,
     settings: { network },
     currentWalletType,
   } = useAppStore();
 
   const [visible, setVisible] = useState<boolean>(open);
-  const [shouldShowCreateWallet, setShouldShowCreateWallet] = useState<boolean>(false);
+  const [shouldShowCreateWallet, setShouldShowCreateWallet] =
+    useState<boolean>(false);
+  const [currentEditWallet, setCurrentEditWallet] = useState<{
+    open: boolean;
+    id: string | null;
+    type: WalletType;
+  }>({
+    open: false,
+    id: null,
+    type: WalletType.LightningWallet,
+  });
 
   const selectedWallet = useMemo(() => {
     if (lightning.hasLightningWallet) {
@@ -59,6 +70,22 @@ export const WalletList = observer(({ open, close }: any) => {
     setShouldShowCreateWallet(true);
   }
 
+  function onCloseEditWalletModal() {
+    setCurrentEditWallet({
+      ...currentEditWallet,
+      id: null,
+      open: false,
+    });
+  }
+
+  function onShowEditWalletModal(walletData: { id: string; type: WalletType }) {
+    setCurrentEditWallet({
+      ...currentEditWallet,
+      ...walletData,
+      open: true,
+    });
+  }
+
   return (
     <CurrentPage open={open}>
       <AccountPageShadow ref={parentNode} open={open}>
@@ -76,7 +103,8 @@ export const WalletList = observer(({ open, close }: any) => {
             <WalletListContainer>
               <WalletListHeader>
                 <span>wallets</span>
-                <Popup
+                {/* TODO: Multiple Account Bitcoin Wallet */}
+                {/* <Popup
                   position="top center"
                   content={
                     network === BitcoinNetwork.Test
@@ -93,14 +121,14 @@ export const WalletList = observer(({ open, close }: any) => {
                       />
                     </span>
                   }
-                />
+                /> */}
               </WalletListHeader>
 
               <WalletListContentContainer>
                 <WalletListContent>
                   <WalletCard
                     id={current?.id || ''}
-                    name={'Bitcoin'}
+                    name={name}
                     key={current?.id}
                     walletType={WalletType.BitcoinWallet}
                     balance={0}
@@ -110,6 +138,7 @@ export const WalletList = observer(({ open, close }: any) => {
                         switchToWallet(WalletType.BitcoinWallet, current.xpub);
                       }
                     }}
+                    showEditWalletModal={onShowEditWalletModal}
                     unit={bitcoinUnit}
                   />
                   {lightning.wallets.map((wallet) => (
@@ -128,6 +157,7 @@ export const WalletList = observer(({ open, close }: any) => {
                           );
                         }
                       }}
+                      showEditWalletModal={onShowEditWalletModal}
                       unit={wallet.unit}
                       available={network === BitcoinNetwork.Main}
                     />
@@ -139,8 +169,20 @@ export const WalletList = observer(({ open, close }: any) => {
           </WalletListModal>
         </TransitionablePortal>
 
-        <CreateWallet open={shouldShowCreateWallet} close={() => {setShouldShowCreateWallet(false)}} />
+        <CreateWallet
+          open={shouldShowCreateWallet}
+          close={() => {
+            setShouldShowCreateWallet(false);
+          }}
+        />
 
+        <EditWallet
+          open={currentEditWallet.open}
+          id={currentEditWallet.id}
+          walletType={currentEditWallet.type}
+          close={onCloseEditWalletModal}
+          showSelfModal={onShowEditWalletModal}
+        />
       </AccountPageShadow>
     </CurrentPage>
   );
