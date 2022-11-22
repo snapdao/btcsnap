@@ -1,14 +1,13 @@
 import { TransitionablePortal, Modal } from "semantic-ui-react";
-import CloseIcon from "../Icons/CloseIcon";
-import SendIcon from "../Icons/SendIcon";
-import ReceiveIcon from "../Icons/ReceiveIcon";
-import SuccessIcon from "../Icons/SuccessIcon";
-import FailedIcon from "../Icons/FailedIcon";
+import CloseIcon from "../../../Icons/CloseIcon";
+import SendIcon from "../../../Icons/SendIcon";
+import ReceiveIcon from "../../../Icons/ReceiveIcon";
+import SuccessIcon from "../../../Icons/SuccessIcon";
+import FailedIcon from "../../../Icons/FailedIcon";
 import PendingImage from "./image/pend.png";
-import { TransactionTypes, TransactionStatus, TransactionDetail } from "./types";
-import { getTransactionDetailsLink } from "../../lib/explorer";
-import { BitcoinNetwork } from "../../interface";
-import { satoshiToBTC } from "../../lib/helper";
+import { TransactionTypes, TransactionStatus, TransactionDetail } from "../../../../types";
+import { getTransactionDetailsLink } from "../../../../lib/explorer";
+import { satoshiToBTC } from "../../../../lib/helper";
 import {
   ModalHeaderCenter,
   ModalHeaderContainer,
@@ -26,16 +25,18 @@ import {
   BackgroundDiv,
   PendingSpan,
   CompletedSpan,
-} from "./styles"
+} from "./sytles"
+import { useAppStore } from "../../../../mobx";
+import { observer } from "mobx-react-lite";
 
 interface TransactionProps {
-  network: BitcoinNetwork;
   open: boolean;
   close: () => void;
   details: TransactionDetail;
 }
 
-const TransactionDetails = (({network, open, close, details}:TransactionProps) => {
+export const TransactionDetails = observer(({open, close, details}:TransactionProps) => {
+  const {settings: {network}} = useAppStore();
   const isFailed = details.status === TransactionStatus.Failed;
   const isPending = details.status === TransactionStatus.Pending;
   const isSendType = details.type === TransactionTypes.Send;

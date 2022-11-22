@@ -1,0 +1,111 @@
+import React from 'react';
+import { useEffect, useState } from "react";
+import { Modal, Popup } from "semantic-ui-react";
+import { observer } from "mobx-react-lite";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import InfoIcon from "../../Icons/InfoIcon";
+import CloseIcon from "../../Icons/CloseIcon";
+import TransactionIcon from "../../Icons/TransactionIcon";
+import LoadingIcon from "../../Icons/Loading";
+import {
+  ModalHeader,
+  ModalHeaderContainer,
+  ModalHeaderLabel,
+  TransactionListArea,
+  MaskArea,
+  LoadingIconContainer,
+  BottomTipsContainer
+} from "./styles";
+import { RecordDetail } from "../RecordDetail";
+import { HistoryRecord, TransactionDetail } from "../../../types";
+import { useHistoryRecords } from "../../../hook/useHistoryRecords";
+import { useAppStore } from "../../../mobx";
+import { WalletType } from "../../../interface";
+import { RecordCard } from "../RecordCard";
+
+interface RecordListProps {
+  open: boolean;
+  close: () => void;
+  defaultRecords: HistoryRecord[];
+}
+
+const TRANSACTION_HISTORY_RECORD_TIPS = "The previous transactions of addresses before using BitcoinSnap will not be displayed here."
+
+export const RecordList = observer(({open, close, defaultRecords}: RecordListProps) => {
+  const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);
+  const [recordList, setRecordList] = useState<HistoryRecord[]>(defaultRecords);
+
+  const {currentWalletType} = useAppStore();
+  const offset = currentWalletType === WalletType.BitcoinWallet
+    ? (defaultRecords[defaultRecords.length - 1].data as TransactionDetail)?.marker
+    : defaultRecords.length
+
+  const {
+    historyRecords,
+    loadMore,
+    hasMore,
+    loading
+  } = useHistoryRecords(10, offset);
+
+  useEffect(() => {
+    const allRecords =[...recordList, ...historyRecords];
+    allRecords.sort((tx1, tx2) => tx2.datetime - tx1.datetime);
+    setRecordList(allRecords);
+  }, [historyRecords])
+
+  return (
+    <Modal open={open} onClose={close} style={{width: 440, height: 640, borderRadius: 20, position: 'relative'}}>
+      <ModalHeader>
+        <ModalHeaderContainer>
+          <TransactionIcon/>
+          <ModalHeaderLabel>transaction details</ModalHeaderLabel>
+        </ModalHeaderContainer>
+        <CloseIcon onClick={close}/>
+      </ModalHeader>
+
+      <TransactionListArea>
+        <InfiniteScroll
+          dataLength={recordList.length}
+          next={loadMore}
+          hasMore={hasMore}
+          loader={<></>}
+          height={543}
+          endMessage={
+            <BottomTipsContainer>
+              <div>
+                <span>No more transactions</span>
+                <Popup
+                  trigger={<div><InfoIcon/></div>}
+                  position='top center'
+                  content={TRANSACTION_HISTORY_RECORD_TIPS}
+                  inverted
+                  style={{width: 260}}
+                />
+              </div>
+            </BottomTipsContainer>
+          }
+        >
+          {recordList.map((record: HistoryRecord) => (
+            <RecordCard
+              key={`${record.id}-${record.title}`}
+              record={record}
+              onClick={() => setSelectedRecord(record)}
+            />
+          ))}
+
+          {loading && <LoadingIconContainer><LoadingIcon/></LoadingIconContainer>}
+        </InfiniteScroll>
+      </TransactionListArea>
+
+      {selectedRecord && (
+        <RecordDetail
+          open={!!selectedRecord}
+          close={() => setSelectedRecord(null)}
+          record={selectedRecord}
+        />
+      )}
+
+      <MaskArea/>
+    </Modal>
+  )
+})
