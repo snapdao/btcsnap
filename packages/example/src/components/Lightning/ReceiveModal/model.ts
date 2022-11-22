@@ -5,7 +5,6 @@ import { makeAutoObservable } from 'mobx';
 import { BitcoinUnit } from '../../../interface';
 import { btcToSatoshi } from '../../../lib/helper';
 import { addInvoice } from '../../../api/lightning/addInvoice';
-import { covertSecondsToHM } from '../../../lib/datetime';
 
 const clearEndZeros = (str: string) => str.replace(/[\.]0+$/, '');
 

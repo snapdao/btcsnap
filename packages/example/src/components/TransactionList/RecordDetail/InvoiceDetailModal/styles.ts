@@ -59,7 +59,7 @@ export const RecordStatus = styled.div`
   }
 `
 
-export const RecordAmount = styled.div`
+export const RecordAmount = styled.div<{lowlight?:boolean}>`
   display: flex;
   justify-content: center;
   align-items: baseline;
@@ -71,6 +71,7 @@ export const RecordAmount = styled.div`
     text-overflow: ellipsis;
     font-size: 36px;
     line-height: 48px;
+    ${props => props.lowlight ? css`color: var(--c-n50);` : ''};
   }
   span:last-child {
     color: #F58300;
@@ -85,4 +86,11 @@ export const LightningMark = styled(FlexCenter)`
   margin-top: 8px;
   gap: 2px;
   color: var(--c-n60);
+`
+
+export const FixedBottomContainer = styled.div`
+  position: absolute;
+  left: 32px;
+  bottom: 32px;
+  width: calc(100% - 64px);
 `

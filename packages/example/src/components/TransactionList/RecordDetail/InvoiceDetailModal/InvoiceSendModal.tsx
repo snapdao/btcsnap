@@ -76,17 +76,6 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
             <RecordItemRowDivider/>
 
             <RecordItemRow>
-              <RecordItemLabel>From</RecordItemLabel>
-              <RecordItemContent>{lightning.current?.name}</RecordItemContent>
-            </RecordItemRow>
-            <RecordItemRow>
-              <RecordItemLabel>To</RecordItemLabel>
-              <RecordItemContent>{invoice.address}</RecordItemContent>
-            </RecordItemRow>
-
-            <RecordItemRowDivider/>
-
-            <RecordItemRow>
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
             <RecordItemContent lowlight>{invoice.amount}{" "}</RecordItemContent>

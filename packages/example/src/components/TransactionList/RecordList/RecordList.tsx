@@ -77,13 +77,16 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
               <BottomTipsContainer>
                 <div>
                   <span>No more transactions</span>
-                  <Popup
-                    trigger={<div><InfoIcon/></div>}
-                    position='top center'
-                    content={TRANSACTION_HISTORY_RECORD_TIPS}
-                    inverted
-                    style={{width: 260}}
-                  />
+                  {
+                    currentWalletType === WalletType.BitcoinWallet && (
+                      <Popup
+                        trigger={<div><InfoIcon/></div>}
+                        position='top center'
+                        content={TRANSACTION_HISTORY_RECORD_TIPS}
+                        inverted
+                        style={{width: 260}}
+                      />
+                    )}
                 </div>
               </BottomTipsContainer>
             }

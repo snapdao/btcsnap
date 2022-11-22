@@ -96,7 +96,9 @@ const LightningReceiveInvoiceModal = observer(
           content={<DescriptionPopup>{model.description}</DescriptionPopup>}
           position="top center"
           inverted
-          trigger={<Description>{model.description}</Description>}></Popup>
+          wide
+          trigger={<Description>{model.description}</Description>}
+        />
       </Modal>
     );
   },
