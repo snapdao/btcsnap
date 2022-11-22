@@ -1,5 +1,4 @@
-import { TransactionInfo, TransactionType } from 'snapkit';
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const AccountBackground = styled.div`
   width: 100%;
@@ -140,7 +139,13 @@ export const TxListContainer = styled.div`
 export const TxListContent = styled.div`
   width: 100%;
   height: 400px;
-`;
+  & > div {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+  & > div:last-child {
+    border-bottom: none;
+  }
+`
 
 export const TxListEmpty = styled.div`
   height: 400px;
@@ -461,39 +466,6 @@ export const MarketPrice = styled.p<{ isTestnet: boolean }>`
     color: #f58300;
     text-decoration-line: ${(props) =>
       props.isTestnet ? 'line-through' : 'none'};
-  }
-`;
-
-export const TransactionItem = styled(TransactionInfo)`
-  cursor: pointer;
-  & > div {
-    position: relative;
-  }
-  & > div::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 1px;
-    bottom: -0.5px;
-    background: var(--sk-color-ntd04);
-  }
-  svg path {
-    fill: ${(props) =>
-      props.type === TransactionType.SEND
-        ? 'var(--sk-color-r60)'
-        : 'var(--sk-color-g60)'};
-  }
-  :hover {
-    background: var(--sk-color-ntd04);
-    transition: 0.25s;
-  }
-  :not(:hover) {
-    background: linear-gradient(
-      222.5deg,
-      rgba(250, 251, 255, 0.8) 47.82%,
-      rgba(245, 247, 252, 0) 100%
-    );
-    transition: 0.25s;
   }
 `;
 

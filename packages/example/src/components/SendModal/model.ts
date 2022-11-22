@@ -11,11 +11,6 @@ import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
 import { getTransactionLink } from '../../lib/explorer';
 import {
-  TransactionDetail,
-  TransactionStatus,
-  TransactionTypes
-} from '../TransactionList/types';
-import {
   trackSendSign,
   trackTransactionBroadcast,
   trackTransactionBroadcastSucceed,
