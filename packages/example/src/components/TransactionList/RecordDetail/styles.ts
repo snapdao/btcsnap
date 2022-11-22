@@ -34,6 +34,8 @@ export const oneLine = css`
 `
 
 export const RecordDetailsContainer = styled.div`
+  margin-top: -60px;
+  padding-top: 60px;
   max-height: 548px;
   overflow-y: scroll;
   ${hideScrollbar};
@@ -46,9 +48,10 @@ export const RecordDetailsTop = styled.div`
   background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
 `
 
-export const RecordDetailsBottom = styled.div`
+export const RecordDetailsBottom = styled.div<{moreSpacing?: boolean}>`
   flex: 1;
   margin: 32px 32px 0;
+  padding-bottom: ${props => props.moreSpacing ? '44px' : 0};
 `
 
 export const RecordItemRow = styled(FlexBetween)`

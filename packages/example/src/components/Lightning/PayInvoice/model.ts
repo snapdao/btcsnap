@@ -1,13 +1,13 @@
 import React from 'react';
 import { makeAutoObservable, reaction } from "mobx";
 import lightningPayReq, { PaymentRequestObject } from "bolt11";
-import { covertSecondsToHM } from "../../../lib/datetime";
 import { SendStatus } from "./types";
 import { satoshiToBTC } from "../../../lib/helper";
 import { signLNInvoice } from "../../../lib/snap";
 import { SnapRequestErrors } from "../../../errors/Snap/errors";
 import { payInvoice } from "../../../api/lightning/payInvoice";
 import { logger } from "../../../logger";
+import { covertSecondsToHM } from "../../../utils/datetime";
 
 class LightningSendViewModel {
   public status: SendStatus = SendStatus.Init;
