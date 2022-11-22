@@ -152,13 +152,16 @@ export async function signPsbt(
   }
 }
 
-export enum KeyOptions {
+export enum GetLNWalletDataKey {
   Password = 'password',
   Credential = 'credential',
   PubKey = 'pubkey',
 }
 
-export async function getLNWalletData(key: KeyOptions, walletId?: string) {
+export async function getLNWalletData(
+  key: GetLNWalletDataKey,
+  walletId?: string,
+) {
   try {
     return await ethereum.request<string>({
       method: 'wallet_invokeSnap',
@@ -213,7 +216,9 @@ export async function saveLNDataToSnap({
   }
 }
 
-export async function signLNInvoice(invoice: string): Promise<string | undefined | null> {
+export async function signLNInvoice(
+  invoice: string,
+): Promise<string | undefined | null> {
   try {
     return ethereum.request<string>({
       method: 'wallet_invokeSnap',
@@ -228,7 +233,7 @@ export async function signLNInvoice(invoice: string): Promise<string | undefined
       ],
     });
   } catch (err: any) {
-    const error = new SnapError(err?.message || "Sign invoice failed");
+    const error = new SnapError(err?.message || 'Sign invoice failed');
     logger.error(error);
     throw error;
   }
