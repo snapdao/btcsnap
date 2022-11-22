@@ -17,13 +17,14 @@ import LoadingIcon from '../../Icons/Loading';
 import RecoveryKey from './RecoveryKey';
 import { useLNWallet } from '../../../hook/useLNWallet';
 import { ImportWallet } from '../ImportWallet';
-import { Modal } from '../../../kits';
+import { H3, Message, MessageType, Modal } from '../../../kits';
 
 const CreateWallet = observer(
   ({ open, close }: { open: boolean; close: () => void }) => {
     const [walletName, setWalletName] = useState('');
     const [showImport, setShowImport] = useState<boolean>(false);
     const parentNode = useRef<HTMLDivElement>(null);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const {
       lightning: { nextWalletName },
@@ -38,14 +39,21 @@ const CreateWallet = observer(
       if (!credential) return;
       const key = `lndhub://${credential.login}:${credential.password}@https://lndhub.io`;
       setRecoveryKey(key);
+      setShowImport(false);
     }, [lnWallet.wallet]);
 
     async function onCreateLightning() {
       try {
         await lnWallet.create(walletName || nextWalletName);
-      } catch (e) {
+      } catch (e: any) {
         console.error('create lightning error', e);
+        setErrorMessage('Create lightning wallet failed');
       }
+    }
+
+    function onCloseRecoveryKeyModal() {
+      setRecoveryKey('');
+      close();
     }
 
     return (
@@ -53,10 +61,14 @@ const CreateWallet = observer(
         {!recoveryKey ? (
           <Modal open={open} close={close}>
             <ContentContainer ref={parentNode}>
-              <Header>
-                <LightningIcon />
-                <p>add lightning wallet</p>
-              </Header>
+              <Modal.Header
+                left={
+                  <>
+                    <LightningIcon />
+                    <H3>ADD LIGHTNING WALLET</H3>
+                  </>
+                }
+                onClose={close}></Modal.Header>
 
               <CreateContent>
                 <CreateContentTop>
@@ -90,6 +102,14 @@ const CreateWallet = observer(
                 </CreateContentBottom>
               </CreateContent>
 
+              {errorMessage && (
+                <Message
+                  type={MessageType.Error}
+                  onClose={() => setErrorMessage('')}>
+                  {errorMessage}
+                </Message>
+              )}
+
               <ImportWallet
                 open={showImport}
                 close={() => {
@@ -107,7 +127,7 @@ const CreateWallet = observer(
           <RecoveryKey
             open={!!(recoveryKey && open)}
             recoveryKey={recoveryKey}
-            close={close}
+            close={onCloseRecoveryKeyModal}
           />
         )}
       </>

@@ -4,7 +4,9 @@ import { Button, ButtonProps } from 'snapkit';
 export const ButtonWrap = styled(Button)`
   && {
     font-weight: 600;
-    &:disabled {
+
+    &:disabled,
+    &.disabled {
       cursor: not-allowed;
     }
 
