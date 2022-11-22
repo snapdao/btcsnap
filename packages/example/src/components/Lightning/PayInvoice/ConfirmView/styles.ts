@@ -31,7 +31,8 @@ export const ConfirmSecondaryContainer = styled.div`
   hr {
     margin: 20px 0 0;
     width: 100%;
-    border: 1px solid #F0F3FA;
+    border: none;
+    border-bottom: 1px solid #F0F3FA;
   }
 `
 

@@ -171,6 +171,19 @@ class ReceiveViewModel {
     }
   }
 
+  updateCreatedInvoice(paymentRequest: string) {
+    const decodeData = lightningPayReq.decode(paymentRequest);
+    this.qrcode = paymentRequest;
+    this.expireCountDown =
+      (decodeData.timeExpireDate || 0) * 1000 - new Date().getTime();
+    this.expiredDate = decodeData.timeExpireDateString;
+    this.amount = decodeData.satoshis?.toString() || '';
+    this.description = (decodeData.tags.find(
+      (tag) => tag.tagName === 'description',
+    )?.data as string) || '';
+    this.step = ReceiveStep.Invoice;
+  }
+
   async onCreateReceive() {
     try {
       this.isCreating = true;
@@ -178,12 +191,7 @@ class ReceiveViewModel {
         amount: this.receiveAmount,
         memo: this.description,
       });
-      const decodeData = lightningPayReq.decode(res.paymentRequest);
-      this.qrcode = res.paymentRequest;
-      this.expireCountDown =
-        (decodeData.timeExpireDate || 0) * 1000 - new Date().getTime();
-      this.expiredDate = decodeData.timeExpireDateString;
-      this.step = ReceiveStep.Invoice;
+      this.updateCreatedInvoice(res.paymentRequest);
       return res;
     } catch (e) {
       this.isCreating = false;

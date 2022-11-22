@@ -1,15 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Menu from '../Menu';
-import TxList from './TxList';
 import RefreshIcon from '../Icons/RefreshIcon';
 import { useAppStore } from '../../mobx';
 import { LNWalletStepStatus } from '../../mobx/user';
 import { observer } from 'mobx-react-lite';
-import { useTransaction } from '../../hook/useTransaction';
 import { ReactComponent as Bitcoin } from './image/bitcoin.svg';
 import { ReactComponent as Lightning } from './image/lightning.svg';
 import ArrowRight from '../Icons/ArrowRight';
-import TransactionList from '../TransactionList';
 import {
   AccountAside,
   AccountAsideContainer,
@@ -24,6 +21,9 @@ import Joyride, { ACTIONS, Placement } from 'react-joyride';
 import { UserGuide } from '../Lightning';
 import { WalletList } from '../WalletList';
 import { WalletType } from '../../interface';
+import { useHistoryRecords } from "../../hook/useHistoryRecords";
+import { LatestRecords } from "./LatestRecords";
+import { RecordList } from "../TransactionList";
 
 interface AsideProps {
   loadingBalance: boolean;
@@ -31,22 +31,17 @@ interface AsideProps {
 }
 
 const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
-  const [isTransactionValue, setIsTransactionValue] = useState<boolean>(false);
-  const [shouldShowWalletList, setShouldShowWalletList] =
-    useState<boolean>(false);
   const {
     current,
-    settings: { network },
     runtime: { continueConnect, status },
     user: { bitcoinWalletName, LNWalletStep, setLNWalletStep },
     lightning,
     currentWalletType,
   } = useAppStore();
-  const {
-    txList,
-    refresh: refreshTransactions,
-    loading,
-  } = useTransaction({ size: 5 });
+  const [shouldShowRecordDetail, setShouldShowRecordDetail] = useState<boolean>(false);
+  const [shouldShowWalletList, setShouldShowWalletList] = useState<boolean>(false);
+  const { historyRecords, loading, refresh: refreshRecords } = useHistoryRecords(5)
+
   const isRefreshing = loading || loadingBalance;
   const currentWalletName =
     currentWalletType === WalletType.BitcoinWallet
@@ -67,8 +62,8 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
       return;
     }
     refreshBalance();
-    refreshTransactions();
-  }, [refreshBalance, refreshTransactions, isRefreshing]);
+    refreshRecords();
+  }, [refreshBalance, refreshRecords, isRefreshing]);
 
   useEffect(() => {
     if (status === AppStatus.RefreshApp) {
@@ -87,7 +82,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
       continueConnect();
       return;
     }
-    setIsTransactionValue(true);
+    setShouldShowRecordDetail(true);
   };
 
   return (
@@ -123,7 +118,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
           <Menu />
         </AsideHeading>
 
-        <TxList network={network} txList={txList} />
+        <LatestRecords historyList={historyRecords} />
 
         <AccountAsideRefresh>
           <TransactionLink onClick={openTransaction}>
@@ -143,12 +138,11 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
         />
       </AccountAsideContainer>
 
-      {isTransactionValue && (
-        <TransactionList
-          network={network}
-          open={isTransactionValue}
-          close={() => setIsTransactionValue(false)}
-          txDefaultList={txList}
+      {shouldShowRecordDetail && (
+        <RecordList
+          open={shouldShowRecordDetail}
+          close={() => setShouldShowRecordDetail(false)}
+          defaultRecords={historyRecords}
         />
       )}
     </AccountAside>
