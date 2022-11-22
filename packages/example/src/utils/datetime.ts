@@ -9,3 +9,7 @@ export const covertSecondsToHM = (seconds: number) => {
     seconds: Math.floor((seconds % 3600) % 60),
   };
 };
+
+export const addLeadingZero = (time: number) => {
+  return time < 10 ? `0${time}` : time;
+}

@@ -1,6 +1,13 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { LightningMark, RecordAmount, RecordStatus, RecordStatusContainer, RecordType } from "./styles"
-import { InvoiceStatus } from "../../../../types";
+import {
+  FixedBottomContainer,
+  LightningMark,
+  RecordAmount,
+  RecordStatus,
+  RecordStatusContainer,
+  RecordType
+} from "./styles"
+import { InvoiceDetail, InvoiceStatus } from "../../../../types";
 import PendingIcon from "../image/pend.png";
 import { ReactComponent as ExpiredIcon } from "../image/expired_big.svg";
 import { Modal, Popup } from "../../../../kits";
@@ -28,6 +35,9 @@ import LightningReceiveInvoiceModal from "../../../Lightning/ReceiveModal/Invoic
 import ReceiveViewModel from "../../../Lightning/ReceiveModal/model";
 import { observer } from "mobx-react-lite";
 import { TransactionProps } from "./index";
+import useCountDown from "../../../../utils/hooks/useCountdown";
+import lightningPayReq from "bolt11";
+import { addLeadingZero } from "../../../../utils/datetime";
 
 const getInvoiceStatusIcon = (
   status: InvoiceStatus,
@@ -76,7 +86,9 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                 </RecordStatus>
               </RecordType>
 
-              <RecordAmount>
+              <RecordAmount
+                lowlight={invoice.status !== InvoiceStatus.Succeed}
+              >
                 <span>{invoice.amount}</span>
                 <span>Sats</span>
               </RecordAmount>
@@ -88,13 +100,19 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
             </LightningMark>
           </RecordDetailsTop>
 
-          <RecordDetailsBottom>
+          <RecordDetailsBottom moreSpacing={invoice.status === InvoiceStatus.Pending}>
             <RecordItemRow>
               <RecordItemLabel>Status</RecordItemLabel>
               <RecordItemLabel
                 succeed={invoice.status === InvoiceStatus.Succeed}
               >
                 {invoice.status === InvoiceStatus.Succeed && 'Success'}
+                {invoice.status === InvoiceStatus.Pending && (
+                  <>
+                    Unpaid{" "}
+                    <RecordItemContent>{`${addLeadingZero(timeLeft.hours)}:${addLeadingZero(timeLeft.minutes)}:${addLeadingZero(timeLeft.seconds)}`}</RecordItemContent>
+                  </>
+                )}
                 {invoice.status === InvoiceStatus.Expired && 'Unpaid and Expired'}
               </RecordItemLabel>
             </RecordItemRow>
@@ -104,15 +122,6 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
               <RecordItemContent>{dayjs(invoice.date).format('YYYY-MM-DD HH:mm:ss')}</RecordItemContent>
             </RecordItemRow>
 
-            {
-              invoice.status === InvoiceStatus.Succeed && (
-                <RecordItemRow>
-                  <RecordItemLabel>Transaction Time</RecordItemLabel>
-                  <RecordItemContent>{dayjs(invoice.date).format('YYYY-MM-DD HH:mm:ss')}</RecordItemContent>
-                </RecordItemRow>
-              )
-            }
-
             <RecordItemRowDivider/>
 
             {
@@ -120,6 +129,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                 <RecordItemRow>
                   <RecordItemLabel>From</RecordItemLabel>
                   <Popup
+                    breakLine
                     content={invoice.paymentRequest}
                     trigger={<OneLineRecordItemContent>{invoice.paymentRequest}</OneLineRecordItemContent>}
                   />
@@ -156,9 +166,10 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                 </>
               )
             }
-
-            {
-              invoice.status === InvoiceStatus.Pending && (
+          </RecordDetailsBottom>
+          {
+            invoice.status === InvoiceStatus.Pending && (
+              <FixedBottomContainer>
                 <PrimaryButton
                   primary
                   style={{marginTop: 44}}
@@ -168,9 +179,9 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                 >
                   View Invoice
                 </PrimaryButton>
-              )
-            }
-          </RecordDetailsBottom>
+              </FixedBottomContainer>
+            )
+          }
         </RecordDetailsContent>
       </RecordDetailsContainer>
 
