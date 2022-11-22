@@ -39,25 +39,18 @@ describe('useLNWallet', () => {
     expect(result.current.wallet).toBe(createResult);
   });
 
-  it('should return createLightningWallet when pubkey or name does not exist', async () => {
-    jest.spyOn(snap, 'getLNWalletData').mockResolvedValue(undefined);
-    jest.spyOn(snap, 'saveLNDataToSnap').mockResolvedValue(undefined);
+  it('should return createLightningWallet when name does not exist', async () => {
+    jest.spyOn(snap, 'saveLNDataToSnap').mockResolvedValue('pubkey');
     const store = {
       ...defaultStore,
     };
     const { result } = renderHooksWithContext(() => useLNWallet(), store);
 
     await waitFor(async () => {
-      const res = await result.current.create('name');
-      expect(res).toBe(undefined);
-    });
-
-    jest.spyOn(snap, 'saveLNDataToSnap').mockResolvedValue('pubkey');
-    await waitFor(async () => {
       // @ts-ignore
       const res = await result.current.create(undefined);
-      expect(res).toBe(undefined);
+      expect(res).toBe(true);
     });
-    expect(result.current.wallet).toBe(undefined);
+    expect(result.current.wallet).toBe(createResult);
   });
 });
