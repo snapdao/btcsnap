@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { TransactionDetail, TransactionStatus, TransactionTypes } from "../components/TransactionList/types";
+import { TransactionDetail, TransactionStatus, TransactionTypes } from "../types";
 import { ActivityStatus, queryActivities } from "../api/v1/activities";
 import { useAppStore } from "../mobx";
 import { satoshiToBTC } from "../lib/helper";
 import { logger } from "../logger";
+import { WalletType } from "../interface";
 
 interface UseTransaction {
   size: number;
@@ -11,7 +12,7 @@ interface UseTransaction {
 }
 
 export const useTransaction = ({size, offset}: UseTransaction) => {
-  const { current } = useAppStore();
+  const { current, currentWalletType } = useAppStore();
   const [txList, setTxList] = useState<TransactionDetail[]>([])
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,7 +30,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
   }
 
   useEffect(() => {
-    if (current) {
+    if (current && currentWalletType === WalletType.BitcoinWallet) {
       setLoading(true);
       queryActivities({coin: current.coinCode, count: size, loadMoreTxs: lastTx})
         .then(res =>
@@ -52,7 +53,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
             }
           })
         )
-        .then((txList) => {
+        .then((txList: TransactionDetail[]) => {
           setTxList(txList);
           setLoading(false);
           setHasMore(txList.length !== 0);
@@ -65,7 +66,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
     } else {
       setTxList([]);
     }
-  }, [current, count, lastTx])
+  }, [current, count, lastTx, currentWalletType])
 
   return {
     txList,
