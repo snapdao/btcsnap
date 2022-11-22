@@ -69,7 +69,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
             title: tx.type,
             amount: tx.amount,
             label:  tx.type === TransactionTypes.Send ? 'To: ' : 'From: ',
-            content: tx.address,
+            content: `${tx.address.slice(0, 6)}...${tx.address.slice(-6)}`,
             datetime: tx.date,
             data: tx
           };

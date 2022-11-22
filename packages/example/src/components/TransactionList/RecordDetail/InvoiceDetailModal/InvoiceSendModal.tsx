@@ -8,13 +8,13 @@ import { useAppStore } from "../../../../mobx";
 import { LightningIcon2 } from "../../../Icons/LightningIcon2";
 import {
   LightningMark,
-  ModalHeader,
   RecordAmount,
   RecordStatus,
   RecordStatusContainer,
   RecordType,
 } from "./styles"
 import {
+  ModalHeader,
   RecordDetailsTop,
   RecordDetailsBottom,
   RecordItemContent,
@@ -26,12 +26,12 @@ import dayjs from "dayjs";
 import SuccessIcon from "../../../Icons/SuccessIcon";
 import { TransactionProps } from "./index";
 
-export const InvoiceSendModal = (({open, close, invoice}: TransactionProps) => {
+export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionProps) => {
   const {lightning} = useAppStore()
 
   return (
-    <Modal open={open} close={close}>
-      <ModalHeader onClose={close}>
+    <Modal open={open} close={close} mountNode={parent}>
+      <ModalHeader>
         <H3>{invoice.type}</H3>
       </ModalHeader>
 

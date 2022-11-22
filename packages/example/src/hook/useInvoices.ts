@@ -41,6 +41,8 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
           setLoading(false);
           logger.error(e);
         });
+    } else {
+      setAllTransactions([]);
     }
   }, [lightning.current, count, currentWalletType])
 
@@ -59,6 +61,8 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
       const targetInvoices = allTransactions.slice(loadOffset, loadOffset + size);
       setHasMore(targetInvoices.length > 0);
       setInvoices(targetInvoices);
+    } else {
+      setInvoices([]);
     }
   }, [allTransactions, loadOffset, size]);
 

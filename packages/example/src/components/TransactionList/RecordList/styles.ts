@@ -9,6 +9,15 @@ const iconRotate = keyframes`
   }
 `
 
+export const ListContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  & .ui.page.modals {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+  }
+`
+
 export const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,7 +68,9 @@ export const MaskArea = styled.div`
 `
 
 export const LoadingIconContainer = styled.div`
-  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   margin: 30px 0;
   svg {
     animation: ${iconRotate} 1s linear infinite;

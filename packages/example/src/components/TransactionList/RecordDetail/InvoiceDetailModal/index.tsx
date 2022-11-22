@@ -6,6 +6,7 @@ export interface TransactionProps {
   open: boolean;
   close: () => void;
   invoice: InvoiceDetail;
+  parent?: HTMLElement
 }
 
 export const InvoiceDetailModal = (props: TransactionProps) => {
