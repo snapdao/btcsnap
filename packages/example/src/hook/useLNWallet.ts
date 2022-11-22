@@ -20,6 +20,11 @@ export const useLNWallet = () => {
 
   async function create(name: string) {
     setCreateLoading(true);
+    console.log(
+      '%c Line:24 🍤 GetLNWalletDataKey',
+      'color:#7f2b82',
+      GetLNWalletDataKey,
+    );
     const pubkey = await getLNWalletData(GetLNWalletDataKey.PubKey);
     if (!pubkey) {
       console.error('pubkey not found');
