@@ -52,8 +52,8 @@ const CreateWallet = observer(
     }
 
     function onCloseRecoveryKeyModal() {
-      setRecoveryKey('');
       close();
+      setTimeout(() => setRecoveryKey(''), 200);
     }
 
     return (
@@ -85,13 +85,10 @@ const CreateWallet = observer(
                 </CreateContentTop>
                 <CreateContentBottom>
                   <CreateLNWalletButton
+                    primary
                     onClick={onCreateLightning}
                     disabled={lnWallet.createLoading}>
-                    {lnWallet.createLoading ? (
-                      <LoadingIcon spin />
-                    ) : (
-                      'create lightning wallet'
-                    )}
+                    create lightning wallet
                   </CreateLNWalletButton>
                   <ImportLNWalletLink
                     onClick={() => {
@@ -110,6 +107,8 @@ const CreateWallet = observer(
                 </Message>
               )}
 
+              {lnWallet.createLoading && <Modal.Loading />}
+
               <ImportWallet
                 open={showImport}
                 close={() => {
@@ -125,9 +124,10 @@ const CreateWallet = observer(
           </Modal>
         ) : (
           <RecoveryKey
-            open={!!(recoveryKey && open)}
+            open={!!recoveryKey}
             recoveryKey={recoveryKey}
             close={onCloseRecoveryKeyModal}
+            showCloseIcon={false}
           />
         )}
       </>

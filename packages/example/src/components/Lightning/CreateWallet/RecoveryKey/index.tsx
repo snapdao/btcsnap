@@ -32,10 +32,18 @@ interface CreateWalletProps {
   close: () => void;
   bottomAction?: ReactNode;
   key?: Key;
+  showCloseIcon?: boolean;
 }
 
 const RecoveryKey = observer(
-  ({ open, recoveryKey, bottomAction, key, close }: CreateWalletProps) => {
+  ({
+    open,
+    recoveryKey,
+    bottomAction,
+    key,
+    showCloseIcon = true,
+    close,
+  }: CreateWalletProps) => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [copyToClipboardStatus, setCopyToClipboardStatus] =
       useState<boolean>(false);
@@ -80,7 +88,8 @@ const RecoveryKey = observer(
                   <H3 style={{ marginLeft: 4 }}>recovery key</H3>
                 </>
               }
-              onClose={() => modalRef.current?.onClose()}></Modal.Header>
+              onClose={() => modalRef.current?.onClose()}
+              showCloseIcon={showCloseIcon}></Modal.Header>
             <Top>
               <Title>
                 This secret key is the <span>only way</span> to recover your

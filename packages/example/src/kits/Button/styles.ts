@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, ButtonProps } from 'snapkit';
+import { Button } from 'snapkit';
 
 export const ButtonWrap = styled(Button)`
   && {
