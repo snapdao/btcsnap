@@ -1,18 +1,16 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { LightningMark, ModalHeader, RecordAmount, RecordStatus, RecordStatusContainer, RecordType } from "./styles"
-import SendIcon from "../../../Icons/SendIcon";
-import ReceiveIcon from "../../../Icons/ReceiveIcon";
-import { InvoiceDetail, InvoiceStatus, InvoiceTypes } from "../../../../types";
-import { ReactComponent as OnChainIcon } from "../../../Lightning/InvoiceCard/images/onchain.svg";
-import PendingIcon from "../../image/pend.png";
-import { ReactComponent as ExpiredIcon } from "../../image/expired_big.svg";
-import { Modal } from "../../../../kits";
+import { LightningMark, RecordAmount, RecordStatus, RecordStatusContainer, RecordType } from "./styles"
+import { InvoiceStatus } from "../../../../types";
+import PendingIcon from "../image/pend.png";
+import { ReactComponent as ExpiredIcon } from "../image/expired_big.svg";
+import { Modal, Popup } from "../../../../kits";
 import { H3 } from "../../../../kits/Layout/Text/Title";
 import { Icon } from "snapkit";
 import { Caption } from "../../../../kits/Layout/Text/Body";
 import { useAppStore } from "../../../../mobx";
 import { LightningIcon2 } from "../../../Icons/LightningIcon2";
 import {
+  ModalHeader,
   OneLineRecordItemContent,
   PrimaryButton,
   RecordDetailsBottom,
@@ -29,26 +27,7 @@ import SuccessIcon from "../../../Icons/SuccessIcon";
 import LightningReceiveInvoiceModal from "../../../Lightning/ReceiveModal/Invoice";
 import ReceiveViewModel from "../../../Lightning/ReceiveModal/model";
 import { observer } from "mobx-react-lite";
-
-interface TransactionProps {
-  open: boolean;
-  close: () => void;
-  invoice: InvoiceDetail;
-}
-
-const getInvoiceIcon = (
-  type: InvoiceTypes,
-): ReactNode => {
-  switch (type) {
-    case InvoiceTypes.Sent:
-      return <SendIcon size={36}/>;
-    case InvoiceTypes.Received:
-      return <ReceiveIcon size={36}/>;
-    case InvoiceTypes.OnChain:
-      return <OnChainIcon/>;
-  }
-  return null;
-};
+import { TransactionProps } from "./index";
 
 const getInvoiceStatusIcon = (
   status: InvoiceStatus,
@@ -65,7 +44,7 @@ const getInvoiceStatusIcon = (
 };
 
 
-export const InvoiceReceiveModal = observer((({open, close, invoice}: TransactionProps) => {
+export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: TransactionProps) => {
   const {lightning, runtime: {currencyRate}} = useAppStore();
   const [showInvoiceDetails, setShowInvoiceDetails] = useState<boolean>(false);
   const [invoiceModal, setInvoiceModal] = useState<ReceiveViewModel | null>(null);
@@ -81,8 +60,8 @@ export const InvoiceReceiveModal = observer((({open, close, invoice}: Transactio
   }, [showInvoiceDetails])
 
   return (
-    <Modal open={open} close={close}>
-      <ModalHeader onClose={close}>
+    <Modal open={open} close={close} mountNode={parent}>
+      <ModalHeader>
         <H3>{invoice.type}</H3>
       </ModalHeader>
 
@@ -140,14 +119,20 @@ export const InvoiceReceiveModal = observer((({open, close, invoice}: Transactio
               invoice.status === InvoiceStatus.Succeed && (
                 <RecordItemRow>
                   <RecordItemLabel>From</RecordItemLabel>
-                  <OneLineRecordItemContent>{invoice.paymentRequest}</OneLineRecordItemContent>
+                  <Popup
+                    content={invoice.paymentRequest}
+                    trigger={<OneLineRecordItemContent>{invoice.paymentRequest}</OneLineRecordItemContent>}
+                  />
                 </RecordItemRow>
               )
             }
 
             <RecordItemRow>
               <RecordItemLabel>To</RecordItemLabel>
-              <RecordItemContent>{lightning.current?.name}</RecordItemContent>
+              <Popup
+                content={lightning.current?.name}
+                trigger={<OneLineRecordItemContent>{lightning.current?.name}</OneLineRecordItemContent>}
+              />
             </RecordItemRow>
 
             <RecordItemRowDivider/>

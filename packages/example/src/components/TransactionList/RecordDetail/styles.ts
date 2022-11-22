@@ -2,16 +2,20 @@ import styled, { css } from "styled-components";
 import { FlexBetween } from "../../../kits/Layout/Flex";
 import { H4 } from "../../../kits/Layout/Text/Title";
 import { Caption } from "../../../kits/Layout/Text/Body";
-import { Modal } from "../../../kits";
 import { Button as SnapButton } from "snapkit";
 
-export const ModalHeader = styled(Modal.Header)`
+export const ModalHeader = styled.div`
   display: flex;
   justify-content: center;
-
+  padding-top: 20px;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
   background: rgba(255, 255, 255, 0.8);
-  border-bottom: 1px solid #F0F3FA;
   backdrop-filter: blur(4px);
+  h3 {
+    height: 40px;
+    line-height: 40px;
+  }
 `
 
 export const hideScrollbar = css`
@@ -43,6 +47,7 @@ export const RecordDetailsTop = styled.div`
 `
 
 export const RecordDetailsBottom = styled.div`
+  flex: 1;
   margin: 32px 32px 0;
 `
 
@@ -82,7 +87,7 @@ export const RecordItemContent = styled(Caption)<{highlight?: boolean, lowlight?
 `
 
 export const OneLineRecordItemContent = styled(RecordItemContent)`
-  flex: 1;
+  display: inline-block;
   ${oneLine};
 `
 

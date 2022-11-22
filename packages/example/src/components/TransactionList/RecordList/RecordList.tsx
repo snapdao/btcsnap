@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useState } from "react";
 import { Modal, Popup } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
@@ -14,7 +14,8 @@ import {
   TransactionListArea,
   MaskArea,
   LoadingIconContainer,
-  BottomTipsContainer
+  BottomTipsContainer,
+  ListContainer
 } from "./styles";
 import { RecordDetail } from "../RecordDetail";
 import { HistoryRecord, TransactionDetail } from "../../../types";
@@ -34,6 +35,7 @@ const TRANSACTION_HISTORY_RECORD_TIPS = "The previous transactions of addresses 
 export const RecordList = observer(({open, close, defaultRecords}: RecordListProps) => {
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);
   const [recordList, setRecordList] = useState<HistoryRecord[]>(defaultRecords);
+  const listModalRef = useRef<HTMLDivElement>(null);
 
   const {currentWalletType} = useAppStore();
   const offset = currentWalletType === WalletType.BitcoinWallet
@@ -48,64 +50,67 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
   } = useHistoryRecords(10, offset);
 
   useEffect(() => {
-    const allRecords =[...recordList, ...historyRecords];
+    const allRecords = [...recordList, ...historyRecords];
     allRecords.sort((tx1, tx2) => tx2.datetime - tx1.datetime);
     setRecordList(allRecords);
   }, [historyRecords])
 
   return (
     <Modal open={open} onClose={close} style={{width: 440, height: 640, borderRadius: 20, position: 'relative'}}>
-      <ModalHeader>
-        <ModalHeaderContainer>
-          <TransactionIcon/>
-          <ModalHeaderLabel>transaction details</ModalHeaderLabel>
-        </ModalHeaderContainer>
-        <CloseIcon onClick={close}/>
-      </ModalHeader>
+      <ListContainer>
+        <ModalHeader ref={listModalRef}>
+          <ModalHeaderContainer>
+            <TransactionIcon/>
+            <ModalHeaderLabel>transaction details</ModalHeaderLabel>
+          </ModalHeaderContainer>
+          <CloseIcon onClick={close}/>
+        </ModalHeader>
 
-      <TransactionListArea>
-        <InfiniteScroll
-          dataLength={recordList.length}
-          next={loadMore}
-          hasMore={hasMore}
-          loader={<></>}
-          height={543}
-          endMessage={
-            <BottomTipsContainer>
-              <div>
-                <span>No more transactions</span>
-                <Popup
-                  trigger={<div><InfoIcon/></div>}
-                  position='top center'
-                  content={TRANSACTION_HISTORY_RECORD_TIPS}
-                  inverted
-                  style={{width: 260}}
-                />
-              </div>
-            </BottomTipsContainer>
-          }
-        >
-          {recordList.map((record: HistoryRecord) => (
-            <RecordCard
-              key={`${record.id}-${record.title}`}
-              record={record}
-              onClick={() => setSelectedRecord(record)}
-            />
-          ))}
+        <TransactionListArea>
+          <InfiniteScroll
+            dataLength={recordList.length}
+            next={loadMore}
+            hasMore={hasMore}
+            loader={<></>}
+            height={543}
+            endMessage={
+              <BottomTipsContainer>
+                <div>
+                  <span>No more transactions</span>
+                  <Popup
+                    trigger={<div><InfoIcon/></div>}
+                    position='top center'
+                    content={TRANSACTION_HISTORY_RECORD_TIPS}
+                    inverted
+                    style={{width: 260}}
+                  />
+                </div>
+              </BottomTipsContainer>
+            }
+          >
+            {recordList.map((record: HistoryRecord) => (
+              <RecordCard
+                key={`${record.id}-${record.title}`}
+                record={record}
+                onClick={() => setSelectedRecord(record)}
+              />
+            ))}
 
-          {loading && <LoadingIconContainer><LoadingIcon/></LoadingIconContainer>}
-        </InfiniteScroll>
-      </TransactionListArea>
+            {loading && <LoadingIconContainer><LoadingIcon/></LoadingIconContainer>}
+          </InfiniteScroll>
+        </TransactionListArea>
 
-      {selectedRecord && (
-        <RecordDetail
-          open={!!selectedRecord}
-          close={() => setSelectedRecord(null)}
-          record={selectedRecord}
-        />
-      )}
+        {selectedRecord && (
+          <RecordDetail
+            open={!!selectedRecord}
+            close={() => setSelectedRecord(null)}
+            record={selectedRecord}
+            parent={listModalRef.current!}
+          />
+        )}
 
-      <MaskArea/>
+        <MaskArea/>
+      </ListContainer>
     </Modal>
   )
 })
