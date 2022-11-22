@@ -3,7 +3,7 @@ import { RequestType } from '../types';
 
 const endpoint = `/v1/snap/invoices/`;
 
-interface LightningInvoicesResponse {
+export interface LightningInvoicesResponse {
   paymentRequest: string; // invoice
   description: string;
   paymentHash: string;
@@ -14,10 +14,11 @@ interface LightningInvoicesResponse {
   ispaid?: boolean
 }
 
-export const invoices = (): Promise<LightningInvoicesResponse> => {
+export const invoices = (limit = 0, offset = 0): Promise<LightningInvoicesResponse[]> => {
   return queryWithUserInfo(
     endpoint,
     RequestType.Get,
     {},
+    { limit, offset }
   );
 };
