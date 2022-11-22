@@ -19,32 +19,37 @@ export const useLNWallet = () => {
   const [createLoading, setCreateLoading] = useState(false);
 
   async function create(name: string) {
-    setCreateLoading(true);
-    const pubkey = await getLNWalletData(GetLNWalletDataKey.PubKey);
-    if (!pubkey) {
-      console.error('pubkey not found');
-      return;
-    }
-    const createRes = await createWallet(pubkey);
-    const credential = createRes.credential;
-    if (!credential && !createRes.success) {
-      if (createRes.error_message) {
-        console.error('create error', createRes.error_message);
+    try {
+      setCreateLoading(true);
+      const pubkey = await getLNWalletData(GetLNWalletDataKey.PubKey);
+      if (!pubkey) {
+        console.error('pubkey not found');
+        return;
       }
-      return;
+      const createRes = await createWallet(pubkey);
+      const credential = createRes.credential;
+      if (!credential && !createRes.success) {
+        if (createRes.error_message) {
+          console.error('create error', createRes.error_message);
+        }
+        return;
+      }
+      await saveLNDataToSnap({
+        walletId: createRes.userId,
+        credential: `${credential.login}:${credential.password}`,
+        password: createRes.userPassword,
+      });
+
+      setWallet(createRes);
+
+      createLightningWallet(createRes.userId, name || nextWalletName);
+
+      setCreateLoading(false);
+      return true;
+    } catch (e) {
+      setCreateLoading(true);
+      throw e;
     }
-    await saveLNDataToSnap({
-      walletId: createRes.userId,
-      credential: `${credential.login}:${credential.password}`,
-      password: createRes.userPassword,
-    });
-
-    setWallet(createRes);
-
-    createLightningWallet(createRes.userId, name || nextWalletName);
-
-    setCreateLoading(false);
-    return true;
   }
 
   async function getBalance(userId: string) {
