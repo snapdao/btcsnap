@@ -8,6 +8,7 @@ interface RecordDetailProps {
   open: boolean;
   close: () => void;
   record: HistoryRecord
+  parent?: HTMLElement
 }
 
 export const RecordDetail = ({record, ...rest}: RecordDetailProps) => {

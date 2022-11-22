@@ -42,12 +42,13 @@ export const LatestRecords = observer(({historyList}: TxCardProps) => {
             <EmptyTip>
               <span>no transactions</span>
               {
-                currentWalletType === WalletType.BitcoinWallet &&
+                currentWalletType === WalletType.BitcoinWallet && (
                   <Popup
-                      trigger={<div><InfoIcon/></div>}
-                      content={TRANSACTION_TIPS}
-                      style={{width: '296px'}}
+                    trigger={<div><InfoIcon/></div>}
+                    content={TRANSACTION_TIPS}
+                    style={{width: '296px'}}
                   />
+                )
               }
             </EmptyTip>
           </TxListEmpty>
@@ -58,6 +59,7 @@ export const LatestRecords = observer(({historyList}: TxCardProps) => {
           open={!!selectedRecord}
           close={() => setSelectedRecord(null)}
           record={selectedRecord}
+          parent={document.body}
         />
       )}
     </TxListContainer>
