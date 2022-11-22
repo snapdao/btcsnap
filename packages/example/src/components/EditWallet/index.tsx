@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../../mobx';
-import { H3, Message, MessageType, Modal } from '../../kits';
+import { Button, H3, Message, MessageType, Modal } from '../../kits';
 import RecoveryKey from '../Lightning/CreateWallet/RecoveryKey';
 import EditIcon from '../Icons/EditIcon';
 import { WalletType } from '../../interface';
-import { Button } from 'snapkit';
 import { EditWalletContainer } from './styles';
 import { List } from '../../kits/List';
 import Divider from '../../kits/Divider';
 import LightningWallet from '../../mobx/lightningWallet';
-import { Instance, types } from 'mobx-state-tree';
+import { Instance } from 'mobx-state-tree';
 import { getLNWalletData, GetLNWalletDataKey } from '../../lib/snap';
 
 interface EditWalletProps {
@@ -36,6 +35,8 @@ const EditWallet = observer(
     const parentNode = useRef<HTMLDivElement>(null);
     const [showConfirm, setShowConfirm] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const modalRef = useRef<any>(null);
+    const [pendingSnap, setPendingSnap] = useState(false);
 
     const {
       current,
@@ -81,7 +82,7 @@ const EditWallet = observer(
         switchToWallet(WalletType.BitcoinWallet, current?.xpub);
       }
       onCloseConfirm();
-      close();
+      modalRef.current?.onClose();
     }
 
     function onShowDeleteConfirm() {
@@ -116,7 +117,7 @@ const EditWallet = observer(
       } else {
         updateUser(walletInfo.name);
       }
-      close();
+      modalRef.current?.onClose();
     }
 
     async function onShowBackup() {
@@ -124,18 +125,21 @@ const EditWallet = observer(
         if (!walletInfo?.userId) {
           throw new Error('not found user id');
         }
+        setPendingSnap(true);
         const credentialString = await getLNWalletData(
           GetLNWalletDataKey.Credential,
           walletInfo.userId,
         );
+        setPendingSnap(false);
         setRecoveryKey({
           open: true,
           value: `lndhub://${credentialString}@https://lndhub.io`,
         });
       } catch (e) {
+        setPendingSnap(false);
         const msg = (e as Error)?.message;
         if (msg === 'User rejected the request.') {
-          setErrorMessage(msg);
+          setErrorMessage('Request rejected.');
         } else {
           setErrorMessage('show recovery key error');
         }
@@ -159,6 +163,7 @@ const EditWallet = observer(
 
     return open && !recoveryKey.open ? (
       <Modal
+        ref={modalRef}
         style={{
           width: 440,
           height: 640,
@@ -166,7 +171,7 @@ const EditWallet = observer(
           position: 'relative',
         }}
         close={close}
-        open={open && !recoveryKey.open}
+        open={open}
         key="editWalletModal"
         closeOnDimmerClick={false}>
         <EditWalletContainer ref={parentNode}>
@@ -176,7 +181,8 @@ const EditWallet = observer(
                 <EditIcon style={{ color: 'var(--sk-color-pri50)' }} />
                 <H3 style={{ marginLeft: 4 }}>Edit</H3>
               </>
-            }></Modal.Header>
+            }
+            onClose={() => modalRef.current?.onClose()}></Modal.Header>
           <Modal.Container>
             <List>
               <List.Form
@@ -216,13 +222,14 @@ const EditWallet = observer(
             </List>
           </Modal.Container>
           <Modal.Footer>
-            <Button onClick={close}>
+            <Button onClick={() => modalRef.current?.onClose()}>
               <H3>Cancel</H3>
             </Button>
             <Button onClick={onSave} primary disabled={shouldEnableSaveButton}>
               <H3>Save</H3>
             </Button>
           </Modal.Footer>
+          {pendingSnap && <Modal.Loading content="Continue at MetaMask" />}
           <Modal.Confirm
             title="Delete Wallet"
             open={showConfirm}

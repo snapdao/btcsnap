@@ -1,8 +1,9 @@
-import { Loader } from 'semantic-ui-react';
+import { Loader, LoaderProps } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 const Mask = styled.div`
   position: absolute;
+  top: 0;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
@@ -10,10 +11,10 @@ const Mask = styled.div`
   z-index: 200;
 `;
 
-const ModalLoading = () => {
+const ModalLoading = (args: LoaderProps) => {
   return (
     <Mask>
-      <Loader />
+      <Loader {...args} />
     </Mask>
   );
 };

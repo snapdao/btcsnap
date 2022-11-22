@@ -1,11 +1,10 @@
-import React, { Key, ReactNode, useState } from 'react';
+import React, { Key, ReactNode, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   ActionButton,
   Bottom,
   Box,
   BoxContainer,
-  Container,
   GoToWalletButton,
   GoToWalletContainer,
   GoToWalletTip,
@@ -25,7 +24,7 @@ import { useAppStore } from '../../../../mobx';
 import { Header } from '../styles';
 import { WalletType } from '../../../../interface';
 import { copyToClipboard } from '../../../../utils/clipboard';
-import { Message, MessageType, Modal } from '../../../../kits';
+import { H3, Message, MessageType, Modal } from '../../../../kits';
 
 interface CreateWalletProps {
   open: boolean;
@@ -40,6 +39,7 @@ const RecoveryKey = observer(
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [copyToClipboardStatus, setCopyToClipboardStatus] =
       useState<boolean>(false);
+    const modalRef = useRef<any>(null);
 
     const {
       lightning: { current },
@@ -66,18 +66,21 @@ const RecoveryKey = observer(
       if (currentWalletType !== WalletType.LightningWallet) {
         switchWalletType(WalletType.LightningWallet);
       }
-      close();
+      modalRef.current?.onClose();
     }
 
     return (
-      <Modal open={open} close={close} key={key}>
+      <Modal ref={modalRef} open={open} close={close} key={key}>
         <RecoverKeyContainer>
-          <Container>
-            <Header>
-              <KeyIcon />
-              <p>recovery key</p>
-            </Header>
-
+          <Modal.Background>
+            <Modal.Header
+              left={
+                <>
+                  <KeyIcon />
+                  <H3 style={{ marginLeft: 4 }}>recovery key</H3>
+                </>
+              }
+              onClose={() => modalRef.current?.onClose()}></Modal.Header>
             <Top>
               <Title>
                 This secret key is the <span>only way</span> to recover your
@@ -101,7 +104,7 @@ const RecoveryKey = observer(
                 </ActionButton>
               </BoxContainer>
             </Top>
-          </Container>
+          </Modal.Background>
 
           {copyToClipboardStatus && (
             <Message type={MessageType.Succeed}>Copied to clipboard</Message>
