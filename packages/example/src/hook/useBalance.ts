@@ -60,8 +60,10 @@ export const useBalance = () => {
       if (lightning.current) {
         queryLightningBalance().then(response => {
           setBalance(Number(response.BTC.AvailableBalance) || 0)
+          setStatus(AppStatus.Ready);
         }).catch(e => {
           setBalance(0)
+          setStatus(AppStatus.Ready);
         })
       }
     }
