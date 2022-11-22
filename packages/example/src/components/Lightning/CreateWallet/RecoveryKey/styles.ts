@@ -6,21 +6,10 @@ export const RecoverKeyContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-`
-
-export const Container = styled.div`
-  padding-top: 20px;
-  position: relative;
-  height: 336px;
-  background: linear-gradient(
-    185.06deg,
-    rgba(255, 108, 10, 0.012) 4.07%,
-    rgba(255, 108, 10, 0.06) 95.93%
-  );
 `;
 
 export const Top = styled.div`
-  padding: 0 32px;
+  padding: 0 32px 40px;
   margin-top: 40px;
 `;
 
