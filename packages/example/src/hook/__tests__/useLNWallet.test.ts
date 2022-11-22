@@ -1,5 +1,3 @@
-import { act } from '@testing-library/react-hooks';
-import { useMFPCheck } from '../useMFPCheck';
 import {
   renderHooksWithContext,
   defaultStore,
@@ -31,7 +29,6 @@ describe('useLNWallet', () => {
     jest.spyOn(snap, 'saveLNDataToSnap').mockResolvedValue(undefined);
     const store = {
       ...defaultStore,
-      lightning: { nextWalletName: 'Lightning 2' },
     };
     const { result } = renderHooksWithContext(() => useLNWallet(), store);
 
@@ -47,7 +44,6 @@ describe('useLNWallet', () => {
     jest.spyOn(snap, 'saveLNDataToSnap').mockResolvedValue(undefined);
     const store = {
       ...defaultStore,
-      lightning: { nextWalletName: 'Lightning 2' },
     };
     const { result } = renderHooksWithContext(() => useLNWallet(), store);
 

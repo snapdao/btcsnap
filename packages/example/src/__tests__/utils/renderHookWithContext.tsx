@@ -34,12 +34,12 @@ export const defaultStore = {
 
     persistDataLoaded: true,
     receiveAddress: {
-      "id": "address-3b5d46ef-de3b-4f69-8290-0c7712ba5267",
-      "address": "tb1ql0tm4heyl9nq3utm8egky7ftjfk8r3vpaxlsut",
-      "parent": "account-d2ecd721-8701-4302-af95-925f1bbfde44",
-      "coinCode": "BTC_TESTNET_NATIVE_SEGWIT",
-      "change": 0,
-      "index": 2
+      id: 'address-3b5d46ef-de3b-4f69-8290-0c7712ba5267',
+      address: 'tb1ql0tm4heyl9nq3utm8egky7ftjfk8r3vpaxlsut',
+      parent: 'account-d2ecd721-8701-4302-af95-925f1bbfde44',
+      coinCode: 'BTC_TESTNET_NATIVE_SEGWIT',
+      change: 0,
+      index: 2,
     },
     validateAndAddAddress: jest.fn(),
     loadMoreTxs: jest.fn(),
@@ -47,18 +47,20 @@ export const defaultStore = {
   settings: { dynamicAddress: true },
   runtime: {
     setStatus: jest.fn(),
-    setCurrencyRate: jest.fn()
+    setCurrencyRate: jest.fn(),
   },
   refresh: jest.fn(),
   currentWalletType: WalletType.BitcoinWallet,
   lightning: {
     current: {
-      id: "ln-wallet-89738820-fb7a-4acd-ab20-19b4c0578d4e",
-      userId: "71ac9d4969b14f19fc9d9254f86156f604d84e6926b55afc342d5311750fe900",
-      name: "Lightning",
-      unit: "Sats"
-    }
-  }
+      id: 'ln-wallet-89738820-fb7a-4acd-ab20-19b4c0578d4e',
+      userId:
+        '71ac9d4969b14f19fc9d9254f86156f604d84e6926b55afc342d5311750fe900',
+      name: 'Lightning',
+      unit: 'Sats',
+    },
+    nextWalletName: 'sdkasiofoifasl',
+  },
 };
 
 export function renderHooksWithContext<T>(hook: () => T, store = defaultStore) {
