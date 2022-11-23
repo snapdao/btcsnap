@@ -51,8 +51,14 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
 
   useEffect(() => {
     const allRecords = [...recordList, ...historyRecords];
-    allRecords.sort((tx1, tx2) => tx2.datetime - tx1.datetime);
-    setRecordList(allRecords);
+    const uniqueRecords = allRecords.reduce((acc: HistoryRecord[], cur: HistoryRecord) => {
+      if (!acc.map(record => record.id).includes(cur.id)) {
+        return [...acc, cur]
+      }
+      return acc;
+    }, [])
+    uniqueRecords.sort((tx1, tx2) => tx2.datetime - tx1.datetime);
+    setRecordList(uniqueRecords);
   }, [historyRecords])
 
   return (
@@ -86,7 +92,8 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
                         inverted
                         style={{width: 260}}
                       />
-                    )}
+                    )
+                  }
                 </div>
               </BottomTipsContainer>
             }
