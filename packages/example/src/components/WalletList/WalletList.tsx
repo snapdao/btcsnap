@@ -23,7 +23,7 @@ export const WalletList = observer(({ open, close }: any) => {
   const {
     current,
     lightning,
-    user: { name, bitcoinUnit },
+    user: { bitcoinWalletName, bitcoinUnit },
     switchToWallet,
     settings: { network },
     currentWalletType,
@@ -128,7 +128,7 @@ export const WalletList = observer(({ open, close }: any) => {
                 <WalletListContent>
                   <WalletCard
                     id={current?.id || ''}
-                    name={name}
+                    name={bitcoinWalletName}
                     key={current?.id}
                     walletType={WalletType.BitcoinWallet}
                     balance={0}

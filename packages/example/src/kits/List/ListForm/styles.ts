@@ -1,6 +1,5 @@
 import { H4 } from './../../Layout/Text/Title/index';
-import styled, { css } from 'styled-components';
-import { Body, Caption } from '../../Layout/Text/Body/index';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 0 12px;

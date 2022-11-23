@@ -12,6 +12,9 @@ const LightningWallet = types
     setUnit: (unit: BitcoinUnit) => {
       self.unit = unit;
     },
+    setName: (name: string) => {
+      self.name = name;
+    },
   }));
 
 export default LightningWallet;
