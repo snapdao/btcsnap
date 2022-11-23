@@ -40,6 +40,9 @@ const CreateWallet = observer(
       const key = `lndhub://${credential.login}:${credential.password}@https://lndhub.io`;
       setRecoveryKey(key);
       setShowImport(false);
+      return () => {
+        setRecoveryKey('');
+      };
     }, [lnWallet.wallet]);
 
     async function onCreateLightning() {
