@@ -7,10 +7,10 @@ import {
   WalletCardHeader,
   WalletCardName,
 } from './styles';
-import { MoreIcon } from '../../Icons/MoreIcon';
 import { useAppStore } from '../../../mobx';
 import { observer } from 'mobx-react-lite';
 import { Popup } from '../../../kits/Popup';
+import AdjustIcon from '../../Icons/AdjustIcon';
 
 interface WalletCardProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   id: string;
@@ -62,7 +62,11 @@ export const WalletCard = observer(
         <WalletCardContent type={walletType} available={available}>
           <WalletCardHeader>
             <WalletCardName>{name}</WalletCardName>
-            <MoreIcon onClick={edit} disabled={!available} />
+            <AdjustIcon
+              style={{ color: 'white' }}
+              onClick={edit}
+              disabled={!available}
+            />
           </WalletCardHeader>
           <WalletCardBalance>
             {balance} {unit}

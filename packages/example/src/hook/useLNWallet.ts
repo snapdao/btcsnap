@@ -47,7 +47,7 @@ export const useLNWallet = () => {
       setCreateLoading(false);
       return true;
     } catch (e) {
-      setCreateLoading(true);
+      setCreateLoading(false);
       throw e;
     }
   }

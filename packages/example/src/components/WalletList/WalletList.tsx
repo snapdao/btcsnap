@@ -162,7 +162,25 @@ export const WalletList = observer(({ open, close }: any) => {
                       available={network === BitcoinNetwork.Main}
                     />
                   ))}
-                  <AddLightningWallet onAddWallet={showCreateWallet} />
+                  <Popup
+                    position="top center"
+                    content={
+                      network === BitcoinNetwork.Test
+                        ? 'Not available on Testnet'
+                        : lightning.hasReachedLimitation
+                        ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
+                        : null
+                    }
+                    disabled={!shouldDisableAddition}
+                    trigger={
+                      <span>
+                        <AddLightningWallet
+                          onAddWallet={showCreateWallet}
+                          shouldDisableAddition={shouldDisableAddition}
+                        />
+                      </span>
+                    }
+                  />
                 </WalletListContent>
               </WalletListContentContainer>
             </WalletListContainer>

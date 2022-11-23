@@ -4,10 +4,10 @@ import { ButtonWrap } from './styles';
 
 interface WButtonProps extends ButtonProps {}
 
-export const Button = ({ loading, children, ...args }: WButtonProps) => {
+export const Button = ({ children, ...args }: WButtonProps) => {
   return (
-    <ButtonWrap {...args}>
-      {loading ? <LoadingIcon spin /> : children}
+    <ButtonWrap loadingIcon={<LoadingIcon spin />} {...args}>
+      {children}
     </ButtonWrap>
   );
 };

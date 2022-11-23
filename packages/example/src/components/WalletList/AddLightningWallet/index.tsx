@@ -10,10 +10,12 @@ import { useAppStore } from '../../../mobx';
 
 interface AddLightningWalletProps {
   onAddWallet: () => void;
+  shouldDisableAddition: boolean;
 }
 
 export const AddLightningWallet = ({
   onAddWallet,
+  shouldDisableAddition,
 }: AddLightningWalletProps) => {
   const { lightning } = useAppStore();
   const [isHoveringAddingTips, setIsHoveringAddTips] = useState<boolean>(false);
@@ -23,9 +25,14 @@ export const AddLightningWallet = ({
       onMouseEnter={() => setIsHoveringAddTips(true)}
       onMouseLeave={() => setIsHoveringAddTips(false)}
       isFixed={lightning.walletLength < 2}
-      onClick={onAddWallet}>
+      onClick={() => !shouldDisableAddition && onAddWallet()}
+      shouldDisableAddition={shouldDisableAddition}>
       <StyledLightningTipsIcon>
-        {isHoveringAddingTips ? <AddIcon /> : <LightningIcon />}
+        {!shouldDisableAddition && isHoveringAddingTips ? (
+          <AddIcon />
+        ) : (
+          <LightningIcon />
+        )}
       </StyledLightningTipsIcon>
       <LightningWalletTipsContent>
         <span>Add Lightning Wallets</span>
