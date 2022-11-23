@@ -4,7 +4,6 @@ import { InvoiceTypes } from "../../../../types";
 import { Modal } from "../../../../kits";
 import { H3 } from "../../../../kits/Layout/Text/Title";
 import { Caption } from "../../../../kits/Layout/Text/Body";
-import { useAppStore } from "../../../../mobx";
 import { LightningIcon2 } from "../../../Icons/LightningIcon2";
 import {
   BottomGradientLayerContainer,
@@ -15,7 +14,7 @@ import {
   RecordType,
 } from "./styles"
 import {
-  ModalHeader,
+  ModalTitleContainer,
   RecordDetailsTop,
   RecordDetailsBottom,
   RecordItemContent,
@@ -28,13 +27,13 @@ import SuccessIcon from "../../../Icons/SuccessIcon";
 import { TransactionProps } from "./index";
 
 export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionProps) => {
-  const {lightning} = useAppStore()
-
   return (
     <Modal open={open} close={close} mountNode={parent}>
-      <ModalHeader>
-        <H3>{invoice.type}</H3>
-      </ModalHeader>
+      <Modal.Header bannerMode>
+        <ModalTitleContainer>
+          <H3>{invoice.type}</H3>
+        </ModalTitleContainer>
+      </Modal.Header>
 
       <RecordDetailsContainer>
         <RecordDetailsContent>

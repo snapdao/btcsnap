@@ -4,22 +4,10 @@ import { H4 } from "../../../kits/Layout/Text/Title";
 import { Caption } from "../../../kits/Layout/Text/Body";
 import { Button as SnapButton } from "snapkit";
 
-export const ModalHeader = styled.div`
-  width: 100%;
+export const ModalTitleContainer = styled.div`
+  height: 40px;
   display: flex;
-  justify-content: center;
-  padding-top: 20px;
   align-items: center;
-  border-radius: 20px 20px 0 0;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
-  position: absolute;
-  z-index: 10;
-  h3 {
-    height: 40px;
-    line-height: 40px;
-    text-transform: capitalize;
-  }
 `
 
 export const hideScrollbar = css`

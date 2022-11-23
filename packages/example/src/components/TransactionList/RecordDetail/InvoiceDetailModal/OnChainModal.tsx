@@ -11,7 +11,7 @@ import {
   RecordType,
 } from "./styles"
 import {
-  ModalHeader,
+  ModalTitleContainer,
   RecordDetailsTop,
   RecordDetailsBottom,
   RecordItemContent,
@@ -27,9 +27,11 @@ import { Icon } from "snapkit";
 export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) => {
   return (
     <Modal open={open} close={close} mountNode={parent}>
-      <ModalHeader>
-        <H3>{invoice.type}</H3>
-      </ModalHeader>
+      <Modal.Header bannerMode>
+        <ModalTitleContainer>
+          <H3>{invoice.type}</H3>
+        </ModalTitleContainer>
+      </Modal.Header>
 
       <RecordDetailsContainer>
         <RecordDetailsContent>
