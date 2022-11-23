@@ -1,6 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 import { Modal } from "../../../../kits";
 import { FlexCenter } from "../../../../kits/Layout/Flex";
+import { GradientLayer } from "../styles";
 
 const iconRotate = keyframes`
   0% {
@@ -94,6 +95,22 @@ export const LightningMark = styled(FlexCenter)`
 export const FixedBottomContainer = styled.div`
   position: absolute;
   left: 32px;
-  bottom: 32px;
+  bottom: 0;
   width: calc(100% - 64px);
+`
+
+export const BottomButtonContainer = styled.div`
+  padding-bottom: 32px;
+  width: 100%;
+  background-color: #FFFFFF;
+`
+
+export const BottomGradientLayerContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  div {
+    height: 84px;
+    border-radius: 0 0 20px 20px;
+  }
 `
