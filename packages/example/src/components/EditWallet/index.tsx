@@ -40,8 +40,8 @@ const EditWallet = observer(
 
     const {
       current,
-      lightning: { getWalletByUserId, updateWallet: updateLightningWallet },
-      user: { name: bitcoinWalletName, updateUser },
+      lightning: { getWalletByUserId },
+      user: { bitcoinWalletName, updateUser },
       switchToWallet,
     } = useAppStore();
 
@@ -85,7 +85,7 @@ const EditWallet = observer(
       modalRef.current?.onClose();
     }
 
-    function onShowDeleteConfirm() {
+    function showDeleteConfirm() {
       setShowConfirm(true);
     }
 
@@ -111,12 +111,12 @@ const EditWallet = observer(
       }
 
       if (walletType === WalletType.LightningWallet) {
-        updateLightningWallet(id, {
-          name: walletInfo.name,
-        });
+        let wallet = getWalletByUserId(id);
+        wallet?.setName(walletInfo.name);
       } else {
         updateUser(walletInfo.name);
       }
+
       modalRef.current?.onClose();
     }
 
@@ -215,7 +215,7 @@ const EditWallet = observer(
                       </span>
                     }
                     hoverable
-                    onClick={onShowDeleteConfirm}
+                    onClick={showDeleteConfirm}
                   />
                 </>
               )}

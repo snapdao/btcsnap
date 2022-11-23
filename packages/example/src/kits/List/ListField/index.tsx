@@ -1,7 +1,5 @@
-import React, { ReactNode } from 'react';
-import { InputProps } from 'semantic-ui-react';
+import { ReactNode } from 'react';
 import { Icon } from 'snapkit';
-import styled from 'styled-components';
 import { Container, Content, Title } from './styles';
 
 interface Props {

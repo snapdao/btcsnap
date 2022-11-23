@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Props } from '.';
 
-export const Box = styled.div<Props>`
+export const Line = styled.div<Props>`
   display: inline-block;
   width: ${({ direction }) => (direction === 'vertical' ? `1px` : `100%`)};
   height: ${({ direction }) => (direction === 'vertical' ? `100%` : `1px`)};

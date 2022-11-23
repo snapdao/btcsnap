@@ -49,15 +49,6 @@ const Lightning = types
       }
       self.current = otherWallet;
     },
-    updateWallet(userId: string, walletInfo: Pick<ILightningWalletIn, 'name'>) {
-      const wallet = self.wallets.find((wallet) => wallet.userId === userId);
-      if (!wallet) {
-        console.error('not found userId', userId);
-        return;
-      }
-
-      wallet.name = walletInfo.name;
-    },
     switchWallet(userId: string) {
       const existWallet = self.wallets.find(
         (wallet) => wallet.userId === userId,

@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { Container, InputProps } from 'semantic-ui-react';
+import { ReactNode } from 'react';
+import { Container } from 'semantic-ui-react';
 import { ListField } from './ListField';
 import { ListForm } from './ListForm';
 
