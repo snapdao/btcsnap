@@ -1,6 +1,7 @@
 import { InvoiceDetail, InvoiceTypes } from "../../../../types";
 import { InvoiceReceiveModal } from "./InvoiceReceiveModal";
 import { InvoiceSendModal } from "./InvoiceSendModal";
+import { OnChainModal } from "./OnChainModal";
 
 export interface TransactionProps {
   open: boolean;
@@ -10,8 +11,12 @@ export interface TransactionProps {
 }
 
 export const InvoiceDetailModal = (props: TransactionProps) => {
-  if(props.invoice.type === InvoiceTypes.Sent){
-    return <InvoiceSendModal {...props} />
+  switch (props.invoice.type){
+    case InvoiceTypes.Sent:
+      return <InvoiceSendModal {...props} />
+    case InvoiceTypes.Received:
+      return <InvoiceReceiveModal {...props} />
+    default:
+      return <OnChainModal {...props} />
   }
-  return <InvoiceReceiveModal {...props} />
 }

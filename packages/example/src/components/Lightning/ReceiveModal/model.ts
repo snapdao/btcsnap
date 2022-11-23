@@ -25,6 +25,7 @@ class ReceiveViewModel {
   qrcode = '';
   expireCountDown: number = 0;
   expiredDate?: string = '';
+  downloadImageReady: boolean = false;
 
   constructor(defaultUnit: BitcoinUnit, currencyRate: number) {
     if (defaultUnit) {
@@ -123,6 +124,10 @@ class ReceiveViewModel {
 
   get amountLength() {
     return this.amount?.length || 1;
+  }
+
+  setDownloadImageReady(isReady: boolean) {
+    this.downloadImageReady = isReady;
   }
 
   onChangeAmount(value: string) {
