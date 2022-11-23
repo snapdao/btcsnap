@@ -1,7 +1,4 @@
-import React, { ChangeEvent, ReactNode } from 'react';
-import { InputProps } from 'semantic-ui-react';
-import { Icon } from 'snapkit';
-import styled from 'styled-components';
+import { ChangeEvent, ReactNode } from 'react';
 import { Input } from '../../Input';
 import { Container, Title } from './styles';
 

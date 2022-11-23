@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from './styles';
+import { Line } from './styles';
 
 export interface Props {
   direction?: 'vertical' | 'horizontal';
@@ -13,5 +13,5 @@ export default function Divider({
   color = 'var(--c-ntd04)',
   ...args
 }: Props) {
-  return <Box direction={direction} gap={gap} color={color} {...args} />;
+  return <Line direction={direction} gap={gap} color={color} {...args} />;
 }
