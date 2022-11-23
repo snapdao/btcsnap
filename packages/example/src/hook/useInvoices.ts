@@ -19,7 +19,8 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [loadOffset, setLoadOffset] = useState<number>(offset);
+  const [startOffset, setStartOffset] = useState<number>(0);
+  const endOffset = startOffset === 0 ? offset + size : startOffset + size;
 
   useEffect(() => {
     const fetchAllTransactions = async (): Promise<InvoiceDetail[]> => {
@@ -52,19 +53,19 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
     }
   };
 
-  const loadMore = useCallback(() => {
-    setLoadOffset(loadOffset + size);
-  }, [loadOffset, size])
+  const loadMore = () => {
+    setStartOffset(endOffset);
+  }
 
   useEffect(() => {
     if (allTransactions.length > 0) {
-      const targetInvoices = allTransactions.slice(loadOffset, loadOffset + size);
+      const targetInvoices = allTransactions.slice(startOffset, endOffset);
       setHasMore(targetInvoices.length > 0);
       setInvoices(targetInvoices);
     } else {
       setInvoices([]);
     }
-  }, [allTransactions, loadOffset, size]);
+  }, [allTransactions, startOffset, size]);
 
   return {
     invoices,
