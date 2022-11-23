@@ -1,6 +1,9 @@
 import styled, { css } from 'styled-components';
 
-export const LightningWalletTipsContainer = styled.div<{ isFixed: boolean }>`
+export const LightningWalletTipsContainer = styled.div<{
+  shouldDisableAddition?: boolean;
+  isFixed: boolean;
+}>`
   ${(props) =>
     props.isFixed
       ? css`
@@ -20,7 +23,24 @@ export const LightningWalletTipsContainer = styled.div<{ isFixed: boolean }>`
   flex-direction: column;
   justify-content: center;
   transition: 0.25s;
-  background-color: #ffffff;
+
+  ${(props) => {
+    return css`
+      background-color: ${props.shouldDisableAddition
+        ? 'var(--sk-color-n10)'
+        : '#ffffff'};
+
+      ${props.shouldDisableAddition &&
+      css`
+        & > div:nth-child(2) {
+          > span,
+          p {
+            color: var(--sk-color-n50);
+          }
+        }
+      `}
+    `;
+  }}
 
   :hover {
     transition: 0.25s;
