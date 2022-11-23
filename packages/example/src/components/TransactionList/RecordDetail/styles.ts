@@ -15,6 +15,7 @@ export const ModalHeader = styled.div`
   h3 {
     height: 40px;
     line-height: 40px;
+    text-transform: capitalize;
   }
 `
 

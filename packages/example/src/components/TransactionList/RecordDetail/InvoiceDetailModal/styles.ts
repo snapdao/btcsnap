@@ -20,7 +20,7 @@ export const RecordStatusContainer = styled.div`
   text-align: center;
 `
 
-export const RecordType = styled.div<{isSend?: boolean}>`
+export const RecordType = styled.div<{isSend?: boolean; isOnChain?: boolean}>`
   position: relative;
   width: 88px;
   height: 88px;
@@ -29,6 +29,9 @@ export const RecordType = styled.div<{isSend?: boolean}>`
   outline: 1.5px solid var(--c-g60);;
   ${props => props.isSend ? css`
     outline-color: var(--c-pri60);
+  ` : ''}
+  ${props => props.isOnChain ? css`
+    outline-color: var(--c-b60);
   ` : ''}
 
   & svg {

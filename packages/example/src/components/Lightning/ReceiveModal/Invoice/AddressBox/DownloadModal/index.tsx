@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { QRCodeCanvas } from 'qrcode.react';
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import BitcoinIcon from '../../../../../Icons/BitcoinIcon';
 import LightningIcon from '../../../../../Icons/LightningIcon';
@@ -27,6 +27,10 @@ export const DownloadModal = observer(
       if (!model.expiredDate) return '';
       return dayjs(model.expiredDate).format('HH:mm MMM DD[,] YYYY');
     }, [model.expiredDate]);
+
+    useEffect(() => {
+      model.setDownloadImageReady(true);
+    }, [])
 
     return (
       <DownloadHiddenModal ref={ref}>

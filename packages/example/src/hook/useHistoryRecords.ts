@@ -82,11 +82,23 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
     if (currentWalletType === WalletType.LightningWallet) {
       setHistoryRecords(
         invoices.map((invoice) => {
+          let title = '';
+          switch (invoice.status){
+            case InvoiceStatus.Pending:
+              title = 'To Be Received';
+              break;
+            case InvoiceStatus.Expired:
+              title = InvoiceStatus.Expired;
+              break;
+            default:
+              title = invoice.type
+          }
+
           return {
             type: HistoryRecordType.LightningInvoice,
             id: invoice.ID,
             loading: invoice.status === InvoiceStatus.Pending,
-            title: invoice.status === InvoiceStatus.Expired ? InvoiceStatus.Expired : invoice.type,
+            title,
             amount: invoice.amount,
             label: getInvoiceLabel(invoice.type, invoice.description),
             content: invoice.description,

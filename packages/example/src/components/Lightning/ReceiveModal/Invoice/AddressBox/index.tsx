@@ -26,8 +26,7 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
   const [showDownloadIcon, setShowDownloadIcon] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [copyStatus, setCopyStatus] = useState(false);
-
-  const downloadDomRef = useRef<any>();
+  const downloadDomRef = useRef<HTMLElement>(null);
 
   async function onCopy() {
     const res = await copyToClipboard({ text: model.qrcode });
@@ -36,23 +35,24 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
     }
   }
 
-  async function onDownload() {
+  function onDownload() {
     setShowDownloadModal(true);
   }
 
   useEffect(() => {
     async function generate() {
-      if (!downloadDomRef?.current) return;
-      const canvas = await html2canvas(downloadDomRef.current);
+      if (!model.downloadImageReady) return;
+      const canvas = await html2canvas(downloadDomRef.current!);
       canvas.toBlob((blob) => {
         if (blob) {
           saveData(blob, 'lightning-invoice.jpg');
         }
       });
       setShowDownloadModal(false);
+      model.setDownloadImageReady(false);
     }
     generate();
-  }, [downloadDomRef?.current]);
+  }, [model.downloadImageReady]);
 
   if (model.qrcode) {
     return (
