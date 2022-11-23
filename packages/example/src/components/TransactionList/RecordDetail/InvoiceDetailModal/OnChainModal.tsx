@@ -1,11 +1,7 @@
 import React from 'react';
-import SendIcon from "../../../Icons/SendIcon";
-import { InvoiceTypes } from "../../../../types";
 import { Modal } from "../../../../kits";
 import { H3 } from "../../../../kits/Layout/Text/Title";
 import { Caption } from "../../../../kits/Layout/Text/Body";
-import { useAppStore } from "../../../../mobx";
-import { LightningIcon2 } from "../../../Icons/LightningIcon2";
 import {
   LightningMark,
   RecordAmount,
@@ -25,10 +21,9 @@ import {
 import dayjs from "dayjs";
 import SuccessIcon from "../../../Icons/SuccessIcon";
 import { TransactionProps } from "./index";
+import { Icon } from "snapkit";
 
-export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionProps) => {
-  const {lightning} = useAppStore()
-
+export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) => {
   return (
     <Modal open={open} close={close} mountNode={parent}>
       <ModalHeader>
@@ -39,8 +34,8 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
         <RecordDetailsContent>
           <RecordDetailsTop>
             <RecordStatusContainer>
-              <RecordType isSend>
-                <SendIcon size={36}/>
+              <RecordType isOnChain>
+                <Icon.OnChain color={'#1F69FF'} width={'36px'} height={'36px'}/>
                 <RecordStatus>
                   <SuccessIcon/>
                 </RecordStatus>
@@ -53,18 +48,15 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
             </RecordStatusContainer>
 
             <LightningMark>
-              <LightningIcon2/>
-              <Caption>Lighting Invoice</Caption>
+              <Caption>Top Up</Caption>
             </LightningMark>
           </RecordDetailsTop>
 
           <RecordDetailsBottom>
             <RecordItemRow>
               <RecordItemLabel>Status</RecordItemLabel>
-              <RecordItemLabel
-                succeed={invoice.type === InvoiceTypes.Sent}
-              >
-                {invoice.type === InvoiceTypes.Sent && 'Success'}
+              <RecordItemLabel succeed>
+                Success
               </RecordItemLabel>
             </RecordItemRow>
 
@@ -82,23 +74,6 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
                 <RecordItemContent highlight>Sats</RecordItemContent>
               </span>
             </RecordItemRow>
-
-            <RecordItemRow>
-              <RecordItemLabel>Fee</RecordItemLabel>
-              <span>
-                <RecordItemContent lowlight>{invoice.fee}{" "}</RecordItemContent>
-                <RecordItemContent highlight>Sats</RecordItemContent>
-              </span>
-            </RecordItemRow>
-
-            {
-              invoice.description && (
-                <>
-                  <RecordItemLabel style={{marginBottom: 8}}>Description</RecordItemLabel>
-                  <RecordItemContent style={{marginBottom: 20}}>{invoice.description}</RecordItemContent>
-                </>
-              )
-            }
           </RecordDetailsBottom>
         </RecordDetailsContent>
       </RecordDetailsContainer>

@@ -53,11 +53,29 @@ const getInvoiceStatusIcon = (
   return null;
 };
 
+const getExpiredSeconds = (invoice: InvoiceDetail): number => {
+  if(invoice.status !== InvoiceStatus.Pending || !invoice.paymentRequest){
+    return 0;
+  }
+  const decodedInvoice = lightningPayReq.decode(invoice.paymentRequest);
+  const expireDateTime = new Date((decodedInvoice?.timeExpireDate || 0) * 1000);
+  return expireDateTime.getTime() - new Date().getTime();
+}
 
 export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: TransactionProps) => {
   const {lightning, runtime: {currencyRate}} = useAppStore();
   const [showInvoiceDetails, setShowInvoiceDetails] = useState<boolean>(false);
   const [invoiceModal, setInvoiceModal] = useState<ReceiveViewModel | null>(null);
+  const [timeLeft, { start, pause }] = useCountDown({startTimeMilliseconds: getExpiredSeconds(invoice)});
+
+  useEffect(() => {
+    if(invoice.status === InvoiceStatus.Pending){
+      start()
+    }
+    return () => {
+      pause();
+    };
+  }, []);
 
   useEffect(() => {
     if (showInvoiceDetails) {
@@ -72,7 +90,13 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
   return (
     <Modal open={open} close={close} mountNode={parent}>
       <ModalHeader>
-        <H3>{invoice.type}</H3>
+        <H3>{
+          invoice.status === InvoiceStatus.Pending
+            ? 'To Be Received'
+            : invoice.status === InvoiceStatus.Expired
+              ? InvoiceStatus.Expired
+              : 'Received'
+        }</H3>
       </ModalHeader>
 
       <RecordDetailsContainer>
@@ -150,11 +174,11 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
             <RecordItemRow>
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
-            <RecordItemContent
-              lowlight={invoice.status !== InvoiceStatus.Succeed}
-            >{invoice.amount}{" "}</RecordItemContent>
-            <RecordItemContent highlight>Sats</RecordItemContent>
-          </span>
+                <RecordItemContent lowlight={invoice.status !== InvoiceStatus.Succeed}>
+                  {invoice.amount}{" "}
+                </RecordItemContent>
+                <RecordItemContent highlight>Sats</RecordItemContent>
+              </span>
             </RecordItemRow>
 
             {

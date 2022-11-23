@@ -23,10 +23,7 @@ export const transformInvoice = (invoice: LightningInvoicesResponse): InvoiceDet
 
   return {
     ID: invoice.paymentHash,
-    type:
-      invoice.type === 'user_invoice'
-        ? InvoiceTypes.Received
-        : InvoiceTypes.Sent,
+    type: InvoiceTypes.Received,
     status,
     amount: Number(decodedInvoice.satoshis || 0),
     date: (decodedInvoice.timestamp || 0) * 1000,
