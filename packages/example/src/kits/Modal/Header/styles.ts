@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div<{
   enableXPadding?: boolean;
+  bannerMode: boolean
 }>`
   display: flex;
   flex-direction: row;
@@ -9,6 +10,17 @@ export const Container = styled.div<{
   justify-content: space-between;
   padding: 20px ${(props) => (props.enableXPadding ? '20px' : '0')} 0;
   min-height: 55px;
+
+  ${props => props.bannerMode ? css`
+    width: 100%;
+    padding: 20px 0 0;
+    border-radius: 20px 20px 0 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    position: absolute;
+    z-index: 10;
+    align-items: center;
+  ` : ''};
 `;
 
 export const Content = styled.span`

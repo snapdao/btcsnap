@@ -19,7 +19,7 @@ import { useAppStore } from "../../../../mobx";
 import { LightningIcon2 } from "../../../Icons/LightningIcon2";
 import {
   GradientLayer,
-  ModalHeader,
+  ModalTitleContainer,
   OneLineRecordItemContent,
   PrimaryButton,
   RecordDetailsBottom,
@@ -91,15 +91,19 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
 
   return (
     <Modal open={open} close={close} mountNode={parent}>
-      <ModalHeader>
-        <H3>{
-          invoice.status === InvoiceStatus.Pending
-            ? 'To Be Received'
-            : invoice.status === InvoiceStatus.Expired
-              ? InvoiceStatus.Expired
-              : 'Received'
-        }</H3>
-      </ModalHeader>
+      <Modal.Header bannerMode>
+        <ModalTitleContainer>
+          <H3>
+            {
+              invoice.status === InvoiceStatus.Pending
+                ? 'To Be Received'
+                : invoice.status === InvoiceStatus.Expired
+                  ? InvoiceStatus.Expired
+                  : 'Received'
+            }
+          </H3>
+        </ModalTitleContainer>
+      </Modal.Header>
 
       <RecordDetailsContainer>
         <RecordDetailsContent>

@@ -10,6 +10,7 @@ interface Props {
   style?: CSSProperties;
   className?: string;
   enableXPadding?: boolean;
+  bannerMode?: boolean
 }
 
 const ModalHeader = ({
@@ -18,10 +19,11 @@ const ModalHeader = ({
   onClose,
   showCloseIcon = true,
   enableXPadding = true,
+  bannerMode = false,
   ...args
 }: Props) => {
   return (
-    <Container enableXPadding={enableXPadding} {...args}>
+    <Container bannerMode={bannerMode} enableXPadding={enableXPadding} {...args}>
       <Left>{left}</Left>
       <Content>{children}</Content>
       <Right>
