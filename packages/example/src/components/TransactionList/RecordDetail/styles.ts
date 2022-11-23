@@ -5,6 +5,7 @@ import { Caption } from "../../../kits/Layout/Text/Body";
 import { Button as SnapButton } from "snapkit";
 
 export const ModalHeader = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   padding-top: 20px;
@@ -12,6 +13,8 @@ export const ModalHeader = styled.div`
   border-radius: 20px 20px 0 0;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(4px);
+  position: absolute;
+  z-index: 10;
   h3 {
     height: 40px;
     line-height: 40px;
@@ -35,9 +38,8 @@ export const oneLine = css`
 `
 
 export const RecordDetailsContainer = styled.div`
-  margin-top: -60px;
   padding-top: 60px;
-  max-height: 548px;
+  max-height: 640px;
   overflow-y: scroll;
   ${hideScrollbar};
 `
@@ -52,7 +54,7 @@ export const RecordDetailsTop = styled.div`
 export const RecordDetailsBottom = styled.div<{moreSpacing?: boolean}>`
   flex: 1;
   margin: 32px 32px 0;
-  padding-bottom: ${props => props.moreSpacing ? '44px' : 0};
+  padding-bottom: ${props => props.moreSpacing ? '108px' : '32px'};
 `
 
 export const RecordItemRow = styled(FlexBetween)`
@@ -80,7 +82,7 @@ export const RecordItemLabel = styled(H4)<{highlight?: boolean, succeed?: boolea
   ` : ''};
 `
 
-export const RecordItemContent = styled(Caption)<{highlight?: boolean, lowlight?: boolean}>`
+export const RecordItemContent = styled(Caption)<{highlight?: boolean, lowlight?: boolean, wordBreak?: boolean}>`
   color: var(--c-n80);
   ${props => props.highlight ? css`
     color: var(--c-pri50);  
@@ -88,11 +90,17 @@ export const RecordItemContent = styled(Caption)<{highlight?: boolean, lowlight?
   ${props => props.lowlight ? css`
     color: var(--c-n50);  
   ` : ''};
+  word-break: ${props => props.wordBreak ? 'break-all' : 'normal'};
 `
 
 export const OneLineRecordItemContent = styled(RecordItemContent)`
   display: inline-block;
   ${oneLine};
+`
+
+export const GradientLayer = styled.div`
+  height: 32px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
 `
 
 export const Button = styled(SnapButton)`

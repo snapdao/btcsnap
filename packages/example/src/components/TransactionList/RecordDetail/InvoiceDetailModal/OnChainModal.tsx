@@ -3,6 +3,7 @@ import { Modal } from "../../../../kits";
 import { H3 } from "../../../../kits/Layout/Text/Title";
 import { Caption } from "../../../../kits/Layout/Text/Body";
 import {
+  BottomGradientLayerContainer,
   LightningMark,
   RecordAmount,
   RecordStatus,
@@ -16,7 +17,7 @@ import {
   RecordItemContent,
   RecordItemLabel,
   RecordItemRow,
-  RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent
+  RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent, GradientLayer
 } from '../styles';
 import dayjs from "dayjs";
 import SuccessIcon from "../../../Icons/SuccessIcon";
@@ -77,6 +78,9 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
           </RecordDetailsBottom>
         </RecordDetailsContent>
       </RecordDetailsContainer>
+      <BottomGradientLayerContainer>
+        <GradientLayer />
+      </BottomGradientLayerContainer>
     </Modal>
   )
 })

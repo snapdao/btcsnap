@@ -7,19 +7,11 @@ interface CustomPopupProps extends StrictPopupProps {
   maxCharsPerLine?: number
 }
 
-export const Popup = ({breakLine = false, maxCharsPerLine = 45, ...props}: CustomPopupProps) => {
-  let formattedContent = props.content;
-  if(breakLine && typeof props.content === 'string'){
-    formattedContent = props.content.split("").reduce((acc, cur) => {
-      const lastRow = acc.split('\n').pop();
-      return lastRow ? (lastRow.length < maxCharsPerLine ? acc + cur : acc + '\n' + cur) : cur
-    }, '')
-  }
-
+export const Popup = ({breakLine = false, ...props}: CustomPopupProps) => {
   return <StyledPopup
     position='top center'
     inverted
+    breakLine
     {...props}
-    content={formattedContent}
   />
 }
