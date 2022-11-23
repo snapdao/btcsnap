@@ -1,13 +1,5 @@
-import styled, { keyframes } from "styled-components";
-
-const iconRotate = keyframes`
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`
+import styled from "styled-components";
+import { circularMotion } from "../../../../kits";
 
 export const ModalHeaderCenter = styled.div`
   display: flex;
@@ -71,7 +63,7 @@ export const TransactionAmountIcon = styled.div<TitleProps>`
     left: 56px;
     top: 56px;
     z-index: 999;
-    animation: ${iconRotate} 1s linear infinite;
+    animation: ${circularMotion} 1s linear infinite;
   }
 `
 

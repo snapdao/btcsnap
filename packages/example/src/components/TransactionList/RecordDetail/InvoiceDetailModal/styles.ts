@@ -1,16 +1,6 @@
-import styled, { css, keyframes } from "styled-components";
-import { Modal } from "../../../../kits";
+import styled, { css } from "styled-components";
+import { circularMotion, Modal } from "../../../../kits";
 import { FlexCenter } from "../../../../kits/Layout/Flex";
-import { GradientLayer } from "../styles";
-
-const iconRotate = keyframes`
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`
 
 export const ModalHeader = styled(Modal.Header)`
   display: flex;
@@ -58,7 +48,7 @@ export const RecordStatus = styled.div`
       left: 0;
     }
     img {
-      animation: ${iconRotate} 1s linear infinite;
+      animation: ${circularMotion} 1s linear infinite;
     }
   }
 `
