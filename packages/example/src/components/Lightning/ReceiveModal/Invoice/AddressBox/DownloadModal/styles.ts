@@ -14,7 +14,7 @@ export const DownloadHiddenModal = styled(Card)`
     top: -200vh;
     width: 440px;
     border-radius: 20px;
-    box-shadow: 0 !important;
+    box-shadow: none;
   }
 `;
 

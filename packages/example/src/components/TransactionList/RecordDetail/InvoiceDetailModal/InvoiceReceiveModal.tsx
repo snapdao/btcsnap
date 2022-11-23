@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import {
+  BottomButtonContainer, BottomGradientLayerContainer,
   FixedBottomContainer,
   LightningMark,
   RecordAmount,
@@ -17,6 +18,7 @@ import { Caption } from "../../../../kits/Layout/Text/Body";
 import { useAppStore } from "../../../../mobx";
 import { LightningIcon2 } from "../../../Icons/LightningIcon2";
 import {
+  GradientLayer,
   ModalHeader,
   OneLineRecordItemContent,
   PrimaryButton,
@@ -154,6 +156,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                   <RecordItemLabel>From</RecordItemLabel>
                   <Popup
                     breakLine
+                    wide={'very'}
                     content={invoice.paymentRequest}
                     trigger={<OneLineRecordItemContent>{invoice.paymentRequest}</OneLineRecordItemContent>}
                   />
@@ -186,7 +189,12 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                 <>
                   <RecordItemRowDivider/>
                   <RecordItemLabel style={{margin: '20px 0 8px'}}>Description</RecordItemLabel>
-                  <RecordItemContent style={{marginBottom: 20}}>{invoice.description}</RecordItemContent>
+                  <RecordItemContent
+                    style={{marginBottom: 20}}
+                    wordBreak={invoice.description.split(' ').some(word => word.length > 30)}
+                  >
+                    {invoice.description}
+                  </RecordItemContent>
                 </>
               )
             }
@@ -194,15 +202,17 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
           {
             invoice.status === InvoiceStatus.Pending && (
               <FixedBottomContainer>
-                <PrimaryButton
-                  primary
-                  style={{marginTop: 44}}
-                  onClick={() => {
-                    setShowInvoiceDetails(true)
-                  }}
-                >
-                  View Invoice
-                </PrimaryButton>
+                <GradientLayer />
+                <BottomButtonContainer>
+                  <PrimaryButton
+                    primary
+                    onClick={() => {
+                      setShowInvoiceDetails(true)
+                    }}
+                  >
+                    View Invoice
+                  </PrimaryButton>
+                </BottomButtonContainer>
               </FixedBottomContainer>
             )
           }
@@ -214,6 +224,13 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
           <LightningReceiveInvoiceModal model={invoiceModal} close={() => {
             setShowInvoiceDetails(false)
           }}/>
+        )
+      }
+      {
+        invoice.status !== InvoiceStatus.Pending && (
+          <BottomGradientLayerContainer>
+            <GradientLayer />
+          </BottomGradientLayerContainer>
         )
       }
     </Modal>

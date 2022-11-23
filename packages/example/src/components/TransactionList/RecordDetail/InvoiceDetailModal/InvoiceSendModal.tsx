@@ -7,6 +7,7 @@ import { Caption } from "../../../../kits/Layout/Text/Body";
 import { useAppStore } from "../../../../mobx";
 import { LightningIcon2 } from "../../../Icons/LightningIcon2";
 import {
+  BottomGradientLayerContainer,
   LightningMark,
   RecordAmount,
   RecordStatus,
@@ -20,7 +21,7 @@ import {
   RecordItemContent,
   RecordItemLabel,
   RecordItemRow,
-  RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent
+  RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent, GradientLayer
 } from '../styles';
 import dayjs from "dayjs";
 import SuccessIcon from "../../../Icons/SuccessIcon";
@@ -102,6 +103,9 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
           </RecordDetailsBottom>
         </RecordDetailsContent>
       </RecordDetailsContainer>
+      <BottomGradientLayerContainer>
+        <GradientLayer />
+      </BottomGradientLayerContainer>
     </Modal>
   )
 })
