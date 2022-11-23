@@ -1,13 +1,5 @@
-import styled, { keyframes } from "styled-components";
-
-const iconRotate = keyframes`
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`
+import styled from "styled-components";
+import { circularMotion } from "../../../kits";
 
 export const ListContainer = styled.div`
   width: 100%;
@@ -73,7 +65,7 @@ export const LoadingIconContainer = styled.div`
   justify-content: center;
   margin: 30px 0;
   svg {
-    animation: ${iconRotate} 1s linear infinite;
+    animation: ${circularMotion} 1s linear infinite;
   }
 `
 

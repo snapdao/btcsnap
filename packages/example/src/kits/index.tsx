@@ -6,3 +6,4 @@ export { Textarea } from './Textarea';
 export { Input } from './Input';
 export * from './Layout/Flex';
 export * from './Layout/Text';
+export * from './Animation';
