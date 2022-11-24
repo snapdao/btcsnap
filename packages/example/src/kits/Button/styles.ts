@@ -3,8 +3,11 @@ import { Button } from 'snapkit';
 
 export const ButtonWrap = styled(Button)`
   && {
-    &:disabled {
-      cursor: not-allowed;
+    font-weight: 600;
+
+    &.error {
+      background: var(--sk-color-r60);
+      color: white;
     }
   }
 `;

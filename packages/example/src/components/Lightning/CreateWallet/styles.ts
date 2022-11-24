@@ -1,9 +1,7 @@
+import { Button } from './../../../kits/Button/index';
 import styled from 'styled-components';
-import { Button as SnapButton } from 'snapkit';
 
-export const ContentContainer = styled.div`
-  padding-top: 20px;
-`
+export const ContentContainer = styled.div``;
 
 export const CreateContentTop = styled.div`
   padding: 0 32px;
@@ -53,24 +51,9 @@ export const CreateInput = styled.input`
   border-bottom: 1px solid #e1e6f0;
 `;
 
-export const CreateLNWalletButton = styled(SnapButton)`
+export const CreateLNWalletButton = styled(Button)`
   width: 376px;
   text-transform: capitalize;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  transition: 0.25s;
-  && > div {
-    color: white;
-  }
-  && {
-    :hover {
-      background: #f58300;
-    }
-    :not(:disabled, :hover) {
-      background: #111214;
-    }
-  }
 `;
 
 export const ImportLNWalletLink = styled.span`

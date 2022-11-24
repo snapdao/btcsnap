@@ -8,101 +8,134 @@ import {
   CreateTitle,
   CreateInput,
   CreateLNWalletButton,
-  ImportLNWalletLink, ContentContainer,
+  ImportLNWalletLink,
+  ContentContainer,
   Header,
 } from './styles';
 import { useAppStore } from '../../../mobx';
 import LoadingIcon from '../../Icons/Loading';
 import RecoveryKey from './RecoveryKey';
 import { useLNWallet } from '../../../hook/useLNWallet';
-import { ImportWallet } from "../ImportWallet";
-import { Modal } from "../../../kits";
+import { ImportWallet } from '../ImportWallet';
+import { H3, Message, MessageType, Modal } from '../../../kits';
 
-const CreateWallet = observer(({open, close}: {open: boolean; close: () => void}) => {
-  const [walletName, setWalletName] = useState('');
-  const [showImport, setShowImport] = useState<boolean>(false);
-  const parentNode = useRef<HTMLDivElement>(null);
+const CreateWallet = observer(
+  ({ open, close }: { open: boolean; close: () => void }) => {
+    const [walletName, setWalletName] = useState('');
+    const [showImport, setShowImport] = useState<boolean>(false);
+    const parentNode = useRef<HTMLDivElement>(null);
+    const [errorMessage, setErrorMessage] = useState('');
 
-  const {
-    lightning: { nextWalletName },
-  } = useAppStore();
+    const {
+      lightning: { nextWalletName },
+    } = useAppStore();
 
-  const [recoveryKey, setRecoveryKey] = useState('');
+    const [recoveryKey, setRecoveryKey] = useState('');
 
-  const lnWallet = useLNWallet();
+    const lnWallet = useLNWallet();
 
-  useEffect(() => {
-    const credential = lnWallet.wallet?.credential;
-    if (!credential) return;
-    const key = `lndhub://${credential.login}:${credential.password}@https://lndhub.io`;
-    setRecoveryKey(key);
-  }, [lnWallet.wallet]);
+    useEffect(() => {
+      const credential = lnWallet.wallet?.credential;
+      if (!credential) return;
+      const key = `lndhub://${credential.login}:${credential.password}@https://lndhub.io`;
+      setRecoveryKey(key);
+      setShowImport(false);
+      return () => {
+        setRecoveryKey('');
+      };
+    }, [lnWallet.wallet]);
 
-  async function onCreateLightning() {
-    try {
-      await lnWallet.create(walletName || nextWalletName);
-    } catch (e) {
-      console.error('create lightning error', e);
+    async function onCreateLightning() {
+      try {
+        await lnWallet.create(walletName || nextWalletName);
+      } catch (e: any) {
+        console.error('create lightning error', e);
+        setErrorMessage('Create lightning wallet failed');
+      }
     }
-  }
 
-  return (
-    <>
-      {!recoveryKey ? (
-        <Modal open={open} close={close}>
-          <ContentContainer ref={parentNode}>
-            <Header>
-              <LightningIcon />
-              <p>add lightning wallet</p>
-            </Header>
+    function onCloseRecoveryKeyModal() {
+      close();
+      setTimeout(() => setRecoveryKey(''), 200);
+    }
 
-            <CreateContent>
-              <CreateContentTop>
-                <CreateTitle>wallet name</CreateTitle>
-                <CreateInput
-                  onInput={({
-                    target,
-                  }: React.ChangeEvent<HTMLInputElement>) => {
-                    setWalletName(target.value);
-                  }}
-                  autoFocus
-                  placeholder={nextWalletName}
-                />
-              </CreateContentTop>
-              <CreateContentBottom>
-                <CreateLNWalletButton
-                  onClick={onCreateLightning}
-                  disabled={lnWallet.createLoading}>
-                  {lnWallet.createLoading ? (
-                    <LoadingIcon spin />
-                  ) : (
-                    'create lightning wallet'
-                  )}
-                </CreateLNWalletButton>
-                <ImportLNWalletLink
-                  onClick={() => { setShowImport(true)}}
-                >
-                  import lightning wallet
-                </ImportLNWalletLink>
-              </CreateContentBottom>
-            </CreateContent>
+    return (
+      <>
+        {!recoveryKey ? (
+          <Modal open={open} close={close}>
+            <ContentContainer ref={parentNode}>
+              <Modal.Header
+                left={
+                  <>
+                    <LightningIcon />
+                    <H3>ADD LIGHTNING WALLET</H3>
+                  </>
+                }
+                onClose={close}></Modal.Header>
 
-            <ImportWallet
-              open={showImport}
-              close={() => { setShowImport(false)}}
-              onSucceed={() => {
-                setShowImport(false);
-                close();
-              }}
-              parent={parentNode.current!}
-            />
-          </ContentContainer>
-        </Modal>
-      ) : (
-        <RecoveryKey recoveryKey={recoveryKey} close={close} />
-      )}
-    </>
-  );
-});
+              <CreateContent>
+                <CreateContentTop>
+                  <CreateTitle>wallet name</CreateTitle>
+                  <CreateInput
+                    onInput={({
+                      target,
+                    }: React.ChangeEvent<HTMLInputElement>) => {
+                      setWalletName(target.value);
+                    }}
+                    autoFocus
+                    placeholder={nextWalletName}
+                  />
+                </CreateContentTop>
+                <CreateContentBottom>
+                  <CreateLNWalletButton
+                    primary
+                    onClick={onCreateLightning}
+                    disabled={lnWallet.createLoading}>
+                    create lightning wallet
+                  </CreateLNWalletButton>
+                  <ImportLNWalletLink
+                    onClick={() => {
+                      setShowImport(true);
+                    }}>
+                    import lightning wallet
+                  </ImportLNWalletLink>
+                </CreateContentBottom>
+              </CreateContent>
+
+              {errorMessage && (
+                <Message
+                  type={MessageType.Error}
+                  onClose={() => setErrorMessage('')}>
+                  {errorMessage}
+                </Message>
+              )}
+
+              {lnWallet.createLoading && <Modal.Loading />}
+
+              <ImportWallet
+                open={showImport}
+                close={() => {
+                  setShowImport(false);
+                }}
+                onSucceed={() => {
+                  setShowImport(false);
+                  close();
+                }}
+                parent={parentNode.current!}
+              />
+            </ContentContainer>
+          </Modal>
+        ) : (
+          <RecoveryKey
+            open={!!recoveryKey}
+            recoveryKey={recoveryKey}
+            close={onCloseRecoveryKeyModal}
+            showCloseIcon={false}
+          />
+        )}
+      </>
+    );
+  },
+);
 
 export default CreateWallet;

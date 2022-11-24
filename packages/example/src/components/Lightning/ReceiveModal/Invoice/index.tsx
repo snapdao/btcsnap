@@ -14,7 +14,7 @@ import {
   CaptionN80,
 } from './styles';
 import { Popup } from 'snapkit';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import useCountDown from '../../../../utils/hooks/useCountdown';
 import { Modal } from '../../../../kits';
 
@@ -25,6 +25,7 @@ type LightningReceiveInvoiceModalProps = {
 
 const LightningReceiveInvoiceModal = observer(
   ({ model, close }: LightningReceiveInvoiceModalProps) => {
+    const modalRef = useRef<any>(null);
     const [isExpired, setIsExpired] = useState(false);
     const [date, { start, pause }] = useCountDown({
       startTimeMilliseconds: model.expireCountDown,
@@ -49,6 +50,7 @@ const LightningReceiveInvoiceModal = observer(
 
     return (
       <Modal
+        ref={modalRef}
         style={{
           width: 440,
           height: 640,
@@ -59,7 +61,7 @@ const LightningReceiveInvoiceModal = observer(
         open={true}
         closeOnDimmerClick={false}>
         <Modal.Background>
-          <Modal.Header onClose={() => close()}>
+          <Modal.Header onClose={() => modalRef.current?.onClose()}>
             <H3>Lightning Invoice</H3>
           </Modal.Header>
           <Container style={{ padding: '24px 0 100px' }}>

@@ -1,4 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  Ref,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { TransitionablePortal, ModalProps } from 'semantic-ui-react';
 import {
   StyledModal,
@@ -6,47 +14,60 @@ import {
   CloseIconContainer,
 } from './styles';
 import CloseIcon from '../../components/Icons/CloseIcon';
-import ModalBackground from './ModalBackground';
-import ModalHeader from './ModalHeader';
+import ModalBackground from './Background';
+import ModalHeader from './Header';
+import ModalConfirm from './Confirm';
+import ModalLoading from './ModalLoading';
+import ModalFooter from './Footer';
+import ModalContainer from './Container';
 
-const Modal = ({ open, close, children, ...rest }: ModalProps) => {
-  const [isVisible, setIsVisible] = useState<boolean>(open || false);
-  const previousOpen = useRef<boolean>(false);
+const BaseModal = forwardRef(
+  (
+    { open, close, children, key, showCloseIcon = true, ...rest }: ModalProps,
+    ref: Ref<{}>,
+  ) => {
+    const [isVisible, setIsVisible] = useState<boolean>(open || false);
+    const previousOpen = useRef<boolean>(false);
 
-  const closeModal = useCallback(() => {
-    setIsVisible(false);
-    setTimeout(close, 250);
-  }, []);
+    const closeModal = useCallback(() => {
+      setIsVisible(false);
+      close && setTimeout(close, 250);
+    }, []);
 
-  useEffect(() => {
-    if (previousOpen.current && !open) {
-      previousOpen.current = false;
-      closeModal();
-    }
-    if (open) {
-      previousOpen.current = true;
-      setIsVisible(true);
-    }
-  }, [open, previousOpen]);
+    useImperativeHandle(ref, () => ({
+      onClose: closeModal,
+    }));
 
-  return (
-    <TransitionablePortal
-      open={isVisible}
-      transition={{ animation: 'fade up', duration: 250 }}
-      closeOnDocumentClick={false}>
-      <StyledModal open={true} {...rest}>
-        <StyledModalContainer>
-          <CloseIconContainer>
-            <CloseIcon onClick={closeModal} />
-          </CloseIconContainer>
-          {children}
-        </StyledModalContainer>
-      </StyledModal>
-    </TransitionablePortal>
-  );
-};
+    useEffect(() => {
+      if (previousOpen.current && !open) {
+        previousOpen.current = false;
+        closeModal();
+      }
+      if (open) {
+        previousOpen.current = true;
+        setIsVisible(true);
+      }
+    }, [open, previousOpen]);
 
-Modal.Background = ModalBackground;
-Modal.Header = ModalHeader;
+    return (
+      <TransitionablePortal
+        open={isVisible}
+        transition={{ animation: 'fade up', duration: 250 }}
+        closeOnDocumentClick={false}
+        key={key}>
+        <StyledModal open={true} {...rest}>
+          <StyledModalContainer>{children}</StyledModalContainer>
+        </StyledModal>
+      </TransitionablePortal>
+    );
+  },
+);
 
-export { Modal };
+export const Modal = Object.assign({}, BaseModal, {
+  Background: ModalBackground,
+  Header: ModalHeader,
+  Container: ModalContainer,
+  Footer: ModalFooter,
+  Confirm: ModalConfirm,
+  Loading: ModalLoading,
+});

@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
 import LightningWallet from './lightningWallet';
-import { ILightningWallet, ILightningWalletIn } from "./types";
+import { ILightningWallet, ILightningWalletIn } from './types';
 
 export const lightningInitialState = {
   wallets: [],
@@ -19,6 +19,9 @@ const Lightning = types
     get hasReachedLimitation() {
       return self.wallets.length >= 10;
     },
+    get walletLength() {
+      return self.wallets.length;
+    },
     get nextWalletName() {
       const prefix = 'Lightning';
       const lastIndex = self.wallets.at(-1)?.name.match(/\d+$/);
@@ -26,8 +29,8 @@ const Lightning = types
       return index ? `${prefix} ${index + 1}` : prefix;
     },
     getWalletByUserId(userId: string) {
-      return self.wallets.find(wallet => wallet.userId === userId);
-    }
+      return self.wallets.find((wallet) => wallet.userId === userId);
+    },
   }))
   .actions((self) => ({
     createWallet(walletInfo: ILightningWalletIn): ILightningWallet {

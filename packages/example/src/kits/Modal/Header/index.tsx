@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import CloseIcon from '../../../components/Icons/CloseIcon';
 import { Container, Content, Left, Right } from './styles';
 
@@ -7,6 +7,9 @@ interface Props {
   children?: ReactNode;
   onClose?: () => void;
   showCloseIcon?: boolean;
+  style?: CSSProperties;
+  className?: string;
+  enableXPadding?: boolean;
 }
 
 const ModalHeader = ({
@@ -14,9 +17,11 @@ const ModalHeader = ({
   children,
   onClose,
   showCloseIcon = true,
+  enableXPadding = true,
+  ...args
 }: Props) => {
   return (
-    <Container>
+    <Container enableXPadding={enableXPadding} {...args}>
       <Left>{left}</Left>
       <Content>{children}</Content>
       <Right>

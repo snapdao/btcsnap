@@ -38,7 +38,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
     current,
     settings: { network },
     runtime: { continueConnect, status },
-    user: { LNWalletStep, setLNWalletStep },
+    user: { bitcoinWalletName, LNWalletStep, setLNWalletStep },
     lightning,
     currentWalletType,
   } = useAppStore();
@@ -50,7 +50,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
   const isRefreshing = loading || loadingBalance;
   const currentWalletName =
     currentWalletType === WalletType.BitcoinWallet
-      ? 'BTC Wallet'
+      ? bitcoinWalletName
       : lightning.current?.name;
 
   const steps = [

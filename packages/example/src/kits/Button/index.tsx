@@ -2,10 +2,12 @@ import { ButtonProps } from 'snapkit';
 import LoadingIcon from '../../components/Icons/Loading';
 import { ButtonWrap } from './styles';
 
-export const Button = ({ loading, children, ...args }: ButtonProps) => {
+interface WButtonProps extends ButtonProps {}
+
+export const Button = ({ children, ...args }: WButtonProps) => {
   return (
-    <ButtonWrap {...args}>
-      {loading ? <LoadingIcon spin /> : children}
+    <ButtonWrap loadingIcon={<LoadingIcon spin />} {...args}>
+      {children}
     </ButtonWrap>
   );
 };
