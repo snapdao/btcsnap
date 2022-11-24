@@ -30,6 +30,7 @@ import {
   SendButtonContainer,
   CancelButton, SendAvailableText,
 } from './styles';
+import { Icon } from 'snapkit';
 
 export type InitialProps = {
   model: SendViewModel;
@@ -51,8 +52,8 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
     <>
       <SendContainer>
         <LeftTitleHeader>
-          <SendIcon size={36} />
-          <p>SEND</p>
+          <Icon.TopUp width='24' height='24' color='var(--sk-color-pri50)' />
+          <p>TOP UP</p>
         </LeftTitleHeader>
 
         <CloseContainer><CloseIcon onClick={close} /></CloseContainer>

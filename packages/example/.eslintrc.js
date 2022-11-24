@@ -24,7 +24,7 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: 'React|^_',
@@ -35,8 +35,10 @@ module.exports = {
     quotes: ['warn', 'single'],
     'jsx-quotes': ['warn', 'prefer-single'],
     indent: ['warn', 2],
+    'comma-spacing': ['warn', { 'before': false, 'after': true }],
+    'block-spacing': ['warn', 'always'],
     'react/react-in-jsx-scope': 'off',
-    'react/display-name': 'off'
+    'react/display-name': 'off',
   },
   settings: {
     react: {

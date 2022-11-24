@@ -1,3 +1,4 @@
+import { circularMotion } from './../../../kits/Animation/rotate';
 import styled, { css } from 'styled-components';
 
 export const Spin = styled.div<{ enable: boolean; color?: string }>`
@@ -5,16 +6,7 @@ export const Spin = styled.div<{ enable: boolean; color?: string }>`
   ${(props) =>
     props.enable &&
     css`
-      animation: iconRotate 1s infinite;
+      animation: ${circularMotion} 1s infinite;
       animation-timing-function: linear;
     `}
-
-  @keyframes iconRotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
 `;
