@@ -200,8 +200,7 @@ const EditWallet = observer(
                     title="Connected To"
                     content="https://lndhub.io"
                   />
-                  {/* <List.Field title="Transactions Count" content="" /> */}
-                  <Divider direction="horizontal" />
+                  <Divider />
                   <List.Field
                     title="Backup Wallet"
                     onClick={onShowBackup}

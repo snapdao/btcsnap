@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import NetworkIcon from '../Icons/Network';
 import CloseIcon from '../Icons/CloseIcon';
 import { ReactComponent as SettingsIcon } from '../../assets/settings.svg';
-import { Divider } from 'semantic-ui-react';
 import ArrowRight from '../Icons/ArrowRight';
 import {
   SettingHeader,
@@ -21,6 +20,7 @@ import AddressType, { addressTypeOptions } from './AddressType';
 import Network from './Network';
 import { VERSION } from '../../config';
 import { WalletType } from '../../interface';
+import Divider from '../../kits/Divider';
 
 interface SettingProps {
   open: boolean;
@@ -101,7 +101,7 @@ const Settings = observer(({ open, close }: SettingProps) => {
                 <SettingRadio toggle checked={dynamicAddress} />
               </span>
             </SettingItem>
-            <Divider style={{ margin: '16px' }} />
+            <Divider gap="16px 9px 5px" />
           </>
         )}
         {/* TODO:Hide before on-line.  */}
