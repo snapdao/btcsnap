@@ -8,6 +8,7 @@ export const LightningWalletTipsContainer = styled.div<{
     props.isFixed
       ? css`
           position: absolute;
+          left: 0;
           bottom: 0;
           margin: 24px;
         `
