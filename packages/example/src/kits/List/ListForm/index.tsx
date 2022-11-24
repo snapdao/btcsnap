@@ -11,7 +11,7 @@ interface Props {
 export const ListForm = ({ title, value, onInput }: Props) => {
   return (
     <Container>
-      <Title className="title">{title}</Title>
+      <Title className='title'>{title}</Title>
       <Input value={value} onInput={onInput}></Input>
     </Container>
   );

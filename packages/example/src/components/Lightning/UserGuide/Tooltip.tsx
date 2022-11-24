@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import {
   Container,
   Text,
   Button
-} from "./styles"
+} from './styles';
 
 
 interface iPageTourModal {
@@ -19,18 +19,8 @@ interface iPageTourModal {
   tooltipProps: any // The root element props (including ref)
 }
 
-// Component of User guide component
-
 export const Tooltip = ({
-  continuous,
-  index,
-  isLastStep,
-  size,
-  step,
-  backProps,
   closeProps,
-  primaryProps,
-  skipProps,
   tooltipProps,
 }: iPageTourModal) => {
 

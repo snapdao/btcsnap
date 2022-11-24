@@ -96,7 +96,7 @@ const ReceiveModal = observer(({ open, close }: ReceiveModalProps) => {
                   <span>Static Address</span>
                 )}
                 <Popup
-                  position="top center"
+                  position='top center'
                   content={dynamicAddress ? DYNAMIC_ADDRESS : STATIC_ADDRESS}
                   inverted
                   trigger={

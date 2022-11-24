@@ -1,5 +1,5 @@
 import { withScope } from '@sentry/react';
-import { getAppStore } from "../mobx";
+import { getAppStore } from '../mobx';
 
 type LoggerParam = {
   enableReport: boolean;

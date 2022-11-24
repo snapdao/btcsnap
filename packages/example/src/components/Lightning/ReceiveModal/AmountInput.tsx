@@ -58,7 +58,7 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
   return (
     <Container>
       <LargeInput
-        as="input"
+        as='input'
         ref={inputRef}
         size={model.amountLength}
         value={model.amount}
@@ -91,7 +91,7 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
 
           model.onChangeAmount(value);
         }}
-        placeholder="0"
+        placeholder='0'
       />
       <Unit
         onClick={() => {

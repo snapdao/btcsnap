@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 export const AccountBackground = styled.div`
   width: 100%;
@@ -145,7 +145,7 @@ export const TxListContent = styled.div`
   & > div:last-child {
     border-bottom: none;
   }
-`
+`;
 
 export const TxListEmpty = styled.div`
   height: 400px;
@@ -465,7 +465,7 @@ export const MarketPrice = styled.p<{ isTestnet: boolean }>`
     font-weight: 600;
     color: #f58300;
     text-decoration-line: ${(props) =>
-      props.isTestnet ? 'line-through' : 'none'};
+    props.isTestnet ? 'line-through' : 'none'};
   }
 `;
 

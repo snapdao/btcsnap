@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "semantic-ui-react"
-import { TransitionablePortal } from "semantic-ui-react";
-import { BitcoinScriptType } from "../../interface";
-import CloseIcon from "../Icons/CloseIcon";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'semantic-ui-react';
+import { TransitionablePortal } from 'semantic-ui-react';
+import { BitcoinScriptType } from '../../interface';
+import CloseIcon from '../Icons/CloseIcon';
 import {
   ModalHeader,
   ModalHeaderContainer,
@@ -12,14 +12,14 @@ import {
   AddressItemLabel,
   AddressItemRadio,
   AddressTips,
-} from "./styles"
-import { useAppStore } from "../../mobx";
-import { queryCoinV2 } from "../../api";
-import { NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
-import { satoshiToBTC } from "../../lib/helper";
-import { SupportedCoins } from "../../constant/supportedCoins";
-import { bitcoinUnitMap } from "../../lib/unit";
-import { logger } from "../../logger";
+} from './styles';
+import { useAppStore } from '../../mobx';
+import { queryCoinV2 } from '../../api';
+import { NETWORK_SCRIPT_TO_COIN } from '../../constant/bitcoin';
+import { satoshiToBTC } from '../../lib/helper';
+import { SupportedCoins } from '../../constant/supportedCoins';
+import { bitcoinUnitMap } from '../../lib/unit';
+import { logger } from '../../logger';
 
 
 interface ConnectProps {
@@ -36,7 +36,7 @@ export const addressTypeOptions: AddressType[] = [
   {label: 'HD Native SegWit (Bech32)', type: BitcoinScriptType.P2WPKH},
   {label: 'HD Nested SegWit (P2SH)', type: BitcoinScriptType.P2SH_P2WPKH},
   {label: 'HD Legacy (P2PKH)', type: BitcoinScriptType.P2PKH},
-]
+];
 
 type Balances = Record<BitcoinScriptType, string>
 
@@ -52,26 +52,26 @@ const AddressType = (({open, close}: ConnectProps,) => {
           const balance = result.coins[coin]?.balance;
           const balanceInBtc = balance
             ? satoshiToBTC(Number(balance))
-            : (connectedScriptTypes(network).includes(scriptType)) ? 0 : "--";
+            : (connectedScriptTypes(network).includes(scriptType)) ? 0 : '--';
           return {
             ...allBalances,
             [scriptType]: balanceInBtc
-          }
-        }, {} as Balances)
+          };
+        }, {} as Balances);
         setBalances(allBalances);
       }).catch((e) => {
         logger.error(e);
-      })
+      });
     } else {
       setBalances(undefined);
     }
-  }, [open, network])
+  }, [open, network]);
 
   const onAddressTypedChecked  = (addressType: AddressType) => {
     setScriptType(addressType.type);
     current && switchToAccount(current.mfp, addressType.type, network);
     close();
-  }
+  };
 
   return (
     <TransitionablePortal
@@ -105,13 +105,13 @@ const AddressType = (({open, close}: ConnectProps,) => {
           <p>Choose the correct address type to gain access to your assets.</p>
           <p>
             If this is the first time you are using this secret key, we recommend you to use
-            <span>{" "}"HD Native Segwit (Bech32)"{" "}</span>
+            <span>{' "HD Native Segwit (Bech32)" '}</span>
             by default for lower transactions fees.
           </p>
         </AddressTips>
       </Modal>
     </TransitionablePortal>
-  )
-})
+  );
+});
 
-export default AddressType
+export default AddressType;

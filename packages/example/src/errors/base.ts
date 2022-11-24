@@ -4,7 +4,7 @@ export class BaseError extends Error {
     super();
     this.code = code;
   }
-  resolve = (fn: Function) => {
+  resolve = (fn: () => void) => {
     fn();
   };
 }

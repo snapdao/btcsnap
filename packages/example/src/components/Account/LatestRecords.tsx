@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { ReactComponent as TransactionsIcon } from "./image/transactions.svg";
-import { observer } from "mobx-react-lite";
-import { TxListContainer, TxListContent, TxListEmpty, EmptyTip } from "./styles";
-import { useAppStore } from "../../mobx";
-import InfoIcon from "../Icons/InfoIcon";
-import { HistoryRecord } from "../../types";
-import { RecordDetail } from "../TransactionList/RecordDetail";
-import { Popup } from "../../kits";
-import { WalletType } from "../../interface";
-import { RecordCard } from "../TransactionList/RecordCard";
+import React, { useState } from 'react';
+import { ReactComponent as TransactionsIcon } from './image/transactions.svg';
+import { observer } from 'mobx-react-lite';
+import { TxListContainer, TxListContent, TxListEmpty, EmptyTip } from './styles';
+import { useAppStore } from '../../mobx';
+import InfoIcon from '../Icons/InfoIcon';
+import { HistoryRecord } from '../../types';
+import { RecordDetail } from '../TransactionList/RecordDetail';
+import { Popup } from '../../kits';
+import { WalletType } from '../../interface';
+import { RecordCard } from '../TransactionList/RecordCard';
 
 interface TxCardProps {
   historyList: HistoryRecord[];
 }
 
-const TRANSACTION_TIPS = "The previous transactions of addresses before using BitcoinSnap will not be displayed here."
+const TRANSACTION_TIPS = 'The previous transactions of addresses before using BitcoinSnap will not be displayed here.';
 
 export const LatestRecords = observer(({historyList}: TxCardProps) => {
   const {currentWalletType} = useAppStore();
@@ -63,5 +63,5 @@ export const LatestRecords = observer(({historyList}: TxCardProps) => {
         />
       )}
     </TxListContainer>
-  )
-})
+  );
+});

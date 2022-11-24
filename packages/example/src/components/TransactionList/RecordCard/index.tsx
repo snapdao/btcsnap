@@ -1,7 +1,7 @@
-import React from "react";
-import { HistoryRecord } from "../../../types";
-import { StyledRecordCard } from "./styles";
-import { recordToRecordCard } from "./transfrom";
+import React from 'react';
+import { HistoryRecord } from '../../../types';
+import { StyledRecordCard } from './styles';
+import { recordToRecordCard } from './transfrom';
 
 interface RecordCardProps {
   record: HistoryRecord;
@@ -14,5 +14,5 @@ export const RecordCard = ({record, onClick}: RecordCardProps) => {
       {...recordToRecordCard(record)}
       onClick={onClick}
     />
-  )
-}
+  );
+};

@@ -36,24 +36,24 @@ const Connect = ({ open, close, onConnected, isFirstStep }: ConnectProps) => {
       close={close}
       isDisabled={isConnecting}
       isFirstStep={isFirstStep}>
-      <ConnectIcon className="Connect-flask-icon" />
+      <ConnectIcon className='Connect-flask-icon' />
       <h2>Connect to MetaMask Bitcoin Snap</h2>
-      <p className="Connect-install">
+      <p className='Connect-install'>
         If you do not have Bitcoin Snap installed, you will be prompted to do
         so.
       </p>
       <a
-        href="https://docs.metamask.io/guide/snaps.html#what-is-snaps"
-        className="Connect-snap-link"
-        target="_blank"
-        rel="noopener noreferrer">
+        href='https://docs.metamask.io/guide/snaps.html#what-is-snaps'
+        className='Connect-snap-link'
+        target='_blank'
+        rel='noopener noreferrer'>
         What is Snaps
         <span>
           <ArrowRight size={18} />
         </span>
       </a>
       <button
-        className="Connect-button"
+        className='Connect-button'
         disabled={isConnecting}
         onClick={connectMetaMask}>
         {isConnecting ? (

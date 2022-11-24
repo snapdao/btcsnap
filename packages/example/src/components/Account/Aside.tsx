@@ -21,9 +21,9 @@ import Joyride, { ACTIONS, Placement } from 'react-joyride';
 import { UserGuide } from '../Lightning';
 import { WalletList } from '../WalletList';
 import { WalletType } from '../../interface';
-import { useHistoryRecords } from "../../hook/useHistoryRecords";
-import { LatestRecords } from "./LatestRecords";
-import { RecordList } from "../TransactionList";
+import { useHistoryRecords } from '../../hook/useHistoryRecords';
+import { LatestRecords } from './LatestRecords';
+import { RecordList } from '../TransactionList';
 
 interface AsideProps {
   loadingBalance: boolean;
@@ -40,7 +40,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
   } = useAppStore();
   const [shouldShowRecordDetail, setShouldShowRecordDetail] = useState<boolean>(false);
   const [shouldShowWalletList, setShouldShowWalletList] = useState<boolean>(false);
-  const { historyRecords, loading, refresh: refreshRecords } = useHistoryRecords(5)
+  const { historyRecords, loading, refresh: refreshRecords } = useHistoryRecords(5);
 
   const isRefreshing = loading || loadingBalance;
   const currentWalletName =
@@ -103,7 +103,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
           />
           {!!current && (
             <AsideBitcoinContainer
-              id="first-step"
+              id='first-step'
               onClick={() => {
                 setShouldShowWalletList(true);
               }}>

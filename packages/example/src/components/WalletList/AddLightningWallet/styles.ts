@@ -28,8 +28,8 @@ export const LightningWalletTipsContainer = styled.div<{
   ${(props) => {
     return css`
       background-color: ${props.shouldDisableAddition
-        ? 'var(--sk-color-n10)'
-        : '#ffffff'};
+    ? 'var(--sk-color-n10)'
+    : '#ffffff'};
 
       ${props.shouldDisableAddition &&
       css`

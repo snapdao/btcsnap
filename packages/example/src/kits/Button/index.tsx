@@ -2,7 +2,7 @@ import { ButtonProps } from 'snapkit';
 import LoadingIcon from '../../components/Icons/Loading';
 import { ButtonWrap } from './styles';
 
-interface WButtonProps extends ButtonProps {}
+type WButtonProps = ButtonProps
 
 export const Button = ({ children, ...args }: WButtonProps) => {
   return (

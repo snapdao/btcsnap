@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Modal } from "../../../kits";
-import { Button as SnapButton } from "snapkit";
+import styled from 'styled-components';
+import { Modal } from '../../../kits';
+import { Button as SnapButton } from 'snapkit';
 
 export const ImportWalletModal = styled(Modal)`
   && {
@@ -8,12 +8,12 @@ export const ImportWalletModal = styled(Modal)`
     position: absolute;
     bottom: 0;
   }
-`
+`;
 
 export const ImportWalletContainer = styled.div`
   margin: 20px 32px 32px;
   position: relative;
-`
+`;
 
 export const ImportWalletHeader = styled.div`
   width: 100%;
@@ -25,22 +25,22 @@ export const ImportWalletHeader = styled.div`
   font-size: 16px;
   line-height: 24px;
   color: #111214;
-`
+`;
 
 export const WalletNameContainer = styled.div`
   margin-top: 32px;
-`
+`;
 
 export const WalletKeyContainer = styled.div`
   margin-top: 24px;
-`
+`;
 
 export const Label = styled.label`
   display: inline-block;
   font-weight: 600;
   line-height: 20px;
   color: #9095A3;
-`
+`;
 
 export const WalletNameInput = styled.input`
   width: 100%;
@@ -48,7 +48,7 @@ export const WalletNameInput = styled.input`
   outline: none;
   border: none;
   border-bottom: 1px solid #e1e6f0;
-`
+`;
 
 export const KeyLabelContainer = styled.div`
   display: flex;
@@ -62,14 +62,14 @@ export const KeyLabelContainer = styled.div`
     display: flex;
     align-items: center;
   }
-`
+`;
 
 export const KeyInputContainer = styled.div`
   margin-top: 12px;
   width: 100%;
   height: 108px;
   position: relative;
-`
+`;
 
 export const KeyInput = styled.textarea`
   width: 100%;
@@ -92,7 +92,7 @@ export const KeyInput = styled.textarea`
     outline: none;
     border-color: #F58300;
   }
-`
+`;
 
 export const UploaderContainer = styled.div`
   position: absolute;
@@ -111,20 +111,20 @@ export const UploaderContainer = styled.div`
     background: rgba(0, 0, 0, 0.04);
     border-color: #F58300;
   }
-`
+`;
 
 export const Uploader = styled.input`
   position: absolute;
   top: 0;
   bottom: 0;
   display: none;
-`
+`;
 
 export const ImportWalletErrorTip = styled.p`
   margin: 12px 0 0;
   height: 20px;
   color: #F54814;
-`
+`;
 
 export const Button = styled(SnapButton)`
   margin-top: 40px;
@@ -145,4 +145,4 @@ export const Button = styled(SnapButton)`
       background-color: #E1E6F0;
     }
   }
-`
+`;

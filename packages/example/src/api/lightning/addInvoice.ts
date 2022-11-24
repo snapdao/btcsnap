@@ -1,7 +1,7 @@
 import { queryWithUserInfo } from './query';
 import { RequestType } from '../types';
 
-const endpoint = `/v1/snap/add_invoice/`;
+const endpoint = '/v1/snap/add_invoice/';
 
 interface LightningAddInvoiceResponse {
   paymentRequest: string; // invoice

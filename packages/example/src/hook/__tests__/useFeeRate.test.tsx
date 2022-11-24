@@ -2,7 +2,6 @@ import { useFeeRate } from '../useFeeRate';
 import { act } from '@testing-library/react-hooks';
 import * as api from '../../api/v1/feeRate';
 import {
-  defaultStore,
   renderHooksWithContext,
 } from '../../__tests__/utils/renderHookWithContext';
 

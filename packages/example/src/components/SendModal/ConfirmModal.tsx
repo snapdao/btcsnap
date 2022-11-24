@@ -3,12 +3,12 @@ import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import {Container, Divider, Loader, Modal, TransitionablePortal} from 'semantic-ui-react';
 import BTCValue from './BTCValue';
-import CloseIcon from "../Icons/CloseIcon";
-import { trackSendClick, trackSendConfirm } from "../../tracking";
+import CloseIcon from '../Icons/CloseIcon';
+import { trackSendClick, trackSendConfirm } from '../../tracking';
 import {
   MiddleTitleHeader,
   CloseContainer
-} from "./styles"
+} from './styles';
 
 export type ConfirmModalProps = {
   model: SendViewModel;
@@ -23,7 +23,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
       transition={{ animation: 'fade up', duration: '300' }}
       trigger={
         <button
-          onClick={() => { trackSendClick(model.network); model.setConfirmOpen(true) }}
+          onClick={() => { trackSendClick(model.network); model.setConfirmOpen(true); }}
           className={`action-button ${model.valid ? 'action-button-primary' : 'action-button-disable'}`}
           disabled={!model.valid}
         >
@@ -48,7 +48,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
 
               <div className={'modal-confirm-box vertical-center'}>
                 <span className={'text-weight-bold text-secondary confirm-top-span'}>
-                  You're Sending
+                  {'You\'re Sending'}
                 </span>
                 <div className={'confirm-btc-box'}>
                   <BTCValue
@@ -106,7 +106,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 }
                 onClick={() => {
                   trackSendConfirm(model.network);
-                  model.send()
+                  model.send();
                 }}>
                 Confirm
               </button>

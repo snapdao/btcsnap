@@ -92,16 +92,16 @@ const RevealXpub = observer(
           close={close}
           isDisabled={isRevealing}
           isFirstStep={isFirstStep}>
-          <ConnectIcon className="Connect-flask-icon" />
+          <ConnectIcon className='Connect-flask-icon' />
           <h2>
             Get Addresses for <br /> Bitcoin Snap
           </h2>
-          <p style={{ marginBottom: 100 }} className="Connect-install">
+          <p style={{ marginBottom: 100 }} className='Connect-install'>
             Your Bitcoin account addresses will be created along with your
             MetaMask public key.
           </p>
           <button
-            className="Connect-button"
+            className='Connect-button'
             disabled={isRevealing}
             onClick={getXpub}>
             {isRevealing ? (
@@ -118,7 +118,7 @@ const RevealXpub = observer(
 
           <Transition
             visible={shouldShowErrorMessage}
-            animation="fade up"
+            animation='fade up'
             duration={200}>
             <ErrorMessage>
               <div>

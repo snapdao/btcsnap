@@ -60,7 +60,7 @@ const ModalConfirm = ({
         </Container>
         <Modal.Footer>
           <Button onClick={onCancel}>{cancelText}</Button>
-          <Button className="error" onClick={onConfirm}>
+          <Button className='error' onClick={onConfirm}>
             {confirmText}
           </Button>
         </Modal.Footer>

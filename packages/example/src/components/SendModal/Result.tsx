@@ -7,12 +7,12 @@ import './index.css';
 import { ReactComponent as SendSuccess } from '../../assets/send_success.svg';
 import { ReactComponent as SendFailed } from '../../assets/send_failed.svg';
 import { ReactComponent as ArrowRight } from '../../assets/arrow_right.svg';
-import CloseIcon from "../Icons/CloseIcon";
+import CloseIcon from '../Icons/CloseIcon';
 import {
   Button,
   FailedContainer,
   FailedText
-} from "./styles"
+} from './styles';
 import { useAppStore } from '../../mobx';
 import { AppStatus } from '../../mobx/runtime';
 
@@ -26,7 +26,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
 
   useEffect(() => {
     if(model.status === 'success'){
-      setStatus(AppStatus.RefreshApp)
+      setStatus(AppStatus.RefreshApp);
     }
   }, []);
 
@@ -100,7 +100,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               href={model.transactionLink}
               target={'_blank'}
               className={'explorer-link text-weight-bold all-center'}
-              style={{ color: '#FF6C0A', marginTop: 20, lineHeight: '20px'}}>
+              style={{ color: '#FF6C0A', marginTop: 20, lineHeight: '20px'}} rel='noreferrer'>
               View on Explorer
             </a>
           </div>

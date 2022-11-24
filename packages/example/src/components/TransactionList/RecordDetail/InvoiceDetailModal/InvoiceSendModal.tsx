@@ -1,10 +1,10 @@
 import React from 'react';
-import SendIcon from "../../../Icons/SendIcon";
-import { InvoiceTypes } from "../../../../types";
-import { Modal } from "../../../../kits";
-import { H3 } from "../../../../kits/Layout/Text/Title";
-import { Caption } from "../../../../kits/Layout/Text/Body";
-import { LightningIcon2 } from "../../../Icons/LightningIcon2";
+import SendIcon from '../../../Icons/SendIcon';
+import { InvoiceTypes } from '../../../../types';
+import { Modal } from '../../../../kits';
+import { H3 } from '../../../../kits/Layout/Text/Title';
+import { Caption } from '../../../../kits/Layout/Text/Body';
+import { LightningIcon2 } from '../../../Icons/LightningIcon2';
 import {
   BottomGradientLayerContainer,
   LightningMark,
@@ -12,7 +12,7 @@ import {
   RecordStatus,
   RecordStatusContainer,
   RecordType,
-} from "./styles"
+} from './styles';
 import {
   ModalTitleContainer,
   RecordDetailsTop,
@@ -22,9 +22,9 @@ import {
   RecordItemRow,
   RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent, GradientLayer
 } from '../styles';
-import dayjs from "dayjs";
-import SuccessIcon from "../../../Icons/SuccessIcon";
-import { TransactionProps } from "./index";
+import dayjs from 'dayjs';
+import SuccessIcon from '../../../Icons/SuccessIcon';
+import { TransactionProps } from './index';
 
 export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionProps) => {
   return (
@@ -78,7 +78,7 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
             <RecordItemRow>
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
-                <RecordItemContent lowlight>{invoice.amount}{" "}</RecordItemContent>
+                <RecordItemContent lowlight>{invoice.amount}{' '}</RecordItemContent>
                 <RecordItemContent highlight>Sats</RecordItemContent>
               </span>
             </RecordItemRow>
@@ -86,7 +86,7 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
             <RecordItemRow>
               <RecordItemLabel>Fee</RecordItemLabel>
               <span>
-                <RecordItemContent lowlight>{invoice.fee}{" "}</RecordItemContent>
+                <RecordItemContent lowlight>{invoice.fee}{' '}</RecordItemContent>
                 <RecordItemContent highlight>Sats</RecordItemContent>
               </span>
             </RecordItemRow>
@@ -106,5 +106,5 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
         <GradientLayer />
       </BottomGradientLayerContainer>
     </Modal>
-  )
-})
+  );
+});

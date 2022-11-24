@@ -1,7 +1,7 @@
 import { query } from './query';
 import { RequestType } from '../types';
 
-const endpoint = `/v1/snap/create_account/`;
+const endpoint = '/v1/snap/create_account/';
 
 export type CreateWalletResponse = {
   success: boolean

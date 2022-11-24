@@ -38,7 +38,6 @@ const Settings = observer(({ open, close }: SettingProps) => {
   const {
     settings: { network, scriptType, dynamicAddress, setDynamicAddress },
     current,
-    lightning,
     currentWalletType,
   } = useAppStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
@@ -101,7 +100,7 @@ const Settings = observer(({ open, close }: SettingProps) => {
                 <SettingRadio toggle checked={dynamicAddress} />
               </span>
             </SettingItem>
-            <Divider gap="16px 9px 5px" />
+            <Divider gap='16px 9px 5px' />
           </>
         )}
         {/* TODO:Hide before on-line.  */}

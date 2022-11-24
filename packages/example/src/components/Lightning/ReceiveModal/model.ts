@@ -6,7 +6,7 @@ import { BitcoinUnit } from '../../../interface';
 import { btcToSatoshi } from '../../../lib/helper';
 import { addInvoice } from '../../../api/lightning/addInvoice';
 
-const clearEndZeros = (str: string) => str.replace(/[\.]0+$/, '');
+const clearEndZeros = (str: string) => str.replace(/\.0+$/, '');
 
 export enum ReceiveStep {
   Create,
@@ -23,9 +23,9 @@ class ReceiveViewModel {
 
   isCreating = false;
   qrcode = '';
-  expireCountDown: number = 0;
+  expireCountDown = 0;
   expiredDate?: string = '';
-  downloadImageReady: boolean = false;
+  downloadImageReady = false;
 
   constructor(defaultUnit: BitcoinUnit, currencyRate: number) {
     if (defaultUnit) {
@@ -42,33 +42,33 @@ class ReceiveViewModel {
     let result = '';
 
     switch (this.currUnit) {
-      case BitcoinUnit.Sats:
-        result = BigNumber(
-          satoshiToBTC(
-            BigNumber(this.amount).multipliedBy(this.currencyRate).toNumber(),
-          ),
-        ).toFixed(2);
-        break;
+    case BitcoinUnit.Sats:
+      result = BigNumber(
+        satoshiToBTC(
+          BigNumber(this.amount).multipliedBy(this.currencyRate).toNumber(),
+        ),
+      ).toFixed(2);
+      break;
+    case BitcoinUnit.BTC:
+      result = BigNumber(this.amount)
+        .multipliedBy(this.currencyRate)
+        .toFixed(2);
+      break;
+    case BitcoinUnit.Currency:
+      switch (this.defaultUnit) {
       case BitcoinUnit.BTC:
         result = BigNumber(this.amount)
-          .multipliedBy(this.currencyRate)
-          .toFixed(2);
+          .dividedBy(this.currencyRate)
+          .toFixed(8);
         break;
-      case BitcoinUnit.Currency:
-        switch (this.defaultUnit) {
-          case BitcoinUnit.BTC:
-            result = BigNumber(this.amount)
-              .dividedBy(this.currencyRate)
-              .toFixed(8);
-            break;
-          case BitcoinUnit.Sats:
-            result = BigNumber(
-              btcToSatoshi(
-                BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
-              ),
-            ).toString();
-            break;
-        }
+      case BitcoinUnit.Sats:
+        result = BigNumber(
+          btcToSatoshi(
+            BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
+          ),
+        ).toString();
+        break;
+      }
     }
 
     return clearEndZeros(result);
@@ -84,25 +84,25 @@ class ReceiveViewModel {
     let result = '';
 
     switch (this.currUnit) {
+    case BitcoinUnit.BTC:
+    case BitcoinUnit.Sats:
+      result = this.amount;
+      break;
+    case BitcoinUnit.Currency:
+      switch (this.defaultUnit) {
       case BitcoinUnit.BTC:
-      case BitcoinUnit.Sats:
-        result = this.amount;
+        result = BigNumber(
+          BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
+        ).toFixed(8);
         break;
-      case BitcoinUnit.Currency:
-        switch (this.defaultUnit) {
-          case BitcoinUnit.BTC:
-            result = BigNumber(
-              BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
-            ).toFixed(8);
-            break;
-          case BitcoinUnit.Sats:
-            result = BigNumber(
-              btcToSatoshi(
-                BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
-              ),
-            ).toFixed(2);
-            break;
-        }
+      case BitcoinUnit.Sats:
+        result = BigNumber(
+          btcToSatoshi(
+            BigNumber(this.amount).dividedBy(this.currencyRate).toNumber(),
+          ),
+        ).toFixed(2);
+        break;
+      }
     }
 
     return clearEndZeros(result);
@@ -114,11 +114,11 @@ class ReceiveViewModel {
 
   get secondUnit() {
     switch (this.currUnit) {
-      case BitcoinUnit.BTC:
-      case BitcoinUnit.Sats:
-        return 'USD';
-      case BitcoinUnit.Currency:
-        return this.defaultUnit;
+    case BitcoinUnit.BTC:
+    case BitcoinUnit.Sats:
+      return 'USD';
+    case BitcoinUnit.Currency:
+      return this.defaultUnit;
     }
   }
 
@@ -159,19 +159,19 @@ class ReceiveViewModel {
     const amountNumber = BigNumber(this.amount).toNumber();
 
     switch (this.currUnit) {
+    case BitcoinUnit.BTC:
+      return btcToSatoshi(amountNumber);
+    case BitcoinUnit.Currency:
+      switch (this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>) {
       case BitcoinUnit.BTC:
-        return btcToSatoshi(amountNumber);
-      case BitcoinUnit.Currency:
-        switch (
-          this.defaultUnit as Exclude<BitcoinUnit, BitcoinUnit.Currency>
-        ) {
-          case BitcoinUnit.BTC:
-            return btcToSatoshi(BigNumber(this.secondAmountText).toNumber());
-          case BitcoinUnit.Sats:
-            return BigNumber(this.secondAmountText).toNumber();
-        }
+        return btcToSatoshi(BigNumber(this.secondAmountText).toNumber());
+      case BitcoinUnit.Sats:
+        return BigNumber(this.secondAmountText).toNumber();
       default:
         return amountNumber;
+      }
+    default:
+      return amountNumber;
     }
   }
 

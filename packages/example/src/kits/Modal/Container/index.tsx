@@ -1,6 +1,5 @@
 import { ReactNode, RefObject } from 'react';
 import { CSSProperties } from 'styled-components';
-import CloseIcon from '../../../components/Icons/CloseIcon';
 import { Container } from './styles';
 
 interface Props {

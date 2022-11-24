@@ -12,4 +12,4 @@ export const covertSecondsToHM = (seconds: number) => {
 
 export const addLeadingZero = (time: number) => {
   return time < 10 ? `0${time}` : time;
-}
+};

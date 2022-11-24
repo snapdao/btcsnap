@@ -1,12 +1,12 @@
-import styled from "styled-components"
-import { Radio } from "semantic-ui-react"
+import styled from 'styled-components';
+import { Radio } from 'semantic-ui-react';
 
 
 export const SettingHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px 20px 0 20px;
-`
+`;
 
 export const SettingLabel = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ export const SettingLabel = styled.div`
     margin: 0;
     text-transform: uppercase;
   }
-`
+`;
 
 export const ModalHeader = styled.div`
   display: flex;
@@ -37,23 +37,23 @@ export const ModalHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px 0 168px;
-`
+`;
 
 export const ModalHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 export const ModalHeaderLabel = styled.span`
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
-`
+`;
 
 export const SettingContent = styled.div`
   padding: 32px 20px 152px 20px;
-`
+`;
 
 export const SettingItem = styled.div`
   display: flex;
@@ -82,7 +82,7 @@ export const SettingItem = styled.div`
     border-radius: 16px;
     transition: background 0.25s;
   }
-`
+`;
 
 export const SettingRadio = styled(Radio)`
   width: 34px !important;
@@ -115,12 +115,12 @@ export const SettingRadio = styled(Radio)`
   &.ui.checked.fitted.toggle.checkbox > label::before {
     background-color: #F58300 !important;
   }
-`
+`;
 
 // ----- Network -----
 export const NetworkContainer = styled.div`
   padding: 20px 20px 24px;
-`
+`;
 
 export const NetworkItem = styled.div<{checked: boolean}>`
   display: flex;
@@ -130,15 +130,15 @@ export const NetworkItem = styled.div<{checked: boolean}>`
   margin-bottom: 8px;
   border-radius: 12px;
   :hover {
-    cursor: ${props => props.checked ? "default" : "pointer"};
-    background: ${props => props.checked ? "#FFFFFF" : "rgba(0, 0, 0, 0.04)"};
+    cursor: ${props => props.checked ? 'default' : 'pointer'};
+    background: ${props => props.checked ? '#FFFFFF' : 'rgba(0, 0, 0, 0.04)'};
     transition: 0.25s;
   }
   :not(:hover) {
     background: #FFFFFF;
     transition: 0.25s;
   }
-`
+`;
 
 export const NetworkItemLabel = styled.div`
   display: flex;
@@ -147,7 +147,7 @@ export const NetworkItemLabel = styled.div`
     line-height: 24px;
     margin-left: 4px;
   }
-`
+`;
 
 export const NetworkItemRadio = styled(Radio)`
   & > label::before {
@@ -169,12 +169,12 @@ export const NetworkItemRadio = styled(Radio)`
   &.checked > label::after {
     background-color: #F58300 !important;
   }
-`
+`;
 
 // ----- Address Type -----
 export const AddressContainer = styled.div`
   padding: 20px 32px 6px 32px;
-`
+`;
 
 export const AddressItem = styled.div`
   display: flex;
@@ -193,7 +193,7 @@ export const AddressItem = styled.div`
     outline-color: #E1E6F0;
     transition: 0.25s;
   }
-`
+`;
 
 export const AddressItemLabel = styled.div`
   display: flex;
@@ -208,7 +208,7 @@ export const AddressItemLabel = styled.div`
     line-height: 20px;
     color: #656D85;
   }
-`
+`;
 
 export const AddressItemRadio = styled(Radio)`
   & > label::before {
@@ -230,7 +230,7 @@ export const AddressItemRadio = styled(Radio)`
   &.checked > label::after {
     background-color: #F58300 !important;
   }
-`
+`;
 
 export const AddressTips = styled.div`
   margin: 0 32px 24px;
@@ -247,7 +247,7 @@ export const AddressTips = styled.div`
   & > p >span {
     color: #111214;
   }
-`
+`;
 
 //----- Privacy Policy -----
 export const PrivacyContainer = styled.div`
@@ -275,7 +275,7 @@ export const PrivacyContainer = styled.div`
   ::-webkit-scrollbar-track {
     background: none;
   }
-`
+`;
 
 //----- Terms of Service -----
 export const TermsContainer = styled.div`
@@ -303,7 +303,7 @@ export const TermsContainer = styled.div`
   ::-webkit-scrollbar-track {
     background: none;
   }
-`
+`;
 
 export const MaskArea = styled.div`
   position: absolute;
@@ -315,4 +315,4 @@ export const MaskArea = styled.div`
   border-bottom-right-radius: 20px !important;
   background: #FFFFFF;
   mask: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
-`
+`;

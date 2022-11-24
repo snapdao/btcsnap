@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Modal } from "semantic-ui-react";
+import { Modal } from 'semantic-ui-react';
 import CloseIcon from '../Icons/CloseIcon';
-import "./Modal.css"
+import './Modal.css';
 
 enum ModalAnimation {
   FadeUp = 'fade-up',
@@ -28,23 +28,23 @@ const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = fa
     } else if (openedBefore.current) {
       setTimeout(() => {
         setIsVisible(false);
-      }, 250)
+      }, 250);
       openedBefore.current = false;
     }
-  }, [open, isVisible, openedBefore])
+  }, [open, isVisible, openedBefore]);
 
   const openClasses = isFirstStep ? ModalAnimation.FadeUp : ModalAnimation.FadeLeft;
-  const animationClasses = open ? openClasses : ModalAnimation.FadeOut
+  const animationClasses = open ? openClasses : ModalAnimation.FadeOut;
 
   return (
     <Modal
-      size="mini"
+      size='mini'
       className={`Connect-Modal-Container ${animationClasses}`}
       open={isVisible}
     >
       <Modal.Content>
         <CloseIcon onClick={() => !isDisabled && close()} isDisabled={isDisabled}/>
-        <div className="Connect-Modal-Content">
+        <div className='Connect-Modal-Content'>
           {children}
         </div>
       </Modal.Content>

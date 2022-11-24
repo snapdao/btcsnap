@@ -1,6 +1,7 @@
-import { useAppStore } from "./mobx";
-import { useMFPCheck } from "./hook/useMFPCheck";
-import { useEffect } from "react";
+import React from 'react';
+import { useAppStore } from './mobx';
+import { useMFPCheck } from './hook/useMFPCheck';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 
 export const AppCheck = observer(() => {
@@ -8,11 +9,11 @@ export const AppCheck = observer(() => {
   const { isChecking, isSameMFP } = useMFPCheck();
 
   useEffect(() => {
-    const mfpChangedInMM = !isChecking && !isSameMFP
+    const mfpChangedInMM = !isChecking && !isSameMFP;
     if(mfpChangedInMM){
       resetStore();
     }
-  }, [isChecking, isSameMFP])
+  }, [isChecking, isSameMFP]);
 
   return <></>;
 });

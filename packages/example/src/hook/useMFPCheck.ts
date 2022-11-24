@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useAppStore } from "../mobx";
-import { getMasterFingerprint } from "../lib/snap";
+import { useAppStore } from '../mobx';
+import { getMasterFingerprint } from '../lib/snap';
 
 export const useMFPCheck = () => {
-  const {current, persistDataLoaded} = useAppStore()
+  const {current, persistDataLoaded} = useAppStore();
   const [isChecking, setIsChecking] = useState<boolean>(true);
   const [isSameMFP, setIsSameMFP] = useState<boolean>(false);
 

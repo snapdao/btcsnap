@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Button,
   ImportWalletContainer,
-  ImportWalletHeader,
   ImportWalletModal,
   ImportWalletErrorTip,
   KeyInput,
@@ -46,7 +45,7 @@ export const ImportWallet = observer(
         </Modal.Header>
         <ImportWalletContainer>
           <WalletNameContainer>
-            <Label htmlFor="walletName">Wallet Name</Label>
+            <Label htmlFor='walletName'>Wallet Name</Label>
             <WalletNameInput
               id={'walletName'}
               onChange={model.onWalletNameChanged}
@@ -55,7 +54,7 @@ export const ImportWallet = observer(
           </WalletNameContainer>
           <WalletKeyContainer>
             <KeyLabelContainer>
-              <Label htmlFor="credential">Lightning Wallet Key</Label>
+              <Label htmlFor='credential'>Lightning Wallet Key</Label>
               <Popup
                 content={
                   'Also compatible with keys created by LNDHub, only .txt files are supported'
@@ -71,7 +70,7 @@ export const ImportWallet = observer(
             <KeyInputContainer>
               <KeyInput
                 autoFocus
-                id="credential"
+                id='credential'
                 placeholder={'Enter or paste the Lightning wallet key here'}
                 onChange={model.onCredentialInputChanged}
                 value={model.credential}
@@ -80,8 +79,8 @@ export const ImportWallet = observer(
                 content={'Upload Lightning Wallet Key File'}
                 trigger={
                   <UploaderContainer>
-                    <label htmlFor="credential-input">
-                      <UploadIcon />
+                    <label htmlFor='credential-input'>
+                      <UploadIcon/>
                     </label>
                     <Uploader
                       type={'file'}
@@ -90,7 +89,7 @@ export const ImportWallet = observer(
                       onChange={model.onCredentialFileChanged}
                     />
                   </UploaderContainer>
-                }></Popup>
+                }/>
             </KeyInputContainer>
           </WalletKeyContainer>
           <ImportWalletErrorTip>{model.errorTip}</ImportWalletErrorTip>

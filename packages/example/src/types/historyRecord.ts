@@ -1,5 +1,5 @@
-import { TransactionDetail } from "./transaction";
-import { InvoiceDetail } from "./invoices";
+import { TransactionDetail } from './transaction';
+import { InvoiceDetail } from './invoices';
 
 export enum HistoryRecordType {
   BitcoinTransaction,
