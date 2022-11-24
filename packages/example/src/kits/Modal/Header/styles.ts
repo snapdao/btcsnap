@@ -13,7 +13,6 @@ export const Container = styled.div<{
 
   ${props => props.bannerMode ? css`
     width: 100%;
-    padding: 20px 0 0;
     border-radius: 20px 20px 0 0;
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(4px);

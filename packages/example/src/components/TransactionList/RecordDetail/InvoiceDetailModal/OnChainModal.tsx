@@ -27,7 +27,7 @@ import { Icon } from "snapkit";
 export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) => {
   return (
     <Modal open={open} close={close} mountNode={parent}>
-      <Modal.Header bannerMode>
+      <Modal.Header bannerMode onClose={close}>
         <ModalTitleContainer>
           <H3>{invoice.type}</H3>
         </ModalTitleContainer>
