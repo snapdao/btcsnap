@@ -1,4 +1,3 @@
-import React from 'react';
 import { Line } from './styles';
 
 export interface Props {
@@ -8,7 +7,7 @@ export interface Props {
 }
 
 export default function Divider({
-  direction = 'vertical',
+  direction = 'horizontal',
   gap = '8px',
   color = 'var(--c-ntd04)',
   ...args
