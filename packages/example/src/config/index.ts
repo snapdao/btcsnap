@@ -1,10 +1,10 @@
-declare let BACKEND_API_DOMAIN: string;
-declare let BACKEND_API_AUTH: string;
-declare let SNAP_BACKEND_API_DOMAIN: string;
-declare let SNAP_BACKEND_API_AUTH: string;
-declare let PROJECT_TOKEN: string;
-declare let ENV: 'development' | 'staging' | 'production';
-declare let SENTRY_SOURCE: string;
+declare const BACKEND_API_DOMAIN: string;
+declare const BACKEND_API_AUTH: string;
+declare const SNAP_BACKEND_API_DOMAIN: string;
+declare const SNAP_BACKEND_API_AUTH: string;
+declare const PROJECT_TOKEN: string;
+declare const ENV: 'development' | 'staging' | 'production';
+declare const SENTRY_SOURCE: string;
 
 export const BACKEND_DOMAIN = BACKEND_API_DOMAIN;
 export const BACKEND_AUTH = BACKEND_API_AUTH;
