@@ -1,10 +1,9 @@
-import React from 'react';
 import { StyledPopup } from './styles';
-import { StrictPopupProps } from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
+import { StrictPopupProps } from 'semantic-ui-react';
 
 interface CustomPopupProps extends StrictPopupProps {
-  breakLine?: boolean
-  maxCharsPerLine?: number
+  breakLine?: boolean;
+  maxCharsPerLine?: number;
 }
 
 export const Popup = ({breakLine = false, ...props}: CustomPopupProps) => {

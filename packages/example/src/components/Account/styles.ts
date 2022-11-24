@@ -1,4 +1,7 @@
 import styled, { css } from 'styled-components';
+import { Button } from './../../kits/Button/index';
+import { FlexBetween } from './../../kits/Layout/Flex/index';
+import { List } from '../../kits/List';
 
 export const AccountBackground = styled.div`
   width: 100%;
@@ -457,17 +460,53 @@ export const ActionButton = styled.button`
   }
 `;
 
-export const MarketPrice = styled.p<{ isTestnet: boolean }>`
+export const Footer = styled(FlexBetween)`
   position: absolute;
+  align-items: center;
   bottom: 40px;
+  width: calc(100% - 40px * 2);
+`;
+
+export const MarketPrice = styled.p<{ isTestnet: boolean }>`
   font-weight: 400;
   color: #656d85;
+  margin: 0;
 
   span {
     font-weight: 600;
     color: #f58300;
-    text-decoration-line: ${(props) =>
-    props.isTestnet ? 'line-through' : 'none'};
+    text-decoration-line: ${(props) => props.isTestnet ? 'line-through' : 'none'};
+  }
+`;
+
+export const TopUpButton = styled(Button).attrs({
+  size: 'small',
+})`
+  && {
+    width: 100px;
+    height: 36px;
+    background: var(--sk-color-n00);
+    border: 1px solid var(--sk-color-n30);
+    color: var(--sk-color-n60);
+    > div {
+      padding: 0;
+    }
+    &:hover {
+      background: var(--sk-color-n00);
+    }
+  }
+`;
+
+export const TopUpList = styled(List)`
+  && {
+    width: 200px;
+    .list-field {
+      justify-content: flex-start;
+      margin: 0;
+      > .title {
+        margin-left: 4px;
+      }
+    }
   }
 `;
 

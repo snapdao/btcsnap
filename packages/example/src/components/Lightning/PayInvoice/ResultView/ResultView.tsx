@@ -67,7 +67,7 @@ export const ResultView = observer(({open, model, close}: { open: boolean, model
               <ButtonsContainer>
                 <Button onClick={close}>Close</Button>
                 <PrimaryButton primary onClick={
-                  () => {model.setStatus(SendStatus.Init);}
+                  () => { model.setStatus(SendStatus.Init); }
                 }>
                   Retry
                 </PrimaryButton>

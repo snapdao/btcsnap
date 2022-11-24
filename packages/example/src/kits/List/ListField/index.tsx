@@ -7,18 +7,26 @@ interface Props {
   content?: ReactNode;
   arrow?: boolean;
   hoverable?: boolean;
+  className?: string;
   onClick?: () => void;
+  icon?: ReactNode;
 }
 
 export const ListField = ({
   title,
+  icon,
   content,
   arrow = false,
   hoverable = false,
+  className,
   onClick,
 }: Props) => {
   return (
-    <Container hoverable={hoverable} onClick={onClick}>
+    <Container
+      className={`list-field ${className}`}
+      hoverable={hoverable}
+      onClick={onClick}>
+      {icon}
       <Title className='title'>{title}</Title>
       <Content>{content}</Content>
       {arrow && <Icon.ArrowRight color='var(--c-pri50)' />}

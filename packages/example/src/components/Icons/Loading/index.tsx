@@ -4,7 +4,7 @@ import { Spin } from './style';
 const LoadingIcon = ({
   spin = false,
   width = 24,
-  height = 24,
+  height = 24,    
   color = '#9095A3',
   ...args
 }: Record<string, any>) => (
