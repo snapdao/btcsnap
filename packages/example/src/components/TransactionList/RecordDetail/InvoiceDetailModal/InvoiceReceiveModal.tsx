@@ -91,7 +91,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
 
   return (
     <Modal open={open} close={close} mountNode={parent}>
-      <Modal.Header bannerMode>
+      <Modal.Header bannerMode onClose={close}>
         <ModalTitleContainer>
           <H3>
             {

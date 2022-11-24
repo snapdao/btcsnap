@@ -29,7 +29,7 @@ import { TransactionProps } from "./index";
 export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionProps) => {
   return (
     <Modal open={open} close={close} mountNode={parent}>
-      <Modal.Header bannerMode>
+      <Modal.Header bannerMode onClose={close}>
         <ModalTitleContainer>
           <H3>{invoice.type}</H3>
         </ModalTitleContainer>
