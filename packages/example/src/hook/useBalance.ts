@@ -7,7 +7,7 @@ import { queryCoinV2 } from '../api';
 import { IAccount } from '../mobx/types';
 import { logger } from '../logger';
 import { WalletType } from '../interface';
-import { balance as queryLightningBalance } from "../api/lightning/balance";
+import { balance as queryLightningBalance } from '../api/lightning/balance';
 
 export const useBalance = () => {
   const {
@@ -28,13 +28,9 @@ export const useBalance = () => {
     const queryBalance = async (current: IAccount) => {
       const coinCode: SupportedCoins =
         NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
-      try {
-        const response = await queryCoinV2()
-        const balance = Number(response.coins[coinCode].balance) || 0;
-        return { balance };
-      } catch (e) {
-        throw e;
-      }
+      const response = await queryCoinV2();
+      const balance = Number(response.coins[coinCode].balance) || 0;
+      return { balance };
     };
 
     if(currentWalletType === WalletType.BitcoinWallet) {
@@ -59,12 +55,12 @@ export const useBalance = () => {
     } else {
       if (lightning.current) {
         queryLightningBalance().then(response => {
-          setBalance(Number(response.BTC.AvailableBalance) || 0)
+          setBalance(Number(response.BTC.AvailableBalance) || 0);
           setStatus(AppStatus.Ready);
-        }).catch(e => {
-          setBalance(0)
+        }).catch(() => {
+          setBalance(0);
           setStatus(AppStatus.Ready);
-        })
+        });
       }
     }
   }, [current, currentWalletType, count, lightning.current]);

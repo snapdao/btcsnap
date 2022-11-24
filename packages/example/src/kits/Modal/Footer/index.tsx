@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import CloseIcon from '../../../components/Icons/CloseIcon';
 import { Container } from './styles';
 
 interface Props {

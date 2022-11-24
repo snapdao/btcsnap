@@ -23,7 +23,6 @@ type AddressBoxProps = {
 };
 
 const AddressBox = observer(({ model }: AddressBoxProps) => {
-  const [showDownloadIcon, setShowDownloadIcon] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [copyStatus, setCopyStatus] = useState(false);
   const downloadDomRef = useRef<HTMLElement>(null);
@@ -57,16 +56,9 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
   if (model.qrcode) {
     return (
       <>
-        <Container textAlign="center">
+        <Container textAlign='center'>
           <AddressContainer>
-            <ContainerMask
-              onMouseEnter={() => {
-                setTimeout(() => {
-                  setShowDownloadIcon(true);
-                }, 100);
-              }}
-              onMouseLeave={() => setShowDownloadIcon(false)}
-              onClick={onDownload}>
+            <ContainerMask onClick={onDownload}>
               <DownloadIcon style={{ color: 'var(--sk-color-b60)' }} />
               <LightningIcon />
             </ContainerMask>

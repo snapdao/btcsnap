@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { observer } from "mobx-react-lite";
-import Install from "./Install";
-import Connect from "./Connect";
-import RevealXpub  from "./RevealXpub";
-import { useAppStore } from "../../mobx";
-import "./index.css";
-import { Browsers } from "snapkit";
+import { observer } from 'mobx-react-lite';
+import Install from './Install';
+import Connect from './Connect';
+import RevealXpub  from './RevealXpub';
+import { useAppStore } from '../../mobx';
+import './index.css';
+import { Browsers } from 'snapkit';
 import { isBrowserSupport } from '../../lib/helper';
 import { AppStatus } from '../../mobx/runtime';
 
@@ -37,19 +37,19 @@ const Index = observer(() => {
       return;
     }
 
-    let nextStep = !!current ? ConnectStep.Done : (connected ? ConnectStep.Reveal : ConnectStep.Connect);
+    let nextStep = current ? ConnectStep.Done : (connected ? ConnectStep.Reveal : ConnectStep.Connect);
     const notInstalled = !window.ethereum;
     if(notInstalled) {
       nextStep = ConnectStep.Install;
     }
     setStep(nextStep);
     setFirstStep(nextStep);
-  }, [current, setStep, persistDataLoaded])
+  }, [current, setStep, persistDataLoaded]);
 
   const closeModal = useCallback(() => {
     setFirstStep(step);
     setStatus(AppStatus.ConnectClosed);
-  }, [step])
+  }, [step]);
 
   if(status === AppStatus.ConnectClosed){
     return null;
@@ -75,7 +75,7 @@ const Index = observer(() => {
         isFirstStep={firstStep === ConnectStep.Reveal}
         open={step === ConnectStep.Reveal}
         close={closeModal}
-        onRevealed={() => {setStep(ConnectStep.Done)}}
+        onRevealed={() => {setStep(ConnectStep.Done);}}
       />
     </>
   );

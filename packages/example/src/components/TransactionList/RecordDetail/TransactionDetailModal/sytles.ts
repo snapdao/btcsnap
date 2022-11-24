@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { circularMotion } from "../../../../kits";
+import styled from 'styled-components';
+import { circularMotion } from '../../../../kits';
 
 export const ModalHeaderCenter = styled.div`
   display: flex;
@@ -7,34 +7,34 @@ export const ModalHeaderCenter = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px 0 60px;
-`
+`;
 
 export const ModalHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 export const ModalHeaderLabel = styled.span`
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
   text-transform: uppercase;
-`
+`;
 
 export const TransactionDetailsTop = styled.div`
   height: 256px;
   background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
-`
+`;
 
 export const TransactionDetailsBottom = styled.div`
   padding: 32px;
-`
+`;
 
 export const TransactionAmount = styled.div`
   text-align: center;
   padding: 16px 0 32px 0;
-`
+`;
 
 interface TitleProps {
   isSendType: boolean
@@ -65,7 +65,7 @@ export const TransactionAmountIcon = styled.div<TitleProps>`
     z-index: 999;
     animation: ${circularMotion} 1s linear infinite;
   }
-`
+`;
 
 export const BackgroundDiv = styled.div`
   position: absolute;
@@ -75,7 +75,7 @@ export const BackgroundDiv = styled.div`
   top: 56px;
   border-radius: 50%;
   background: linear-gradient(185.06deg,rgba(255,250,248,1) 4.07%,rgba(255,248,240,1) 95.93%);
-`
+`;
 
 export const TransactionAmountValue = styled.div`
   display: flex;
@@ -98,7 +98,7 @@ export const TransactionAmountValue = styled.div`
     margin-left: 4px;
   }
 
-`
+`;
 
 export const TransactionDetailsLink = styled.p`
   text-align: center;
@@ -110,7 +110,7 @@ export const TransactionDetailsLink = styled.p`
       text-decoration: underline;
     }
   }
-`
+`;
 
 export const TransactionDetailsStatus = styled.div`
   display: flex;
@@ -120,7 +120,7 @@ export const TransactionDetailsStatus = styled.div`
   span:first-child {
     color: #9095A3;
   }
-`
+`;
 
 export const TransactionDetailsFromTo = styled.div`
   position: relative;
@@ -154,7 +154,7 @@ export const TransactionDetailsFromTo = styled.div`
       text-overflow: ellipsis;
     }
   }
-`
+`;
 
 export const TransactionDetailsAmountFee = styled.div`
   position: relative;
@@ -193,18 +193,18 @@ export const TransactionDetailsAmountFee = styled.div`
       }
     }
   }
-`
+`;
 
 export const PendingSpan = styled.span`
   color: #F58300;
-`
+`;
 
 export const CompletedSpan = styled.span`
   color: #21A35D;
-`
+`;
 
 export const FailedText = styled.p`
   color: #F54814;
   text-align: right;
   margin-bottom: 20px;
-`
+`;

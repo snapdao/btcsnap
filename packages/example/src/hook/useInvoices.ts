@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppStore } from '../mobx';
 import { logger } from '../logger';
 import { WalletType } from '../interface';
 import { invoices as queryLightningInvoices } from '../api/lightning/invoices';
 import { lightningTxs } from '../api/lightning/transactions';
-import { InvoiceDetail } from "../types";
-import { transformInvoice, transformTransaction } from "../services/LightningService/transform";
+import { InvoiceDetail } from '../types';
+import { transformInvoice, transformTransaction } from '../services/LightningService/transform';
 
 interface UseInvoices {
   size: number;
@@ -24,11 +24,11 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
 
   useEffect(() => {
     const fetchAllTransactions = async (): Promise<InvoiceDetail[]> => {
-      const response = await Promise.all([queryLightningInvoices(), lightningTxs()])
+      const response = await Promise.all([queryLightningInvoices(), lightningTxs()]);
       const [invoices, txs] = response;
       return [...invoices.map(transformInvoice), ...(txs.map(transformTransaction).filter(tx => tx !== null) as InvoiceDetail[])]
         .sort((tx1, tx2) => tx2!.date - tx1!.date);
-    }
+    };
 
     if (currentWalletType === WalletType.LightningWallet && lightning.current) {
       setLoading(true);
@@ -45,7 +45,7 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
     } else {
       setAllTransactions([]);
     }
-  }, [lightning.current, count, currentWalletType])
+  }, [lightning.current, count, currentWalletType]);
 
   const refresh = () => {
     if (!loading) {
@@ -55,7 +55,7 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
 
   const loadMore = () => {
     setStartOffset(endOffset);
-  }
+  };
 
   useEffect(() => {
     if (allTransactions.length > 0) {

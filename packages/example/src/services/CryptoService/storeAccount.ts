@@ -1,11 +1,11 @@
-import { getAppStore, utils } from "../../mobx";
-import { BitcoinNetwork, BitcoinScriptType } from "../../interface";
-import { IAccountIn } from "../../mobx/types";
-import { EXTENDED_PUBKEY_PATH, NETWORK_SCRIPT_TO_COIN } from "../../constant/bitcoin";
-import { fetchAddresses } from "../../api/v1/fetchAddress";
-import { fromHdPathToObj } from "../../lib/cryptoPath";
-import { coinManager } from "../CoinManager";
-import { logger } from "../../logger";
+import { getAppStore, utils } from '../../mobx';
+import { BitcoinNetwork, BitcoinScriptType } from '../../interface';
+import { IAccountIn } from '../../mobx/types';
+import { EXTENDED_PUBKEY_PATH, NETWORK_SCRIPT_TO_COIN } from '../../constant/bitcoin';
+import { fetchAddresses } from '../../api/v1/fetchAddress';
+import { fromHdPathToObj } from '../../lib/cryptoPath';
+import { coinManager } from '../CoinManager';
+import { logger } from '../../logger';
 
 const constructAccount = (mfp: string, xpub: string, scriptType: BitcoinScriptType, network: BitcoinNetwork): IAccountIn => ({
   id: utils.generateAccountId(),
@@ -17,7 +17,7 @@ const constructAccount = (mfp: string, xpub: string, scriptType: BitcoinScriptTy
   scriptType,
   network,
   receiveAddressIndex: 0,
-})
+});
 
 export const storeAccount = async (
   xpub: string,
@@ -28,7 +28,7 @@ export const storeAccount = async (
   const appStore = getAppStore();
   try {
     const accountData = constructAccount(mfp, xpub, scriptType, network);
-    const storeAccount = appStore.createAccount(accountData)
+    const storeAccount = appStore.createAccount(accountData);
     appStore.applyAccount(storeAccount);
 
     const { unused } = await fetchAddresses(mfp, xpub, storeAccount.coinCode);
@@ -38,7 +38,7 @@ export const storeAccount = async (
     let receiveAddress = coinManager.deriveAddress(receivePublicKey, scriptType, network);
 
     if(unused.length > 0) {
-      const receiveAddressItem = unused.filter(address => fromHdPathToObj(address.hdPath).change === "0")?.[0];
+      const receiveAddressItem = unused.filter(address => fromHdPathToObj(address.hdPath).change === '0')?.[0];
       receiveAddressIndex = Number(fromHdPathToObj(receiveAddressItem?.hdPath).index);
       receiveAddress = receiveAddressItem?.address;
     }
@@ -46,7 +46,7 @@ export const storeAccount = async (
 
     const storeReceiveAddress = {
       id: utils.generateAddressId(),
-      parent: "",
+      parent: '',
       address: receiveAddress,
       coinCode: NETWORK_SCRIPT_TO_COIN[network][scriptType],
       change: 0,

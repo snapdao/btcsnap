@@ -1,9 +1,9 @@
-import { Bitcoin } from "../Bitcoin";
-import { BitcoinNetwork, BitcoinScriptType } from "../../../interface";
+import { Bitcoin } from '../Bitcoin';
+import { BitcoinNetwork, BitcoinScriptType } from '../../../interface';
 
 // abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about
 
-export const coinManager = new Bitcoin()
+export const coinManager = new Bitcoin();
 
 // hybrid betray symbol aim promote vehicle extend west slice silver man belt
 describe('CoinManager', () => {
@@ -58,9 +58,9 @@ describe('CoinManager', () => {
     });
 
     it('should throw error given unexpected script type', () => {
-      expect(() => {coinManager.deriveAddress(Buffer.from('02b866b6322952cc462c80c4bb6d9c952d1d344b4ea6d74a61972f6125887a7873', 'hex'), 'p2pk' as any, BitcoinNetwork.Test)})
-      .toThrowError('generate address failed')
+      expect(() => {coinManager.deriveAddress(Buffer.from('02b866b6322952cc462c80c4bb6d9c952d1d344b4ea6d74a61972f6125887a7873', 'hex'), 'p2pk' as any, BitcoinNetwork.Test);})
+        .toThrowError('generate address failed');
     });
-  })
+  });
 
 });

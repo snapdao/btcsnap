@@ -17,10 +17,10 @@ enum ImportWalletResult {
 const CREDENTIAL_FORMAT = /^lndhub:\/\/([0-9a-f]{20}):([0-9a-f]{20})/;
 
 export class LightningImportWalletModel {
-  public credential: string = '';
-  public isImporting: boolean = false;
+  public credential = '';
+  public isImporting = false;
   public importResult: ImportWalletResult = ImportWalletResult.Init;
-  public walletName: string = '';
+  public walletName = '';
 
   constructor() {
     makeAutoObservable(this);

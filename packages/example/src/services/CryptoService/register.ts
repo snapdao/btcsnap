@@ -1,8 +1,8 @@
-import { getAppStore } from "../../mobx";
-import { storeAccount } from "./storeAccount";
-import { BitcoinNetwork, BitcoinScriptType } from "../../interface";
-import { register as registerMFP } from "../../api";
-import { logger } from "../../logger";
+import { getAppStore } from '../../mobx';
+import { storeAccount } from './storeAccount';
+import { BitcoinNetwork, BitcoinScriptType } from '../../interface';
+import { register as registerMFP } from '../../api';
+import { logger } from '../../logger';
 
 export const register = async (xpub: string, mfp: string, scriptType: BitcoinScriptType, network: BitcoinNetwork) => {
   const appStore = getAppStore();
@@ -13,7 +13,7 @@ export const register = async (xpub: string, mfp: string, scriptType: BitcoinScr
     } else {
       const registeredMfp = appStore.registeredMfp();
 
-      const registerAnotherMFP = registeredMfp !== "" && registeredMfp !== mfp;
+      const registerAnotherMFP = registeredMfp !== '' && registeredMfp !== mfp;
       if(registerAnotherMFP) {
         appStore.resetStore();
       }
@@ -22,10 +22,10 @@ export const register = async (xpub: string, mfp: string, scriptType: BitcoinScr
       if (!MfpRegistered) {
         await registerMFP(mfp);
       }
-      await storeAccount(xpub, mfp, scriptType, network)
+      await storeAccount(xpub, mfp, scriptType, network);
     }
   } catch (e) {
-    logger.error(e)
+    logger.error(e);
     throw e;
   }
 };

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const AddIconContainer = styled.button`
   padding: 0;
@@ -30,4 +30,4 @@ export const AddIconContainer = styled.button`
       }
     }
   }
-`
+`;

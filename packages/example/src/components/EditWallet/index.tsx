@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../../mobx';
 import { Button, H3, Message, MessageType, Modal } from '../../kits';
@@ -111,7 +111,7 @@ const EditWallet = observer(
       }
 
       if (walletType === WalletType.LightningWallet) {
-        let wallet = getWalletByUserId(id);
+        const wallet = getWalletByUserId(id);
         wallet?.setName(walletInfo.name);
       } else {
         updateUser(walletInfo.name);
@@ -172,7 +172,7 @@ const EditWallet = observer(
         }}
         close={close}
         open={open}
-        key="editWalletModal"
+        key='editWalletModal'
         closeOnDimmerClick={false}>
         <EditWalletContainer ref={parentNode}>
           <Modal.Header
@@ -186,23 +186,23 @@ const EditWallet = observer(
           <Modal.Container>
             <List>
               <List.Form
-                title="Wallet Name"
+                title='Wallet Name'
                 value={walletInfo?.name}
                 onInput={(ev) => onChangeWalletName(ev.target.value)}
               />
               <List.Field
-                title="Type"
+                title='Type'
                 content={walletTypeTextMap[walletType]}
               />
               {walletType === WalletType.LightningWallet && (
                 <>
                   <List.Field
-                    title="Connected To"
-                    content="https://lndhub.io"
+                    title='Connected To'
+                    content='https://lndhub.io'
                   />
                   <Divider />
                   <List.Field
-                    title="Backup Wallet"
+                    title='Backup Wallet'
                     onClick={onShowBackup}
                     hoverable
                     arrow
@@ -228,14 +228,14 @@ const EditWallet = observer(
               <H3>Save</H3>
             </Button>
           </Modal.Footer>
-          {pendingSnap && <Modal.Loading content="Continue at MetaMask" />}
+          {pendingSnap && <Modal.Loading content='Continue at MetaMask' />}
           <Modal.Confirm
-            title="Delete Wallet"
+            title='Delete Wallet'
             open={showConfirm}
             onClose={onCloseConfirm}
             onCancel={onCloseConfirm}
             onConfirm={onDeleteWallet}
-            confirmText="Delete"
+            confirmText='Delete'
             parentNode={parentNode.current}>
             Are you sure you want to delete this wallet? Please make sure to
             backup your wallet before you delete it
@@ -252,7 +252,7 @@ const EditWallet = observer(
         open={recoveryKey.open}
         recoveryKey={recoveryKey.value}
         close={onCloseRecoveryKeyModal}
-        key="recoveryKeyModal"
+        key='recoveryKeyModal'
         bottomAction={
           <Button primary onClick={onCloseRecoveryKeyModal}>
             Done

@@ -1,12 +1,12 @@
 export enum TransactionTypes {
-  Send = "sent",
-  Receive = "received"
+  Send = 'sent',
+  Receive = 'received'
 }
 
 export enum TransactionStatus {
-  Pending = "pending",
-  Confirmed = "confirmed",
-  Failed = "failed"
+  Pending = 'pending',
+  Confirmed = 'confirmed',
+  Failed = 'failed'
 }
 
 export interface TransactionDetail {

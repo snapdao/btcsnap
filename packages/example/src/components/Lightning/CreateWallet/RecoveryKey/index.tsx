@@ -21,7 +21,6 @@ import { ReactComponent as Download } from '../image/download.svg';
 import { ReactComponent as Copy } from '../image/copy.svg';
 import saveData from '../../../../utils/save';
 import { useAppStore } from '../../../../mobx';
-import { Header } from '../styles';
 import { WalletType } from '../../../../interface';
 import { copyToClipboard } from '../../../../utils/clipboard';
 import { H3, Message, MessageType, Modal } from '../../../../kits';

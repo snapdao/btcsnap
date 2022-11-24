@@ -6,12 +6,12 @@ import { fromHdPathToObj } from '../lib/cryptoPath';
 import { coinManager } from '../services/CoinManager';
 import { BitcoinNetwork, Utxo } from '../interface';
 import { useAppStore } from '../mobx';
-import { logger } from "../logger";
+import { logger } from '../logger';
 
 export const useUtxo = () => {
   const {current} = useAppStore();
   const [utxoList, setUtxoList] = useState<Utxo[]>([]);
-  const [nextChangePath, setNextChangePath] = useState<string>("");
+  const [nextChangePath, setNextChangePath] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -29,31 +29,31 @@ export const useUtxo = () => {
               value: utxo.value,
               path: utxo.hdPath,
               pubkey,
-            }
-          })
-        return {utxoList, nextChange: data.unusedChangeAddressHdPath}
+            };
+          });
+        return {utxoList, nextChange: data.unusedChangeAddressHdPath};
       }).then(data => {
         setLoading(false);
-        return fetchRawTx(data['utxoList'], data['nextChange'], current.network)
+        return fetchRawTx(data['utxoList'], data['nextChange'], current.network);
       })
-      .then(data => {
-        const {utxoList, nextChange} = data
-        setUtxoList(utxoList);
-        setNextChangePath(nextChange);
-      })
-      .catch(e => {
-        setLoading(false);
-        logger.error(e);
-      })
+        .then(data => {
+          const {utxoList, nextChange} = data;
+          setUtxoList(utxoList);
+          setNextChangePath(nextChange);
+        })
+        .catch(e => {
+          setLoading(false);
+          logger.error(e);
+        });
     }
-  }, [current])
+  }, [current]);
 
   return {
     utxoList,
     nextChange: nextChangePath,
     loading
-  }
-}
+  };
+};
 
 const fetchRawTx = (utxoList: any[], nextChange: string, network: BitcoinNetwork) =>
   Promise.all(utxoList.map(each => {

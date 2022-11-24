@@ -1,3 +1,4 @@
+import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { MobxStoreProvider } from '../../mobx';
 import { WalletType } from '../../interface';
@@ -7,7 +8,7 @@ export const defaultStore = {
     id: 'account-d2ecd721-8701-4302-af95-925f1bbfde44',
     mfp: '9ad305ed',
     xpub: 'vpub5YhdkS7xj455LHGimihBnHp8drkeaSei2uKWe9Kg1a2MKgzMDAcpj8poDo9LT5pCjuUBnvBUKv9gYDqvTKkjLhgDkRATWCVwWcUwxq4NKP7',
-    path: "M/84'/1'/0'",
+    path: 'M/84\'/1\'/0\'',
     coinCode: 'BTC_TESTNET_NATIVE_SEGWIT',
     addresses: [
       {

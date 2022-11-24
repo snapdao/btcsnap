@@ -47,8 +47,7 @@ describe('useLNWallet', () => {
     const { result } = renderHooksWithContext(() => useLNWallet(), store);
 
     await waitFor(async () => {
-      // @ts-ignore
-      const res = await result.current.create(undefined);
+      const res = await result.current.create(undefined as unknown as string);
       expect(res).toBe(true);
     });
     expect(result.current.wallet).toBe(createResult);

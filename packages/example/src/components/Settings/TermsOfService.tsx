@@ -1,13 +1,13 @@
-import { Modal } from "semantic-ui-react"
-import { TransitionablePortal } from "semantic-ui-react";
-import CloseIcon from "../Icons/CloseIcon";
+import { Modal } from 'semantic-ui-react';
+import { TransitionablePortal } from 'semantic-ui-react';
+import CloseIcon from '../Icons/CloseIcon';
 import {
   ModalHeader,
   ModalHeaderContainer,
   ModalHeaderLabel,
   TermsContainer,
   MaskArea
-} from "./styles"
+} from './styles';
 
 interface ConnectProps {
   open: boolean;
@@ -54,7 +54,7 @@ const TermsOfService = (({open, close}: ConnectProps) => {
         </TermsContainer>
       </Modal>
     </TransitionablePortal>
-  )
-})
+  );
+});
 
-export default TermsOfService
+export default TermsOfService;

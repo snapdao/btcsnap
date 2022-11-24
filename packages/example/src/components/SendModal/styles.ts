@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 import { Divider, Radio } from 'semantic-ui-react';
 
 export const ActionButton = styled.button`
@@ -21,20 +21,20 @@ export const ActionButton = styled.button`
     border-color: #E1E6F0;
     transition: 0.25s;
   }
-`
+`;
 
 export const SendContainer = styled.div`
   background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
   :last-child {
     background: #FFFFFF;
   }
-`
+`;
 
 export const SendHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px 20px 0 20px;
-`
+`;
 
 export const LeftTitleHeader = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ export const LeftTitleHeader = styled.div`
     line-height: 24px;
     margin-left: 4px;
   }
-`
+`;
 
 export const MiddleTitleHeader = styled.div`
   height: 40px;
@@ -61,27 +61,27 @@ export const MiddleTitleHeader = styled.div`
     text-align: center;
     line-height: 24px;
   }
-`
+`;
 
 export const CloseContainer = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-`
+`;
 
 export const SendTitle = styled.span`
   display: inline-block;
   color: #9095A3;
   font-weight: 600;
-`
+`;
 
 export const SendBody = styled.div`
   padding: 32px 32px 0;
-`
+`;
 
 export const SendAmountContainer = styled.div`
   margin-top: 8px;
-`
+`;
 
 export const SendAmountItem = styled.div`
   display: flex;
@@ -90,7 +90,7 @@ export const SendAmountItem = styled.div`
   &:first-child {
     margin-bottom: 8px;
   }
-`
+`;
 
 export const SendAmountInput = styled.div`
   display: flex;
@@ -114,7 +114,7 @@ export const SendAmountInput = styled.div`
     line-height: 24px;
     cursor: pointer;
   }
-`
+`;
 
 export const SendAmountMax = styled.span`
   display: inline-block;
@@ -135,13 +135,13 @@ export const SendAmountMax = styled.span`
   :not(:hover) {
     transition: 0.25s;
   }
-`
+`;
 
 export const SendTextError = styled.div`
   margin-bottom: 8px;
   line-height: 20px;
   color: #EB2F00;
-`
+`;
 
 export const SendAmountTransition = styled.div`
   display: flex;
@@ -160,7 +160,7 @@ export const SendAmountTransition = styled.div`
     color: #F58300;
     margin-left: 4px;
   }
-`
+`;
 
 export const SendAmountFee = styled.div`
   display: flex;
@@ -190,17 +190,17 @@ export const SendAmountFee = styled.div`
       }
     }
   }
-`
+`;
 
 export const DividerLine = styled(Divider)`
   margin: 31px 0 !important;
-`
+`;
 
 export const SendAvailableContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: 32px;
-`
+`;
 
 export const SendAvailableText = styled.span`
   color: #656D85;
@@ -215,7 +215,7 @@ export const SendAvailableText = styled.span`
 
 export const SendToContainer = styled.div`
   padding: 32px 32px 0 32px;
-`
+`;
 
 export const SendToInput = styled.div`
   position: relative;
@@ -231,7 +231,7 @@ export const SendToInput = styled.div`
       border-bottom: 1px solid #F58300;
     }
   }
-`
+`;
 
 export const SendButtonContainer = styled.div`
   display: flex;
@@ -240,7 +240,7 @@ export const SendButtonContainer = styled.div`
   padding: 0 32px;
   position: absolute;
   bottom: 32px;
-`
+`;
 
 export const CancelButton = styled.button`
   width: 176px;
@@ -258,13 +258,13 @@ export const CancelButton = styled.button`
     background: #F0F3FA;
     transition: 0.25s;
   }
-`
+`;
 
 // ----- Transaction Fee -----
 
 export const TransactionFeeContainer = styled.div`
   padding: 20px 32px 24px 32px;
-`
+`;
 
 export const TransactionFeeItem = styled.div`
   display: flex;
@@ -283,7 +283,7 @@ export const TransactionFeeItem = styled.div`
     outline-color: #E1E6F0;
     transition: 0.25s;
   }
-`
+`;
 
 export const TransactionFeeLevel = styled.div`
   margin-bottom: 8px;
@@ -309,7 +309,7 @@ export const TransactionFeeLevel = styled.div`
     background: rgba(255, 108, 10, 0.1);
     border-radius: 6px;
   }
-`
+`;
 
 export const TransactionFeeItemValue = styled.div`
   display: flex;
@@ -323,7 +323,7 @@ export const TransactionFeeItemValue = styled.div`
   span:last-child {
     color: #9095A3;
   }
-`
+`;
 
 export const TransactionFeeRadio = styled(Radio)`
   & > label::before {
@@ -345,7 +345,7 @@ export const TransactionFeeRadio = styled(Radio)`
   &.checked > label::after {
     background-color: #F58300 !important;
   }
-`
+`;
 
 export const Button = styled.button`
   position: absolute;
@@ -370,11 +370,11 @@ export const Button = styled.button`
   :disabled {
     background-color: #E1E6F0;
   }
-`
+`;
 export const FailedContainer = styled.div`
   width: 100%;
   padding: 24px 32px 0;
-`
+`;
 
 export const FailedText = styled.p`
   color: #9095A3;
@@ -385,4 +385,4 @@ export const FailedText = styled.p`
   span {
     white-space: nowrap;
   }
-`
+`;

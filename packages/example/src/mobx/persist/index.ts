@@ -19,8 +19,8 @@ type PersistConfig<T extends IAnyType> = {
   };
   options?: {
     codec?: {
-      deserialize: (value: string) => Object;
-      serialize: (value: Object) => string;
+      deserialize: (value: string) => Record<string, any>;
+      serialize: (value: Record<string, any>) => string;
     };
     manualPersist?: boolean;
     whitelist?: string[];
@@ -101,7 +101,7 @@ export const createPersistor = <T extends IAnyType>(config: PersistConfig<T>): {
       console.error(e);
     });
 
-  let _currentSnapShot: Record<string, Object>;
+  let _currentSnapShot: Record<string, any>;
 
   let _persistence = true;
 

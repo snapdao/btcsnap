@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from "react";
-import LightningSendViewModel from "./model";
-import { SendStatus } from "./types";
-import { SendView } from "./SendView";
-import { ResultView } from "./ResultView";
-import { observer } from "mobx-react-lite";
+import React, { useEffect, useMemo } from 'react';
+import LightningSendViewModel from './model';
+import { SendStatus } from './types';
+import { SendView } from './SendView';
+import { ResultView } from './ResultView';
+import { observer } from 'mobx-react-lite';
 
 interface PayInvoiceProps {
   close: () => void;
@@ -18,11 +18,11 @@ export const PayInvoice = observer(({close, balance, exchangeRate}: PayInvoicePr
 
   useEffect(() => {
     model.setExchangeRate(exchangeRate);
-  }, [exchangeRate])
+  }, [exchangeRate]);
   return (
     <>
       <SendView open={model.status === SendStatus.Init} model={model} close={close}/>
       <ResultView open={model.status !== SendStatus.Init} model={model} close={close}/>
     </>
-  )
+  );
 });

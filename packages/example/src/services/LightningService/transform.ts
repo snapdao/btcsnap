@@ -1,8 +1,8 @@
-import { LightningInvoicesResponse } from "../../api/lightning/invoices";
-import { LightningTransaction } from "../../api/lightning/transactions";
-import { InvoiceDetail, InvoiceStatus, InvoiceTypes } from "../../types";
-import lightningPayReq from "bolt11";
-import { btcToSatoshi } from "../../lib/helper";
+import { LightningInvoicesResponse } from '../../api/lightning/invoices';
+import { LightningTransaction } from '../../api/lightning/transactions';
+import { InvoiceDetail, InvoiceStatus, InvoiceTypes } from '../../types';
+import lightningPayReq from 'bolt11';
+import { btcToSatoshi } from '../../lib/helper';
 
 export const transformInvoice = (invoice: LightningInvoicesResponse): InvoiceDetail => {
   const decodedInvoice = lightningPayReq.decode(
@@ -33,10 +33,10 @@ export const transformInvoice = (invoice: LightningInvoicesResponse): InvoiceDet
       )?.data as string) || '',
     paymentRequest: invoice.paymentRequest
   };
-}
+};
 
 export const transformTransaction = (transaction: LightningTransaction): InvoiceDetail | null => {
-  if(transaction.type === "paid_invoice"){
+  if(transaction.type === 'paid_invoice'){
     return {
       ID: InvoiceTypes.Sent + transaction.timestamp,
       type: InvoiceTypes.Sent,
@@ -58,4 +58,4 @@ export const transformTransaction = (transaction: LightningTransaction): Invoice
     };
   }
   return null;
-}
+};

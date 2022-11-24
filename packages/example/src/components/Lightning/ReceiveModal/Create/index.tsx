@@ -1,10 +1,6 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import {
   Container,
-  Grid,
-  Loader,
-  Modal as BaseModal,
-  TransitionablePortal,
 } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import ReceiveIcon from '../../../Icons/ReceiveIcon';
@@ -59,7 +55,7 @@ const LightningReceiveCreateModal = observer(
           <Container>
             <H4>Description</H4>
             <Textarea
-              placeholder="Leave a payment description (optional)"
+              placeholder='Leave a payment description (optional)'
               minRows={1}
               maxRows={6}
               style={{

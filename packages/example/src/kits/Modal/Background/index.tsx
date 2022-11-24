@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties, RefObject } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 import { Container } from './styles';
 
 interface Props {

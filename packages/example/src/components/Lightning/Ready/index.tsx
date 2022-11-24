@@ -16,8 +16,8 @@ import CloseIcon from '../../Icons/CloseIcon';
 import { TransitionablePortal } from 'semantic-ui-react';
 import { useAppStore } from '../../../mobx';
 import { LNWalletStepStatus } from '../../../mobx/user';
-import { useState } from "react";
-import CreateWallet from "../CreateWallet";
+import { useState } from 'react';
+import CreateWallet from '../CreateWallet';
 
 export const Ready = observer(() => {
   const {
@@ -65,7 +65,7 @@ export const Ready = observer(() => {
             </StartButton>
           </ButtonsContainer>
         </LNSetupModalContent>
-        <CreateWallet open={shouldShowCreateWallet} close={() => {setShouldShowCreateWallet(false)}} />
+        <CreateWallet open={shouldShowCreateWallet} close={() => {setShouldShowCreateWallet(false);}} />
       </LNSetupModal>
     </TransitionablePortal>
   );

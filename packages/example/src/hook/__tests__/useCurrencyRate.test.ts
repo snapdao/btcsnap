@@ -5,7 +5,6 @@ import {
   renderHooksWithContext,
 } from '../../__tests__/utils/renderHookWithContext';
 import { queryCoinV1 } from '../../api';
-import { waitFor } from '@testing-library/react';
 
 jest.mock('../../api/v1/coin', () => ({
   queryCoinV1: jest.fn().mockResolvedValue({

@@ -1,15 +1,15 @@
-import styled, { css } from "styled-components";
-import { circularMotion, Modal } from "../../../../kits";
-import { FlexCenter } from "../../../../kits/Layout/Flex";
+import styled, { css } from 'styled-components';
+import { circularMotion, Modal } from '../../../../kits';
+import { FlexCenter } from '../../../../kits/Layout/Flex';
 
 export const ModalHeader = styled(Modal.Header)`
   display: flex;
   justify-content: center;
-`
+`;
 
 export const RecordStatusContainer = styled.div`
   text-align: center;
-`
+`;
 
 export const RecordType = styled.div<{isSend?: boolean; isOnChain?: boolean}>`
   position: relative;
@@ -30,7 +30,7 @@ export const RecordType = styled.div<{isSend?: boolean; isOnChain?: boolean}>`
     left: 26px;
     top: 26px;
   }
-`
+`;
 
 export const RecordStatus = styled.div`
   position: absolute;
@@ -51,7 +51,7 @@ export const RecordStatus = styled.div`
       animation: ${circularMotion} 1s linear infinite;
     }
   }
-`
+`;
 
 export const RecordAmount = styled.div<{lowlight?:boolean}>`
   display: flex;
@@ -74,26 +74,26 @@ export const RecordAmount = styled.div<{lowlight?:boolean}>`
     line-height: 24px;
     margin-left: 4px;
   }
-`
+`;
 
 export const LightningMark = styled(FlexCenter)`
   margin-top: 8px;
   gap: 2px;
   color: var(--c-n60);
-`
+`;
 
 export const FixedBottomContainer = styled.div`
   position: absolute;
   left: 32px;
   bottom: 0;
   width: calc(100% - 64px);
-`
+`;
 
 export const BottomButtonContainer = styled.div`
   padding-bottom: 32px;
   width: 100%;
   background-color: #FFFFFF;
-`
+`;
 
 export const BottomGradientLayerContainer = styled.div`
   position: absolute;
@@ -103,4 +103,4 @@ export const BottomGradientLayerContainer = styled.div`
     height: 84px;
     border-radius: 0 0 20px 20px;
   }
-`
+`;

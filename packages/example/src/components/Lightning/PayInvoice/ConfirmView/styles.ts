@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { InvoiceInfo, InvoiceInfoContainer } from "../styles";
-import { Modal } from "../../../../kits";
+import styled from 'styled-components';
+import { InvoiceInfo, InvoiceInfoContainer } from '../styles';
+import { Modal } from '../../../../kits';
 
 export const ConfirmModal = styled(Modal)`
   &&& {
@@ -8,18 +8,18 @@ export const ConfirmModal = styled(Modal)`
     position: absolute;
     bottom: 0;
   }
-`
+`;
 
 export const ConfirmModalContent = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const ConfirmMainContainer = styled.div`
   padding: 20px 32px 0;
   background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
-`
+`;
 
 export const ConfirmSecondaryContainer = styled.div`
   padding: 4px 32px 32px;
@@ -34,7 +34,7 @@ export const ConfirmSecondaryContainer = styled.div`
     border: none;
     border-bottom: 1px solid #F0F3FA;
   }
-`
+`;
 
 export const ConfirmMainHeader = styled.div`
   height: 40px;
@@ -55,20 +55,20 @@ export const ConfirmMainHeader = styled.div`
     position: absolute;
     right: 0;
   }
-`
+`;
 
 export const ConfirmMainContent = styled.div`
   padding: 24px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 export const SendingText = styled.span`
   display: block;
   font-weight: 600;
   color: #656D85;
-`
+`;
 
 export const SendingAmount = styled.span`
   margin: 8px 0 12px;
@@ -88,7 +88,7 @@ export const SendingAmount = styled.span`
     top: 18px;
     align-self: end;
   }
-`
+`;
 
 export const SendingTo = styled.span`
   margin: 12px 0 0;
@@ -99,16 +99,16 @@ export const SendingTo = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
-`
+`;
 
-export const ConfirmInfoContainer = styled(InvoiceInfoContainer)``
+export const ConfirmInfoContainer = styled(InvoiceInfoContainer)``;
 
 export const ConfirmInfo = styled(InvoiceInfo)`
   margin-top: 20px;
-`
+`;
 
 export const ConfirmHighlight = styled.div`
   display: inline-block;
   color: #F58300;
   margin-left: 4px;
-`
+`;

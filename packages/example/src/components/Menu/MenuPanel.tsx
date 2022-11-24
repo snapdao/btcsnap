@@ -45,18 +45,18 @@ const MenuPanel = ({ openSettingModal, close }: MenuPanelProps) => {
       </MenuItem>
       <MenuItem onClick={close}>
         <MenuItemLink
-          href="https://github.com/snapdao/btcsnap"
-          target="_blank"
-          rel="noopener noreferrer">
+          href='https://github.com/snapdao/btcsnap'
+          target='_blank'
+          rel='noopener noreferrer'>
           <GitHub />
           <MenuItemSpan>GitHub</MenuItemSpan>
         </MenuItemLink>
       </MenuItem>
       <MenuItem onClick={close}>
         <MenuItemLink
-          href="https://guild.xyz/justsnap"
-          target="_blank"
-          rel="noopener noreferrer">
+          href='https://guild.xyz/justsnap'
+          target='_blank'
+          rel='noopener noreferrer'>
           <Discord />
           <MenuItemSpan>Feedback</MenuItemSpan>
         </MenuItemLink>

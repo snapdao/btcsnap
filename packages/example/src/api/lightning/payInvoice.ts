@@ -1,11 +1,9 @@
 import { queryWithUserInfo } from './query';
 import { RequestType } from '../types';
 
-const endpoint = `/v1/snap/pay_invoice/`;
+const endpoint = '/v1/snap/pay_invoice/';
 
-export type PayInvoiceResponse = {
-  
-};
+export type PayInvoiceResponse = any;
 
 export const payInvoice = (
   invoice: string,

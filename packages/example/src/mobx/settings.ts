@@ -1,5 +1,5 @@
 import {types} from 'mobx-state-tree';
-import { BitcoinNetwork, BitcoinScriptType } from "../interface";
+import { BitcoinNetwork, BitcoinScriptType } from '../interface';
 
 export const settingsInitialState = {
   network: BitcoinNetwork.Main,
@@ -21,8 +21,8 @@ const Settings = types
       self.scriptType = scriptType;
     },
     setDynamicAddress:(isDynamic: boolean) => {
-      self.dynamicAddress = isDynamic
+      self.dynamicAddress = isDynamic;
     },
-  }))
+  }));
 
 export default Settings;

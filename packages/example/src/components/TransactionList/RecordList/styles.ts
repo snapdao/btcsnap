@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { circularMotion } from "../../../kits";
+import styled from 'styled-components';
+import { circularMotion } from '../../../kits';
 
 export const ListContainer = styled.div`
   width: 100%;
@@ -8,7 +8,7 @@ export const ListContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 20px;
   }
-`
+`;
 
 export const ModalHeader = styled.div`
   display: flex;
@@ -16,20 +16,20 @@ export const ModalHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px 22px;
-`
+`;
 
 export const ModalHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 export const ModalHeaderLabel = styled.span`
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
   text-transform: uppercase;
-`
+`;
 
 export const TransactionListArea = styled.div`
   border-top: 1px solid #F0F3FA;
@@ -46,7 +46,7 @@ export const TransactionListArea = styled.div`
   & ::-webkit-scrollbar-thumb {
     background: #9095A3;
   }
-`
+`;
 
 export const MaskArea = styled.div`
   position: absolute;
@@ -57,7 +57,7 @@ export const MaskArea = styled.div`
   border-bottom-right-radius: 20px !important;
   background: #FFFFFF;
   mask: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
-`
+`;
 
 export const LoadingIconContainer = styled.div`
   width: 100%;
@@ -67,7 +67,7 @@ export const LoadingIconContainer = styled.div`
   svg {
     animation: ${circularMotion} 1s linear infinite;
   }
-`
+`;
 
 export const BottomTipsContainer = styled.div`
   text-align: center;
@@ -109,4 +109,4 @@ export const BottomTipsContainer = styled.div`
     transition: 0.25s;
   }
 }
-`
+`;

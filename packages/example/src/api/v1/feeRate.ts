@@ -1,6 +1,6 @@
-import { SupportedCoins } from "../../constant/supportedCoins";
-import { query } from "../request-utils/query";
-import { RequestType } from "../types";
+import { SupportedCoins } from '../../constant/supportedCoins';
+import { query } from '../request-utils/query';
+import { RequestType } from '../types';
 
 const endpoint = '/v1/self_custody/fee_rate_advanced/';
 

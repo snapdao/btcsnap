@@ -19,7 +19,6 @@ import {
   MetaMaskInteractionTips,
   PrimaryButton,
   SendMainContent,
-  SendMainHeader,
   SendModalContent,
 } from './styles';
 import SendIcon from '../../Icons/SendIcon';
@@ -62,7 +61,7 @@ export const SendView = observer(
                   autoFocus={true}
                   onChange={model.setInvoice}
                   value={model.invoice}
-                  placeholder="Lightning Invoice"
+                  placeholder='Lightning Invoice'
                   isValid={!model.shouldShowInvoiceNotValidError}
                 />
                 {model.shouldShowInvoiceNotValidError && (
