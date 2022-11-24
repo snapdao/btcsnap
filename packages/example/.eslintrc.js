@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
@@ -18,7 +19,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    '@typescript-eslint'
+    '@typescript-eslint',
+    'react'
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': [
@@ -33,8 +35,8 @@ module.exports = {
     quotes: ['warn', 'single'],
     'jsx-quotes': ['warn', 'prefer-single'],
     indent: ['warn', 2],
-    "react/react-in-jsx-scope": "off",
-    "react/display-name": 'off'
+    'react/react-in-jsx-scope': 'off',
+    'react/display-name': 'off'
   },
   settings: {
     react: {
