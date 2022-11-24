@@ -3,12 +3,12 @@ interface ICopyToClipboard {
   message?: string;
 }
 
-export const copyToClipboard = async ({ text, message }: ICopyToClipboard) => {
+export const copyToClipboard = async ({ text }: ICopyToClipboard) => {
   try {
     let copyValue = '';
 
     if (!navigator.clipboard) {
-      throw new Error("Browser don't have support for native clipboard.");
+      throw new Error('Browser don\'t have support for native clipboard.');
     }
 
     if (text) {

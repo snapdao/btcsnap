@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Loader, Modal, Transition } from 'semantic-ui-react';
-import { useRegisterXpub } from "../../hook/useRegisterXpub";
+import { useRegisterXpub } from '../../hook/useRegisterXpub';
 import Main from './Main';
 import Aside from './Aside';
 import { useBalance } from '../../hook/useBalance';
@@ -15,7 +15,7 @@ import {
 import { LNSetupModal } from '../Lightning';
 import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
-import { useCurrencyRate } from "../../hook/useCurrencyRate";
+import { useCurrencyRate } from '../../hook/useCurrencyRate';
 
 const Account = observer(() => {
   const {
@@ -25,8 +25,8 @@ const Account = observer(() => {
     user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
   } = useAppStore();
   const { balance, refresh, loadingBalance } = useBalance();
-  const { refreshCurrencyRate } = useCurrencyRate();
-  useRegisterXpub()
+  useCurrencyRate();
+  useRegisterXpub();
 
   const currentReadyLoaded =
     !!current &&
@@ -51,10 +51,10 @@ const Account = observer(() => {
           <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
           <AccountLabel>
             Powered by{' '}
-            <a href="https://metamask.io/snaps/" target="_blank">
+            <a href='https://metamask.io/snaps/' target='_blank' rel='noreferrer'>
               MetaMask Snaps{' '}
             </a>
-            | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank'>SlowMist</a>
+            | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank' rel='noreferrer'>SlowMist</a>
           </AccountLabel>
         </AccountContainer>
 

@@ -1,5 +1,5 @@
-import React from "react";
-import LightningSendViewModel from "../model";
+import React from 'react';
+import LightningSendViewModel from '../model';
 import {
   ConfirmHighlight,
   ConfirmInfo,
@@ -10,10 +10,10 @@ import {
   SendingAmount,
   SendingText,
   SendingTo
-} from "./styles";
-import { ConfirmModalContent, ConfirmMainHeader } from "./styles";
-import { HighLight, InvoiceDescription, PrimaryButton } from "../styles";
-import { Popup } from "../../../../kits";
+} from './styles';
+import { ConfirmModalContent, ConfirmMainHeader } from './styles';
+import { HighLight, InvoiceDescription, PrimaryButton } from '../styles';
+import { Popup } from '../../../../kits';
 
 export const ConfirmView = ({open, model, parentNode}: { open: boolean, model: LightningSendViewModel, parentNode: any }) => {
   const {hours, minutes} = model.expireTime;
@@ -22,7 +22,7 @@ export const ConfirmView = ({open, model, parentNode}: { open: boolean, model: L
     <ConfirmModal
       open={open}
       close={() => {
-        model.setIsConfirmModalOpen(false)
+        model.setIsConfirmModalOpen(false);
       }}
       mountNode={parentNode}
     >
@@ -48,24 +48,24 @@ export const ConfirmView = ({open, model, parentNode}: { open: boolean, model: L
                   <ConfirmInfo>
                     <span>Amount</span>
                     <span>
-                        <HighLight>{model.amount}</HighLight>
-                        <ConfirmHighlight>Sats</ConfirmHighlight>
-                      </span>
+                      <HighLight>{model.amount}</HighLight>
+                      <ConfirmHighlight>Sats</ConfirmHighlight>
+                    </span>
                   </ConfirmInfo>
                   <ConfirmInfo>
                     <span>Fee</span>
                     <span>
-                        <HighLight>{model.feeRange}</HighLight>
-                        <ConfirmHighlight>Sats</ConfirmHighlight>
-                      </span>
+                      <HighLight>{model.feeRange}</HighLight>
+                      <ConfirmHighlight>Sats</ConfirmHighlight>
+                    </span>
                   </ConfirmInfo>
                   <hr/>
                   <ConfirmInfo>
                     <span>Expires in</span>
                     <span>
-                        <HighLight>{hours}</HighLight> H
-                        <HighLight>{" "}{minutes}</HighLight> Mins
-                      </span>
+                      <HighLight>{hours}</HighLight> H
+                      <HighLight>{' '}{minutes}</HighLight> Mins
+                    </span>
                   </ConfirmInfo>
                   {
                     !!model.description && (
@@ -95,5 +95,5 @@ export const ConfirmView = ({open, model, parentNode}: { open: boolean, model: L
         </ConfirmSecondaryContainer>
       </ConfirmModalContent>
     </ConfirmModal>
-  )
-}
+  );
+};

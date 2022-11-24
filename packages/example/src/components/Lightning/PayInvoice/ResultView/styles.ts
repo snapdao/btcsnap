@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { Button as SnapButton } from "snapkit";
+import styled from 'styled-components';
+import { Button as SnapButton } from 'snapkit';
 
 export const ResultContent = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const ResultMainContainer = styled.div`
   height: 350px;
@@ -13,7 +13,7 @@ export const ResultMainContainer = styled.div`
   display: flex;
   padding: 20px;
   flex-direction: column;
-`
+`;
 
 export const ResultMainContent = styled.div`
   margin-top: 44px;
@@ -21,7 +21,7 @@ export const ResultMainContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const PaymentResult = styled.p`
   margin: 16px 0 0;
@@ -29,7 +29,7 @@ export const PaymentResult = styled.p`
   font-size: 20px;
   line-height: 30px;
   color: #111214;
-`
+`;
 
 export const PaymentAmount = styled.p`
   display: inline-block;
@@ -50,7 +50,7 @@ export const PaymentAmount = styled.p`
     top: 18px;
     align-self: end;
   }
-`
+`;
 
 export const PaymentParticipantContainer = styled.div`
   margin-top: 24px;
@@ -58,7 +58,7 @@ export const PaymentParticipantContainer = styled.div`
   gap: 8px;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const PaymentParticipant = styled.span`
   display: inline-block;
@@ -72,7 +72,7 @@ export const PaymentParticipant = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 
 export const ResultSecondaryContainer = styled.div`
   padding: 32px;
@@ -80,19 +80,19 @@ export const ResultSecondaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-`
+`;
 
 export const ButtonsContainer = styled.div`
   display: flex;
   gap: 24px;
-`
+`;
 
 export const Button = styled(SnapButton)`
   color: #FFFFFF;
   font-size: 16px;
   font-weight: 600;
   transition: 0.25s;
-`
+`;
 
 export const PrimaryButton = styled(Button)`
   && {
@@ -105,4 +105,4 @@ export const PrimaryButton = styled(Button)`
       background-color: #E1E6F0;
     }
   }
-`
+`;

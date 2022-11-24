@@ -1,13 +1,13 @@
-import { TransitionablePortal, Modal } from "semantic-ui-react";
-import CloseIcon from "../../../Icons/CloseIcon";
-import SendIcon from "../../../Icons/SendIcon";
-import ReceiveIcon from "../../../Icons/ReceiveIcon";
-import SuccessIcon from "../../../Icons/SuccessIcon";
-import FailedIcon from "../../../Icons/FailedIcon";
-import PendingImage from "../image/pend.png";
-import { TransactionTypes, TransactionStatus, TransactionDetail } from "../../../../types";
-import { getTransactionDetailsLink } from "../../../../lib/explorer";
-import { satoshiToBTC } from "../../../../lib/helper";
+import { TransitionablePortal, Modal } from 'semantic-ui-react';
+import CloseIcon from '../../../Icons/CloseIcon';
+import SendIcon from '../../../Icons/SendIcon';
+import ReceiveIcon from '../../../Icons/ReceiveIcon';
+import SuccessIcon from '../../../Icons/SuccessIcon';
+import FailedIcon from '../../../Icons/FailedIcon';
+import PendingImage from '../image/pend.png';
+import { TransactionTypes, TransactionStatus, TransactionDetail } from '../../../../types';
+import { getTransactionDetailsLink } from '../../../../lib/explorer';
+import { satoshiToBTC } from '../../../../lib/helper';
 import {
   ModalHeaderCenter,
   ModalHeaderContainer,
@@ -25,9 +25,9 @@ import {
   BackgroundDiv,
   PendingSpan,
   CompletedSpan,
-} from "./sytles"
-import { useAppStore } from "../../../../mobx";
-import { observer } from "mobx-react-lite";
+} from './sytles';
+import { useAppStore } from '../../../../mobx';
+import { observer } from 'mobx-react-lite';
 
 interface TransactionProps {
   open: boolean;
@@ -46,15 +46,15 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
   let Icon;
 
   switch(details.status) {
-    case TransactionStatus.Confirmed:
-      Icon = <SuccessIcon />;
-      break;
-    case TransactionStatus.Pending:
-      Icon = <img width="36" height="36" src={PendingImage}/>;
-      break;
-    case TransactionStatus.Failed:
-      Icon = <FailedIcon />;
-      break;
+  case TransactionStatus.Confirmed:
+    Icon = <SuccessIcon />;
+    break;
+  case TransactionStatus.Pending:
+    Icon = <img width='36' height='36' src={PendingImage}/>;
+    break;
+  case TransactionStatus.Failed:
+    Icon = <FailedIcon />;
+    break;
   }
 
   return (
@@ -130,16 +130,16 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
         <TransactionDetailsLink>
           <a
             href={isPending ?  getTransactionDetailsLink(details.ID,network): details.url}
-            target="_blank"
-            rel="noopener
-            noreferrer"
+            target='_blank'
+            rel='noopener
+            noreferrer'
           >
             View on {isPending && 'Memory Pool'} Explorer
           </a>
         </TransactionDetailsLink>
       </Modal>
     </TransitionablePortal>
-  )
-})
+  );
+});
 
-export default TransactionDetails
+export default TransactionDetails;

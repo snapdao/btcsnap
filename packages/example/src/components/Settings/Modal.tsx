@@ -1,6 +1,6 @@
 import React from 'react';
-import { Modal, ModalProps, TransitionablePortal } from "semantic-ui-react";
-import "./Modal.css"
+import { Modal, ModalProps, TransitionablePortal } from 'semantic-ui-react';
+import './Modal.css';
 
 const SettingsModal = ({open, close, children}: ModalProps) => {
   return (
@@ -10,8 +10,8 @@ const SettingsModal = ({open, close, children}: ModalProps) => {
       closeOnDocumentClick={false}
     >
       <Modal
-        size="tiny"
-        className="Settings-Modal-Container"
+        size='tiny'
+        className='Settings-Modal-Container'
         open={open}
         onClose={close}
       >

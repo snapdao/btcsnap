@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { BitcoinUnit, WalletType } from '../../../interface';
 import {
   WalletCardBalance,
@@ -7,7 +7,6 @@ import {
   WalletCardHeader,
   WalletCardName,
 } from './styles';
-import { useAppStore } from '../../../mobx';
 import { observer } from 'mobx-react-lite';
 import { Popup } from '../../../kits/Popup';
 import AdjustIcon from '../../Icons/AdjustIcon';
@@ -36,8 +35,6 @@ export const WalletCard = observer(
     available = true,
     showEditWalletModal,
   }: WalletCardProps) => {
-    const { lightning, switchToWallet, current } = useAppStore();
-
     const edit = useCallback(
       (event) => {
         event.stopPropagation();
@@ -79,7 +76,7 @@ export const WalletCard = observer(
       walletCardItem
     ) : (
       <Popup
-        position="top center"
+        position='top center'
         content={!available && 'Not available on Testnet'}
         inverted
         trigger={walletCardItem}

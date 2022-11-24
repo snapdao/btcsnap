@@ -7,16 +7,16 @@ import {
   RecordStatus,
   RecordStatusContainer,
   RecordType
-} from "./styles"
-import { InvoiceDetail, InvoiceStatus } from "../../../../types";
-import PendingIcon from "../image/pend.png";
-import { ReactComponent as ExpiredIcon } from "../image/expired_big.svg";
-import { Modal, Popup } from "../../../../kits";
-import { H3 } from "../../../../kits/Layout/Text/Title";
-import { Icon } from "snapkit";
-import { Caption } from "../../../../kits/Layout/Text/Body";
-import { useAppStore } from "../../../../mobx";
-import { LightningIcon2 } from "../../../Icons/LightningIcon2";
+} from './styles';
+import { InvoiceDetail, InvoiceStatus } from '../../../../types';
+import PendingIcon from '../image/pend.png';
+import { ReactComponent as ExpiredIcon } from '../image/expired_big.svg';
+import { Modal, Popup } from '../../../../kits';
+import { H3 } from '../../../../kits/Layout/Text/Title';
+import { Icon } from 'snapkit';
+import { Caption } from '../../../../kits/Layout/Text/Body';
+import { useAppStore } from '../../../../mobx';
+import { LightningIcon2 } from '../../../Icons/LightningIcon2';
 import {
   GradientLayer,
   ModalTitleContainer,
@@ -31,26 +31,26 @@ import {
   RecordItemRow,
   RecordItemRowDivider
 } from '../styles';
-import dayjs from "dayjs";
-import SuccessIcon from "../../../Icons/SuccessIcon";
-import LightningReceiveInvoiceModal from "../../../Lightning/ReceiveModal/Invoice";
-import ReceiveViewModel from "../../../Lightning/ReceiveModal/model";
-import { observer } from "mobx-react-lite";
-import { TransactionProps } from "./index";
-import useCountDown from "../../../../utils/hooks/useCountdown";
-import lightningPayReq from "bolt11";
-import { addLeadingZero } from "../../../../utils/datetime";
+import dayjs from 'dayjs';
+import SuccessIcon from '../../../Icons/SuccessIcon';
+import LightningReceiveInvoiceModal from '../../../Lightning/ReceiveModal/Invoice';
+import ReceiveViewModel from '../../../Lightning/ReceiveModal/model';
+import { observer } from 'mobx-react-lite';
+import { TransactionProps } from './index';
+import useCountDown from '../../../../utils/hooks/useCountdown';
+import lightningPayReq from 'bolt11';
+import { addLeadingZero } from '../../../../utils/datetime';
 
 const getInvoiceStatusIcon = (
   status: InvoiceStatus,
 ): ReactNode => {
   switch (status) {
-    case InvoiceStatus.Expired:
-      return <ExpiredIcon/>;
-    case InvoiceStatus.Pending:
-      return <img alt={'pending'} src={PendingIcon}/>
-    case InvoiceStatus.Succeed:
-      return <SuccessIcon/>;
+  case InvoiceStatus.Expired:
+    return <ExpiredIcon/>;
+  case InvoiceStatus.Pending:
+    return <img alt={'pending'} src={PendingIcon}/>;
+  case InvoiceStatus.Succeed:
+    return <SuccessIcon/>;
   }
   return null;
 };
@@ -62,7 +62,7 @@ const getExpiredSeconds = (invoice: InvoiceDetail): number => {
   const decodedInvoice = lightningPayReq.decode(invoice.paymentRequest);
   const expireDateTime = new Date((decodedInvoice?.timeExpireDate || 0) * 1000);
   return expireDateTime.getTime() - new Date().getTime();
-}
+};
 
 export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: TransactionProps) => {
   const {lightning, runtime: {currencyRate}} = useAppStore();
@@ -72,7 +72,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
 
   useEffect(() => {
     if(invoice.status === InvoiceStatus.Pending){
-      start()
+      start();
     }
     return () => {
       pause();
@@ -87,7 +87,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
     } else {
       setInvoiceModal(null);
     }
-  }, [showInvoiceDetails])
+  }, [showInvoiceDetails]);
 
   return (
     <Modal open={open} close={close} mountNode={parent}>
@@ -139,7 +139,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                 {invoice.status === InvoiceStatus.Succeed && 'Success'}
                 {invoice.status === InvoiceStatus.Pending && (
                   <>
-                    Unpaid{" "}
+                    Unpaid{' '}
                     <RecordItemContent>{`${addLeadingZero(timeLeft.hours)}:${addLeadingZero(timeLeft.minutes)}:${addLeadingZero(timeLeft.seconds)}`}</RecordItemContent>
                   </>
                 )}
@@ -182,7 +182,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
                 <RecordItemContent lowlight={invoice.status !== InvoiceStatus.Succeed}>
-                  {invoice.amount}{" "}
+                  {invoice.amount}{' '}
                 </RecordItemContent>
                 <RecordItemContent highlight>Sats</RecordItemContent>
               </span>
@@ -211,7 +211,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
                   <PrimaryButton
                     primary
                     onClick={() => {
-                      setShowInvoiceDetails(true)
+                      setShowInvoiceDetails(true);
                     }}
                   >
                     View Invoice
@@ -226,7 +226,7 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
       {
         showInvoiceDetails && invoiceModal && (
           <LightningReceiveInvoiceModal model={invoiceModal} close={() => {
-            setShowInvoiceDetails(false)
+            setShowInvoiceDetails(false);
           }}/>
         )
       }
@@ -238,5 +238,5 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
         )
       }
     </Modal>
-  )
+  );
 }));

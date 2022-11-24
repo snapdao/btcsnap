@@ -30,7 +30,7 @@ export const DownloadModal = observer(
 
     useEffect(() => {
       model.setDownloadImageReady(true);
-    }, [])
+    }, []);
 
     return (
       <DownloadHiddenModal ref={ref}>

@@ -1,5 +1,5 @@
-import styled  from "styled-components";
-import { Popup } from "semantic-ui-react";
+import styled  from 'styled-components';
+import { Popup } from 'semantic-ui-react';
 
 export const StyledPopup = styled(Popup)<{width: string; breakLine?: boolean}>`
   @keyframes ShowPopup {
@@ -16,4 +16,4 @@ export const StyledPopup = styled(Popup)<{width: string; breakLine?: boolean}>`
   }
 
   line-break: ${props => props.breakLine ? 'anywhere' : 'normal'};
-`
+`;

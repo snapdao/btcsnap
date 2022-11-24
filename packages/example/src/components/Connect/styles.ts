@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Button = styled.button`
   position: absolute;
@@ -23,13 +23,13 @@ export const Button = styled.button`
   :disabled {
     background-color: #E1E6F0;
   }
-`
+`;
 
 export const FailedIconContainer = styled.div`
   width: 96px;
   height: 96px;
   margin-top: 40px;
-`
+`;
 
 export const FailedTitle = styled.p`
   color: #F54814;
@@ -38,13 +38,13 @@ export const FailedTitle = styled.p`
   line-height: 30px;
   margin: 16px 0 24px 0;
   text-transform: capitalize;
-`
+`;
 
 export const FailedText = styled.p`
   color: #9095A3;
   line-height: 24px;
   margin: 0 0 50px 0;
-`
+`;
 
 export const ErrorMessage = styled.div`
   position: absolute;
@@ -68,4 +68,4 @@ export const ErrorMessage = styled.div`
     white-space: nowrap;
     margin-left: 4px;
   }
-`
+`;

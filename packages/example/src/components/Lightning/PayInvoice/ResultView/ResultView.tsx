@@ -11,15 +11,15 @@ import {
   ResultMainContainer,
   ResultMainContent,
   ResultSecondaryContainer
-} from "./styles";
-import LightningSendViewModel from "../model";
-import { ReactComponent as PayInvoiceSucceed } from "./images/succeed.svg";
-import { ReactComponent as PayInvoiceFailed } from "./images/failed.svg";
-import { ReactComponent as ToIcon } from "./images/to.svg";
-import { SendStatus } from "../types";
-import { Modal } from "../../../../kits";
-import { useAppStore } from "../../../../mobx";
-import { observer } from "mobx-react-lite";
+} from './styles';
+import LightningSendViewModel from '../model';
+import { ReactComponent as PayInvoiceSucceed } from './images/succeed.svg';
+import { ReactComponent as PayInvoiceFailed } from './images/failed.svg';
+import { ReactComponent as ToIcon } from './images/to.svg';
+import { SendStatus } from '../types';
+import { Modal } from '../../../../kits';
+import { useAppStore } from '../../../../mobx';
+import { observer } from 'mobx-react-lite';
 
 export const ResultView = observer(({open, model, close}: { open: boolean, model: LightningSendViewModel, close: () => void }) => {
   const { lightning } = useAppStore();
@@ -67,7 +67,7 @@ export const ResultView = observer(({open, model, close}: { open: boolean, model
               <ButtonsContainer>
                 <Button onClick={close}>Close</Button>
                 <PrimaryButton primary onClick={
-                  () => {model.setStatus(SendStatus.Init)}
+                  () => {model.setStatus(SendStatus.Init);}
                 }>
                   Retry
                 </PrimaryButton>
@@ -77,5 +77,5 @@ export const ResultView = observer(({open, model, close}: { open: boolean, model
         </ResultSecondaryContainer>
       </ResultContent>
     </Modal>
-  )
+  );
 });

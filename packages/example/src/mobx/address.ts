@@ -10,6 +10,6 @@ const Address = types
     coinCode: types.enumeration(Coins),
     change: types.number,
     index: types.number,
-  })
+  });
 
 export default Address;

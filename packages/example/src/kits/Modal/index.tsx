@@ -11,9 +11,7 @@ import { TransitionablePortal, ModalProps } from 'semantic-ui-react';
 import {
   StyledModal,
   StyledModalContainer,
-  CloseIconContainer,
 } from './styles';
-import CloseIcon from '../../components/Icons/CloseIcon';
 import ModalBackground from './Background';
 import ModalHeader from './Header';
 import ModalConfirm from './Confirm';
@@ -23,8 +21,8 @@ import ModalContainer from './Container';
 
 const BaseModal = forwardRef(
   (
-    { open, close, children, key, showCloseIcon = true, ...rest }: ModalProps,
-    ref: Ref<{}>,
+    { open, close, children, key, ...rest }: ModalProps,
+    ref: Ref<Record<string, any>>,
   ) => {
     const [isVisible, setIsVisible] = useState<boolean>(open || false);
     const previousOpen = useRef<boolean>(false);

@@ -1,4 +1,4 @@
-import { keyframes } from "styled-components";
+import { keyframes } from 'styled-components';
 
 export const circularMotion = keyframes`
   0% {
@@ -7,4 +7,4 @@ export const circularMotion = keyframes`
   100% {
     transform: rotate(360deg);
   }
-`
+`;

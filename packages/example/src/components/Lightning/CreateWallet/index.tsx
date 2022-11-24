@@ -10,10 +10,8 @@ import {
   CreateLNWalletButton,
   ImportLNWalletLink,
   ContentContainer,
-  Header,
 } from './styles';
 import { useAppStore } from '../../../mobx';
-import LoadingIcon from '../../Icons/Loading';
 import RecoveryKey from './RecoveryKey';
 import { useLNWallet } from '../../../hook/useLNWallet';
 import { ImportWallet } from '../ImportWallet';

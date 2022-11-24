@@ -1,14 +1,14 @@
 import React from 'react';
-import { Modal } from "semantic-ui-react";
+import { Modal } from 'semantic-ui-react';
 import { ReactComponent as SendFailed } from '../../assets/send_failed.svg';
 import CloseIcon from '../Icons/CloseIcon';
-import "./Modal.css"
+import './Modal.css';
 import {
   Button,
   FailedIconContainer,
   FailedTitle,
   FailedText
-} from "./styles"
+} from './styles';
 
 interface ErrorProps {
   open: boolean;
@@ -23,13 +23,13 @@ const Error = ({open, close, fatalErrorMessage}: ErrorProps) => {
 
   return (
     <Modal
-      size="mini"
-      className="Connect-Modal-Container"
+      size='mini'
+      className='Connect-Modal-Container'
       open={open}
     >
       <Modal.Content>
         <CloseIcon onClick={close}/>
-        <div className="Connect-Modal-Content">
+        <div className='Connect-Modal-Content'>
           <FailedIconContainer>
             <SendFailed />
           </FailedIconContainer>
@@ -42,7 +42,7 @@ const Error = ({open, close, fatalErrorMessage}: ErrorProps) => {
         </div>
       </Modal.Content>
     </Modal>
-  )
-}
+  );
+};
 
-export default Error
+export default Error;

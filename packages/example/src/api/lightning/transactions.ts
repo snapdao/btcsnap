@@ -1,10 +1,10 @@
 import { queryWithUserInfo } from './query';
 import { RequestType } from '../types';
 
-const endpoint = `/v1/snap/txs/`;
+const endpoint = '/v1/snap/txs/';
 
 interface PayInvoice {
-  type: "paid_invoice",
+  type: 'paid_invoice',
   value: number,
   fee: number
   memo: string
@@ -13,8 +13,8 @@ interface PayInvoice {
 }
 
 interface BitcoinTx {
-  type: "bitcoind_tx"
-  category: "receive",
+  type: 'bitcoind_tx'
+  category: 'receive',
   amount: number,
   confirmations: number,
   address: string;

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "semantic-ui-react"
-import { TransitionablePortal, Loader } from "semantic-ui-react";
-import { useAppStore } from "../../mobx";
-import { BitcoinNetwork } from "../../interface";
-import CloseIcon from "../Icons/CloseIcon";
-import NetworkIcon from "../Icons/Network";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'semantic-ui-react';
+import { TransitionablePortal, Loader } from 'semantic-ui-react';
+import { useAppStore } from '../../mobx';
+import { BitcoinNetwork } from '../../interface';
+import CloseIcon from '../Icons/CloseIcon';
+import NetworkIcon from '../Icons/Network';
 import { updateNetworkInSnap } from '../../lib/snap';
 import { AppStatus } from '../../mobx/runtime';
 import {
@@ -15,7 +15,7 @@ import {
   NetworkItem,
   NetworkItemLabel,
   NetworkItemRadio,
-} from "./styles";
+} from './styles';
 
 
 interface ConnectProps {
@@ -36,7 +36,7 @@ const AddressType = (({open, close}: ConnectProps) => {
 
   useEffect(() => {
     setIsSwitchNetWork(false);
-  },[])
+  },[]);
 
   const onNetworkChecked = (netValue: BitcoinNetwork) => {
     if(netValue === network) {
@@ -44,21 +44,21 @@ const AddressType = (({open, close}: ConnectProps) => {
     }
     setIsSwitchNetWork(true);
     updateNetworkInSnap(netValue)
-    .then((targetNetwork) => {
-      if(!!targetNetwork) {
-        setNetwork(netValue);
-        current && switchToAccount(current.mfp, scriptType, netValue);
-        if(current && !!getAccountBy(current.mfp, scriptType, netValue)) {
-          setStatus(AppStatus.FetchBalance);
-        } else {
-          setStatus(AppStatus.Connect);
+      .then((targetNetwork) => {
+        if(targetNetwork) {
+          setNetwork(netValue);
+          current && switchToAccount(current.mfp, scriptType, netValue);
+          if(current && !!getAccountBy(current.mfp, scriptType, netValue)) {
+            setStatus(AppStatus.FetchBalance);
+          } else {
+            setStatus(AppStatus.Connect);
+          }
         }
-      }
-      close();
-    }).catch(() => {
-      close();
-    })
-  }
+        close();
+      }).catch(() => {
+        close();
+      });
+  };
 
   return (
     <TransitionablePortal
@@ -101,7 +101,7 @@ const AddressType = (({open, close}: ConnectProps) => {
         }
       </Modal>
     </TransitionablePortal>
-  )
-})
+  );
+});
 
-export default AddressType
+export default AddressType;

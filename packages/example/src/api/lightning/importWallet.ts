@@ -1,7 +1,7 @@
 import { query } from './query';
 import { RequestType } from '../types';
 
-const endpoint = `/v1/snap/import_account/`;
+const endpoint = '/v1/snap/import_account/';
 
 interface ImportWalletResponse {
   userId: string;

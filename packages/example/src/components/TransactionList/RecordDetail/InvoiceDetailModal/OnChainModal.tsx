@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal } from "../../../../kits";
-import { H3 } from "../../../../kits/Layout/Text/Title";
-import { Caption } from "../../../../kits/Layout/Text/Body";
+import { Modal } from '../../../../kits';
+import { H3 } from '../../../../kits/Layout/Text/Title';
+import { Caption } from '../../../../kits/Layout/Text/Body';
 import {
   BottomGradientLayerContainer,
   LightningMark,
@@ -9,7 +9,7 @@ import {
   RecordStatus,
   RecordStatusContainer,
   RecordType,
-} from "./styles"
+} from './styles';
 import {
   ModalTitleContainer,
   RecordDetailsTop,
@@ -19,10 +19,10 @@ import {
   RecordItemRow,
   RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent, GradientLayer
 } from '../styles';
-import dayjs from "dayjs";
-import SuccessIcon from "../../../Icons/SuccessIcon";
-import { TransactionProps } from "./index";
-import { Icon } from "snapkit";
+import dayjs from 'dayjs';
+import SuccessIcon from '../../../Icons/SuccessIcon';
+import { TransactionProps } from './index';
+import { Icon } from 'snapkit';
 
 export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) => {
   return (
@@ -73,7 +73,7 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
             <RecordItemRow>
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
-                <RecordItemContent lowlight>{invoice.amount}{" "}</RecordItemContent>
+                <RecordItemContent lowlight>{invoice.amount}{' '}</RecordItemContent>
                 <RecordItemContent highlight>Sats</RecordItemContent>
               </span>
             </RecordItemRow>
@@ -84,5 +84,5 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
         <GradientLayer />
       </BottomGradientLayerContainer>
     </Modal>
-  )
-})
+  );
+});

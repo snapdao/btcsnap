@@ -1,4 +1,4 @@
-import { Modal, Container as BaseContainer } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import styled from 'styled-components';
 import ModalContainer from '../Container';
 

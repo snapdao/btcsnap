@@ -1,7 +1,7 @@
 import { generateLightningWalletId } from '../../mobx/utils';
 import { BitcoinUnit } from '../../interface';
 import { getAppStore } from '../../mobx';
-import { saveLNDataToSnap } from "../../lib/snap";
+import { saveLNDataToSnap } from '../../lib/snap';
 
 export const createLightningWallet = (userId: string, name: string) => {
   const appStore = getAppStore();
@@ -32,7 +32,7 @@ export const createLNWallet = async (userId: string, userPassword: string, crede
     walletId: userId,
     credential: `${credential.login}:${credential.password}`,
     password: userPassword
-  })
+  });
 
-  return newWallet
-}
+  return newWallet;
+};

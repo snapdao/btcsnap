@@ -24,7 +24,7 @@ const fetchResult = (
   });
 };
 
-const objectKeysToCamelCase = (snake_case: Object): any => {
+const objectKeysToCamelCase = (snake_case: Record<string, any>): any => {
   if (
     typeof snake_case !== 'object' ||
     snake_case === null ||
@@ -91,7 +91,7 @@ export const queryWithUserInfo = async (
   const userId = current!.userId;
   const userPassword = await getPassword(userId);
 
-  if (!userPassword) throw new Error('not found user password')
+  if (!userPassword) throw new Error('not found user password');
   const bodyWithUserInfo = {
     ...body,
     user_id: userId,

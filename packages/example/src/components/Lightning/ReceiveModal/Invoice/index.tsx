@@ -94,7 +94,7 @@ const LightningReceiveInvoiceModal = observer(
         <AddressBox model={model} />
         <Popup
           content={<DescriptionPopup>{model.description}</DescriptionPopup>}
-          position="top center"
+          position='top center'
           inverted
           wide
           trigger={<Description>{model.description}</Description>}

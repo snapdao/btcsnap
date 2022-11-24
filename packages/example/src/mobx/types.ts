@@ -4,16 +4,16 @@ import Address from './address';
 import AppStore from './store';
 import LightningWallet from './lightningWallet';
 
-export interface IStore extends Instance<typeof AppStore> {}
+export type IStore = Instance<typeof AppStore>
 
-export interface IAccountIn extends SnapshotIn<typeof Account> {}
-export interface IAccountOut extends SnapshotOut<typeof Account> {}
-export interface IAccount extends Instance<typeof Account> {}
+export type IAccountIn = SnapshotIn<typeof Account>
+export type IAccountOut = SnapshotOut<typeof Account>
+export type IAccount = Instance<typeof Account>
 
 export interface IAddressIn extends SnapshotIn<typeof Address> {
   parent: string;
 }
 
-export interface ILightningWalletIn extends SnapshotIn<typeof LightningWallet> {}
-export interface ILightningWalletOut extends SnapshotOut<typeof LightningWallet> {}
-export interface ILightningWallet extends Instance<typeof LightningWallet> {}
+export type ILightningWalletIn = SnapshotIn<typeof LightningWallet>
+export type ILightningWalletOut = SnapshotOut<typeof LightningWallet>
+export type ILightningWallet = Instance<typeof LightningWallet>

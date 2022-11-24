@@ -19,9 +19,9 @@ export const ListField = ({
 }: Props) => {
   return (
     <Container hoverable={hoverable} onClick={onClick}>
-      <Title className="title">{title}</Title>
+      <Title className='title'>{title}</Title>
       <Content>{content}</Content>
-      {arrow && <Icon.ArrowRight color="var(--c-pri50)" />}
+      {arrow && <Icon.ArrowRight color='var(--c-pri50)' />}
     </Container>
   );
 };

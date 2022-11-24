@@ -1,6 +1,6 @@
-import { RequestType } from "../types";
-import { query } from "../request-utils/query";
-import { SupportedCoins } from "../../constant/supportedCoins";
+import { RequestType } from '../types';
+import { query } from '../request-utils/query';
+import { SupportedCoins } from '../../constant/supportedCoins';
 
 const endpoint = '/v2/self_custody/coins/';
 

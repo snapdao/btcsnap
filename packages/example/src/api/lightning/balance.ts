@@ -1,7 +1,7 @@
 import { queryWithUserInfo } from './query';
 import { RequestType } from '../types';
 
-const endpoint = `/v1/snap/balance/`;
+const endpoint = '/v1/snap/balance/';
 
 interface LightningBalanceResponse {
   BTC: {

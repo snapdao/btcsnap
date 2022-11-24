@@ -1,1 +1,1 @@
-export { RecordList } from './RecordList'
+export { RecordList } from './RecordList';

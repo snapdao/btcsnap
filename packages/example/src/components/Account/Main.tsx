@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../../mobx';
-import { BitcoinNetwork, BitcoinUnit, WalletType } from '../../interface';
+import { BitcoinNetwork, BitcoinScriptType, BitcoinUnit, WalletType } from '../../interface';
 import SendModal from '../SendModal';
 import ReceiveModal from '../ReceiveModal';
 import AccountDetail from './Details';
@@ -163,12 +163,12 @@ const Main = observer(({ balance }: MainProps) => {
         />
       )}
 
-      {openedModal === MainModal.Send ? (
+      { openedModal === MainModal.Send ? (
         currentWalletType === WalletType.BitcoinWallet ? (
           <SendModal
             network={network}
             unit={currentUnit}
-            scriptType={current?.scriptType!}
+            scriptType={current?.scriptType as BitcoinScriptType}
             close={closeModal}
             currencyRate={currencyRate}
           />

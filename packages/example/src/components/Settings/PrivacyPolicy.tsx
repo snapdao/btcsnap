@@ -1,6 +1,6 @@
-import { Modal } from "semantic-ui-react"
-import { TransitionablePortal } from "semantic-ui-react";
-import CloseIcon from "../Icons/CloseIcon";
+import { Modal } from 'semantic-ui-react';
+import { TransitionablePortal } from 'semantic-ui-react';
+import CloseIcon from '../Icons/CloseIcon';
 
 import {
   ModalHeader,
@@ -8,7 +8,7 @@ import {
   ModalHeaderLabel,
   PrivacyContainer,
   MaskArea
-} from "./styles"
+} from './styles';
 
 interface ConnectProps {
   open: boolean;
@@ -54,7 +54,7 @@ const PrivacyPolicy = (({open, close}: ConnectProps) => {
         </PrivacyContainer>
       </Modal>
     </TransitionablePortal>
-  )
-})
+  );
+});
 
-export default PrivacyPolicy
+export default PrivacyPolicy;

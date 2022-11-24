@@ -1,7 +1,7 @@
 import { queryWithUserInfo } from './query';
 import { RequestType } from '../types';
 
-const endpoint = `/v1/snap/invoices/`;
+const endpoint = '/v1/snap/invoices/';
 
 export interface LightningInvoicesResponse {
   paymentRequest: string; // invoice
@@ -10,7 +10,7 @@ export interface LightningInvoicesResponse {
   amt: number; // amount
   expireTime: number;
   timestamp: number;
-  type: "user_invoice" | string;
+  type: 'user_invoice' | string;
   ispaid?: boolean
 }
 

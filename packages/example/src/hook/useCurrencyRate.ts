@@ -22,7 +22,7 @@ export const useCurrencyRate = () => {
     const queryCurrencyRate = async (current: IAccount) => {
       const coinCode: SupportedCoins =
         NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
-      const response = await queryCoinV1(coinCode)
+      const response = await queryCoinV1(coinCode);
       const rate = Number(response.coins?.[coinCode]?.coinInfo?.rate) || 0;
       return {rate};
     };

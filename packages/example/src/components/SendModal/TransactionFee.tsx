@@ -1,7 +1,7 @@
-import { observer } from "mobx-react-lite";
-import { Modal, TransitionablePortal } from "semantic-ui-react";
-import CloseIcon from "../Icons/CloseIcon";
-import SendViewModel from "./model";
+import { observer } from 'mobx-react-lite';
+import { Modal, TransitionablePortal } from 'semantic-ui-react';
+import CloseIcon from '../Icons/CloseIcon';
+import SendViewModel from './model';
 import {
   MiddleTitleHeader,
   CloseContainer,
@@ -10,8 +10,8 @@ import {
   TransactionFeeLevel,
   TransactionFeeItemValue,
   TransactionFeeRadio,
-} from "./styles"
-import { FeeRate } from "./type";
+} from './styles';
+import { FeeRate } from './type';
 
 
 interface TransactionFeeProps {
@@ -32,7 +32,7 @@ const transactionFeeOptions = (fee: FeeRate, feeRate: FeeRate) : TransactionFeeT
   { label: 'Fast', type: 'high', time: 30, fee: fee.high, satVByte: feeRate.high },
   { label: 'Medium', type: 'recommended', time: 60, fee: fee.recommended, satVByte: feeRate.recommended },
   { label: 'Slow', type: 'low', time: 70, fee: fee.low, satVByte: feeRate.low }
-]
+];
 
 const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
 
@@ -76,7 +76,7 @@ const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
         </TransactionFeeContainer>
       </Modal>
     </TransitionablePortal>
-  )
-})
+  );
+});
 
-export default TransactionFee
+export default TransactionFee;

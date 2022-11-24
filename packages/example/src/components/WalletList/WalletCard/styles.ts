@@ -26,9 +26,9 @@ export const WalletCardContent = styled.div<{
   transition: 0.25s;
   :hover {
     filter: ${(props) =>
-      props.available
-        ? 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08)) drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.16))'
-        : 'none'};
+    props.available
+      ? 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08)) drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.16))'
+      : 'none'};
   }
 `;
 

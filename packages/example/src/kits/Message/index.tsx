@@ -34,12 +34,12 @@ export const Message = ({
 
   let messageTypeIcon = null;
   switch (type) {
-    case MessageType.Error:
-      messageTypeIcon = <ErrorIcon />;
-      break;
-    case MessageType.Succeed:
-      messageTypeIcon = <SucceedIcon />;
-      break;
+  case MessageType.Error:
+    messageTypeIcon = <ErrorIcon />;
+    break;
+  case MessageType.Succeed:
+    messageTypeIcon = <SucceedIcon />;
+    break;
   }
 
   return visible ? (

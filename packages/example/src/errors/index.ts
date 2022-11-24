@@ -1,1 +1,1 @@
-export { SnapError } from "./Snap/SnapError";
+export { SnapError } from './Snap/SnapError';

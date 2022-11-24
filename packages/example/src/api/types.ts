@@ -16,8 +16,8 @@ export enum LoadingStatus {
 
 export type apiResult<T> = {
   loadingStatus: LoadingStatus;
-  result: T | {};
-  error: Error | {};
+  result: T | Record<string, never>;
+  error: Error | Record<string, never>;
 };
 
 export type RequestObject = {

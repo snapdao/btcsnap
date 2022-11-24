@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { TransitionablePortal } from 'semantic-ui-react';
 import { WalletCard } from './WalletCard';
 import { useAppStore } from '../../mobx';
-import { AddIcon } from '../Icons/AddIcon';
 import {
   AccountPageShadow,
   CurrentPage,
@@ -163,13 +162,13 @@ export const WalletList = observer(({ open, close }: any) => {
                     />
                   ))}
                   <Popup
-                    position="top center"
+                    position='top center'
                     content={
                       network === BitcoinNetwork.Test
                         ? 'Not available on Testnet'
                         : lightning.hasReachedLimitation
-                        ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
-                        : null
+                          ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
+                          : null
                     }
                     disabled={!shouldDisableAddition}
                     trigger={
