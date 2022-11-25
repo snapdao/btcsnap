@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Modal, TransitionablePortal } from 'semantic-ui-react';
-import CloseIcon from '../Icons/CloseIcon';
+import CloseIcon from '../../Icons/CloseIcon';
 import SendViewModel from './model';
 import {
   MiddleTitleHeader,
@@ -12,7 +12,6 @@ import {
   TransactionFeeRadio,
 } from './styles';
 import { FeeRate } from './type';
-
 
 interface TransactionFeeProps {
   open: boolean;
