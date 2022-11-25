@@ -40,7 +40,7 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
   const {settings: {network}} = useAppStore();
   const isFailed = details.status === TransactionStatus.Failed;
   const isPending = details.status === TransactionStatus.Pending;
-  const isSendType = details.type === TransactionTypes.Send;
+  const isSendType = details.type === TransactionTypes.Sent;
   const transactionFrom = `${details.from.slice(0, 8)}...${details.from.slice(-8)}`;
   const transactionTo = `${details.to.slice(0, 8)}...${details.to.slice(-8)}`;
   let Icon;

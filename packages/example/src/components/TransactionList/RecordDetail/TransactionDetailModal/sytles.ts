@@ -19,7 +19,7 @@ export const ModalHeaderLabel = styled.span`
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 export const TransactionDetailsTop = styled.div`

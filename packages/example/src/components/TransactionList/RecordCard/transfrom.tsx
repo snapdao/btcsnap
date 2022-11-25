@@ -8,10 +8,10 @@ const getRecordIcon = (record: HistoryRecord) => {
   if (record.type === HistoryRecordType.LightningInvoice && record.data.status === InvoiceStatus.Expired) {
     return <Icon.Expired color={'#656D85'}/>;
   }
-  if (record.data.type === TransactionTypes.Send || record.data.type === InvoiceTypes.Sent) {
+  if (record.data.type === TransactionTypes.Sent || record.data.type === InvoiceTypes.Sent) {
     return <Icon.Send color={'#F54814'}/>;
   }
-  if (record.data.type === TransactionTypes.Receive || record.data.type === InvoiceTypes.Received) {
+  if (record.data.type === TransactionTypes.Received || record.data.type === InvoiceTypes.Received) {
     return <Icon.Receive color={'#21A35D'}/>;
   }
   if (record.data.type === InvoiceTypes.OnChain) {
@@ -29,7 +29,7 @@ const titleTransform = (record: HistoryRecord) => {
 };
 
 const amountTransform = (record: HistoryRecord): ReactNode => {
-  const isReceive = (record.data.type === TransactionTypes.Receive || record.data.type === InvoiceTypes.Received || record.data.type === InvoiceTypes.OnChain);
+  const isReceive = (record.data.type === TransactionTypes.Received || record.data.type === InvoiceTypes.Received || record.data.type === InvoiceTypes.OnChain);
   const amountText = `${isReceive ? '+' : '-'}${record.amount}`;
   let AmountWrapper = record.amount > 0 ? ReceiveAmount : SendAmount;
 
