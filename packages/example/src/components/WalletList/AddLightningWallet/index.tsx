@@ -7,15 +7,16 @@ import {
   StyledLightningTipsIcon,
 } from './styles';
 import { useAppStore } from '../../../mobx';
+import { H4, SubCaption } from '../../../kits';
 
 interface AddLightningWalletProps {
   onAddWallet: () => void;
-  shouldDisableAddition: boolean;
+  disabled?: boolean;
 }
 
 export const AddLightningWallet = ({
   onAddWallet,
-  shouldDisableAddition,
+  disabled = false,
 }: AddLightningWalletProps) => {
   const { lightning } = useAppStore();
   const [isHoveringAddingTips, setIsHoveringAddTips] = useState<boolean>(false);
@@ -25,18 +26,19 @@ export const AddLightningWallet = ({
       onMouseEnter={() => setIsHoveringAddTips(true)}
       onMouseLeave={() => setIsHoveringAddTips(false)}
       isFixed={lightning.walletLength < 2}
-      onClick={() => !shouldDisableAddition && onAddWallet()}
-      shouldDisableAddition={shouldDisableAddition}>
+      onClick={onAddWallet}
+      disabled={disabled}
+    >
       <StyledLightningTipsIcon>
-        {!shouldDisableAddition && isHoveringAddingTips ? (
+        {!disabled && isHoveringAddingTips ? (
           <AddIcon />
         ) : (
           <LightningIcon />
         )}
       </StyledLightningTipsIcon>
       <LightningWalletTipsContent>
-        <span>Add Lightning Wallets</span>
-        <p>Fast transaction timings and low transaction fees</p>
+        <H4>Add Lightning Wallets</H4>
+        <SubCaption>Fast transaction timings and low transaction fees</SubCaption>
       </LightningWalletTipsContent>
     </LightningWalletTipsContainer>
   );

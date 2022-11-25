@@ -18,6 +18,7 @@ import { useAppStore } from '../../../mobx';
 import { LNWalletStepStatus } from '../../../mobx/user';
 import { useState } from 'react';
 import CreateWallet from '../CreateWallet';
+import { AddLightningWallet } from '../../WalletList/AddLightningWallet';
 
 export const Ready = observer(() => {
   const {
@@ -56,12 +57,9 @@ export const Ready = observer(() => {
           <LastStepTitle>Your Bitcoin Wallet is Ready!</LastStepTitle>
           <LastStepText>You’ve successfully setup your wallet!</LastStepText>
           <ButtonsContainer>
-            <CreateButton onClick={onToCreateWallet}>
-              Create Lightning Wallets
-            </CreateButton>
-            <span>or</span>
+            <AddLightningWallet onAddWallet={onToCreateWallet} />
             <StartButton primary onClick={onToUserGuide}>
-              Start Using Now
+              Start Using BitcoinSnap
             </StartButton>
           </ButtonsContainer>
         </LNSetupModalContent>

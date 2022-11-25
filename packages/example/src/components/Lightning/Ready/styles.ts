@@ -62,6 +62,7 @@ export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  gap: 16px;
 
   & > span {
     display: block;

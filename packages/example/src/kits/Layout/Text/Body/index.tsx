@@ -25,3 +25,8 @@ export const Big = styled(Body)`
   font-size: 36px;
   line-height: 48px;
 `;
+
+export const SubCaption = styled(Body)`
+  font-size: 12px;
+  line-height: 18px;
+`;

@@ -93,5 +93,13 @@ export const WalletListContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: calc(100% - 100px);
   gap: 4px;
+`;
+
+export const AddLnWalletContainer = styled.div`
+  flex: 1;
+  padding: 8px 20px 0;
+  display: flex;
+  align-items: flex-end;
 `;

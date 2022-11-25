@@ -1,47 +1,29 @@
 import styled, { css } from 'styled-components';
 
-export const LightningWalletTipsContainer = styled.div<{
+export const LightningWalletTipsContainer = styled.button<{
   shouldDisableAddition?: boolean;
   isFixed: boolean;
 }>`
-  ${(props) =>
-    props.isFixed
-      ? css`
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          margin: 24px;
-        `
-      : css`
-          position: relative;
-          margin-top: 10px;
-        `}
+  position: relative;
   height: 92px;
-  width: 240px;
+  width: 100%;
   border: 1px solid #e1e6f0;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transition: 0.25s;
+  background-color: #ffffff;
 
-  ${(props) => {
-    return css`
-      background-color: ${props.shouldDisableAddition
-    ? 'var(--sk-color-n10)'
-    : '#ffffff'};
-
-      ${props.shouldDisableAddition &&
-      css`
-        & > div:nth-child(2) {
-          > span,
-          p {
-            color: var(--sk-color-n50);
-          }
-        }
-      `}
-    `;
-  }}
+  :disabled {
+    background-color: var(--sk-color-n10);
+    & > div:nth-child(2) {
+      > span,
+      p {
+        color: var(--sk-color-n50);
+      }
+    }
+  }
 
   :hover {
     transition: 0.25s;
@@ -50,18 +32,15 @@ export const LightningWalletTipsContainer = styled.div<{
 `;
 
 export const LightningWalletTipsContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 16px 16px 16px 48px;
-  span {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 20px;
-    color: #111214;
-  }
-  p {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 18px;
+  gap: 2px;
+
+  span:last-child {
     color: #9095a3;
+    text-align: left;
   }
 `;
 
