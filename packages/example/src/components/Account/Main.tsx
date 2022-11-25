@@ -63,7 +63,10 @@ const Main = observer(({ balance }: MainProps) => {
     runtime: { continueConnect, currencyRate },
   } = useAppStore();
   const unit = bitcoinUnitMap[network];
-  const [topUpVisible, setTopUpVisible] = useState(false);
+  const [topUpVisibleData, setTopUpVisibleData] = useState({
+    open: false,
+    type: 'wallet'
+  });
   const [openedModal, setOpenedModal] = useState<MainModal | null>(null);
   const [secondaryUnit, setSecondaryUnit] = useState<BitcoinUnit>(
     currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC,
@@ -95,10 +98,20 @@ const Main = observer(({ balance }: MainProps) => {
     setSecondaryUnit(currentUnit);
   };
 
-  const openTopUpModal = () => {
-    setTopUpVisible(false);
+  function openTopUpModal(type: 'wallet' | 'externalWallet') {
     setOpenedModal(MainModal.TopUp);
+    setTopUpVisibleData({
+      open: false,
+      type
+    });
   };
+
+  function setTopUpVisible(open: boolean) {
+    setTopUpVisibleData({
+      ...topUpVisibleData,
+      open,
+    });
+  }
 
   useEffect(() => {
     setSecondaryUnit(
@@ -172,7 +185,7 @@ const Main = observer(({ balance }: MainProps) => {
         </MarketPrice>
 
         <Popup
-          open={topUpVisible}
+          open={topUpVisibleData.open}
           position='top right'
           basic
           inverted={false}
@@ -180,14 +193,18 @@ const Main = observer(({ balance }: MainProps) => {
           openOnTriggerMouseEnter={false}
           closeOnTriggerMouseLeave={false}
           closeOnPortalMouseLeave={false}
+          onClose={() => setTopUpVisible(false)}
           trigger={
             <span>
               <TopUpButton
-                icon={<Icon.TopUp
-                  width='18px'
-                  height='18px'
-                  color='var(--sk-color-pri50)' />}
-                onClick={() => setTopUpVisible(!topUpVisible)}>
+                icon={
+                  <Icon.TopUp
+                    width='18px'
+                    height='18px'
+                    color='var(--sk-color-pri50)' />
+                }
+                onClick={() => setTopUpVisible(!topUpVisibleData.open)}
+              >
                 <H4>TOP UP</H4>
               </TopUpButton>
             </span>
@@ -198,12 +215,13 @@ const Main = observer(({ balance }: MainProps) => {
               icon={<Icon.Wallet width='24px' height='24px' color='var(--sk-color-pri50)'/>}
               title={<H4>With Your Wallet</H4>}
               hoverable
-              onClick={openTopUpModal}
+              onClick={() => openTopUpModal('wallet')}
             />
             <List.Field
               icon={<Icon.WalletEx width='24px' height='24px'  color='var(--sk-color-n60)' />}
               title={<H4>With External Wallet</H4>}
               hoverable
+              onClick={() => openTopUpModal('externalWallet')}
             />
           </TopUpList>
         </Popup>
@@ -252,12 +270,18 @@ const Main = observer(({ balance }: MainProps) => {
           ),
         }[currentWalletType]}
 
-      {openedModal === MainModal.TopUp && <TopUpModal 
-        network={network}
-        unit={currentUnit}
-        scriptType={current?.scriptType as BitcoinScriptType}
-        close={closeModal}
-        currencyRate={currencyRate} />}
+      {openedModal === MainModal.TopUp && (
+        <TopUpModal
+          type='externalWallet'
+          walletProps={{
+            network,
+            unit: currentUnit,
+            scriptType: current?.scriptType as BitcoinScriptType,
+            currencyRate
+          }}
+          close={closeModal}
+        />
+      )}
     </AccountMain>
   );
 });

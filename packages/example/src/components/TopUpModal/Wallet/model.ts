@@ -5,25 +5,25 @@ import {
   BitcoinScriptType,
   BitcoinUnit,
   Utxo,
-} from '../../interface';
-import { generatePSBT, selectUtxos, SendInfo } from '../../lib';
+} from '../../../interface';
+import { generatePSBT, selectUtxos, SendInfo } from '../../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
-import { signPsbt } from '../../lib/snap';
-import { getTransactionLink } from '../../lib/explorer';
+import { signPsbt } from '../../../lib/snap';
+import { getTransactionLink } from '../../../lib/explorer';
 import {
   trackSendSign,
   trackTransactionBroadcast,
   trackTransactionBroadcastSucceed,
-} from '../../tracking';
+} from '../../../tracking';
 import { FeeRate } from './types';
-import { BroadcastData, pushTransaction } from '../../api/v1/pushTransaction';
-import { NETWORK_SCRIPT_TO_COIN } from '../../constant/bitcoin';
-import { validateTx } from '../../lib/psbtValidator';
+import { BroadcastData, pushTransaction } from '../../../api/v1/pushTransaction';
+import { NETWORK_SCRIPT_TO_COIN } from '../../../constant/bitcoin';
+import { validateTx } from '../../../lib/psbtValidator';
 import { Psbt } from 'bitcoinjs-lib';
-import { btcToSatoshi, satoshiToBTC } from '../../lib/helper';
-import { bitcoinUnitMap } from '../../lib/unit';
-import { mapErrorToUserFriendlyError } from '../../errors/Snap/SnapError';
-import { logger } from '../../logger';
+import { btcToSatoshi, satoshiToBTC } from '../../../lib/helper';
+import { bitcoinUnitMap } from '../../../lib/unit';
+import { mapErrorToUserFriendlyError } from '../../../errors/Snap/SnapError';
+import { logger } from '../../../logger';
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =

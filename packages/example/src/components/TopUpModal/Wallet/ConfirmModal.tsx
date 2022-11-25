@@ -3,8 +3,8 @@ import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import {Container, Divider, Loader, Modal, TransitionablePortal} from 'semantic-ui-react';
 import BTCValue from './BTCValue';
-import CloseIcon from '../Icons/CloseIcon';
-import { trackSendClick, trackSendConfirm } from '../../tracking';
+import CloseIcon from '../../Icons/CloseIcon';
+import { trackSendClick, trackSendConfirm } from '../../../tracking';
 import {
   MiddleTitleHeader,
   CloseContainer

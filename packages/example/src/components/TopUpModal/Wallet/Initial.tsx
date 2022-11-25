@@ -5,10 +5,9 @@ import SendViewModel from './model';
 import './index.css';
 import ConfirmModal from './ConfirmModal';
 import TransactionFee from './TransactionFee';
-import CloseIcon from '../Icons/CloseIcon';
-import SendIcon from '../Icons/SendIcon';
-import SwitchIcon from '../Icons/SwitchIcon';
-import ArrowDown from '../Icons/ArrowDown';
+import CloseIcon from '../../Icons/CloseIcon';
+import SwitchIcon from '../../Icons/SwitchIcon';
+import ArrowDown from '../../Icons/ArrowDown';
 
 import {
   SendContainer,

@@ -4,17 +4,17 @@ import SendViewModel from './model';
 import { observer } from 'mobx-react-lite';
 import BTCValue from './BTCValue';
 import './index.css';
-import { ReactComponent as SendSuccess } from '../../assets/send_success.svg';
-import { ReactComponent as SendFailed } from '../../assets/send_failed.svg';
-import { ReactComponent as ArrowRight } from '../../assets/arrow_right.svg';
-import CloseIcon from '../Icons/CloseIcon';
+import { ReactComponent as SendSuccess } from '../../../assets/send_success.svg';
+import { ReactComponent as SendFailed } from '../../../assets/send_failed.svg';
+import { ReactComponent as ArrowRight } from '../../../assets/arrow_right.svg';
+import CloseIcon from '../../Icons/CloseIcon';
 import {
   Button,
   FailedContainer,
   FailedText
 } from './styles';
-import { useAppStore } from '../../mobx';
-import { AppStatus } from '../../mobx/runtime';
+import { useAppStore } from '../../../mobx';
+import { AppStatus } from '../../../mobx/runtime';
 
 export type SuccessProps = {
   model: SendViewModel;
