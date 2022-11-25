@@ -28,16 +28,16 @@ const Account = observer(() => {
   useCurrencyRate();
   useRegisterXpub();
 
-  const currentReadyLoaded =
-    !!current &&
-    status === AppStatus.Ready &&
-    LNWalletStep === LNWalletStepStatus.Default;
-
   useEffect(() => {
-    if (currentReadyLoaded && !loadingBalance) {
+    const currentAccountReady =
+      !!current &&
+      status === AppStatus.Ready &&
+      !loadingBalance;
+    const shouldShowLNGuide = LNWalletStep === LNWalletStepStatus.Default;
+    if (currentAccountReady && shouldShowLNGuide) {
       setLNWalletStep(LNWalletStepStatus.Ready);
     }
-  }, [current, status, loadingBalance]);
+  }, [current, status, LNWalletStep, loadingBalance]);
 
   return (
     <>

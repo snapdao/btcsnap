@@ -3,7 +3,7 @@ import { TransitionablePortal } from 'semantic-ui-react';
 import { WalletCard } from './WalletCard';
 import { useAppStore } from '../../mobx';
 import {
-  AccountPageShadow,
+  AccountPageShadow, AddLnWalletContainer,
   CurrentPage,
   WalletListContainer,
   WalletListContent,
@@ -161,25 +161,28 @@ export const WalletList = observer(({ open, close }: any) => {
                       available={network === BitcoinNetwork.Main}
                     />
                   ))}
-                  <Popup
-                    position='top center'
-                    content={
-                      network === BitcoinNetwork.Test
-                        ? 'Not available on Testnet'
-                        : lightning.hasReachedLimitation
-                          ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
-                          : null
-                    }
-                    disabled={!shouldDisableAddition}
-                    trigger={
-                      <span>
-                        <AddLightningWallet
-                          onAddWallet={showCreateWallet}
-                          shouldDisableAddition={shouldDisableAddition}
-                        />
-                      </span>
-                    }
-                  />
+
+                  <AddLnWalletContainer>
+                    <Popup
+                      position='top center'
+                      content={
+                        network === BitcoinNetwork.Test
+                          ? 'Not available on Testnet'
+                          : lightning.hasReachedLimitation
+                            ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
+                            : null
+                      }
+                      disabled={!shouldDisableAddition}
+                      trigger={
+                        <div>
+                          <AddLightningWallet
+                            onAddWallet={showCreateWallet}
+                            disabled={shouldDisableAddition}
+                          />
+                        </div>
+                      }
+                    />
+                  </AddLnWalletContainer>
                 </WalletListContent>
               </WalletListContentContainer>
             </WalletListContainer>
