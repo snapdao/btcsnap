@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const AccountBackground = styled.div`
   width: 100%;
@@ -209,43 +209,45 @@ export const BalanceLabel = styled.p`
   margin-bottom: 8px;
 `;
 
-export const BalanceLeftItem = styled.div`
+export const BalanceLeftItem = styled.div<{hoverable?: boolean}>`
   display: inline-block;
   font-weight: 400;
   font-size: 48px;
   line-height: 64px;
   color: #111214;
 
-  :hover {
-    cursor: pointer;
-    color: #f58300;
-    transition: 0.25s;
+  ${props => props.hoverable ? css`
+    :hover {
+      cursor: pointer;
+      color: #f58300;
+      transition: 0.25s;
 
-    & > span:last-child {
-      visibility: visible;
-      animation: showElement 0.5s;
-      animation-fill-mode: forwards;
+      & > span:last-child {
+        visibility: visible;
+        animation: showElement 0.5s;
+        animation-fill-mode: forwards;
+      }
+      & + div {
+        visibility: hidden;
+        animation: hideElement 0.25s;
+        animation-fill-mode: forwards;
+      }
     }
-    & + div {
-      visibility: hidden;
-      animation: hideElement 0.25s;
-      animation-fill-mode: forwards;
+    :not(:hover) {
+      color: #111214;
+      transition: 0.5s;
+      & > span:last-child {
+        visibility: hidden;
+        animation: hideElement 0.5s;
+        animation-fill-mode: forwards;
+      }
+      & + div {
+        visibility: visible;
+        animation: showElement 0.5s linear;
+        animation-fill-mode: forwards;
+      }
     }
-  }
-  :not(:hover) {
-    color: #111214;
-    transition: 0.5s;
-    & > span:last-child {
-      visibility: hidden;
-      animation: hideElement 0.5s;
-      animation-fill-mode: forwards;
-    }
-    & + div {
-      visibility: visible;
-      animation: showElement 0.5s linear;
-      animation-fill-mode: forwards;
-    }
-  }
+  ` : ''};
   @keyframes showElement {
     from {
       opacity: 0;
