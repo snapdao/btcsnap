@@ -79,16 +79,16 @@ export const query = async (
   }
 };
 
-export const queryWithUserInfo = async (
+export const queryWithCurrentUserInfo = async (
   endPoint: string,
   method: RequestType,
   headers: Record<string, string>,
-  body = {},
+  body: Record<string, any> = {},
 ) => {
   const {
     lightning: { current },
   } = getAppStore();
-  const userId = current!.userId;
+  const userId = body.user_id || current!.userId;
   const userPassword = await getPassword(userId);
 
   if (!userPassword) throw new Error('not found user password');
