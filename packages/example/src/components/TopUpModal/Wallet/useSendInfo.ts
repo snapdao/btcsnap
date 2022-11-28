@@ -8,7 +8,7 @@ import { coinManager } from '../../../services/CoinManager';
 
 export const useSendInfo = () => {
   const { current } = useAppStore();
-  const { utxoList, nextChange } = useUtxo();
+  const { utxoList, nextChange, loading: utxoLoading } = useUtxo();
   const { feeRate } = useFeeRate();
   const [sendInfo, setSendInfo] = useState<SendInfo | undefined>();
 
@@ -33,6 +33,7 @@ export const useSendInfo = () => {
   return {
     feeRate,
     utxos: utxoList,
+    utxoLoading,
     sendInfo
   };
 };

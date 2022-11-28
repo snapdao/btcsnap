@@ -45,7 +45,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               <span
                 className={'text-weight-bold'}
                 style={{ padding: '16px 0 24px', lineHeight: '30px', fontSize: '20px' }}>
-                Sent to the Network
+                Top Up Success
               </span>
             </>
           )}
@@ -55,7 +55,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               <span
                 className={'text-weight-bold text-error'}
                 style={{ padding: '16px 0 24px', lineHeight: '30px', fontSize: '20px' }}>
-                Transaction Failed
+                Top Up Failed
               </span>
             </>
           )}
@@ -70,7 +70,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
           <div
             style={{ marginTop: 24, width: '100%' }}
             className={'horizontal-center space-around'}>
-            <span className={'account-tag'}>Your Account</span>
+            <span className={'account-tag'}>Bitcoin Wallet</span>
             <ArrowRight />
             <span className={'account-tag'}>{model.formattedTo}</span>
           </div>
@@ -84,7 +84,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               'text-secondary text-align-center text-size-normal text-line-height-normal'
             }
           >
-            <p className={'result-sucess-p'}>The network may still need up to 60 mins to completely process the transaction</p>
+            <p className={'result-sucess-p'}>The network may need up to 60 mins to completely process the transaction.</p>
           </div>
           <div
             className={'vertical-center'}
