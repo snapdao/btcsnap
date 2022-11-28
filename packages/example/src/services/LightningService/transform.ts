@@ -25,12 +25,9 @@ export const transformInvoice = (invoice: LightningInvoicesResponse): InvoiceDet
     ID: invoice.paymentHash,
     type: InvoiceTypes.Received,
     status,
-    amount: Number(decodedInvoice.satoshis || 0),
-    date: (decodedInvoice.timestamp || 0) * 1000,
-    description:
-      (decodedInvoice.tags.find(
-        (tag) => tag.tagName === 'description',
-      )?.data as string) || '',
+    amount: invoice.amt,
+    date: (invoice.timestamp || 0) * 1000,
+    description: invoice.description,
     paymentRequest: invoice.paymentRequest
   };
 };
