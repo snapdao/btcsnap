@@ -1,4 +1,4 @@
-import { queryWithUserInfo } from './query';
+import { queryWithCurrentUserInfo } from './query';
 import { RequestType } from '../types';
 
 const endpoint = '/v1/snap/add_invoice/';
@@ -22,7 +22,7 @@ interface AddInvoiceArgs {
 export const addInvoice = (
   args: AddInvoiceArgs,
 ): Promise<LightningAddInvoiceResponse> => {
-  return queryWithUserInfo(
+  return queryWithCurrentUserInfo(
     endpoint,
     RequestType.Post,
     {},

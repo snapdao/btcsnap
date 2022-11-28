@@ -1,4 +1,4 @@
-import { queryWithUserInfo } from './query';
+import { queryWithCurrentUserInfo } from './query';
 import { RequestType } from '../types';
 
 const endpoint = '/v1/snap/invoices/';
@@ -15,7 +15,7 @@ export interface LightningInvoicesResponse {
 }
 
 export const invoices = (limit = 0, offset = 0): Promise<LightningInvoicesResponse[]> => {
-  return queryWithUserInfo(
+  return queryWithCurrentUserInfo(
     endpoint,
     RequestType.Get,
     {},
