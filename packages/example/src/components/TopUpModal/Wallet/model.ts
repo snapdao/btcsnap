@@ -18,7 +18,7 @@ import {
 import { FeeRate } from './types';
 import { BroadcastData, pushTransaction } from '../../../api/v1/pushTransaction';
 import { NETWORK_SCRIPT_TO_COIN } from '../../../constant/bitcoin';
-import { validateTx } from '../../../lib/psbtValidator';
+import { DUST_THRESHOLD, validateTx } from '../../../lib/psbtValidator';
 import { Psbt } from 'bitcoinjs-lib';
 import { btcToSatoshi, satoshiToBTC } from '../../../lib/helper';
 import { bitcoinUnitMap } from '../../../lib/unit';
@@ -40,8 +40,9 @@ const dealWithDigital = (text: string, precision = 2) => {
   }
 };
 
-class SendViewModel {
+class TopUpViewModel {
   public to = '';
+  public notes = '';
   private sendAmountText = '';
   private decimal = 8;
   private decimalFactor = new BigNumber(10).pow(this.decimal);
@@ -62,6 +63,8 @@ class SendViewModel {
   private txId?: string;
 
   public isSending = false;
+
+  public utxoLoading = false;
 
   constructor(
     private utxos: Utxo[],
@@ -106,12 +109,20 @@ class SendViewModel {
     this.utxos = utxos;
   };
 
+  setUtxoLoading = (value: boolean) => {
+    this.utxoLoading = value;
+  };
+
   setNetwork = (network: BitcoinNetwork) => {
     this.network = network;
   };
 
-  setTo = (to: string) => {
-    this.to = to;
+  setTo = (value: string) => {
+    this.to = value;
+  };
+
+  setNotes = (value: string) => {
+    this.notes = value;
   };
 
   get sendInitUnit() {
@@ -193,11 +204,7 @@ class SendViewModel {
   }
 
   get fee() {
-    if (
-      this.selectedResult.inputs &&
-      this.selectedResult.outputs &&
-      this.selectedResult.fee
-    )
+    if (this.selectedResult.fee)
       return this.selectedResult.fee;
     return 0;
   }
@@ -278,8 +285,23 @@ class SendViewModel {
   }
 
   get amountValid() {
-    if (this.isEmptyAmount) return true;
-    return this.balanceInSatoshi.gte(this.sendSatoshis.plus(this.fee));
+    if (this.isEmptyAmount) return {
+      valid: true,
+    };
+    if (this.sendSatoshis.lt(DUST_THRESHOLD)) return {
+      valid: false,
+      msg: 'Amount is too small',
+    };
+    if (this.balanceInSatoshi.gte(this.sendSatoshis.plus(this.fee))) {
+      return {
+        valid: true,
+      };
+    } else {
+      return {
+        valid: false,
+        msg: 'Insufficient funds',
+      };
+    }
   }
 
   get isEmptyTo() {
@@ -300,7 +322,7 @@ class SendViewModel {
 
   get valid() {
     return (
-      this.amountValid && this.toValid && !this.isEmptyAmount && !this.isEmptyTo
+      this.amountValid.valid && this.toValid && !this.isEmptyAmount && !this.isEmptyTo
     );
   }
 
@@ -462,4 +484,4 @@ class SendViewModel {
   }
 }
 
-export default SendViewModel;
+export default TopUpViewModel;

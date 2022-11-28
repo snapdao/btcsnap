@@ -5,14 +5,11 @@ import SendViewModel from './model';
 import './index.css';
 import ConfirmModal from './ConfirmModal';
 import TransactionFee from './TransactionFee';
-import CloseIcon from '../../Icons/CloseIcon';
 import SwitchIcon from '../../Icons/SwitchIcon';
 import ArrowDown from '../../Icons/ArrowDown';
 
 import {
   SendContainer,
-  LeftTitleHeader,
-  CloseContainer,
   SendTitle,
   SendBody,
   SendAmountContainer,
@@ -24,12 +21,13 @@ import {
   SendAmountFee,
   DividerLine,
   SendAvailableContainer,
-  SendToContainer,
-  SendToInput,
   SendButtonContainer,
-  CancelButton, SendAvailableText,
+  CancelButton,
+  SendAvailableBox,
 } from './styles';
 import { Icon } from 'snapkit';
+import { Body, H3, Modal } from '../../../kits';
+import BitcoinIcon2 from '../../Icons/BitcoinIcon2';
 
 export type InitialProps = {
   model: SendViewModel;
@@ -50,12 +48,15 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
   return (
     <>
       <SendContainer>
-        <LeftTitleHeader>
-          <Icon.TopUp width='24' height='24' color='var(--sk-color-pri50)' />
-          <p>TOP UP</p>
-        </LeftTitleHeader>
+        <Modal.Header
+          left={<>
+            <Icon.TopUp width='24' height='24' color='var(--sk-color-pri50)' />
+            <H3 style={{ marginLeft: 10 }}>TOP UP</H3>
+          </>}
+          onClose={close}
+        />
 
-        <CloseContainer><CloseIcon onClick={close} /></CloseContainer>
+        {model.utxoLoading && <Modal.Loading />}
 
         <SendBody>
           <SendTitle>Amount</SendTitle>
@@ -78,7 +79,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
               }}>MAX</SendAmountMax>
             </SendAmountItem>
 
-            {!model.amountValid && (<SendTextError>Insufficient Funds</SendTextError>)}
+            {!model.amountValid.valid && !model.utxoLoading && (<SendTextError>{model.amountValid.msg}</SendTextError>)}
 
             <SendAmountItem>
               <SendAmountTransition><span>{model.sendAmountSecondary}</span><span>{model.secondaryUnit}</span></SendAmountTransition>
@@ -98,30 +99,16 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           <DividerLine />
 
           <SendAvailableContainer>
-            <SendTitle>Balance</SendTitle>
-            <SendAvailableText>
-              <span>{model.availableAmount}</span>{model.sendInitUnit}
-              <span>/</span>
-              <span>{model.availableCurrency}</span>{model.sendCurrencyUnit}
-            </SendAvailableText>
+            <SendTitle>Payment Method</SendTitle>
+            <SendAvailableBox>
+              <BitcoinIcon2 size={20} />
+              <Body>Bitcoin Wallet</Body>
+            </SendAvailableBox>
           </SendAvailableContainer>
         </SendBody>
       </SendContainer>
 
       <SendContainer>
-        <SendToContainer>
-          <SendTitle>To</SendTitle>
-          <SendToInput>
-            <input
-              placeholder='Paste or input the destination address'
-              value={model.to}
-              onChange={e => { model.setTo(e.target.value); }}
-            />
-          </SendToInput>
-
-          {!model.isAddressValid && (<SendTextError>Enter a Valid Wallet Address</SendTextError>)}
-        </SendToContainer>
-
         <SendButtonContainer>
           <CancelButton onClick={close}>
             Cancel

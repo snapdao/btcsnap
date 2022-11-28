@@ -15,11 +15,10 @@ interface Props {
 };
 
 const TopUpModal = observer(({ type, close, walletProps }: Props) => {
-  return <TopUpWithExternalWalletModal close={close} />;
-  // return {
-  //   wallet: <TopUpWithWalletModal close={close} {...walletProps} />,
-  //   externalWallet: <TopUpWithExternalWalletModal close={close} />,
-  // }[type];
+  return {
+    wallet: <TopUpWithWalletModal close={close} {...walletProps} />,
+    externalWallet: <TopUpWithExternalWalletModal close={close} />,
+  }[type];
 });
 
 export default TopUpModal;

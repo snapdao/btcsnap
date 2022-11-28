@@ -63,7 +63,10 @@ const Main = observer(({ balance }: MainProps) => {
     runtime: { continueConnect, currencyRate },
   } = useAppStore();
   const unit = bitcoinUnitMap[network];
-  const [topUpVisibleData, setTopUpVisibleData] = useState({
+  const [topUpVisibleData, setTopUpVisibleData] = useState<{
+    open: boolean
+    type: 'wallet' | 'externalWallet'
+  }>({
     open: false,
     type: 'wallet'
   });
@@ -184,47 +187,49 @@ const Main = observer(({ balance }: MainProps) => {
           Market Price: <span>{currencyRate} USD</span>
         </MarketPrice>
 
-        <Popup
-          open={topUpVisibleData.open}
-          position='top right'
-          basic
-          inverted={false}
-          hoverable={false}
-          openOnTriggerMouseEnter={false}
-          closeOnTriggerMouseLeave={false}
-          closeOnPortalMouseLeave={false}
-          onClose={() => setTopUpVisible(false)}
-          trigger={
-            <span>
-              <TopUpButton
-                icon={
-                  <Icon.TopUp
-                    width='18px'
-                    height='18px'
-                    color='var(--sk-color-pri50)' />
-                }
-                onClick={() => setTopUpVisible(!topUpVisibleData.open)}
-              >
-                <H4>TOP UP</H4>
-              </TopUpButton>
-            </span>
-          }
-          style={{ borderRadius: 16 }}>
-          <TopUpList>
-            <List.Field
-              icon={<Icon.Wallet width='24px' height='24px' color='var(--sk-color-pri50)'/>}
-              title={<H4>With Your Wallet</H4>}
-              hoverable
-              onClick={() => openTopUpModal('wallet')}
-            />
-            <List.Field
-              icon={<Icon.WalletEx width='24px' height='24px'  color='var(--sk-color-n60)' />}
-              title={<H4>With External Wallet</H4>}
-              hoverable
-              onClick={() => openTopUpModal('externalWallet')}
-            />
-          </TopUpList>
-        </Popup>
+        {currentWalletType === WalletType.LightningWallet && (
+          <Popup
+            open={topUpVisibleData.open}
+            position='top right'
+            basic
+            inverted={false}
+            hoverable={false}
+            openOnTriggerMouseEnter={false}
+            closeOnTriggerMouseLeave={false}
+            closeOnPortalMouseLeave={false}
+            onClose={() => setTopUpVisible(false)}
+            trigger={
+              <span>
+                <TopUpButton
+                  icon={
+                    <Icon.TopUp
+                      width='18px'
+                      height='18px'
+                      color='var(--sk-color-pri50)' />
+                  }
+                  onClick={() => setTopUpVisible(!topUpVisibleData.open)}
+                >
+                  <H4>TOP UP</H4>
+                </TopUpButton>
+              </span>
+            }
+            style={{ borderRadius: 16 }}>
+            <TopUpList>
+              <List.Field
+                icon={<Icon.Wallet width='24px' height='24px' color='var(--sk-color-pri50)'/>}
+                title={<H4>With Your Wallet</H4>}
+                hoverable
+                onClick={() => openTopUpModal('wallet')}
+              />
+              <List.Field
+                icon={<Icon.WalletEx width='24px' height='24px'  color='var(--sk-color-n60)' />}
+                title={<H4>With External Wallet</H4>}
+                hoverable
+                onClick={() => openTopUpModal('externalWallet')}
+              />
+            </TopUpList>
+          </Popup>
+        )}
       </Footer>
 
       {openedModal === MainModal.Details && (
@@ -236,7 +241,7 @@ const Main = observer(({ balance }: MainProps) => {
         />
       )}
 
-      { openedModal === MainModal.Send ? (
+      {openedModal === MainModal.Send ? (
         currentWalletType === WalletType.BitcoinWallet ? (
           <SendModal
             network={network}
@@ -272,7 +277,7 @@ const Main = observer(({ balance }: MainProps) => {
 
       {openedModal === MainModal.TopUp && (
         <TopUpModal
-          type='externalWallet'
+          type={topUpVisibleData.type}
           walletProps={{
             network,
             unit: currentUnit,

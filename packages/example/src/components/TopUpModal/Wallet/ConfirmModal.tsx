@@ -9,6 +9,7 @@ import {
   MiddleTitleHeader,
   CloseContainer
 } from './styles';
+import { Button } from '../../../kits';
 
 export type ConfirmModalProps = {
   model: SendViewModel;
@@ -22,17 +23,21 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
       open={model.confirmOpen}
       transition={{ animation: 'fade up', duration: '300' }}
       trigger={
-        <button
-          onClick={() => { trackSendClick(model.network); model.setConfirmOpen(true); }}
-          className={`action-button ${model.valid ? 'action-button-primary' : 'action-button-disable'}`}
+        <Button
+          onClick={() => {
+            trackSendClick(model.network);
+            model.setConfirmOpen(true);
+          }}
+          primary
+          style={{ maxWidth: 176 }}
           disabled={!model.valid}
         >
-          Send
-        </button>
+          Top Up
+        </Button>
       }
     >
       <Modal
-        style={{ width: 440, marginTop: 76, borderRadius: 20, position: 'relative' }}
+        style={{ width: 440, marginTop: 72, borderRadius: 20, position: 'relative' }}
         open={true}
         openOnTriggerClick={model.valid}
       >
@@ -41,7 +46,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
           <>
             <Container className={'colored-container'}>
               <MiddleTitleHeader>
-                <p>Confirm Transaction</p>
+                <p>Top Up</p>
               </MiddleTitleHeader>
 
               <CloseContainer><CloseIcon onClick={() => model.setConfirmOpen(false)} /></CloseContainer>
@@ -99,17 +104,15 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 </div>
                 <p className='currencyValue'>=<span>{model.totalCurrency}</span> USD</p>
               </div>
-              <button
+              <Button
                 style={{ marginTop: 44 }}
-                className={
-                  'action-button action-button-primary action-button-size-full-width confirm-action-button'
-                }
+                primary
                 onClick={() => {
                   trackSendConfirm(model.network);
                   model.send();
                 }}>
                 Confirm
-              </button>
+              </Button>
             </Container>
           </>
         }

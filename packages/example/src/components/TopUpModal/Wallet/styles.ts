@@ -42,12 +42,8 @@ export const LeftTitleHeader = styled.div`
   align-items: center;
   height: 40px;
   margin: 20px 20px 0;
-  p {
-    height: 24px;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    margin-left: 4px;
+  h3 {
+    margin-left: 10px;
   }
 `;
 
@@ -117,7 +113,7 @@ export const SendAmountInput = styled.div`
 `;
 
 export const SendAmountMax = styled.span`
-  display: inline-block;
+  display: none;
   width: 35px;
   font-size: 12px;
   font-weight: 600;
@@ -202,15 +198,10 @@ export const SendAvailableContainer = styled.div`
   padding-bottom: 32px;
 `;
 
-export const SendAvailableText = styled.span`
-  color: #656D85;
-  span {
-    margin-right: 4px;
-    color: #111214;
-  }
-  span:nth-child(2) {
-    margin: 0 8px;
-  }
+export const SendAvailableBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
 `;
 
 export const SendToContainer = styled.div`

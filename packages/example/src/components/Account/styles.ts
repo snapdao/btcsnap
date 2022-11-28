@@ -465,6 +465,7 @@ export const Footer = styled(FlexBetween)`
   align-items: center;
   bottom: 40px;
   width: calc(100% - 40px * 2);
+  height: 36px;
 `;
 
 export const MarketPrice = styled.p<{ isTestnet: boolean }>`
