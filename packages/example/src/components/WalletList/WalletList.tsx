@@ -17,6 +17,7 @@ import { AddLightningWallet } from './AddLightningWallet';
 import { Popup } from '../../kits';
 import CreateWallet from '../Lightning/CreateWallet';
 import EditWallet from '../EditWallet';
+import { useWalletsBalance } from '../../hook/useWalletsBalance';
 
 export const WalletList = observer(({ open, close }: any) => {
   const {
@@ -26,7 +27,9 @@ export const WalletList = observer(({ open, close }: any) => {
     switchToWallet,
     settings: { network },
     currentWalletType,
+    runtime: { getWalletBalance }
   } = useAppStore();
+  useWalletsBalance();
 
   const [visible, setVisible] = useState<boolean>(open);
   const [shouldShowCreateWallet, setShouldShowCreateWallet] =
@@ -130,7 +133,7 @@ export const WalletList = observer(({ open, close }: any) => {
                     name={bitcoinWalletName}
                     key={current?.id}
                     walletType={WalletType.BitcoinWallet}
-                    balance={0}
+                    balance={getWalletBalance(current?.id || '')}
                     selected={selectedWallet === current?.id}
                     onClick={() => {
                       if (current) {
@@ -146,7 +149,7 @@ export const WalletList = observer(({ open, close }: any) => {
                       id={wallet.userId}
                       walletType={WalletType.LightningWallet}
                       name={wallet.name}
-                      balance={0}
+                      balance={getWalletBalance(wallet.id)}
                       selected={selectedWallet === wallet.id}
                       onClick={() => {
                         if (network === BitcoinNetwork.Main) {

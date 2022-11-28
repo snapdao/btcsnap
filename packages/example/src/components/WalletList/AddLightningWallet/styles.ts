@@ -15,7 +15,12 @@ export const LightningWalletTipsContainer = styled.button<{
   transition: 0.25s;
   background-color: #ffffff;
 
+  :hover {
+    transition: 0.25s;
+    cursor: pointer;
+  }
   :disabled {
+    cursor: not-allowed;
     background-color: var(--sk-color-n10);
     & > div:nth-child(2) {
       > span,
@@ -23,11 +28,6 @@ export const LightningWalletTipsContainer = styled.button<{
         color: var(--sk-color-n50);
       }
     }
-  }
-
-  :hover {
-    transition: 0.25s;
-    cursor: pointer;
   }
 `;
 

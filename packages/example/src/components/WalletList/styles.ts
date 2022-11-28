@@ -88,7 +88,7 @@ export const WalletListContentContainer = styled.div`
 `;
 
 export const WalletListContent = styled.div`
-  margin: 80px 0 20px;
+  margin: 72px 0 20px;
   width: 100%;
   display: flex;
   flex-direction: column;

@@ -1,13 +1,12 @@
 import styled, { css } from 'styled-components';
-import { FlexBetween } from '../../../kits/Layout/Flex';
-import { H4 } from '../../../kits/Layout/Text/Title';
-import { Caption } from '../../../kits/Layout/Text/Body';
+import { FlexBetween, H4, Caption } from '../../../kits';
 import { Button as SnapButton } from 'snapkit';
 
 export const ModalTitleContainer = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 `;
 
 export const hideScrollbar = css`
