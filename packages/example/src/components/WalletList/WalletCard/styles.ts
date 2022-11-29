@@ -16,6 +16,7 @@ export const WalletCardContent = styled.div<{
   type: WalletType;
   available: boolean;
 }>`
+  cursor: pointer;
   padding: 16px 20px;
   width: 240px;
   height: 135px;

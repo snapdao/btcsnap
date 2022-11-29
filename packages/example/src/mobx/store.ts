@@ -112,6 +112,10 @@ const AppStore = types
       const { status } = runtimeInitialState;
       self.runtime.setStatus(status);
     },
+    resetLightningWallets(){
+      self.lightning.current = undefined;
+      self.lightning.wallets.clear();
+    }
   }))
   .actions((self) => ({
     switchToAccount(
@@ -130,6 +134,7 @@ const AppStore = types
       self.resetAccounts();
       self.resetSettings();
       self.resetRuntime();
+      self.resetLightningWallets();
     },
   }))
   .views((self) => ({
