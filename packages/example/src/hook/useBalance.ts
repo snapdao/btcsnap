@@ -90,7 +90,9 @@ export const useBalance = () => {
   }, [current, currentWalletType, lightning.current]);
 
   useEffect(() => {
-    fetchBalance(true);
+    if(count > 0) {
+      fetchBalance(true);
+    }
   }, [count]);
 
   return {
