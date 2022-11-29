@@ -22,9 +22,10 @@ import { bitcoinUnitMap } from '../../../../lib/unit';
 import { logger } from '../../../../logger';
 
 
-interface ConnectProps {
+interface AddressTypeProps {
   open: boolean;
   close: () => void;
+  onChanged: () => void;
 }
 
 interface AddressType {
@@ -40,7 +41,7 @@ export const addressTypeOptions: AddressType[] = [
 
 type Balances = Record<BitcoinScriptType, string>
 
-export const AddressType = (({open, close}: ConnectProps,) => {
+export const AddressType = (({open, close, onChanged}: AddressTypeProps) => {
   const { settings: {scriptType, setScriptType, network}, switchToAccount, current, connectedScriptTypes} = useAppStore();
   const [balances, setBalances] = useState<Balances>();
 
@@ -70,7 +71,7 @@ export const AddressType = (({open, close}: ConnectProps,) => {
   const onAddressTypedChecked  = (addressType: AddressType) => {
     setScriptType(addressType.type);
     current && switchToAccount(current.mfp, addressType.type, network);
-    close();
+    onChanged();
   };
 
   return (

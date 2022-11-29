@@ -29,6 +29,7 @@ export const SettingItem = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 12px;
+  margin: 10px 0;
   color: #111214;
   & > span:first-child {
     font-size: 16px;
