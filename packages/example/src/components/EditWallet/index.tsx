@@ -11,6 +11,7 @@ import Divider from '../../kits/Divider';
 import LightningWallet from '../../mobx/lightningWallet';
 import { Instance } from 'mobx-state-tree';
 import { getLNWalletData, GetLNWalletDataKey } from '../../lib/snap';
+import { BitcoinSettings } from './BitcoinSettings';
 
 interface EditWalletProps {
   open: boolean;
@@ -217,6 +218,9 @@ const EditWallet = observer(
                     onClick={showDeleteConfirm}
                   />
                 </>
+              )}
+              {walletType === WalletType.BitcoinWallet && (
+                <BitcoinSettings />
               )}
             </List>
           </Modal.Container>
