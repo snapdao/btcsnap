@@ -2,6 +2,7 @@ import { MessageContainer, MessageContent, MessageCopy } from './styles';
 import { useEffect, useState } from 'react';
 import { ReactComponent as ErrorIcon } from './images/error.svg';
 import { ReactComponent as SucceedIcon } from '../../assets/vector.svg';
+import { Transition } from 'semantic-ui-react';
 
 export enum MessageType {
   Error,
@@ -42,12 +43,17 @@ export const Message = ({
     break;
   }
 
-  return visible ? (
+  return (
     <MessageContainer>
-      <MessageContent>
-        {messageTypeIcon}
-        <MessageCopy type={type}>{children}</MessageCopy>
-      </MessageContent>
+      <Transition
+        visible={visible}
+        animation='fade up'
+        duration={200}>
+        <MessageContent>
+          {messageTypeIcon}
+          <MessageCopy type={type}>{children}</MessageCopy>
+        </MessageContent>
+      </Transition>
     </MessageContainer>
-  ) : null;
+  );
 };

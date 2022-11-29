@@ -7,6 +7,7 @@ export const MessageContainer = styled.div`
   justify-content: center;
   position: absolute;
   top: 50px;
+  left: 0;
   z-index: 300;
 `;
 
@@ -16,12 +17,17 @@ export const MessageContent = styled.div`
   border: 0.5px solid #e1e6f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   border-radius: 12px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 16px;
-  gap: 4px;
+  .visible.transition & {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 16px;
+    gap: 4px;
+  }
+  svg, span {
+    display: inline-block;
+  }
 `;
 
 export const MessageCopy = styled.span<{ type: MessageType }>`
