@@ -1,9 +1,4 @@
-interface ICopyToClipboard {
-  text: string;
-  message?: string;
-}
-
-export const copyToClipboard = async ({ text }: ICopyToClipboard) => {
+export const copyToClipboard = async (text: string) => {
   try {
     let copyValue = '';
 

@@ -39,7 +39,7 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
 
   const {currentWalletType} = useAppStore();
   const offset = currentWalletType === WalletType.BitcoinWallet
-    ? (defaultRecords[defaultRecords.length - 1].data as TransactionDetail)?.marker
+    ? (defaultRecords.at(-1)?.data as TransactionDetail)?.marker
     : defaultRecords.length;
 
   const {
