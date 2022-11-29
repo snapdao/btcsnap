@@ -41,7 +41,7 @@ import useCountDown from '../../../../utils/hooks/useCountdown';
 import lightningPayReq from 'bolt11';
 import { addLeadingZero } from '../../../../utils/datetime';
 
-const getInvoiceStatusIcon = (
+export const getInvoiceStatusIcon = (
   status: InvoiceStatus,
 ): ReactNode => {
   switch (status) {

@@ -76,7 +76,7 @@ export class BtcTx {
             to: psbtHelper.toAddresses.join(","),
             value: psbtHelper.sendAmount,
             fee: psbtHelper.fee,
-            network: "testnet",
+            network: this.network,
         }
 
         if(changeAddress.length > 0){

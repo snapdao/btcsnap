@@ -20,9 +20,10 @@ import {
   RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent, GradientLayer
 } from '../styles';
 import dayjs from 'dayjs';
-import SuccessIcon from '../../../Icons/SuccessIcon';
 import { TransactionProps } from './index';
 import { Icon } from 'snapkit';
+import { getInvoiceStatusIcon } from './InvoiceReceiveModal';
+import { InvoiceStatus } from '../../../../types';
 
 export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) => {
   return (
@@ -40,7 +41,7 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
               <RecordType isOnChain>
                 <Icon.OnChain color={'#1F69FF'} width={'36px'} height={'36px'}/>
                 <RecordStatus>
-                  <SuccessIcon/>
+                  {getInvoiceStatusIcon(invoice.status)}
                 </RecordStatus>
               </RecordType>
 
@@ -58,8 +59,10 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
           <RecordDetailsBottom>
             <RecordItemRow>
               <RecordItemLabel>Status</RecordItemLabel>
-              <RecordItemLabel succeed>
-                Success
+              <RecordItemLabel
+                succeed={invoice.status === InvoiceStatus.Succeed}
+                highlight={invoice.status === InvoiceStatus.Pending}>
+                {invoice.status}
               </RecordItemLabel>
             </RecordItemRow>
 
