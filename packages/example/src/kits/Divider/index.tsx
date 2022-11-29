@@ -1,6 +1,7 @@
+import { ComponentPropsWithoutRef } from 'react';
 import { Line } from './styles';
 
-export interface Props {
+export interface Props extends ComponentPropsWithoutRef<'div'>{
   direction?: 'vertical' | 'horizontal';
   gap?: string;
   color?: string;
