@@ -46,14 +46,6 @@ export const WalletCard = observer(
       [id, walletType],
     );
 
-    // TODO: fetch balance
-    // useEffect(() => {
-    //   const fetch = async () => {
-    //     const res = await getBalance(id);
-    //   };
-    //   fetch();
-    // }, [id]);
-
     const walletCardItem = (
       <WalletCardContainer active={selected} onClick={onClick}>
         <WalletCardContent type={walletType} available={available}>

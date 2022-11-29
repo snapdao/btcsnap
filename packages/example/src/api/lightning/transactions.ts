@@ -1,4 +1,4 @@
-import { queryWithUserInfo } from './query';
+import { queryWithCurrentUserInfo } from './query';
 import { RequestType } from '../types';
 
 const endpoint = '/v1/snap/txs/';
@@ -24,7 +24,7 @@ interface BitcoinTx {
 export type LightningTransaction =  PayInvoice | BitcoinTx
 
 export const lightningTxs = (limit = 0, offset = 0): Promise<LightningTransaction[]> => {
-  return queryWithUserInfo(
+  return queryWithCurrentUserInfo(
     endpoint,
     RequestType.Get,
     {},

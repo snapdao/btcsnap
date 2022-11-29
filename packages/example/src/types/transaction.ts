@@ -1,6 +1,6 @@
 export enum TransactionTypes {
-  Send = 'sent',
-  Receive = 'received'
+  Sent = 'sent',
+  Received = 'received'
 }
 
 export enum TransactionStatus {

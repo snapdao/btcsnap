@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAppStore } from '../mobx';
 import { AppStatus } from '../mobx/runtime';
 import { SupportedCoins } from '../constant/supportedCoins';
@@ -13,7 +13,7 @@ export const useBalance = () => {
   const {
     current,
     currentWalletType,
-    runtime: { setStatus },
+    runtime: { setStatus, getWallet, setBalanceForWallet },
     lightning,
   } = useAppStore();
   const [count, setCount] = useState(0);
@@ -24,7 +24,7 @@ export const useBalance = () => {
     setCount(count + 1);
   };
 
-  useEffect(() => {
+  const fetchBalance = useCallback((forceFetch = false) => {
     const queryBalance = async (current: IAccount) => {
       const coinCode: SupportedCoins =
         NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
@@ -35,35 +35,65 @@ export const useBalance = () => {
 
     if(currentWalletType === WalletType.BitcoinWallet) {
       if (current) {
+        const wallet = getWallet(current.id);
+        if(wallet && wallet.balanceFetched && !forceFetch){
+          setBalance(wallet.balance);
+          setStatus(AppStatus.Ready);
+          return;
+        }
+
         !count && setStatus(AppStatus.FetchBalance);
         setLoadingBalance(true);
         queryBalance(current)
           .then(({ balance }) => {
             setBalance(balance);
-            setStatus(AppStatus.Ready);
             setLoadingBalance(false);
+            setStatus(AppStatus.Ready);
+            setBalanceForWallet(current.id, balance);
           })
           .catch((e) => {
             logger.error(e);
-            setStatus(AppStatus.Ready);
             setLoadingBalance(false);
+            setStatus(AppStatus.Ready);
+            setBalanceForWallet(current.id, balance);
           });
       } else {
         setBalance(0);
         setStatus(AppStatus.Ready);
       }
-    } else {
+    } else if(currentWalletType === WalletType.LightningWallet) {
       if (lightning.current) {
-        queryLightningBalance().then(response => {
-          setBalance(Number(response.BTC.AvailableBalance) || 0);
+        !count && setStatus(AppStatus.FetchBalance);
+        const currentLNWallet = lightning.current;
+        const wallet = getWallet(currentLNWallet.id);
+        if(wallet && wallet.balanceFetched && !forceFetch){
+          setBalance(wallet.balance);
           setStatus(AppStatus.Ready);
+          return;
+        }
+
+        queryLightningBalance().then(response => {
+          const balance = Number(response.BTC.AvailableBalance) || 0;
+          setBalance(balance);
+          setStatus(AppStatus.Ready);
+          setBalanceForWallet(currentLNWallet.id, balance);
         }).catch(() => {
           setBalance(0);
           setStatus(AppStatus.Ready);
         });
       }
     }
-  }, [current, currentWalletType, count, lightning.current]);
+  }, [currentWalletType, current, lightning.current]);
+
+  useEffect(() => {
+    fetchBalance();
+  }, [current, currentWalletType, lightning.current]);
+
+  useEffect(() => {
+    if(count > 0) {
+      fetchBalance(true);
+    }
+  }, [count]);
 
   return {
     balance,

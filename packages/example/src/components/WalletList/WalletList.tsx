@@ -3,7 +3,7 @@ import { TransitionablePortal } from 'semantic-ui-react';
 import { WalletCard } from './WalletCard';
 import { useAppStore } from '../../mobx';
 import {
-  AccountPageShadow,
+  AccountPageShadow, AddLnWalletContainer,
   CurrentPage,
   WalletListContainer,
   WalletListContent,
@@ -17,6 +17,7 @@ import { AddLightningWallet } from './AddLightningWallet';
 import { Popup } from '../../kits';
 import CreateWallet from '../Lightning/CreateWallet';
 import EditWallet from '../EditWallet';
+import { useWalletsBalance } from '../../hook/useWalletsBalance';
 
 export const WalletList = observer(({ open, close }: any) => {
   const {
@@ -26,7 +27,9 @@ export const WalletList = observer(({ open, close }: any) => {
     switchToWallet,
     settings: { network },
     currentWalletType,
+    runtime: { getWalletBalance }
   } = useAppStore();
+  useWalletsBalance();
 
   const [visible, setVisible] = useState<boolean>(open);
   const [shouldShowCreateWallet, setShouldShowCreateWallet] =
@@ -130,7 +133,7 @@ export const WalletList = observer(({ open, close }: any) => {
                     name={bitcoinWalletName}
                     key={current?.id}
                     walletType={WalletType.BitcoinWallet}
-                    balance={0}
+                    balance={getWalletBalance(current?.id || '')}
                     selected={selectedWallet === current?.id}
                     onClick={() => {
                       if (current) {
@@ -146,7 +149,7 @@ export const WalletList = observer(({ open, close }: any) => {
                       id={wallet.userId}
                       walletType={WalletType.LightningWallet}
                       name={wallet.name}
-                      balance={0}
+                      balance={getWalletBalance(wallet.id)}
                       selected={selectedWallet === wallet.id}
                       onClick={() => {
                         if (network === BitcoinNetwork.Main) {
@@ -161,25 +164,30 @@ export const WalletList = observer(({ open, close }: any) => {
                       available={network === BitcoinNetwork.Main}
                     />
                   ))}
-                  <Popup
-                    position='top center'
-                    content={
-                      network === BitcoinNetwork.Test
-                        ? 'Not available on Testnet'
-                        : lightning.hasReachedLimitation
-                          ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
-                          : null
-                    }
-                    disabled={!shouldDisableAddition}
-                    trigger={
-                      <span>
-                        <AddLightningWallet
-                          onAddWallet={showCreateWallet}
-                          shouldDisableAddition={shouldDisableAddition}
-                        />
-                      </span>
-                    }
-                  />
+
+                  <AddLnWalletContainer>
+                    <Popup
+                      position='top center'
+                      content={
+                        network === BitcoinNetwork.Test
+                          ? 'Not available on Testnet'
+                          : lightning.hasReachedLimitation
+                            ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
+                            : null
+                      }
+                      disabled={!shouldDisableAddition}
+                      trigger={
+                        network === BitcoinNetwork.Main && (
+                          <div>
+                            <AddLightningWallet
+                              onAddWallet={showCreateWallet}
+                              disabled={shouldDisableAddition}
+                            />
+                          </div>
+                        )
+                      }
+                    />
+                  </AddLnWalletContainer>
                 </WalletListContent>
               </WalletListContentContainer>
             </WalletListContainer>

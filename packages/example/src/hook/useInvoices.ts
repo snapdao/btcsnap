@@ -27,7 +27,7 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
       const response = await Promise.all([queryLightningInvoices(), lightningTxs()]);
       const [invoices, txs] = response;
       return [...invoices.map(transformInvoice), ...(txs.map(transformTransaction).filter(tx => tx !== null) as InvoiceDetail[])]
-        .sort((tx1, tx2) => tx2!.date - tx1!.date);
+        .sort((tx1, tx2) => tx2.date - tx1.date);
     };
 
     if (currentWalletType === WalletType.LightningWallet && lightning.current) {

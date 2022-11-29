@@ -40,7 +40,10 @@ export const ImportWallet = observer(
 
     return (
       <ImportWalletModal open={open} close={close} mountNode={parent}>
-        <Modal.Header onClose={close}>
+        <Modal.Header onClose={() => {
+          close();
+          model.resetState();
+        }}>
           <H3>Import Lightning Wallet</H3>
         </Modal.Header>
         <ImportWalletContainer>

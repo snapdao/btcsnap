@@ -49,6 +49,8 @@ export const defaultStore = {
   runtime: {
     setStatus: jest.fn(),
     setCurrencyRate: jest.fn(),
+    getWallet: jest.fn(),
+    setBalanceForWallet: jest.fn(),
   },
   refresh: jest.fn(),
   currentWalletType: WalletType.BitcoinWallet,

@@ -93,6 +93,12 @@ export class LightningImportWalletModel {
     this.importResult = importResult;
   }
 
+  resetState(){
+    this.setCredential('');
+    this.setWalletName('');
+    this.setImportResult(ImportWalletResult.Init);
+  }
+
   setWalletName(walletName: string) {
     this.walletName = walletName;
   }

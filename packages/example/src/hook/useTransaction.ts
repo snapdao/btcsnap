@@ -38,7 +38,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
             const isReceive = tx.action === 'recv_external';
             return {
               ID: tx.txid,
-              type: isReceive ? TransactionTypes.Receive : TransactionTypes.Send,
+              type: isReceive ? TransactionTypes.Received : TransactionTypes.Sent,
               status: tx.status === ActivityStatus.Complete ? TransactionStatus.Confirmed : TransactionStatus.Pending,
               amount: satoshiToBTC(Math.abs(tx.amount)),
               address: (isReceive ? tx.senderAddresses?.[0] : tx.receiverAddresses?.[0]?.[0]) || '',
