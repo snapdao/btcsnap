@@ -28,7 +28,7 @@ const AddressBox = observer(({ model }: AddressBoxProps) => {
   const downloadDomRef = useRef<HTMLElement>(null);
 
   async function onCopy() {
-    const res = await copyToClipboard({ text: model.qrcode });
+    const res = await copyToClipboard(model.qrcode);
     if (res) {
       setCopyStatus(true);
     }

@@ -36,7 +36,7 @@ const ReceiveModal = observer(({ open, close }: ReceiveModalProps) => {
 
   const copyAddress = async () => {
     if (address) {
-      const copyStatus = await copyToClipboard({ text: address });
+      const copyStatus = await copyToClipboard(address);
       if (copyStatus) {
         setAddressCopy(true);
         setTimeout(() => {

@@ -27,7 +27,7 @@ const TopUpWithExternalWalletModal = observer(({  close }: TopUpWithExternalWall
 
   const copyAddress = async () => {
     if (address) {
-      const copyStatus = await copyToClipboard({ text: address });
+      const copyStatus = await copyToClipboard(address);
       if (copyStatus) {
         setAddressCopy(true);
         setTimeout(() => {
