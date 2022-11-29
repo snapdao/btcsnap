@@ -63,6 +63,7 @@ export const useBalance = () => {
       }
     } else if(currentWalletType === WalletType.LightningWallet) {
       if (lightning.current) {
+        !count && setStatus(AppStatus.FetchBalance);
         const currentLNWallet = lightning.current;
         const wallet = getWallet(currentLNWallet.id);
         if(wallet && wallet.balanceFetched && !forceFetch){
@@ -74,6 +75,7 @@ export const useBalance = () => {
         queryLightningBalance().then(response => {
           const balance = Number(response.BTC.AvailableBalance) || 0;
           setBalance(balance);
+          setStatus(AppStatus.Ready);
           setBalanceForWallet(currentLNWallet.id, balance);
         }).catch(() => {
           setBalance(0);

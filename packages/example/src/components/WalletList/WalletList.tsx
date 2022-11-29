@@ -177,12 +177,14 @@ export const WalletList = observer(({ open, close }: any) => {
                       }
                       disabled={!shouldDisableAddition}
                       trigger={
-                        <div>
-                          <AddLightningWallet
-                            onAddWallet={showCreateWallet}
-                            disabled={shouldDisableAddition}
-                          />
-                        </div>
+                        network === BitcoinNetwork.Main && (
+                          <div>
+                            <AddLightningWallet
+                              onAddWallet={showCreateWallet}
+                              disabled={shouldDisableAddition}
+                            />
+                          </div>
+                        )
                       }
                     />
                   </AddLnWalletContainer>
