@@ -183,7 +183,8 @@ const EditWallet = observer(
                 <H3 style={{ marginLeft: 4 }}>Edit</H3>
               </>
             }
-            onClose={() => modalRef.current?.onClose()}></Modal.Header>
+            onClose={() => modalRef.current?.onClose()}
+          />
           <Modal.Container>
             <List>
               <List.Form
@@ -219,9 +220,7 @@ const EditWallet = observer(
                   />
                 </>
               )}
-              {walletType === WalletType.BitcoinWallet && (
-                <BitcoinSettings />
-              )}
+              {walletType === WalletType.BitcoinWallet && <BitcoinSettings />}
             </List>
           </Modal.Container>
           <Modal.Footer>

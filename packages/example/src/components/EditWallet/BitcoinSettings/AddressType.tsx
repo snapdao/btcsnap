@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'semantic-ui-react';
 import { TransitionablePortal } from 'semantic-ui-react';
-import { BitcoinScriptType } from '../../../../interface';
-import CloseIcon from '../../../Icons/CloseIcon';
+import { BitcoinScriptType } from '../../../interface';
+import CloseIcon from '../../Icons/CloseIcon';
 import {
   ModalHeader,
   ModalHeaderContainer,
@@ -12,14 +12,14 @@ import {
   AddressItemLabel,
   AddressItemRadio,
   AddressTips,
-} from '../styles';
-import { useAppStore } from '../../../../mobx';
-import { queryCoinV2 } from '../../../../api';
-import { NETWORK_SCRIPT_TO_COIN } from '../../../../constant/bitcoin';
-import { satoshiToBTC } from '../../../../lib/helper';
-import { SupportedCoins } from '../../../../constant/supportedCoins';
-import { bitcoinUnitMap } from '../../../../lib/unit';
-import { logger } from '../../../../logger';
+} from './styles';
+import { useAppStore } from '../../../mobx';
+import { queryCoinV2 } from '../../../api';
+import { NETWORK_SCRIPT_TO_COIN } from '../../../constant/bitcoin';
+import { satoshiToBTC } from '../../../lib/helper';
+import { SupportedCoins } from '../../../constant/supportedCoins';
+import { bitcoinUnitMap } from '../../../lib/unit';
+import { logger } from '../../../logger';
 
 
 interface AddressTypeProps {
