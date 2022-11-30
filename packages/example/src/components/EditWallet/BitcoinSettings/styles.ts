@@ -177,3 +177,15 @@ export const MaskArea = styled.div`
   background: #FFFFFF;
   mask: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
 `;
+
+export const DynamicAddressContainer = styled.span`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  span:last-child{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

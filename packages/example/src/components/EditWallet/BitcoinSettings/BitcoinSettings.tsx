@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useAppStore } from '../../../mobx';
 import { observer } from 'mobx-react-lite';
 import ArrowRight from '../../Icons/ArrowRight';
-import { SettingContent, SettingItem, SettingRadio, } from './styles';
+import { DynamicAddressContainer, SettingContent, SettingItem, SettingRadio, } from './styles';
 import { AddressType, addressTypeOptions } from './AddressType';
-import { Message } from '../../../kits';
+import { Message, Popup } from '../../../kits';
+import InfoIcon from '../../Icons/InfoIcon';
 
 enum SettingOptions {
   AddressType,
@@ -60,7 +61,14 @@ export const BitcoinSettings = observer(() => {
           setDynamicAddress(!dynamicAddress);
           showSettingChangedTips();
         }}>
-        <span>Dynamic Address</span>
+        <DynamicAddressContainer>
+          Dynamic Address
+          <Popup
+            wide
+            content={'When enabled, a new Bitcoin address will be generated for each time a deposit is received to maximize your privacy.'}
+            trigger={<span><InfoIcon /></span>}
+          />
+        </DynamicAddressContainer>
         <span>
           <SettingRadio toggle checked={dynamicAddress}/>
         </span>
