@@ -6,7 +6,7 @@ export const Container = styled(FlexBetween)<{ hoverable: boolean }>`
   padding: 12px;
   margin: 10px 0;
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: all 0.25s;
   ${(props) =>
     props.hoverable

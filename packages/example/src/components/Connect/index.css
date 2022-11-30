@@ -45,6 +45,10 @@
   transition: 0.25s;
 }
 
+.Connect-button:hover svg path {
+  fill: #FFFFFF;
+}
+
 .Connect-button:not(:hover) {
   background: #111214;
   transition: 0.25s;

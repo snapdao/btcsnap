@@ -75,7 +75,7 @@ export const BitcoinSettings = observer(() => {
       </SettingItem>
 
       {
-        showSettingSuccessMessage && <Message>Setting Changed Success</Message>
+        showSettingSuccessMessage && <Message>Settings have changed</Message>
       }
     </SettingContent>
   );
