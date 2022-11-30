@@ -21,12 +21,19 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [startOffset, setStartOffset] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
+  // TODO: add loadtx error catch
   const endOffset = startOffset === 0 ? offset + size : startOffset + size;
 
   useEffect(() => {
     const fetchAllTransactions = async (): Promise<InvoiceDetail[]> => {
-      const response = await Promise.all([queryLightningInvoices(), lightningTxs(), queryPendingTx()]);
+      const response = await Promise.all([
+        queryLightningInvoices(),
+        lightningTxs(),
+        queryPendingTx()
+      ]);
       const [invoices, txs, pendingTx] = response;
+
       return [
         ...invoices.map(transformInvoice),
         ...(txs.map(transformTransaction).filter(tx => tx !== null) as InvoiceDetail[]),
@@ -44,6 +51,7 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
         .catch((e) => {
           setAllTransactions([]);
           setLoading(false);
+          setError(e);
           logger.error(e);
         });
     } else {
@@ -71,11 +79,13 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
     }
   }, [allTransactions, startOffset, size]);
 
+
   return {
     invoices,
     loading,
     refresh,
     hasMore,
-    loadMore
+    loadMore,
+    error
   };
 };

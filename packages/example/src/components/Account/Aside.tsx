@@ -118,7 +118,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
           <Menu />
         </AsideHeading>
 
-        <LatestRecords historyList={historyRecords} />
+        <LatestRecords loading={loading} historyList={historyRecords} />
 
         <AccountAsideRefresh>
           <TransactionLink onClick={openTransaction}>

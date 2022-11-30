@@ -40,6 +40,9 @@ import { TransactionProps } from './index';
 import useCountDown from '../../../../utils/hooks/useCountdown';
 import lightningPayReq from 'bolt11';
 import { addLeadingZero } from '../../../../utils/datetime';
+import { BitcoinUnit } from '../../../../interface';
+import { satoshiToBTC } from '../../../../lib/helper';
+import BigNumber from 'bignumber.js';
 
 export const getInvoiceStatusIcon = (
   status: InvoiceStatus,
@@ -65,7 +68,7 @@ const getExpiredSeconds = (invoice: InvoiceDetail): number => {
 };
 
 export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: TransactionProps) => {
-  const {lightning, runtime: {currencyRate}} = useAppStore();
+  const { lightning, runtime: {currencyRate}, currentUnit } = useAppStore();
   const [showInvoiceDetails, setShowInvoiceDetails] = useState<boolean>(false);
   const [invoiceModal, setInvoiceModal] = useState<ReceiveViewModel | null>(null);
   const [timeLeft, { start, pause }] = useCountDown({startTimeMilliseconds: getExpiredSeconds(invoice)});
@@ -88,6 +91,9 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
       setInvoiceModal(null);
     }
   }, [showInvoiceDetails]);
+  
+  const amountText = currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(invoice.amount)).toFixed()
+    : invoice.amount;
 
   return (
     <Modal open={open} close={close} mountNode={parent}>
@@ -119,8 +125,8 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
               <RecordAmount
                 lowlight={invoice.status !== InvoiceStatus.Succeed}
               >
-                <span>{invoice.amount}</span>
-                <span>Sats</span>
+                <span>{amountText}</span>
+                <span>{currentUnit}</span>
               </RecordAmount>
             </RecordStatusContainer>
 
@@ -182,9 +188,9 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
                 <RecordItemContent lowlight={invoice.status !== InvoiceStatus.Succeed}>
-                  {invoice.amount}{' '}
+                  {amountText}{' '}
                 </RecordItemContent>
-                <RecordItemContent highlight>Sats</RecordItemContent>
+                <RecordItemContent highlight>{currentUnit}</RecordItemContent>
               </span>
             </RecordItemRow>
 

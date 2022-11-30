@@ -7,9 +7,11 @@ import CloseIcon from '../../Icons/CloseIcon';
 import { trackSendClick, trackSendConfirm } from '../../../tracking';
 import {
   MiddleTitleHeader,
-  CloseContainer
+  CloseContainer,
+  AddressBox
 } from './styles';
-import { Button } from '../../../kits';
+import { Button, Caption, Popup } from '../../../kits';
+import InfoIcon from '../../Icons/InfoIcon';
 
 export type ConfirmModalProps = {
   model: SendViewModel;
@@ -42,7 +44,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
         openOnTriggerClick={model.valid}
       >
         {model.isSending ?
-          <><Loader /></> :
+          <><Loader content='Continue at MetaMask' /></> :
           <>
             <Container className={'colored-container'}>
               <MiddleTitleHeader>
@@ -66,7 +68,15 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 <span className={'text-weight-bold text-secondary confirm-middle-span'}>
                   To
                 </span>
-                <span style={{ fontWeight: 600 }}>{model.to}</span>
+                <AddressBox>
+                  <Caption>{model.to}</Caption>
+                  <Popup 
+                    position='top center'
+                    content={<span>This receive address is used for topping up your lightning wallet.</span>}
+                    trigger={<InfoIcon />}
+                    wide
+                  />
+                </AddressBox>
               </div>
             </Container>
 

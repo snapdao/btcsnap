@@ -85,6 +85,8 @@ class ReceiveViewModel {
 
     switch (this.currUnit) {
     case BitcoinUnit.BTC:
+      result = satoshiToBTC(BigNumber(this.amount).toNumber()).toString();
+      break;
     case BitcoinUnit.Sats:
       result = this.amount;
       break;

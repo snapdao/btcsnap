@@ -9,7 +9,11 @@ import { logger } from '../logger';
 import { WalletType } from '../interface';
 import { balance as queryLightningBalance } from '../api/lightning/balance';
 
-export const useBalance = () => {
+interface Props {
+  type?: WalletType
+}
+
+export const useBalance = (props?: Props) => {
   const {
     current,
     currentWalletType,
@@ -33,7 +37,7 @@ export const useBalance = () => {
       return { balance };
     };
 
-    if(currentWalletType === WalletType.BitcoinWallet) {
+    if(currentWalletType === WalletType.BitcoinWallet || props?.type === WalletType.BitcoinWallet) {
       if (current) {
         const wallet = getWallet(current.id);
         if(wallet && wallet.balanceFetched && !forceFetch){

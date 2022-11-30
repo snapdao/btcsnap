@@ -13,28 +13,29 @@ import {
 } from './styles';
 import { ConfirmModalContent, ConfirmMainHeader } from './styles';
 import { HighLight, InvoiceDescription, PrimaryButton } from '../styles';
-import { Popup } from '../../../../kits';
+import { Modal, Popup } from '../../../../kits';
 
 export const ConfirmView = ({open, model, parentNode}: { open: boolean, model: LightningSendViewModel, parentNode: any }) => {
   const {hours, minutes} = model.expireTime;
 
+  function close() {
+    model.setIsConfirmModalOpen(false);
+  }
   return (
     <ConfirmModal
       open={open}
-      close={() => {
-        model.setIsConfirmModalOpen(false);
-      }}
+      close={close}
       mountNode={parentNode}
     >
       <ConfirmModalContent>
+        <Modal.Header onClose={close}>
+          <span>Confirm Transaction</span>
+        </Modal.Header>
         <ConfirmMainContainer>
-          <ConfirmMainHeader>
-            <span>Confirm Transaction</span>
-          </ConfirmMainHeader>
           <ConfirmMainContent>
             <SendingText>You’re Sending</SendingText>
             <SendingAmount>
-              {model.amount}<span>Sats</span>
+              {model.amount}<span>sats</span>
             </SendingAmount>
             <SendingText>To</SendingText>
             <SendingTo>{model.invoice}</SendingTo>
@@ -49,14 +50,14 @@ export const ConfirmView = ({open, model, parentNode}: { open: boolean, model: L
                     <span>Amount</span>
                     <span>
                       <HighLight>{model.amount}</HighLight>
-                      <ConfirmHighlight>Sats</ConfirmHighlight>
+                      <ConfirmHighlight>sats</ConfirmHighlight>
                     </span>
                   </ConfirmInfo>
                   <ConfirmInfo>
                     <span>Fee</span>
                     <span>
                       <HighLight>{model.feeRange}</HighLight>
-                      <ConfirmHighlight>Sats</ConfirmHighlight>
+                      <ConfirmHighlight>sats</ConfirmHighlight>
                     </span>
                   </ConfirmInfo>
                   <hr/>

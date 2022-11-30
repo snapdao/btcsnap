@@ -16125,9 +16125,9 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-"snapkit@git+https://github.com/snapdao/snapkit.git#v0.2.3":
-  version "0.2.3"
-  resolved "git+https://github.com/snapdao/snapkit.git#2c37d70d7956f3dc620811ef151c88930d552678"
+"snapkit@git+https://github.com/snapdao/snapkit.git#v0.2.4":
+  version "0.2.4"
+  resolved "git+https://github.com/snapdao/snapkit.git#0f006643a8c87187b2edb91a6510f47705b283e9"
 
 sockjs@^0.3.21:
   version "0.3.24"

@@ -25,8 +25,20 @@ import {
 import dayjs from 'dayjs';
 import SuccessIcon from '../../../Icons/SuccessIcon';
 import { TransactionProps } from './index';
+import { useAppStore } from '../../../../mobx';
+import { BitcoinUnit } from '../../../../interface';
+import BigNumber from 'bignumber.js';
+import { satoshiToBTC } from '../../../../lib/helper';
 
 export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionProps) => {
+  const { currentUnit } = useAppStore();
+
+  const amountText = currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(invoice.amount)).toFixed()
+    : invoice.amount;
+
+  const feeText = invoice.fee || invoice.fee === 0 ? currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(invoice.fee)).toFixed()
+    : invoice.fee : '--';
+
   return (
     <Modal open={open} close={close} mountNode={parent}>
       <Modal.Header bannerMode onClose={close}>
@@ -47,8 +59,8 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
               </RecordType>
 
               <RecordAmount>
-                <span>{invoice.amount}</span>
-                <span>Sats</span>
+                <span>{amountText}</span>
+                <span>{currentUnit}</span>
               </RecordAmount>
             </RecordStatusContainer>
 
@@ -78,16 +90,16 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
             <RecordItemRow>
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
-                <RecordItemContent lowlight>{invoice.amount}{' '}</RecordItemContent>
-                <RecordItemContent highlight>Sats</RecordItemContent>
+                <RecordItemContent lowlight>{amountText}{' '}</RecordItemContent>
+                <RecordItemContent highlight>{currentUnit}</RecordItemContent>
               </span>
             </RecordItemRow>
 
             <RecordItemRow>
               <RecordItemLabel>Fee</RecordItemLabel>
               <span>
-                <RecordItemContent lowlight>{invoice.fee}{' '}</RecordItemContent>
-                <RecordItemContent highlight>Sats</RecordItemContent>
+                <RecordItemContent lowlight>{feeText}{' '}</RecordItemContent>
+                <RecordItemContent highlight>{currentUnit}</RecordItemContent>
               </span>
             </RecordItemRow>
 

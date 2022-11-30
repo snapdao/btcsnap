@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 
@@ -24,10 +24,17 @@ import {
   SendButtonContainer,
   CancelButton,
   SendAvailableBox,
+  BalanceBox,
+  BalanceUnit,
 } from './styles';
 import { Icon } from 'snapkit';
-import { Body, H3, Modal } from '../../../kits';
+import { Body, Caption, H3, H4, Modal } from '../../../kits';
 import BitcoinIcon2 from '../../Icons/BitcoinIcon2';
+import { BalanceContainer } from './styles';
+import { useAppStore } from '../../../mobx';
+import { useBalance } from '../../../hook/useBalance';
+import { BitcoinUnit, WalletType } from '../../../interface';
+import { satoshiToBTC } from '../../../lib/helper';
 
 export type InitialProps = {
   model: SendViewModel;
@@ -35,6 +42,8 @@ export type InitialProps = {
 };
 
 const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => {
+  const { currentUnit } = useAppStore();
+  const { balance } = useBalance({ type: WalletType.BitcoinWallet});
   const [transactionFee, setTransactionFee] = useState<boolean>(false);
 
   const openTransactionFee = () => {
@@ -44,6 +53,11 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
   const closeTransactionFee = () => {
     setTransactionFee(false);
   };
+  
+  const balanceText = currentUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
+  const showFee = useMemo(() => {
+    return model.amountText !== '' && model.amountValid.valid;
+  }, [model.amountText, model.amountValid]);
 
   return (
     <>
@@ -86,7 +100,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
               <SendAmountFee>
                 <SendTitle>Fee</SendTitle>
                 <span onClick={openTransactionFee}>
-                  <span>{model.feeText}</span>
+                  <span>{!showFee ? '--' : model.feeText}</span>
                   <span>{model.mainUnit}</span>
                   <ArrowDown />
                 </span>
@@ -94,7 +108,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
             </SendAmountItem>
           </SendAmountContainer>
 
-          <TransactionFee open={transactionFee} close={closeTransactionFee} model={model} />
+          <TransactionFee open={transactionFee} showFee={showFee} close={closeTransactionFee} model={model} />
 
           <DividerLine />
 
@@ -105,6 +119,16 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
               <Body>Bitcoin Wallet</Body>
             </SendAvailableBox>
           </SendAvailableContainer>
+          <BalanceContainer>
+            <div />
+            <BalanceBox>
+              <H4>Balance</H4>
+              <div>
+                <Caption>{balanceText}</Caption>
+                <BalanceUnit>{currentUnit}</BalanceUnit>
+              </div>
+            </BalanceBox>
+          </BalanceContainer>
         </SendBody>
       </SendContainer>
 

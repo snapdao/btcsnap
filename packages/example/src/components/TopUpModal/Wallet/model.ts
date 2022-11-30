@@ -288,7 +288,7 @@ class TopUpViewModel {
     if (this.isEmptyAmount) return {
       valid: true,
     };
-    if (this.sendSatoshis.lt(DUST_THRESHOLD)) return {
+    if (this.sendSatoshis.lte(DUST_THRESHOLD)) return {
       valid: false,
       msg: 'Amount is too small',
     };

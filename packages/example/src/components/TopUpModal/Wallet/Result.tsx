@@ -11,7 +11,8 @@ import CloseIcon from '../../Icons/CloseIcon';
 import {
   Button,
   FailedContainer,
-  FailedText
+  FailedText,
+  ResultSuccessSection
 } from './styles';
 import { useAppStore } from '../../../mobx';
 import { AppStatus } from '../../../mobx/runtime';
@@ -78,7 +79,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
       </Container>
 
       {model.status === 'success' && (
-        <div className={'result-failed-section'}>
+        <ResultSuccessSection>
           <div
             className={
               'text-secondary text-align-center text-size-normal text-line-height-normal'
@@ -88,7 +89,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
           </div>
           <div
             className={'vertical-center'}
-            style={{ marginTop: 54, width: '100%' }}>
+            style={{ marginTop: 98, width: '100%' }}>
             <button
               onClick={close}
               className={
@@ -104,7 +105,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               View on Explorer
             </a>
           </div>
-        </div>
+        </ResultSuccessSection>
       )}
 
       {model.status === 'failed' && (
