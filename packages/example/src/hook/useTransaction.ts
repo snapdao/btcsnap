@@ -40,7 +40,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
               ID: tx.txid,
               type: isReceive ? TransactionTypes.Received : TransactionTypes.Sent,
               status: tx.status === ActivityStatus.Complete ? TransactionStatus.Confirmed : TransactionStatus.Pending,
-              amount: satoshiToBTC(Math.abs(tx.amount)),
+              amount: Math.abs(tx.amount),
               address: (isReceive ? tx.senderAddresses?.[0] : tx.receiverAddresses?.[0]?.[0]) || '',
               date: tx.createdTime * 1000,
               fee: tx.fee,

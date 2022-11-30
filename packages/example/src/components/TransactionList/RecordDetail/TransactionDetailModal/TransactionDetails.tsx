@@ -28,6 +28,8 @@ import {
 } from './sytles';
 import { useAppStore } from '../../../../mobx';
 import { observer } from 'mobx-react-lite';
+import { BitcoinUnit } from '../../../../interface';
+import BigNumber from 'bignumber.js';
 
 interface TransactionProps {
   open: boolean;
@@ -37,7 +39,7 @@ interface TransactionProps {
 }
 
 export const TransactionDetails = observer(({open, close, details, parent}:TransactionProps) => {
-  const {settings: {network}} = useAppStore();
+  const {settings: {network}, currentUnit} = useAppStore();
   const isFailed = details.status === TransactionStatus.Failed;
   const isPending = details.status === TransactionStatus.Pending;
   const isSendType = details.type === TransactionTypes.Sent;
@@ -57,6 +59,11 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
     break;
   }
 
+  const amountText = currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(details.amount)).toFixed()
+    : details.amount;
+  const feeText = details.fee || details.fee === 0 ? currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(details.fee)).toFixed()
+    : details.fee : '--';
+
   return (
     <TransitionablePortal
       open={open}
@@ -65,7 +72,7 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
       <Modal
         open={true}
         mountNode={parent}
-        style={{width: 440, height: 612,marginTop: 28, borderRadius: 20}}
+        style={{width: 440, height: 612, marginTop: 28, borderRadius: 20}}
       >
         <TransactionDetailsTop>
           <ModalHeaderCenter>
@@ -84,8 +91,8 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
             </TransactionAmountIcon>
 
             <TransactionAmountValue>
-              <span>{details.amount}</span>
-              <span>BTC</span>
+              <span>{amountText}</span>
+              <span>{currentUnit}</span>
             </TransactionAmountValue>
           </TransactionAmount>
 
@@ -116,12 +123,12 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
           <TransactionDetailsAmountFee>
             <div>
               <span>Amount</span>
-              <span><span>{details.amount}</span><span>BTC</span></span>
+              <span><span>{amountText}</span><span>{currentUnit}</span></span>
             </div>
             {!isFailed && (
               <div>
                 <span>Fee</span>
-                <span><span>{details.fee && satoshiToBTC(details.fee)}</span><span>BTC</span></span>
+                <span><span>{feeText}</span><span>{currentUnit}</span></span>
               </div>
             )}
           </TransactionDetailsAmountFee>
@@ -129,7 +136,7 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
 
         <TransactionDetailsLink>
           <a
-            href={isPending ?  getTransactionDetailsLink(details.ID,network): details.url}
+            href={isPending ?  getTransactionDetailsLink(details.ID, network): details.url}
             target='_blank'
             rel='noopener
             noreferrer'

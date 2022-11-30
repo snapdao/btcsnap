@@ -1,8 +1,9 @@
+import { satoshiToBTC } from './../lib/helper';
 import { useTransaction } from './useTransaction';
 import { useEffect, useState } from 'react';
 import { useInvoices } from './useInvoices';
 import { useAppStore } from '../mobx';
-import { WalletType } from '../interface';
+import { BitcoinUnit, WalletType } from '../interface';
 import {
   HistoryRecord,
   HistoryRecordType,
@@ -11,6 +12,7 @@ import {
   TransactionStatus,
   TransactionTypes
 } from '../types';
+import BigNumber from 'bignumber.js';
 
 const getInvoiceLabel = (
   type: InvoiceTypes,
@@ -41,7 +43,7 @@ interface HistoryRecordHookResponse {
 }
 
 export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookResponse => {
-  const {currentWalletType} = useAppStore();
+  const { currentWalletType, currentUnit } = useAppStore();
   const {
     txList,
     loading: loadingTx,
@@ -59,6 +61,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
   const [historyRecords, setHistoryRecords] = useState<HistoryRecord[]>([]);
 
   useEffect(() => {
+    const isToBtcUnit = currentUnit === BitcoinUnit.BTC;
     if (currentWalletType === WalletType.BitcoinWallet) {
       setHistoryRecords(
         txList.map((tx) => {
@@ -67,7 +70,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
             id: tx.ID,
             loading: tx.status === TransactionStatus.Pending,
             title: tx.type,
-            amount: tx.amount,
+            amount: isToBtcUnit ? satoshiToBTC(tx.amount) : tx.amount,
             label:  tx.type === TransactionTypes.Sent ? 'To: ' : 'From: ',
             content: `${tx.address.slice(0, 6)}...${tx.address.slice(-6)}`,
             datetime: tx.date,
@@ -76,9 +79,10 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
         }),
       );
     }
-  }, [currentWalletType, txList]);
+  }, [currentWalletType, currentUnit, txList]);
 
   useEffect(() => {
+    const isToBtcUnit = currentUnit === BitcoinUnit.BTC;
     if (currentWalletType === WalletType.LightningWallet) {
       setHistoryRecords(
         invoices.map((invoice) => {
@@ -99,7 +103,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
             id: invoice.ID,
             loading: invoice.status === InvoiceStatus.Pending,
             title,
-            amount: invoice.amount,
+            amount: isToBtcUnit ? BigNumber(satoshiToBTC(invoice.amount)).toFixed() : invoice.amount,
             label: getInvoiceLabel(invoice.type, invoice.description),
             content: invoice.description,
             datetime: invoice.date,
@@ -108,7 +112,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
         }),
       );
     }
-  }, [currentWalletType, invoices]);
+  }, [currentWalletType, currentUnit, invoices]);
 
   if (currentWalletType === WalletType.BitcoinWallet) {
     return {

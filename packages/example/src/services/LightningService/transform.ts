@@ -63,7 +63,7 @@ export const transformPendingTransaction = (transaction: PendingTx): InvoiceDeta
     ID: InvoiceTypes.OnChain + transaction.time,
     type: InvoiceTypes.OnChain,
     status: InvoiceStatus.Pending,
-    amount: transaction.amount,
+    amount: btcToSatoshi(transaction.amount),
     date: transaction.time * 1000,
   };
 };

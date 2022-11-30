@@ -47,7 +47,7 @@ export const ResultView = observer(({open, model, close}: { open: boolean, model
             }
             <PaymentAmount>
               {model.amount}
-              <span>Sats</span>
+              <span>sats</span>
             </PaymentAmount>
             <PaymentParticipantContainer>
               <PaymentParticipant>{lightning.current?.name}</PaymentParticipant>

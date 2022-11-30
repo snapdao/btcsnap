@@ -11,6 +11,10 @@ export const StyledRecordCard = styled(TransactionInfo)`
   }
 `;
 
+export const StyledRecordCardSkeleton = styled(TransactionInfo.Skeleton)`
+  background: #000;
+`;
+
 export const DefaultTitle = styled(Body)`
   text-transform: capitalize;
   color: var(--sk-color-n80);

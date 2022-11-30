@@ -275,6 +275,7 @@ export const BalanceLeftLabel = styled.span`
 `;
 
 export const BalanceLeftArrow = styled.span`
+  display: inline-block;
   visibility: hidden;
   line-height: 40px;
   vertical-align: middle;

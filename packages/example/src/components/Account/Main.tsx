@@ -140,9 +140,8 @@ const Main = observer(({ balance }: MainProps) => {
         <BalanceLeftItem hoverable={currentWalletType === WalletType.BitcoinWallet}>
           <BalanceLeftLabel
             onClick={() => {
-              if(currentWalletType === WalletType.BitcoinWallet) {
-                openModal(MainModal.Details);
-              }
+              if (currentWalletType !== WalletType.BitcoinWallet) return; 
+              openModal(MainModal.Details);
             }}>
             {currentBalance} {unit[currentUnit]}
           </BalanceLeftLabel>

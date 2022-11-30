@@ -1,5 +1,8 @@
+import { FlexCenter } from './../../../kits/Layout/Flex/index';
+import { Caption } from './../../../kits/Layout/Text/Body/index';
 import styled from 'styled-components';
 import { Divider, Radio } from 'semantic-ui-react';
+import { FlexBetween } from '../../../kits';
 
 export const ActionButton = styled.button`
   width: 96px;
@@ -72,7 +75,7 @@ export const SendTitle = styled.span`
 `;
 
 export const SendBody = styled.div`
-  padding: 32px 32px 0;
+  padding: 32px 32px 24px;
 `;
 
 export const SendAmountContainer = styled.div`
@@ -195,7 +198,6 @@ export const DividerLine = styled(Divider)`
 export const SendAvailableContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-bottom: 32px;
 `;
 
 export const SendAvailableBox = styled.div`
@@ -376,4 +378,31 @@ export const FailedText = styled.p`
   span {
     white-space: nowrap;
   }
+`;
+
+export const ResultSuccessSection = styled.div`
+  width: 100%;
+  padding: 24px 32px 32px;
+`;
+
+export const BalanceContainer = styled(FlexBetween)`
+  margin-top: 8px;
+  width: 100%;
+  `;
+
+export const BalanceBox = styled(FlexBetween)`
+  gap: 0 16px;
+  > h4 {
+    color: var(--sk-color-n50);
+  }
+`;
+
+export const BalanceUnit = styled(Caption)`
+  margin-left: 4px;
+  color: var(--sk-color-n60);
+`;
+
+export const AddressBox = styled(FlexCenter)`
+  align-items: center;
+  gap: 0 4px;
 `;

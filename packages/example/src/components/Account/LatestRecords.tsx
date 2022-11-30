@@ -11,12 +11,13 @@ import { WalletType } from '../../interface';
 import { RecordCard } from '../TransactionList/RecordCard';
 
 interface TxCardProps {
+  loading: boolean
   historyList: HistoryRecord[];
 }
 
 const TRANSACTION_TIPS = 'The previous transactions of addresses before using BitcoinSnap will not be displayed here.';
 
-export const LatestRecords = observer(({historyList}: TxCardProps) => {
+export const LatestRecords = observer(({ loading, historyList }: TxCardProps) => {
   const {currentWalletType} = useAppStore();
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);
 
@@ -26,33 +27,40 @@ export const LatestRecords = observer(({historyList}: TxCardProps) => {
   return (
     <TxListContainer>
       {
-        recordList.length > 0 ? (
+        loading ? 
           <TxListContent>
-            {recordList.map(record =>
-              <RecordCard
-                key={`${record.id}-${record.title}`}
-                record={record}
-                onClick={() => setSelectedRecord(record)}
-              />
-            )}
+            {Array.from({ length: 5 })
+              .map((_, index) => <RecordCard key={index}
+                loading
+              />)}
           </TxListContent>
-        ) : (
-          <TxListEmpty>
-            <TransactionsIcon/>
-            <EmptyTip>
-              <span>no transactions</span>
-              {
-                currentWalletType === WalletType.BitcoinWallet && (
-                  <Popup
-                    trigger={<div><InfoIcon/></div>}
-                    content={TRANSACTION_TIPS}
-                    style={{width: '296px'}}
-                  />
-                )
-              }
-            </EmptyTip>
-          </TxListEmpty>
-        )
+          : recordList.length > 0 ? (
+            <TxListContent>
+              {recordList.map(record =>
+                <RecordCard
+                  key={`${record.id}-${record.title}`}
+                  record={record}
+                  onClick={() => setSelectedRecord(record)}
+                />
+              )}
+            </TxListContent>
+          ) : (
+            <TxListEmpty>
+              <TransactionsIcon/>
+              <EmptyTip>
+                <span>no transactions</span>
+                {
+                  currentWalletType === WalletType.BitcoinWallet && (
+                    <Popup
+                      trigger={<div><InfoIcon/></div>}
+                      content={TRANSACTION_TIPS}
+                      style={{width: '296px'}}
+                    />
+                  )
+                }
+              </EmptyTip>
+            </TxListEmpty>
+          )
       }
       {!!selectedRecord && (
         <RecordDetail

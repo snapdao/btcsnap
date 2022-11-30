@@ -16,6 +16,7 @@ import { FeeRate } from './type';
 interface TransactionFeeProps {
   open: boolean;
   close: () => void;
+  showFee: boolean
   model: SendViewModel;
 }
 
@@ -33,7 +34,7 @@ const transactionFeeOptions = (fee: FeeRate, feeRate: FeeRate) : TransactionFeeT
   { label: 'Slow', type: 'low', time: 70, fee: fee.low, satVByte: feeRate.low }
 ];
 
-const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
+const TransactionFee = observer(({open, close, showFee, model}: TransactionFeeProps) => {
 
   return (
     <TransitionablePortal
@@ -65,7 +66,7 @@ const TransactionFee = observer(({open, close, model}: TransactionFeeProps) => {
                   <span>~{item.time}m</span>
                 </TransactionFeeLevel>
                 <TransactionFeeItemValue>
-                  <span>{model.amountText === '' ? '--' : item.fee} {model.mainUnit}</span>
+                  <span>{!showFee ? '--' : item.fee} {model.mainUnit}</span>
                   <span>{item.satVByte} sat/vByte</span>
                 </TransactionFeeItemValue>
               </div>
