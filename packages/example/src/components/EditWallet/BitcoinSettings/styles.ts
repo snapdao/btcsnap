@@ -50,7 +50,7 @@ export const SettingItem = styled.div`
   :hover {
     cursor: pointer;
     background: rgba(0, 0, 0, 0.04);
-    border-radius: 16px;
+    border-radius: 12px;
     transition: background 0.25s;
   }
 `;
