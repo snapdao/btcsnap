@@ -17,6 +17,8 @@ import ArrowRight from '../Icons/ArrowRight';
 import { VERSION } from '../../config';
 import Network from './Network';
 import { useAppStore } from '../../mobx';
+import { WalletType } from '../../interface';
+import { Popup } from '../../kits';
 
 interface SettingProps {
   open: boolean;
@@ -33,7 +35,7 @@ enum SettingOptions {
 const SHOW_POLICY_RELATED_SETTINGS = false;
 
 const Settings = observer(({ open, close }: SettingProps) => {
-  const { settings: {network}} = useAppStore();
+  const { settings: {network}, currentWalletType } = useAppStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const openDialog = (option: SettingOptions) => {
     setCurrentVisible(option);
@@ -54,17 +56,29 @@ const Settings = observer(({ open, close }: SettingProps) => {
       </SettingHeader>
 
       <SettingContent>
-        <SettingItem onClick={() => openDialog(SettingOptions.Network)}>
-          <span>Network</span>
-          <span>
-            <NetworkIcon network={network} />
-            <span>{network}</span>
-            <ArrowRight size={18} />
-          </span>
-        </SettingItem>
-        {currentVisible === SettingOptions.Network && (
-          <Network open={true} close={closeDialog} />
-        )}
+        <Popup
+          disabled={currentWalletType === WalletType.BitcoinWallet}
+          wide
+          trigger={
+            <SettingItem
+              aria-disabled={currentWalletType !== WalletType.BitcoinWallet}
+              onClick={() => {
+                if(currentWalletType === WalletType.BitcoinWallet){
+                  openDialog(SettingOptions.Network);
+                }
+              }}
+            >
+              <span>Network</span>
+              <span>
+                <NetworkIcon network={network} />
+                <span>{network}</span>
+                <ArrowRight size={18} />
+              </span>
+            </SettingItem>
+          }
+          content={'Only available in the Bitcoin wallet'}
+        />
+        <Network open={currentVisible === SettingOptions.Network} close={closeDialog} />
 
         <Divider style={{ margin: '16px 12px', width: 376}} />
 
@@ -89,7 +103,7 @@ const Settings = observer(({ open, close }: SettingProps) => {
 
         <SettingItem>
           <span>Version</span>
-          <span>V{VERSION}</span>
+          <span>v{VERSION}</span>
         </SettingItem>
       </SettingContent>
     </Modal>

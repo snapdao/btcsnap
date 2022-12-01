@@ -81,6 +81,15 @@ export const SettingItem = styled.div`
     border-radius: 12px;
     transition: background 0.25s;
   }
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+    & > span:nth-child(2) {
+      opacity: 0.3;
+    }
+    :hover {
+      background: transparent;
+    }
+  }
 `;
 
 // ----- Network -----
