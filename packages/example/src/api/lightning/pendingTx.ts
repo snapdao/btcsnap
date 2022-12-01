@@ -1,4 +1,4 @@
-import { queryWithUserInfo } from './query';
+import { queryWithCurrentUserInfo } from './query';
 import { RequestType } from '../types';
 
 const endpoint = '/v1/snap/pending_tx/';
@@ -14,7 +14,7 @@ export interface PendingTx {
 }
 
 export const pendingTx = (): Promise<LightningPendingTxResponse> => {
-  return queryWithUserInfo(
+  return queryWithCurrentUserInfo(
     endpoint,
     RequestType.Get,
     {},
