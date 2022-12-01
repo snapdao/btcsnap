@@ -86,7 +86,7 @@ export class BtcTx {
     }
 
     extractPsbtJsonString() {
-        return JSON.stringify(this.extractPsbtJson(), null, 2);
+        return Object.entries(this.extractPsbtJson()).map(([key, value]) => `${key}: ${value}\n`).join('')
     }
 
 
