@@ -44,7 +44,7 @@
     "react-textarea-autosize": "^8.4.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.2",
-    "snapkit": "git+https://github.com/snapdao/snapkit.git#v0.2.5",
+    "snapkit": "git+https://github.com/snapdao/snapkit.git#v0.2.6",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "styled-components": "^5.3.5",

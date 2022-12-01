@@ -31,6 +31,10 @@ export const AddressPathContainer = styled.div<{ visible: boolean }>`
     justify-content: center;
     align-items: center;
   }
+
+  .icon-info:hover path {
+    fill: var(--sk-color-pri50);
+  }
 `;
 
 export const LoadingContainer = styled.div`

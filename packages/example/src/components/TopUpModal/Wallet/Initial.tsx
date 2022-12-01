@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 
@@ -35,11 +35,14 @@ import { useAppStore } from '../../../mobx';
 import { useBalance } from '../../../hook/useBalance';
 import { BitcoinUnit, WalletType } from '../../../interface';
 import { satoshiToBTC } from '../../../lib/helper';
+import { bitcoinUnitMap } from '../../../lib/unit';
 
 export type InitialProps = {
   model: SendViewModel;
   close: () => void;
 };
+
+const numberReg = /^\d*(?:\.\d*)?$/;
 
 const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => {
   const { currentUnit } = useAppStore();
@@ -82,7 +85,34 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
                   autoFocus
                   size={model.amountLength}
                   value={model.sendAmountMain}
-                  onChange={e => { model.handleSendInput(e.target.value); }}
+                  onChange={(ev: ChangeEvent<HTMLInputElement>) => {
+                    const value = ev.target.value.trim();
+                    const banList = ['-', '00', '.'].includes(value);
+                    const [int, dec] = value.split('.');
+
+                    const isBTC = model.mainUnit === BitcoinUnit.BTC;
+                    const isSatoshi = model.mainUnit === bitcoinUnitMap.mainnet.Sats;
+                    const currDecMaxLen = {
+                      [bitcoinUnitMap.mainnet.BTC]: 8,
+                      [bitcoinUnitMap.mainnet.Currency]: 2,
+                      [bitcoinUnitMap.mainnet.Sats]: 0,
+                    }[model.mainUnit];
+                    const intMaxLen = int.length > (isBTC ? 2 : 9);
+                    const decMaxLen = dec && dec.length > currDecMaxLen;
+
+                    const isDisDotInput = isSatoshi && value?.at(-1) === '.';
+
+                    if (
+                      !numberReg.test(value) ||
+                      banList ||
+                      Number(value) < 0 ||
+                      intMaxLen ||
+                      decMaxLen ||
+                      isDisDotInput
+                    )
+                      return;
+                    model.handleSendInput(ev.target.value);
+                  }}
                   placeholder='0'
                 />
                 <span onClick={() => model.switchUnits()}>{model.mainUnit}<SwitchIcon /></span>

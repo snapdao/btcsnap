@@ -177,10 +177,8 @@ export const EmptyTip = styled.div`
     svg path {
       fill: #9095a3;
     }
-    :hover {
-      svg path {
-        fill: #ff6c0a;
-      }
+    .icon-info:hover path {
+      fill: var(--sk-color-pri50);
     }
   }
 `;
@@ -608,8 +606,13 @@ export const TxErrorInfo = styled(H4)`
 `;
 
 export const TxErrorRetryButton = styled(Button)`
-  margin-top: 16px;
-  padding: 12px 6px;
-  background: transparent !important;
-  border: 1px solid var(--sk-color-n30);
+  && {
+    margin-top: 16px;
+    padding: 12px 6px;
+    background: transparent;
+    border: 1px solid var(--sk-color-n30);
+    :hover {
+      background: var(--sk-color-n30);
+    }
+  }
 `;

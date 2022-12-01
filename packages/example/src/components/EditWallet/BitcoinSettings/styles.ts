@@ -188,4 +188,7 @@ export const DynamicAddressContainer = styled.span`
     justify-content: center;
     align-items: center;
   }
+  .icon-info:hover path {
+    fill: var(--sk-color-pri50);
+  }
 `;
