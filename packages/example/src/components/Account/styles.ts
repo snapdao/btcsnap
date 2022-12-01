@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { H4 } from './../../kits/Layout/Text/Title/index';
 import { Button } from './../../kits/Button/index';
 import { FlexBetween } from './../../kits/Layout/Flex/index';
 import { List } from '../../kits/List';
@@ -599,4 +600,16 @@ export const PrivacyLink = styled.span`
       width: 100%;
     }
   }
+`;
+
+export const TxErrorInfo = styled(H4)`
+  margin-top: 20px;
+  color: var(--sk-color-n50);
+`;
+
+export const TxErrorRetryButton = styled(Button)`
+  margin-top: 16px;
+  padding: 12px 6px;
+  background: transparent !important;
+  border: 1px solid var(--sk-color-n30);
 `;

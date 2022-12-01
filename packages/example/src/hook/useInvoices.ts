@@ -21,8 +21,7 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [startOffset, setStartOffset] = useState<number>(0);
-  const [error, setError] = useState<string | null>(null);
-  // TODO: add loadtx error catch
+  const [error, setError] = useState<string>();
   const endOffset = startOffset === 0 ? offset + size : startOffset + size;
 
   useEffect(() => {
@@ -60,6 +59,7 @@ export const useInvoices = ({size, offset = 0}: UseInvoices) => {
   }, [lightning.current, count, currentWalletType]);
 
   const refresh = () => {
+    setError(undefined);
     if (!loading) {
       setCount(count + 1);
     }
