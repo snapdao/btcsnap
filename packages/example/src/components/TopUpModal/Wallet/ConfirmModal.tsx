@@ -15,10 +15,11 @@ import InfoIcon from '../../Icons/InfoIcon';
 
 export type ConfirmModalProps = {
   model: SendViewModel;
+  parentNode: any
 };
 
 const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
-  const { model } = props;
+  const { model, parentNode } = props;
 
   return (
     <TransitionablePortal
@@ -42,6 +43,7 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
         style={{ width: 440, marginTop: 72, borderRadius: 20, position: 'relative' }}
         open={true}
         openOnTriggerClick={model.valid}
+        mountNode={parentNode}
       >
         {model.isSending ?
           <><Loader content='Continue at MetaMask' /></> :
