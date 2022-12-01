@@ -72,16 +72,14 @@ describe('bitcoin', () => {
 
     it('should be able to extract PSBT info as JSON string', () => {
       const tx = new BtcTx(psbtFixture.base64, BitcoinNetwork.Test);
-      expect(tx.extractPsbtJsonString()).toMatchInlineSnapshot(`
-          "{
-            \\"from\\": \\"tb1qhs9xw5fv8qc4tkzcmkv6jelhssspvxk2wmtd0v\\",
-            \\"to\\": \\"tb1qqkelutyrqmxgzd9nnfws2yk3dl600yvxagfqu7\\",
-            \\"value\\": 200000,
-            \\"fee\\": 7458,
-            \\"network\\": \\"test\\",
-            \\"changeAddress\\": \\"tb1qx5wzl3f27d6dgzk9u7h47pqdts60xdpax4w5rf\\"
-          }"
-      `);
+      expect(tx.extractPsbtJsonString()).toBe(`
+from: tb1qhs9xw5fv8qc4tkzcmkv6jelhssspvxk2wmtd0v
+to: tb1qqkelutyrqmxgzd9nnfws2yk3dl600yvxagfqu7
+value: 200000
+fee: 7458
+network: test
+changeAddress: tb1qx5wzl3f27d6dgzk9u7h47pqdts60xdpax4w5rf
+`.trim() + '\n');
     });
 
     it('should be able to validate the psbt', () => {
