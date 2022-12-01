@@ -40,6 +40,7 @@ interface HistoryRecordHookResponse {
   refresh: () => void;
   hasMore: boolean;
   loadMore: () => void;
+  error?: string;
 }
 
 export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookResponse => {
@@ -49,14 +50,16 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
     loading: loadingTx,
     refresh: refreshTx,
     loadMore: loadMoreTx,
-    hasMore: hasMoreTx
+    hasMore: hasMoreTx,
+    error: errorTx,
   } = useTransaction({size, offset});
   const {
     invoices,
     loading: loadingInvoice,
     refresh: refreshInvoice,
     loadMore: loadMoreInvoice,
-    hasMore: hasMoreInvoice
+    hasMore: hasMoreInvoice,
+    error: errorInvoice,
   } = useInvoices({size, offset});
   const [historyRecords, setHistoryRecords] = useState<HistoryRecord[]>([]);
 
@@ -120,7 +123,8 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
       loading: loadingTx,
       refresh: refreshTx,
       hasMore: hasMoreTx,
-      loadMore: loadMoreTx
+      loadMore: loadMoreTx,
+      error: errorTx,
     };
   }
 
@@ -129,6 +133,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
     loading: loadingInvoice,
     refresh: refreshInvoice,
     hasMore: hasMoreInvoice,
-    loadMore: loadMoreInvoice
+    loadMore: loadMoreInvoice,
+    error: errorInvoice
   };
 };
