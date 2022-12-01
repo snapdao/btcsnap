@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, useState } from 'react';
+import React, { FunctionComponent, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 
@@ -45,6 +45,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
   const { currentUnit } = useAppStore();
   const { balance } = useBalance({ type: WalletType.BitcoinWallet});
   const [transactionFee, setTransactionFee] = useState<boolean>(false);
+  const topUpModalRef = useRef<any>();
 
   const openTransactionFee = () => {
     setTransactionFee(true);
@@ -72,7 +73,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
 
         {model.utxoLoading && <Modal.Loading />}
 
-        <SendBody>
+        <SendBody ref={topUpModalRef}>
           <SendTitle>Amount</SendTitle>
           <SendAmountContainer>
             <SendAmountItem>
@@ -137,7 +138,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           <CancelButton onClick={close}>
             Cancel
           </CancelButton>
-          <ConfirmModal model={model} />
+          <ConfirmModal model={model} parentNode={topUpModalRef.current} />
         </SendButtonContainer>
       </SendContainer>
     </>
