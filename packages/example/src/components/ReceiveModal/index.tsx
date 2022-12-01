@@ -28,7 +28,7 @@ type ReceiveModalProps = {
 };
 
 const DYNAMIC_ADDRESS =
-  'To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via settings.';
+  'To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via wallet profile.';
 const STATIC_ADDRESS =
   'You will use this fixed address for every receipt of Bitcoin. You can Enable Dynamic address functionality in settings to maximize your privacy.';
 
