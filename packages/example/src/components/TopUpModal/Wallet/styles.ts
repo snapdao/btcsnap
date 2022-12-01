@@ -405,4 +405,8 @@ export const BalanceUnit = styled(Caption)`
 export const AddressBox = styled(FlexCenter)`
   align-items: center;
   gap: 0 4px;
+
+  .icon-info:hover path {
+    fill: var(--sk-color-pri50);
+  }
 `;

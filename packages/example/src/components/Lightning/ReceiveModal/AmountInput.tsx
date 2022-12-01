@@ -15,12 +15,12 @@ type AmountInputProps = {
 
 const LargeInput = styled(Large)`
   color: var(--c-n80);
-  :placeholder {
-    color: var(--c-ntd20);
-  }
   border: 0;
   max-width: 280px;
   background: transparent;
+  :placeholder {
+    color: var(--c-ntd20);
+  }
 `;
 
 export const Unit = styled.div`
@@ -38,13 +38,14 @@ export const SecondUnit = styled(Body)`
   color: var(--c-n60);
 `;
 
+const numberReg = /^\d*(?:\.\d*)?$/;
+
 const AmountInput = observer(({ model }: AmountInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     runtime: { currencyRate },
   } = useAppStore();
 
-  const numberReg = /^\d*(?:\.\d*)?$/;
   function focusInput() {
     return inputRef.current?.focus();
   }

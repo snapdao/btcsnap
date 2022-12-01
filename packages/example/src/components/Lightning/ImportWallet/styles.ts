@@ -62,6 +62,10 @@ export const KeyLabelContainer = styled.div`
     display: flex;
     align-items: center;
   }
+  
+  .icon-info:hover path {
+    fill: var(--sk-color-pri50);
+  }
 `;
 
 export const KeyInputContainer = styled.div`
