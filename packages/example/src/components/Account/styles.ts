@@ -612,7 +612,7 @@ export const TxErrorRetryButton = styled(Button)`
     background: transparent;
     border: 1px solid var(--sk-color-n30);
     :hover {
-      background: var(--sk-color-n30);
+      background: var(--sk-color-ntd04);
     }
   }
 `;
