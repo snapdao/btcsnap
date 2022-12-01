@@ -11,6 +11,7 @@ import Divider from '../../kits/Divider';
 import LightningWallet from '../../mobx/lightningWallet';
 import { Instance } from 'mobx-state-tree';
 import { getLNWalletData, GetLNWalletDataKey } from '../../lib/snap';
+import { BitcoinSettings } from './BitcoinSettings';
 
 interface EditWalletProps {
   open: boolean;
@@ -25,8 +26,8 @@ type LightningWallet = Instance<typeof LightningWallet>;
 type WalletInfo = { name: string } & Partial<LightningWallet>;
 
 const walletTypeTextMap = {
-  [WalletType.BitcoinWallet]: 'Bitcoin On Chain Wallet',
-  [WalletType.LightningWallet]: 'Lightning',
+  [WalletType.BitcoinWallet]: 'Bitcoin Wallet',
+  [WalletType.LightningWallet]: 'Lightning Wallet',
 };
 
 const EditWallet = observer(
@@ -179,10 +180,11 @@ const EditWallet = observer(
             left={
               <>
                 <EditIcon style={{ color: 'var(--sk-color-pri50)' }} />
-                <H3 style={{ marginLeft: 4 }}>Edit</H3>
+                <H3 style={{ marginLeft: 4 }}>Wallet Profile</H3>
               </>
             }
-            onClose={() => modalRef.current?.onClose()}></Modal.Header>
+            onClose={() => modalRef.current?.onClose()}
+          />
           <Modal.Container>
             <List>
               <List.Form
@@ -191,7 +193,7 @@ const EditWallet = observer(
                 onInput={(ev) => onChangeWalletName(ev.target.value)}
               />
               <List.Field
-                title='Type'
+                title='Wallet Type'
                 content={walletTypeTextMap[walletType]}
               />
               {walletType === WalletType.LightningWallet && (
@@ -218,6 +220,7 @@ const EditWallet = observer(
                   />
                 </>
               )}
+              {walletType === WalletType.BitcoinWallet && <BitcoinSettings />}
             </List>
           </Modal.Container>
           <Modal.Footer>

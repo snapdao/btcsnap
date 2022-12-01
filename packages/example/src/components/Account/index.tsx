@@ -16,6 +16,7 @@ import { LNSetupModal } from '../Lightning';
 import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
+import { WalletType } from '../../interface';
 
 const Account = observer(() => {
   const {
@@ -23,6 +24,7 @@ const Account = observer(() => {
     persistDataLoaded,
     runtime: { isLoading, status },
     user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
+    currentWalletType
   } = useAppStore();
   const { balance, refresh, loadingBalance } = useBalance();
   useCurrencyRate();
@@ -49,13 +51,23 @@ const Account = observer(() => {
         <AccountContainer>
           <Main balance={balance} />
           <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
-          <AccountLabel>
-            Powered by{' '}
-            <a href='https://metamask.io/snaps/' target='_blank' rel='noreferrer'>
-              MetaMask Snaps{' '}
-            </a>
-            | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank' rel='noreferrer'>SlowMist</a>
-          </AccountLabel>
+          {currentWalletType === WalletType.BitcoinWallet && (
+            <AccountLabel>
+              Powered by{' '}
+              <a href='https://metamask.io/snaps/' target='_blank' rel='noreferrer'>
+                MetaMask Snaps{' '}
+              </a>
+              | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank' rel='noreferrer'>SlowMist</a>
+            </AccountLabel>
+          )}
+          {currentWalletType === WalletType.LightningWallet && (
+            <AccountLabel>
+              Powered by{' '}
+              <a href='https://lndhub.io/' target='_blank' rel='noreferrer'>
+                LNDHub
+              </a>
+            </AccountLabel>
+          )}
         </AccountContainer>
 
         <LNSetupModal />
