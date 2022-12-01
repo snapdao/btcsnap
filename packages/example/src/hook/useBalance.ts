@@ -85,6 +85,9 @@ export const useBalance = (props?: Props) => {
           setBalance(0);
           setStatus(AppStatus.Ready);
         });
+      } else {
+        setBalance(0);
+        setStatus(AppStatus.Ready);
       }
     }
   }, [currentWalletType, current, lightning.current]);
