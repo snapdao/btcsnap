@@ -11,6 +11,7 @@ import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../../lib/snap';
 import { getTransactionLink } from '../../../lib/explorer';
 import {
+  trackLightningTopUp,
   trackSendSign,
   trackTransactionBroadcast,
   trackTransactionBroadcastSucceed,
@@ -461,10 +462,21 @@ class TopUpViewModel {
         await pushTransaction(coin, txData);
         trackTransactionBroadcastSucceed(this.network);
 
+        trackLightningTopUp({
+          type: 'internal',
+          step: 'result',
+          value: 'success'
+        });
+
         this.status = 'success';
         this.isSending = false;
       } catch (e) {
         logger.error(e);
+        trackLightningTopUp({
+          type: 'internal',
+          step: 'result',
+          value: 'failed'
+        });
         if (typeof e === 'string') {
           this.errorMessage = mapErrorToUserFriendlyError(e);
         } else if (e instanceof Error) {

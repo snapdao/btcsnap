@@ -24,6 +24,7 @@ import { useAppStore } from '../../../../mobx';
 import { WalletType } from '../../../../interface';
 import { copyToClipboard } from '../../../../utils/clipboard';
 import { H3, Message, MessageType, Modal } from '../../../../kits';
+import { trackLightningBackupWallet } from '../../../../tracking';
 
 interface CreateWalletProps {
   open: boolean;
@@ -54,10 +55,17 @@ const RecoveryKey = observer(
       switchWalletType,
     } = useAppStore();
 
+    // No have bottom action is created success Recovery key page.
+    const entryPage = !bottomAction ? 'create' : 'settings';
+
     async function copyKey() {
       if (!recoveryKey || !current?.name) return;
       const copyStatus = await copyToClipboard(recoveryKey);
       if (copyStatus) {
+        trackLightningBackupWallet({
+          entry: entryPage,
+          action: 'copy'
+        });
         setCopyToClipboardStatus(true);
         setTimeout(() => {
           setCopyToClipboardStatus(false);
@@ -66,6 +74,10 @@ const RecoveryKey = observer(
     }
     function downloadFile() {
       if (!recoveryKey || !current?.name) return;
+      trackLightningBackupWallet({
+        entry: entryPage,
+        action: 'download'
+      });
       saveData(recoveryKey, current.name + ' backup.txt');
     }
 
