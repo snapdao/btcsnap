@@ -1,8 +1,7 @@
 import { useAppStore } from '../mobx';
 import { useCallback, useEffect, useState } from 'react';
-import { getBtc } from '../api/v1/getBtc';
+import { getBtc } from '../api/lightning/getBtc';
 import { logger } from '../logger';
-import { getPassword } from '../services/LightningService/getUserInfo';
 
 export const useTopUpAddress = () => {
   const { current, lightning: { current: lightningCurrent } } = useAppStore();
@@ -10,10 +9,7 @@ export const useTopUpAddress = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const fetchAddress = useCallback(async () => {
     try {
-      if (!lightningCurrent?.userId) return '';
-      const password = await getPassword(lightningCurrent.userId);
-      if (!password) return '';
-      const result = await getBtc({ id: lightningCurrent.userId, password });
+      const result = await getBtc();
       if (!Array.isArray(result)) throw result;
       const resultFirst = result.at(0)?.address;
       return resultFirst;
@@ -25,11 +21,17 @@ export const useTopUpAddress = () => {
   }, []);
 
   useEffect(() => {
+    if (!lightningCurrent) {
+      setAddress('');
+      return;
+    }
     setLoading(true);
     async function load() {
       const result = await fetchAddress();
       if (result) {
         setAddress(result);
+      } else {
+        setAddress('');
       }
       setLoading(false);
     }

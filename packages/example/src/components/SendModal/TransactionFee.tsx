@@ -11,7 +11,7 @@ import {
   TransactionFeeItemValue,
   TransactionFeeRadio,
 } from './styles';
-import { FeeRate } from './type';
+import { FeeRate } from './types';
 
 
 interface TransactionFeeProps {
