@@ -1,3 +1,4 @@
+import { trackLightningAddSuccess } from './../tracking/events/index';
 import { useState } from 'react';
 import { useAppStore } from '../mobx';
 import {
@@ -43,6 +44,8 @@ export const useLNWallet = () => {
       setWallet(createRes);
 
       createLightningWallet(createRes.userId, name || nextWalletName);
+
+      trackLightningAddSuccess();
 
       setCreateLoading(false);
       return true;

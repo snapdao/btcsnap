@@ -41,6 +41,7 @@ import LightningReceiveModal from '../Lightning/ReceiveModal';
 import { H4, Popup } from '../../kits';
 import { Icon } from 'snapkit';
 import { List } from '../../kits/List';
+import { trackLightningReceive, trackLightningSend, trackLightningTopUp } from '../../tracking';
 
 export interface MainProps {
   balance: number; // Satoshi
@@ -84,6 +85,12 @@ const Main = observer(({ balance }: MainProps) => {
         return;
       }
       setOpenedModal(modal);
+      if ([MainModal.Send, MainModal.Receive].includes(modal)) {
+        const trackFn = MainModal.Send === modal ? trackLightningSend : trackLightningReceive;
+        trackFn({
+          step: 'entry'
+        });
+      }
     },
     [current],
   );
@@ -106,6 +113,10 @@ const Main = observer(({ balance }: MainProps) => {
     setTopUpVisibleData({
       open: false,
       type
+    });
+    trackLightningTopUp({
+      type: type === 'wallet' ? 'internal' : 'external',
+      step: 'entry',
     });
   };
 

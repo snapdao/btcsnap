@@ -5,7 +5,6 @@ import {
   LastStepIcon,
   LastStepTitle,
   LastStepText,
-  CreateButton,
   StartButton,
   ConfettiContainer,
   CloseContainer,
@@ -19,6 +18,7 @@ import { LNWalletStepStatus } from '../../../mobx/user';
 import { useState } from 'react';
 import CreateWallet from '../CreateWallet';
 import { AddLightningWallet } from '../../WalletList/AddLightningWallet';
+import { trackLightningSetup } from '../../../tracking';
 
 export const Ready = observer(() => {
   const {
@@ -27,10 +27,12 @@ export const Ready = observer(() => {
   const [shouldShowCreateWallet, setShouldShowCreateWallet] = useState<boolean>(false);
 
   function onToUserGuide() {
+    trackLightningSetup('skip');
     setLNWalletStep(LNWalletStepStatus.UserGuide);
   }
 
   function onToCreateWallet() {
+    trackLightningSetup('create');
     setShouldShowCreateWallet(true);
   }
 

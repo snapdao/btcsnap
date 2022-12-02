@@ -1,3 +1,4 @@
+import { trackLightningImportSuccess } from './../../../tracking/events/index';
 import { ChangeEvent } from 'react';
 import { makeAutoObservable } from 'mobx';
 import { crypto } from 'bitcoinjs-lib';
@@ -150,8 +151,9 @@ export class LightningImportWalletModel {
         this.walletName,
       );
       this.setImportResult(ImportWalletResult.Succeed);
+      trackLightningImportSuccess();
       this.setIsImporting(false);
-      await applyWallet(newWallet);
+      applyWallet(newWallet);
     } catch (e) {
       this.setImportResult(ImportWalletResult.Failed);
       this.setIsImporting(false);

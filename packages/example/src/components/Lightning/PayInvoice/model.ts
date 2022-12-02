@@ -8,6 +8,7 @@ import { SnapRequestErrors } from '../../../errors/Snap/errors';
 import { payInvoice } from '../../../api/lightning/payInvoice';
 import { logger } from '../../../logger';
 import { covertSecondsToHM } from '../../../utils/datetime';
+import { trackLightningSend } from '../../../tracking';
 
 class LightningSendViewModel {
   public status: SendStatus = SendStatus.Init;
@@ -44,7 +45,7 @@ class LightningSendViewModel {
 
   setExchangeRate = (exchangeRate: number) => {
     this.exchangeRate = exchangeRate;
-  }
+  };
 
   setInvoice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputInvoice = event.target.value;
@@ -149,14 +150,21 @@ class LightningSendViewModel {
 
   signInvoice = async () => {
     this.setIsConfirmModalOpen(false);
+    trackLightningSend({
+      step: 'confirm'
+    });
     this.setShowMetaMaskTips(true);
     if (this.invoice) {
       let signature = '';
       try {
         signature = await signLNInvoice(this.invoice) || '';
         this.setShowMetaMaskTips(false);
-      } catch (e: any) {
-        this.error = SnapRequestErrors.find(error => error.message === e.message)!;
+      } catch (e: unknown) {
+        this.error = SnapRequestErrors.find(error => error.message === (e as Error)?.message);
+        trackLightningSend({
+          step: 'result',
+          value: 'failed'
+        });
         this.setShowMetaMaskTips(false);
       }
 
@@ -164,16 +172,24 @@ class LightningSendViewModel {
         try {
           this.setIsPaying(true);
           const payResult = await payInvoice(this.invoice, signature.slice(2));
+          trackLightningSend({
+            step: 'result',
+            value: 'success'
+          });
           this.setStatus(payResult ? SendStatus.Succeed : SendStatus.Failed);
           this.setIsPaying(false);
         } catch (e) {
+          trackLightningSend({
+            step: 'result',
+            value: 'failed'
+          });
           this.setStatus(SendStatus.Failed);
           this.setIsPaying(false);
           logger.error(e);
         }
       }
     }
-  }
+  };
 }
 
 export default LightningSendViewModel;
