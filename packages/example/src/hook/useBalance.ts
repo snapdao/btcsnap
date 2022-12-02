@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../mobx';
 import { AppStatus } from '../mobx/runtime';
 import { SupportedCoins } from '../constant/supportedCoins';
@@ -23,6 +23,7 @@ export const useBalance = (props?: Props) => {
   const [count, setCount] = useState(0);
   const [balance, setBalance] = useState(0);
   const [loadingBalance, setLoadingBalance] = useState<boolean>(false);
+  const hasFetched = useRef<boolean>(false);
 
   const refresh = () => {
     setCount(count + 1);
@@ -45,9 +46,11 @@ export const useBalance = (props?: Props) => {
           setStatus(AppStatus.Ready);
           return;
         }
-
-        !count && setStatus(AppStatus.FetchBalance);
+        if(!hasFetched.current){
+          setStatus(AppStatus.FetchBalance);
+        }
         setLoadingBalance(true);
+        hasFetched.current = true;
         queryBalance(current)
           .then(({ balance }) => {
             setBalance(balance);
@@ -67,7 +70,6 @@ export const useBalance = (props?: Props) => {
       }
     } else if(currentWalletType === WalletType.LightningWallet) {
       if (lightning.current) {
-        !count && setStatus(AppStatus.FetchBalance);
         const currentLNWallet = lightning.current;
         const wallet = getWallet(currentLNWallet.id);
         if(wallet && wallet.balanceFetched && !forceFetch){
@@ -75,7 +77,10 @@ export const useBalance = (props?: Props) => {
           setStatus(AppStatus.Ready);
           return;
         }
-
+        if(!hasFetched.current){
+          setStatus(AppStatus.FetchBalance);
+        }
+        hasFetched.current = true;
         queryLightningBalance().then(response => {
           const balance = Number(response.BTC.AvailableBalance) || 0;
           setBalance(balance);

@@ -81,6 +81,9 @@ const AppStore = types
       if (storedAccount) return storedAccount;
       return Account.create(accountIn);
     },
+    addAccount(account: IAccount) {
+      self.accounts.push(account);
+    },
     applyAccount(account: IAccount) {
       self.accounts.push(account);
       self.current = account;

@@ -80,6 +80,32 @@ export async function getExtendedPublicKey(
   }
 }
 
+interface AllXpubs {
+  mfp: string;
+  xpubs: string[];
+}
+
+export async function getAllExtendedPublicKeys(): Promise<AllXpubs> {
+  try {
+    return (await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: [
+        snapId,
+        {
+          method: 'btc_getAllXpubs',
+          params: {},
+        },
+      ],
+    })) as AllXpubs;
+  } catch (err: any) {
+    const error = new SnapError(
+      err?.message || 'Get extended public key failed',
+    );
+    logger.error(error);
+    throw error;
+  }
+}
+
 export async function getMasterFingerprint() {
   try {
     return await ethereum.request({
