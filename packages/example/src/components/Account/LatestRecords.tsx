@@ -10,6 +10,7 @@ import { H4, Popup } from '../../kits';
 import { WalletType } from '../../interface';
 import { RecordCard } from '../TransactionList/RecordCard';
 import ErrorIcon from '../Icons/ErrorIcon';
+import { StyledRecordCardSkeleton } from '../TransactionList/RecordCard/styles';
 
 interface TxCardProps {
   loading: boolean
@@ -33,9 +34,7 @@ export const LatestRecords = observer(({ loading, historyList, refresh, error }:
         loading ? 
           <TxListContent>
             {Array.from({ length: 5 })
-              .map((_, index) => <RecordCard key={index}
-                loading
-              />)}
+              .map((_, index) => <StyledRecordCardSkeleton key={index} />)}
           </TxListContent>
           : error ?
             <TxListEmpty>

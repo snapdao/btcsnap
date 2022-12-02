@@ -1,6 +1,5 @@
 import { renderHooksWithContext, defaultStore } from '../../__tests__/utils/renderHookWithContext';
 import { useTopUpAddress } from '../useTopUpAddress';
-import * as snap from '../../lib/snap';
 
 const getBtcResponse = [
   {
@@ -8,7 +7,7 @@ const getBtcResponse = [
   }
 ];
 
-jest.mock('../../api/v1/getBtc', () => ({
+jest.mock('../../api/lightning/getBtc', () => ({
   getBtc: jest.fn().mockResolvedValue(Promise.resolve(getBtcResponse))
 }));
 
@@ -32,7 +31,7 @@ describe('useTopUpAddress', () => {
       const { result, waitForNextUpdate } = renderHooksWithContext(() => useTopUpAddress(), store);
 
       await waitForNextUpdate();
-      expect(result.current).toEqual({ address: getBtcResponse.at(0)?.address, loading: false });
+      expect(result.current.address).toStrictEqual(getBtcResponse.at(0)?.address);
     });
   });
 
@@ -41,15 +40,11 @@ describe('useTopUpAddress', () => {
       ...defaultStore,
       lightning: {
         ...defaultStore.lightning,
-        current: {},
+        current: undefined,
       },
     };
-    const { result, waitForNextUpdate } = renderHooksWithContext(() => useTopUpAddress(), store as any);
+    const { result } = renderHooksWithContext(() => useTopUpAddress(), store as any);
 
-    await waitForNextUpdate();
-    expect(result.current).toEqual({
-      address: '',
-      loading: false,
-    });
+    expect(result.current.address).toEqual('');
   });
 });
