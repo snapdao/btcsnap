@@ -27,6 +27,7 @@
 
     <button class="connect">Connect</button>
     <button class="getPubKey">Get extended Public Key</button>
+    <button class="getAllXpubs">Get All xpubs</button>
     <button class="getMFP">Get Master Fingerprint</button>
     <button class="signPsbt">Sign Psbt</button>
     <button class="saveData">Save data to Snap</button>
@@ -44,6 +45,7 @@
 
     const connectButton = document.querySelector('button.connect')
     const sendButton = document.querySelector('button.getPubKey')
+    const xpubsButton = document.querySelector('button.getAllXpubs')
     const getMfpButton = document.querySelector('button.getMFP')
     const signButton = document.querySelector('button.signPsbt')
     const saveDataButton = document.querySelector('button.saveData')
@@ -52,6 +54,7 @@
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', getPubKey)
+    xpubsButton.addEventListener('click', getAllXpubs)
     getMfpButton.addEventListener('click', getMFP)
     signButton.addEventListener('click', signPsbt)
     saveDataButton.addEventListener('click', saveData)
@@ -85,6 +88,24 @@
         const mfpNode = document.getElementById("mfp")
         xpubNode.textContent = `extended public key: ${response.xpub}`
         mfpNode.textContent = `mfp: ${response.mfp}`
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function getAllXpubs () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'btc_getAllXpubs',
+          }]
+        })
+        const mfp = response.mfp;
+        const xpubsStr = response.xpubs.join('<br />');
+        const xpubNode = document.getElementById("extendedPubKey")
+        xpubNode.innerHTML = `extended public keys: <br /> mfp: ${mfp} <br /> ${xpubsStr}`
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)

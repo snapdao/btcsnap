@@ -6,6 +6,11 @@ export interface GetPublicExtendedKeyRequest {
   };
 }
 
+export interface GetAllXpubsRequest {
+  method: 'btc_getAllXpubs';
+  params: Record<string, never>
+}
+
 export interface SignPsbt {
   method: 'btc_signPsbt';
   params: {
@@ -52,6 +57,7 @@ export interface SignLNInvoice {
 }
 
 export type MetamaskBTCRpcRequest =
+  | GetAllXpubsRequest
   | GetPublicExtendedKeyRequest
   | SignPsbt
   | GetMasterFingerprint
