@@ -3,7 +3,8 @@
         "module": "ESNext",
         "lib": [
             "dom",
-            "ES2017"
+            "ES2017",
+            "ES2019.Array"
         ],
         "moduleResolution": "node",
         "esModuleInterop": true,
