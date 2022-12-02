@@ -3,6 +3,7 @@ import { LightningTransaction } from '../../api/lightning/transactions';
 import { InvoiceDetail, InvoiceStatus, InvoiceTypes } from '../../types';
 import lightningPayReq from 'bolt11';
 import { btcToSatoshi } from '../../lib/helper';
+import { PendingTx } from '../../api/lightning/pendingTx';
 
 export const transformInvoice = (invoice: LightningInvoicesResponse): InvoiceDetail => {
   const decodedInvoice = lightningPayReq.decode(
@@ -55,4 +56,14 @@ export const transformTransaction = (transaction: LightningTransaction): Invoice
     };
   }
   return null;
+};
+
+export const transformPendingTransaction = (transaction: PendingTx): InvoiceDetail => {
+  return {
+    ID: InvoiceTypes.OnChain + transaction.time,
+    type: InvoiceTypes.OnChain,
+    status: InvoiceStatus.Pending,
+    amount: btcToSatoshi(transaction.amount),
+    date: transaction.time * 1000,
+  };
 };

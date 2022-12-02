@@ -1,9 +1,4 @@
-interface ICopyToClipboard {
-  text: string;
-  message?: string;
-}
-
-export const copyToClipboard = async ({ text }: ICopyToClipboard) => {
+export const copyToClipboard = async (text: string) => {
   try {
     let copyValue = '';
 
@@ -17,8 +12,9 @@ export const copyToClipboard = async ({ text }: ICopyToClipboard) => {
 
     await navigator.clipboard.writeText(copyValue);
     return true;
-  } catch (error: any) {
-    console.error(error.message || error);
+  } catch (error) {
+    const msg = error ? (error as Error)?.message : error;
+    console.error(msg);
     return false;
   }
 };

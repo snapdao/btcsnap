@@ -92,9 +92,8 @@ const AppStore = types
       self.current = newAccount;
     },
     disconnectAccount() {
-      if (self.current) {
-        self.current = undefined;
-      }
+      self.current = undefined;
+      self.lightning.current = undefined;
     },
   }))
   .actions((self) => ({

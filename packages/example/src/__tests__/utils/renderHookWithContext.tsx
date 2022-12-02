@@ -60,7 +60,7 @@ export const defaultStore = {
       userId:
         '71ac9d4969b14f19fc9d9254f86156f604d84e6926b55afc342d5311750fe900',
       name: 'Lightning',
-      unit: 'Sats',
+      unit: 'sats',
     },
     nextWalletName: 'sdkasiofoifasl',
   },

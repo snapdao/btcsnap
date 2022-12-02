@@ -17,7 +17,7 @@ export const ConfirmModalContent = styled.div`
 `;
 
 export const ConfirmMainContainer = styled.div`
-  padding: 20px 32px 0;
+  padding: 0 32px;
   background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%);
 `;
 

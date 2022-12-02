@@ -1,18 +1,20 @@
 import React from 'react';
 import { HistoryRecord } from '../../../types';
-import { StyledRecordCard } from './styles';
+import { StyledRecordCard, StyledRecordCardSkeleton } from './styles';
 import { recordToRecordCard } from './transfrom';
 
 interface RecordCardProps {
-  record: HistoryRecord;
+  loading?: boolean;
+  record?: HistoryRecord;
   onClick?: () => void;
 }
 
-export const RecordCard = ({record, onClick}: RecordCardProps) => {
+export const RecordCard = ({ loading, record, onClick}: RecordCardProps) => {
   return (
-    <StyledRecordCard
-      {...recordToRecordCard(record)}
-      onClick={onClick}
-    />
+    loading ? <StyledRecordCardSkeleton /> : record ? 
+      <StyledRecordCard
+        {...recordToRecordCard(record)}
+        onClick={onClick}
+      /> : <></>
   );
 };

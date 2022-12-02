@@ -115,7 +115,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
             <input
               placeholder='Paste or input the destination address'
               value={model.to}
-              onChange={e => {model.setTo(e.target.value);}}
+              onChange={e => { model.setTo(e.target.value); }}
             />
           </SendToInput>
 

@@ -1,4 +1,8 @@
 import styled, { css } from 'styled-components';
+import { H4 } from './../../kits/Layout/Text/Title/index';
+import { Button } from './../../kits/Button/index';
+import { FlexBetween } from './../../kits/Layout/Flex/index';
+import { List } from '../../kits/List';
 
 export const AccountBackground = styled.div`
   width: 100%;
@@ -173,10 +177,8 @@ export const EmptyTip = styled.div`
     svg path {
       fill: #9095a3;
     }
-    :hover {
-      svg path {
-        fill: #ff6c0a;
-      }
+    .icon-info:hover path {
+      fill: var(--sk-color-pri50);
     }
   }
 `;
@@ -272,6 +274,7 @@ export const BalanceLeftLabel = styled.span`
 `;
 
 export const BalanceLeftArrow = styled.span`
+  display: inline-block;
   visibility: hidden;
   line-height: 40px;
   vertical-align: middle;
@@ -457,17 +460,54 @@ export const ActionButton = styled.button`
   }
 `;
 
-export const MarketPrice = styled.p<{ isTestnet: boolean }>`
+export const Footer = styled(FlexBetween)`
   position: absolute;
+  align-items: center;
   bottom: 40px;
+  width: calc(100% - 40px * 2);
+  height: 36px;
+`;
+
+export const MarketPrice = styled.p<{ isTestnet: boolean }>`
   font-weight: 400;
   color: #656d85;
+  margin: 0;
 
   span {
     font-weight: 600;
     color: #f58300;
-    text-decoration-line: ${(props) =>
-    props.isTestnet ? 'line-through' : 'none'};
+    text-decoration-line: ${(props) => props.isTestnet ? 'line-through' : 'none'};
+  }
+`;
+
+export const TopUpButton = styled(Button).attrs({
+  size: 'small',
+})`
+  && {
+    width: 100px;
+    height: 36px;
+    background: var(--sk-color-n00);
+    border: 1px solid var(--sk-color-n30);
+    color: var(--sk-color-n60);
+    > div {
+      padding: 0;
+    }
+    &:hover {
+      background: var(--sk-color-n00);
+    }
+  }
+`;
+
+export const TopUpList = styled(List)`
+  && {
+    width: 200px;
+    .list-field {
+      justify-content: flex-start;
+      margin: 0;
+      > .title {
+        margin-left: 4px;
+      }
+    }
   }
 `;
 
@@ -556,6 +596,23 @@ export const PrivacyLink = styled.span`
   :hover {
     &::after {
       width: 100%;
+    }
+  }
+`;
+
+export const TxErrorInfo = styled(H4)`
+  margin-top: 20px;
+  color: var(--sk-color-n50);
+`;
+
+export const TxErrorRetryButton = styled(Button)`
+  && {
+    margin-top: 16px;
+    padding: 12px 6px;
+    background: transparent;
+    border: 1px solid var(--sk-color-n30);
+    :hover {
+      background: var(--sk-color-ntd04);
     }
   }
 `;

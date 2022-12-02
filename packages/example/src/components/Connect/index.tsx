@@ -75,7 +75,7 @@ const Index = observer(() => {
         isFirstStep={firstStep === ConnectStep.Reveal}
         open={step === ConnectStep.Reveal}
         close={closeModal}
-        onRevealed={() => {setStep(ConnectStep.Done);}}
+        onRevealed={() => { setStep(ConnectStep.Done); }}
       />
     </>
   );

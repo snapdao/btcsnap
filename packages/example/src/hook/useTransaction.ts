@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { TransactionDetail, TransactionStatus, TransactionTypes } from '../types';
 import { ActivityStatus, queryActivities } from '../api/v1/activities';
 import { useAppStore } from '../mobx';
-import { satoshiToBTC } from '../lib/helper';
 import { logger } from '../logger';
 import { WalletType } from '../interface';
 
@@ -18,8 +17,10 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [lastTx, setLastTx] = useState<number | undefined>(offset);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [error, setError] = useState<string>();
 
   const refresh = () => {
+    setError(undefined);
     if(!loading) {
       setCount(count + 1);
     }
@@ -40,7 +41,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
               ID: tx.txid,
               type: isReceive ? TransactionTypes.Received : TransactionTypes.Sent,
               status: tx.status === ActivityStatus.Complete ? TransactionStatus.Confirmed : TransactionStatus.Pending,
-              amount: satoshiToBTC(Math.abs(tx.amount)),
+              amount: Math.abs(tx.amount),
               address: (isReceive ? tx.senderAddresses?.[0] : tx.receiverAddresses?.[0]?.[0]) || '',
               date: tx.createdTime * 1000,
               fee: tx.fee,
@@ -61,6 +62,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
         .catch(e => {
           setLoading(false);
           setTxList([]);
+          setError(e);
           logger.error(e);
         });
     } else {
@@ -73,6 +75,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
     loading,
     refresh,
     loadMore,
-    hasMore
+    hasMore,
+    error
   };
 };

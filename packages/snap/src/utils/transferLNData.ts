@@ -1,3 +1,4 @@
+import { btcToSatoshi } from './helpers';
 export const switchUnits = (letters: string) => {
   const num = Number(letters.slice(0, letters.length - 1));
   const unit = letters.slice(letters.length - 1);
@@ -43,9 +44,9 @@ export const transferInvoiceContent = (domain: string, invoice: string ) => {
     domain: domain,
     type: 'paid_invoice',
     network: `Lightning on Bitcoin ${formattedInvoice.isMainnet ? 'mainnet' : 'testnet'}`,
-    amount: `${formattedInvoice.amount} BTC`,
+    amount: btcToSatoshi(Number(formattedInvoice.amount)) + 'sats',
     expiry_time: formatTime(formattedInvoice.expireTime),
     description: formattedInvoice.description,
   }
-  return JSON.stringify(invoiceContent, null, 2)
+  return Object.entries(invoiceContent).map(([key, value]) => `${key}: ${value}\n`).join('')
 }

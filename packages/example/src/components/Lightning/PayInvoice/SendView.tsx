@@ -70,7 +70,7 @@ export const SendView = observer(
                 {model.isInvoiceValid && (
                   <>
                     <AmountTitle>Amount</AmountTitle>
-                    <AmountInput readOnly value={`${model.amount} Sats`} />
+                    <AmountInput readOnly value={`${model.amount} sats`} />
                     <AmountCurrencyContainer>
                       {model.isBalanceEnoughToPay ? (
                         <span>${model.amountInCurrency}</span>
@@ -78,7 +78,7 @@ export const SendView = observer(
                         <ErrorMessage>Insufficient Funds</ErrorMessage>
                       )}
                       <span>
-                        Fee <HighLight>{model.feeRange}</HighLight> Sats
+                        Fee <HighLight>{model.feeRange}</HighLight> sats
                       </span>
                     </AmountCurrencyContainer>
                   </>
@@ -92,7 +92,7 @@ export const SendView = observer(
                     <InvoiceInfo>
                       <span>Balance</span>
                       <span>
-                        <HighLight>{model.balance}</HighLight> Sats /{' '}
+                        <HighLight>{model.balance}</HighLight> sats /{' '}
                         <HighLight>{model.balanceInCurrency}</HighLight> USD
                       </span>
                     </InvoiceInfo>

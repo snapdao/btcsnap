@@ -40,7 +40,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
   } = useAppStore();
   const [shouldShowRecordDetail, setShouldShowRecordDetail] = useState<boolean>(false);
   const [shouldShowWalletList, setShouldShowWalletList] = useState<boolean>(false);
-  const { historyRecords, loading, refresh: refreshRecords } = useHistoryRecords(5);
+  const { historyRecords, loading, refresh: refreshRecords, error } = useHistoryRecords(5);
 
   const isRefreshing = loading || loadingBalance;
   const currentWalletName =
@@ -118,7 +118,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
           <Menu />
         </AsideHeading>
 
-        <LatestRecords historyList={historyRecords} />
+        <LatestRecords loading={loading} historyList={historyRecords} refresh={refreshRecords} error={error} />
 
         <AccountAsideRefresh>
           <TransactionLink onClick={openTransaction}>

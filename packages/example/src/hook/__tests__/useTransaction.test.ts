@@ -1,7 +1,7 @@
 import { useTransaction } from '../useTransaction';
 import { act } from '@testing-library/react-hooks';
 import * as api from '../../api/v1/activities';
-import { defaultStore, renderHooksWithContext } from '../../__tests__/utils/renderHookWithContext';
+import { renderHooksWithContext } from '../../__tests__/utils/renderHookWithContext';
 
 jest.mock('../../api/v1/activities', () => ({
   queryActivities: jest.fn().mockResolvedValue({activities: [
@@ -88,36 +88,38 @@ describe('useTransaction', () => {
     expect(result.current).toMatchObject({
       hasMore: true,
       loading: false,
-      txList: [{
-        'ID': 'f1b6b41b542482c3b522ce0c235358f897e8377c2ba96b81f9ab9a2b085e2a3d',
-        'address': '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
-        'amount': 0.00027232,
-        'confirmThreshold': 2,
-        'confirmedNum': 2,
-        'date': 1665569961349.5369,
-        'fee': 7232,
-        'from': 'tb1qfrzssvcwucgadrcp043yftnq34xk0a9wgy98rn',
-        'marker': 1665569961.34958,
-        'status': 'pending',
-        'to': '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
-        'type': 'sent',
-        'url': 'https://www.blockchain.com/btc-testnet/tx/f1b6b41b542482c3b522ce0c235358f897e8377c2ba96b81f9ab9a2b085e2a3d',
-      },
-      {
-        'ID': '1ebe5975480c13bf1b6a5418a14f91ee9113fe5af195fd7832527a398bc1a7c9',
-        'address': '',
-        'amount': 0.00110848,
-        'confirmThreshold': undefined,
-        'confirmedNum': undefined,
-        'date': NaN,
-        'fee': 10848,
-        'from': '',
-        'marker': undefined,
-        'status': 'pending',
-        'to': '',
-        'type': 'sent',
-        'url': undefined,
-      },],
+      txList: [
+        {
+          'ID': 'f1b6b41b542482c3b522ce0c235358f897e8377c2ba96b81f9ab9a2b085e2a3d',
+          'address': '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
+          'amount': 27232,
+          'confirmThreshold': 2,
+          'confirmedNum': 2,
+          'date': 1665569961349.5369,
+          'fee': 7232,
+          'from': 'tb1qfrzssvcwucgadrcp043yftnq34xk0a9wgy98rn',
+          'marker': 1665569961.34958,
+          'status': 'pending',
+          'to': '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
+          'type': 'sent',
+          'url': 'https://www.blockchain.com/btc-testnet/tx/f1b6b41b542482c3b522ce0c235358f897e8377c2ba96b81f9ab9a2b085e2a3d',
+        },
+        {
+          'ID': '1ebe5975480c13bf1b6a5418a14f91ee9113fe5af195fd7832527a398bc1a7c9',
+          'address': '',
+          'amount': 110848,
+          'confirmThreshold': undefined,
+          'confirmedNum': undefined,
+          'date': NaN,
+          'fee': 10848,
+          'from': '',
+          'marker': undefined,
+          'status': 'pending',
+          'to': '',
+          'type': 'sent',
+          'url': undefined,
+        },
+      ],
     });
   });
 
@@ -127,7 +129,7 @@ describe('useTransaction', () => {
     expect(api.queryActivities).toBeCalledTimes(1);
 
     act(() => {
-      (result.current as typeof defaultStore).refresh();
+      result.current.refresh();
     });
     await waitForNextUpdate();
     expect(api.queryActivities).toBeCalledTimes(2);

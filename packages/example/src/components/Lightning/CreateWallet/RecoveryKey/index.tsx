@@ -56,7 +56,7 @@ const RecoveryKey = observer(
 
     async function copyKey() {
       if (!recoveryKey || !current?.name) return;
-      const copyStatus = await copyToClipboard({ text: recoveryKey });
+      const copyStatus = await copyToClipboard(recoveryKey);
       if (copyStatus) {
         setCopyToClipboardStatus(true);
         setTimeout(() => {

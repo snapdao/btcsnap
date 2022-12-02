@@ -20,11 +20,21 @@ import {
   RecordItemRowDivider, RecordDetailsContainer, RecordDetailsContent, GradientLayer
 } from '../styles';
 import dayjs from 'dayjs';
-import SuccessIcon from '../../../Icons/SuccessIcon';
 import { TransactionProps } from './index';
 import { Icon } from 'snapkit';
+import { getInvoiceStatusIcon } from './InvoiceReceiveModal';
+import { InvoiceStatus } from '../../../../types';
+import { useAppStore } from '../../../../mobx';
+import { BitcoinUnit } from '../../../../interface';
+import BigNumber from 'bignumber.js';
+import { satoshiToBTC } from '../../../../lib/helper';
 
 export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) => {
+  const { currentUnit } = useAppStore();
+
+  const amountText = currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(invoice.amount)).toFixed()
+    : invoice.amount;
+
   return (
     <Modal open={open} close={close} mountNode={parent}>
       <Modal.Header bannerMode onClose={close}>
@@ -40,13 +50,13 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
               <RecordType isOnChain>
                 <Icon.OnChain color={'#1F69FF'} width={'36px'} height={'36px'}/>
                 <RecordStatus>
-                  <SuccessIcon/>
+                  {getInvoiceStatusIcon(invoice.status)}
                 </RecordStatus>
               </RecordType>
 
               <RecordAmount>
-                <span>{invoice.amount}</span>
-                <span>Sats</span>
+                <span>{amountText}</span>
+                <span>{currentUnit}</span>
               </RecordAmount>
             </RecordStatusContainer>
 
@@ -58,8 +68,10 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
           <RecordDetailsBottom>
             <RecordItemRow>
               <RecordItemLabel>Status</RecordItemLabel>
-              <RecordItemLabel succeed>
-                Success
+              <RecordItemLabel
+                succeed={invoice.status === InvoiceStatus.Succeed}
+                highlight={invoice.status === InvoiceStatus.Pending}>
+                {invoice.status}
               </RecordItemLabel>
             </RecordItemRow>
 
@@ -73,8 +85,8 @@ export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) 
             <RecordItemRow>
               <RecordItemLabel>Amount</RecordItemLabel>
               <span>
-                <RecordItemContent lowlight>{invoice.amount}{' '}</RecordItemContent>
-                <RecordItemContent highlight>Sats</RecordItemContent>
+                <RecordItemContent lowlight>{amountText}{' '}</RecordItemContent>
+                <RecordItemContent highlight>{currentUnit}</RecordItemContent>
               </span>
             </RecordItemRow>
           </RecordDetailsBottom>

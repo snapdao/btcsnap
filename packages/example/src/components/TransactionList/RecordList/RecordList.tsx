@@ -23,6 +23,9 @@ import { useHistoryRecords } from '../../../hook/useHistoryRecords';
 import { useAppStore } from '../../../mobx';
 import { WalletType } from '../../../interface';
 import { RecordCard } from '../RecordCard';
+import ErrorIcon from '../../Icons/ErrorIcon';
+import { H4 } from '../../../kits';
+import { TxErrorInfo, TxErrorRetryButton, TxListEmpty } from '../../Account/styles';
 
 interface RecordListProps {
   open: boolean;
@@ -39,14 +42,16 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
 
   const {currentWalletType} = useAppStore();
   const offset = currentWalletType === WalletType.BitcoinWallet
-    ? (defaultRecords[defaultRecords.length - 1].data as TransactionDetail)?.marker
+    ? (defaultRecords.at(-1)?.data as TransactionDetail)?.marker
     : defaultRecords.length;
 
   const {
     historyRecords,
     loadMore,
     hasMore,
-    loading
+    loading,
+    refresh,
+    error
   } = useHistoryRecords(10, offset);
 
   useEffect(() => {
@@ -107,6 +112,13 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
             ))}
 
             {loading && <LoadingIconContainer><LoadingIcon/></LoadingIconContainer>}
+            {error && <TxListEmpty>
+              <ErrorIcon />
+              <TxErrorInfo>Failed to load</TxErrorInfo>
+              <TxErrorRetryButton size='small' onClick={refresh}>
+                <H4>RETRY</H4>
+              </TxErrorRetryButton>
+            </TxListEmpty>}
           </InfiniteScroll>
         </TransactionListArea>
 

@@ -101,12 +101,16 @@ export const BottomTipsContainer = styled.div`
     margin: 0 auto;
     line-height: 20px;
     :hover {
-    text-decoration: underline;
-    transition: 0.25s;
+      text-decoration: underline;
+      transition: 0.25s;
+      }
+      :not(:hover) {
+      text-decoration: none;
+      transition: 0.25s;
     }
-    :not(:hover) {
-    text-decoration: none;
-    transition: 0.25s;
   }
-}
+
+  .icon-info:hover path {
+    fill: var(--sk-color-pri50);
+  }
 `;
