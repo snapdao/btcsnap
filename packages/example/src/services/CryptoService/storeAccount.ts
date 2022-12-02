@@ -29,7 +29,11 @@ export const storeAccount = async (
   try {
     const accountData = constructAccount(mfp, xpub, scriptType, network);
     const storeAccount = appStore.createAccount(accountData);
-    appStore.applyAccount(storeAccount);
+    if(network === BitcoinNetwork.Main && scriptType === BitcoinScriptType.P2WPKH){
+      appStore.applyAccount(storeAccount);
+    } else {
+      appStore.addAccount(storeAccount);
+    }
 
     const { unused } = await fetchAddresses(mfp, xpub, storeAccount.coinCode);
 
