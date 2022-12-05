@@ -24,7 +24,7 @@ const Menu = () => {
 
   const settingClick = useCallback(() => {
     setVisible(visible => !visible);
-  },[setVisible]);
+  }, [setVisible]);
 
   return (
     <MenuContainer>

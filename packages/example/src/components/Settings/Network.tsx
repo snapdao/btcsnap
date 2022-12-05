@@ -36,7 +36,7 @@ const AddressType = (({open, close}: ConnectProps) => {
 
   useEffect(() => {
     setIsSwitchNetWork(false);
-  },[]);
+  }, []);
 
   const onNetworkChecked = (netValue: BitcoinNetwork) => {
     if(netValue === network) {

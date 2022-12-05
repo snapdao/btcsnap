@@ -14,11 +14,11 @@ interface RecordDetailProps {
 export const RecordDetail = ({record, ...rest}: RecordDetailProps) => {
 
   switch (record.type) {
-  case HistoryRecordType.BitcoinTransaction:
-    return <TransactionDetailModal {...rest} details={record.data as TransactionDetail}/>;
-  case HistoryRecordType.LightningInvoice:
-    return <InvoiceDetailModal {...rest} invoice={record.data as InvoiceDetail}/>;
-  default:
-    return null;
+    case HistoryRecordType.BitcoinTransaction:
+      return <TransactionDetailModal {...rest} details={record.data as TransactionDetail}/>;
+    case HistoryRecordType.LightningInvoice:
+      return <InvoiceDetailModal {...rest} invoice={record.data as InvoiceDetail}/>;
+    default:
+      return null;
   }
 };

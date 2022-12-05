@@ -16,25 +16,25 @@ export const mapErrorToUserFriendlyError = (message: string) => {
 
   if(psbtValidateError) {
     switch (psbtValidateError.name) {
-    case 'FeeTooHigh':
-      return {...psbtValidateError, message: 'Fee too high'};
-    default:
-      return {...psbtValidateError, message: 'Transaction is invalid'};
+      case 'FeeTooHigh':
+        return {...psbtValidateError, message: 'Fee too high'};
+      default:
+        return {...psbtValidateError, message: 'Transaction is invalid'};
     }
   }
 
   if(snapRequestError) {
     switch (snapRequestError.name) {
-    case 'NoPermission':
-      return {...snapRequestError, message: 'This error is usually caused by resetting the recovery phrase, please try to reinstall MetaMask Flask'};
-    case 'SignInvalidPath':
-      return {...snapRequestError, message: 'Sign transaction failed'};
-    case 'ScriptTypeNotSupport':
-    case 'MethodNotSupport':
-    case 'ActionNotSupport':
-      return {...snapRequestError, message: 'Request error'};
-    default:
-      return snapRequestError;
+      case 'NoPermission':
+        return {...snapRequestError, message: 'This error is usually caused by resetting the recovery phrase, please try to reinstall MetaMask Flask'};
+      case 'SignInvalidPath':
+        return {...snapRequestError, message: 'Sign transaction failed'};
+      case 'ScriptTypeNotSupport':
+      case 'MethodNotSupport':
+      case 'ActionNotSupport':
+        return {...snapRequestError, message: 'Request error'};
+      default:
+        return snapRequestError;
     }
   }
 
