@@ -82,6 +82,10 @@ const AppStore = types
       return Account.create(accountIn);
     },
     addAccount(account: IAccount) {
+      const isAccountExist = self.accounts.find(
+        (account) => account.xpub === account.xpub,
+      );
+      if (isAccountExist) return;
       self.accounts.push(account);
     },
     applyAccount(account: IAccount) {
