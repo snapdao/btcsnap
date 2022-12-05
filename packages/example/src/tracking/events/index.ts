@@ -60,6 +60,12 @@ export const trackLightningAddSuccess = () => {
   trackEvent(EVENTS.LightningAddSuccess);
 };
 
+export const trackLightningWalletAmount = (amount: number) => {
+  trackEvent(EVENTS.LightningWalletAmount, {
+    amount
+  });
+};
+
 export const trackLightningImportSuccess = () => {
   trackEvent(EVENTS.LightningImportSuccess);
 };
