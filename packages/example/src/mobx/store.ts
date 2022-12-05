@@ -120,6 +120,11 @@ const AppStore = types
     }
   }))
   .actions((self) => ({
+    switchWalletType(walletType: WalletType) {
+      self.currentWalletType = walletType;
+    },
+  }))
+  .actions((self) => ({
     switchToAccount(
       mfp: string,
       scriptType: BitcoinScriptType,
@@ -137,42 +142,38 @@ const AppStore = types
       self.resetSettings();
       self.resetRuntime();
       self.resetLightningWallets();
+      self.switchWalletType(WalletType.BitcoinWallet);
     },
   }))
   .views((self) => ({
     get currentUnit() {
       switch (self.currentWalletType) {
-      case WalletType.BitcoinWallet:
-        return self.user.bitcoinUnit || BitcoinUnit.BTC;
-      case WalletType.LightningWallet:
-        return self.lightning.current?.unit || BitcoinUnit.Sats;
+        case WalletType.BitcoinWallet:
+          return self.user.bitcoinUnit || BitcoinUnit.BTC;
+        case WalletType.LightningWallet:
+          return self.lightning.current?.unit || BitcoinUnit.Sats;
       }
-    },
-  }))
-  .actions((self) => ({
-    switchWalletType(walletType: WalletType) {
-      self.currentWalletType = walletType;
     },
   }))
   .actions((self) => ({
     switchToWallet(walletType: WalletType, walletId = '') {
       self.switchWalletType(walletType);
       switch (walletType) {
-      case WalletType.BitcoinWallet:
-        self.switchAccount(walletId);
-        return;
-      case WalletType.LightningWallet:
-        self.lightning.switchWallet(walletId);
-        return;
+        case WalletType.BitcoinWallet:
+          self.switchAccount(walletId);
+          return;
+        case WalletType.LightningWallet:
+          self.lightning.switchWallet(walletId);
+          return;
       }
     },
     updateCurrentWalletUnit(targetUnit: BitcoinUnit) {
       switch (self.currentWalletType) {
-      case WalletType.BitcoinWallet:
-        self.current && self.user.setBitcoinUnit(targetUnit);
-        return;
-      case WalletType.LightningWallet:
-        self.lightning.current && self.lightning.current.setUnit(targetUnit);
+        case WalletType.BitcoinWallet:
+          self.current && self.user.setBitcoinUnit(targetUnit);
+          return;
+        case WalletType.LightningWallet:
+          self.lightning.current && self.lightning.current.setUnit(targetUnit);
       }
     },
   }));
