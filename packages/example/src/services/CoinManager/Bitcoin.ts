@@ -9,20 +9,20 @@ export class Bitcoin {
     const networkConfig = this.getNetworkConfig(network);
     let address: string | undefined = '';
     switch (scriptType) {
-    case BitcoinScriptType.P2PKH:
-      address = bitcoin.payments.p2pkh({ pubkey: publicKey, network: networkConfig }).address;
-      break;
-    case BitcoinScriptType.P2SH_P2WPKH:
-      address = bitcoin.payments.p2sh({
-        redeem: bitcoin.payments.p2wpkh({ pubkey: publicKey, network: networkConfig }),
-        network: networkConfig,
-      }).address;
-      break;
-    case BitcoinScriptType.P2WPKH:
-      address = bitcoin.payments.p2wpkh({ pubkey: publicKey, network: networkConfig }).address;
-      break;
-    default:
-      address = '';
+      case BitcoinScriptType.P2PKH:
+        address = bitcoin.payments.p2pkh({ pubkey: publicKey, network: networkConfig }).address;
+        break;
+      case BitcoinScriptType.P2SH_P2WPKH:
+        address = bitcoin.payments.p2sh({
+          redeem: bitcoin.payments.p2wpkh({ pubkey: publicKey, network: networkConfig }),
+          network: networkConfig,
+        }).address;
+        break;
+      case BitcoinScriptType.P2WPKH:
+        address = bitcoin.payments.p2wpkh({ pubkey: publicKey, network: networkConfig }).address;
+        break;
+      default:
+        address = '';
     }
     if (address) {
       return address;

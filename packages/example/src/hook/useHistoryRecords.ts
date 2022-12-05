@@ -23,13 +23,13 @@ const getInvoiceLabel = (
   }
 
   switch (type) {
-  case InvoiceTypes.Sent:
-    return 'Lightning Payment';
-  case InvoiceTypes.Received:
-    return 'Lightning Invoice';
-  case InvoiceTypes.OnChain:
-  case InvoiceTypes.TopUp:
-    return 'Top Up';
+    case InvoiceTypes.Sent:
+      return 'Lightning Payment';
+    case InvoiceTypes.Received:
+      return 'Lightning Invoice';
+    case InvoiceTypes.OnChain:
+    case InvoiceTypes.TopUp:
+      return 'Top Up';
   }
   return '';
 };
@@ -91,14 +91,14 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
         invoices.map((invoice) => {
           let title = '';
           switch (invoice.status){
-          case InvoiceStatus.Pending:
-            title = 'To Be Received';
-            break;
-          case InvoiceStatus.Expired:
-            title = InvoiceStatus.Expired;
-            break;
-          default:
-            title = invoice.type;
+            case InvoiceStatus.Pending:
+              title = 'To Be Received';
+              break;
+            case InvoiceStatus.Expired:
+              title = InvoiceStatus.Expired;
+              break;
+            default:
+              title = invoice.type;
           }
 
           return {

@@ -48,12 +48,12 @@ export const getInvoiceStatusIcon = (
   status: InvoiceStatus,
 ): ReactNode => {
   switch (status) {
-  case InvoiceStatus.Expired:
-    return <ExpiredIcon/>;
-  case InvoiceStatus.Pending:
-    return <img alt={'pending'} src={PendingIcon}/>;
-  case InvoiceStatus.Succeed:
-    return <SuccessIcon/>;
+    case InvoiceStatus.Expired:
+      return <ExpiredIcon/>;
+    case InvoiceStatus.Pending:
+      return <img alt={'pending'} src={PendingIcon}/>;
+    case InvoiceStatus.Succeed:
+      return <SuccessIcon/>;
   }
   return null;
 };

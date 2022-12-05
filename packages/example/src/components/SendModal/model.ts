@@ -136,20 +136,20 @@ class SendViewModel {
 
   get sendAmountSecondary() {
     switch (this.sendSecondaryUnit) {
-    case BitcoinUnit.BTC:
-      return new BigNumber(
-        satoshiToBTC(this.sendSatoshis.toNumber()),
-      ).toFixed();
-    case BitcoinUnit.Sats:
-      return this.sendSatoshis.isNaN()
-        ? '0.00'
-        : this.sendSatoshis.toNumber();
-    case BitcoinUnit.Currency:
-      return this.sendSatoshis.isNaN()
-        ? '0.00'
-        : new BigNumber(
-          satoshiToBTC(this.sendSatoshis.toNumber() * this.exchangeRate),
-        ).toFixed(2);
+      case BitcoinUnit.BTC:
+        return new BigNumber(
+          satoshiToBTC(this.sendSatoshis.toNumber()),
+        ).toFixed();
+      case BitcoinUnit.Sats:
+        return this.sendSatoshis.isNaN()
+          ? '0.00'
+          : this.sendSatoshis.toNumber();
+      case BitcoinUnit.Currency:
+        return this.sendSatoshis.isNaN()
+          ? '0.00'
+          : new BigNumber(
+            satoshiToBTC(this.sendSatoshis.toNumber() * this.exchangeRate),
+          ).toFixed(2);
     }
   }
 
@@ -218,14 +218,14 @@ class SendViewModel {
 
   satoshiToCurrentMainUnit(satoshi: number) {
     switch (this.sendMainUnit) {
-    case BitcoinUnit.BTC:
-      return new BigNumber(satoshi).dividedBy(this.decimalFactor).toFixed();
-    case BitcoinUnit.Sats:
-      return satoshi.toString();
-    case BitcoinUnit.Currency:
-      return new BigNumber(satoshiToBTC(satoshi) * this.exchangeRate).toFixed(
-        2,
-      );
+      case BitcoinUnit.BTC:
+        return new BigNumber(satoshi).dividedBy(this.decimalFactor).toFixed();
+      case BitcoinUnit.Sats:
+        return satoshi.toString();
+      case BitcoinUnit.Currency:
+        return new BigNumber(satoshiToBTC(satoshi) * this.exchangeRate).toFixed(
+          2,
+        );
     }
   }
 
@@ -306,10 +306,10 @@ class SendViewModel {
 
   get availableAmount() {
     switch (this.unit) {
-    case BitcoinUnit.BTC:
-      return this.balanceInBtc;
-    case BitcoinUnit.Sats:
-      return this.balanceInSatoshi.toNumber();
+      case BitcoinUnit.BTC:
+        return this.balanceInBtc;
+      case BitcoinUnit.Sats:
+        return this.balanceInSatoshi.toNumber();
     }
     return 0;
   }
@@ -338,40 +338,40 @@ class SendViewModel {
     const availableSatoshis = this.balanceInSatoshi.minus(totalFee);
     this.sendSatoshis = availableSatoshis;
     switch (this.sendMainUnit) {
-    case BitcoinUnit.BTC:
-      this.sendAmountText = satoshiToBTC(
-        availableSatoshis.toNumber(),
-      ).toString();
-      break;
-    case BitcoinUnit.Sats:
-      this.sendAmountText = availableSatoshis.toString();
-      break;
-    case BitcoinUnit.Currency:
-      this.sendAmountText = BigNumber(
-        satoshiToBTC(availableSatoshis.toNumber()) * this.exchangeRate,
-      ).toFixed(2);
-      break;
+      case BitcoinUnit.BTC:
+        this.sendAmountText = satoshiToBTC(
+          availableSatoshis.toNumber(),
+        ).toString();
+        break;
+      case BitcoinUnit.Sats:
+        this.sendAmountText = availableSatoshis.toString();
+        break;
+      case BitcoinUnit.Currency:
+        this.sendAmountText = BigNumber(
+          satoshiToBTC(availableSatoshis.toNumber()) * this.exchangeRate,
+        ).toFixed(2);
+        break;
     }
   };
 
   handleSendInput = (value: string) => {
     switch (this.sendMainUnit) {
-    case BitcoinUnit.BTC:
-      this.sendAmountText = dealWithDigital(value, 8);
-      this.sendSatoshis = new BigNumber(
-        btcToSatoshi(Number(dealWithDigital(value, 8))),
-      );
-      break;
-    case BitcoinUnit.Sats:
-      this.sendAmountText = dealWithDigital(value, 0);
-      this.sendSatoshis = new BigNumber(this.sendAmountText);
-      break;
-    case BitcoinUnit.Currency:
-      this.sendAmountText = dealWithDigital(value, 2);
-      this.sendSatoshis = new BigNumber(
-        btcToSatoshi(Number(dealWithDigital(value, 2)) / this.exchangeRate),
-      );
-      break;
+      case BitcoinUnit.BTC:
+        this.sendAmountText = dealWithDigital(value, 8);
+        this.sendSatoshis = new BigNumber(
+          btcToSatoshi(Number(dealWithDigital(value, 8))),
+        );
+        break;
+      case BitcoinUnit.Sats:
+        this.sendAmountText = dealWithDigital(value, 0);
+        this.sendSatoshis = new BigNumber(this.sendAmountText);
+        break;
+      case BitcoinUnit.Currency:
+        this.sendAmountText = dealWithDigital(value, 2);
+        this.sendSatoshis = new BigNumber(
+          btcToSatoshi(Number(dealWithDigital(value, 2)) / this.exchangeRate),
+        );
+        break;
     }
   };
 
