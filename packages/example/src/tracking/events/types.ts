@@ -11,6 +11,7 @@ export enum EVENTS {
   TransactionButton = 'Transaction_Button',
   LightningSetup = 'Lightning_Setup',
   LightningAddSuccess = 'Lightning_Add_Success',
+  LightningWalletAmount = 'Lightning_Wallet_Amount',
   LightningImportSuccess = 'Lightning_Import_Success',
   LightningReceive = 'Lighting_Receive',
   LightningSend = 'Lighting_Send',
