@@ -33,6 +33,7 @@ interface CreateWalletProps {
   bottomAction?: ReactNode;
   key?: Key;
   showCloseIcon?: boolean;
+  entryPage: 'create' | 'settings'
 }
 
 const RecoveryKey = observer(
@@ -43,6 +44,7 @@ const RecoveryKey = observer(
     key,
     showCloseIcon = true,
     close,
+    entryPage
   }: CreateWalletProps) => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [copyToClipboardStatus, setCopyToClipboardStatus] =
@@ -54,9 +56,6 @@ const RecoveryKey = observer(
       currentWalletType,
       switchWalletType,
     } = useAppStore();
-
-    // No have bottom action is created success Recovery key page.
-    const entryPage = !bottomAction ? 'create' : 'settings';
 
     async function copyKey() {
       if (!recoveryKey || !current?.name) return;

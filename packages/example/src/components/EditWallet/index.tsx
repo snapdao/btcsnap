@@ -261,6 +261,7 @@ const EditWallet = observer(
             Done
           </Button>
         }
+        entryPage='settings'
       />
     );
   },
