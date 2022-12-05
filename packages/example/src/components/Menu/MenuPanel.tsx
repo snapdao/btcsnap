@@ -14,7 +14,6 @@ import {
   MenuDivider,
   MenuItemIsConnect,
 } from './styles';
-import { LNWalletStepStatus } from '../../mobx/user';
 
 interface MenuPanelProps {
   openSettingModal: () => void;
@@ -26,14 +25,12 @@ const MenuPanel = ({ openSettingModal, close }: MenuPanelProps) => {
     disconnectAccount,
     current,
     runtime: { continueConnect },
-    user: { setLNWalletStep },
   } = useAppStore();
   const menuPanelRef = useRef(null);
   useOutsideCallback(menuPanelRef, close);
 
   const disconnect = () => {
     disconnectAccount();
-    setLNWalletStep(LNWalletStepStatus.Default);
     close();
   };
 

@@ -3,6 +3,7 @@ import { storeAccount } from './storeAccount';
 import { register as registerMFP } from '../../api';
 import { logger } from '../../logger';
 import { detectNetworkAndScriptType } from '../../lib';
+import { BitcoinNetwork, BitcoinScriptType } from '../../interface';
 
 export const register = async (xpubs: string[], mfp: string) => {
   const appStore = getAppStore();
@@ -20,7 +21,9 @@ export const register = async (xpubs: string[], mfp: string) => {
     await Promise.all(xpubs.map(async xpub => {
       const targetAccount = appStore.getAccount(xpub);
       if (targetAccount && targetAccount.hasSyncXPub) {
-        appStore.switchAccount(targetAccount.xpub);
+        if(targetAccount.network === BitcoinNetwork.Main && targetAccount.scriptType === BitcoinScriptType.P2WPKH) {
+          appStore.switchAccount(targetAccount.xpub);
+        }
       } else {
         const { scriptType, network } = detectNetworkAndScriptType(xpub);
         await storeAccount(xpub, mfp, scriptType, network);
