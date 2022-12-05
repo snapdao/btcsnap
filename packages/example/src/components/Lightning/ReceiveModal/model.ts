@@ -1,3 +1,4 @@
+import { trackLightningReceive } from './../../../tracking/events/index';
 import lightningPayReq from 'bolt11';
 import { satoshiToBTC } from './../../../lib/helper';
 import { BigNumber } from 'bignumber.js';
@@ -193,13 +194,24 @@ class ReceiveViewModel {
   async onCreateReceive() {
     try {
       this.isCreating = true;
+      trackLightningReceive({
+        step: 'create'
+      });
       const res = await addInvoice({
         amount: this.receiveAmount,
         memo: this.description,
       });
+      trackLightningReceive({
+        step: 'result',
+        value: 'success'
+      });
       this.updateCreatedInvoice(res.paymentRequest);
       return res;
     } catch (e) {
+      trackLightningReceive({
+        step: 'result',
+        value: 'failed'
+      });
       this.isCreating = false;
       throw e;
     }

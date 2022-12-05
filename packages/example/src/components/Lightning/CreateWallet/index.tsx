@@ -129,6 +129,7 @@ const CreateWallet = observer(
             recoveryKey={recoveryKey}
             close={onCloseRecoveryKeyModal}
             showCloseIcon={false}
+            entryPage='create'
           />
         )}
       </>

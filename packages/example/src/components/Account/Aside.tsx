@@ -24,6 +24,7 @@ import { WalletType } from '../../interface';
 import { useHistoryRecords } from '../../hook/useHistoryRecords';
 import { LatestRecords } from './LatestRecords';
 import { RecordList } from '../TransactionList';
+import { trackTransactionButton } from '../../tracking';
 
 interface AsideProps {
   loadingBalance: boolean;
@@ -63,6 +64,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
     }
     refreshBalance();
     refreshRecords();
+    trackTransactionButton('refresh');
   }, [refreshBalance, refreshRecords, isRefreshing]);
 
   useEffect(() => {
@@ -82,6 +84,7 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
       continueConnect();
       return;
     }
+    trackTransactionButton('all');
     setShouldShowRecordDetail(true);
   };
 

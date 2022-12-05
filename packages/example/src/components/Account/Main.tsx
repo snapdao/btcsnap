@@ -41,6 +41,8 @@ import LightningReceiveModal from '../Lightning/ReceiveModal';
 import { H4, Popup } from '../../kits';
 import { Icon } from 'snapkit';
 import { List } from '../../kits/List';
+import { trackLightningReceive, trackLightningSend, trackLightningTopUp, trackLightningWalletAmount } from '../../tracking';
+import { AppStatus } from '../../mobx/runtime';
 
 export interface MainProps {
   balance: number; // Satoshi
@@ -60,7 +62,8 @@ const Main = observer(({ balance }: MainProps) => {
     currentUnit,
     updateCurrentWalletUnit,
     currentWalletType,
-    runtime: { continueConnect, currencyRate },
+    runtime: { continueConnect, currencyRate, status },
+    lightning: { walletLength }
   } = useAppStore();
   const unit = bitcoinUnitMap[network];
   const [topUpVisibleData, setTopUpVisibleData] = useState<{
@@ -84,8 +87,14 @@ const Main = observer(({ balance }: MainProps) => {
         return;
       }
       setOpenedModal(modal);
+      if (currentWalletType === WalletType.LightningWallet && [MainModal.Send, MainModal.Receive].includes(modal)) {
+        const trackFn = MainModal.Send === modal ? trackLightningSend : trackLightningReceive;
+        trackFn({
+          step: 'entry'
+        });
+      }
     },
-    [current],
+    [current, currentWalletType],
   );
 
   const closeModal = useCallback(() => {
@@ -107,6 +116,10 @@ const Main = observer(({ balance }: MainProps) => {
       open: false,
       type
     });
+    trackLightningTopUp({
+      type: type === 'wallet' ? 'internal' : 'external',
+      step: 'entry',
+    });
   };
 
   function setTopUpVisible(open: boolean) {
@@ -121,6 +134,12 @@ const Main = observer(({ balance }: MainProps) => {
       currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC,
     );
   }, [currentWalletType]);
+
+  useEffect(() => {
+    if (status === AppStatus.Ready && walletLength >= 1) {
+      trackLightningWalletAmount(walletLength);
+    }
+  }, [walletLength]);
 
   return (
     <AccountMain>

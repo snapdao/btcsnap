@@ -49,3 +49,66 @@ export const trackTransactionBroadcastSucceed = (network: BitcoinNetwork) => {
     network,
   });
 };
+
+export const trackLightningSetup = (action: 'create' | 'skip') => {
+  trackEvent(EVENTS.LightningSetup, {
+    action,
+  });
+};
+
+export const trackLightningAddSuccess = () => {
+  trackEvent(EVENTS.LightningAddSuccess);
+};
+
+export const trackLightningWalletAmount = (amount: number) => {
+  trackEvent(EVENTS.LightningWalletAmount, {
+    amount
+  });
+};
+
+export const trackLightningImportSuccess = () => {
+  trackEvent(EVENTS.LightningImportSuccess);
+};
+
+export interface TrackLightningReceiveProps {
+  step: 'entry' | 'create' | 'result'
+  value?: 'success' | 'failed'
+}
+
+export const trackLightningReceive = (props: TrackLightningReceiveProps) => {
+  trackEvent(EVENTS.LightningReceive, props);
+};
+
+export interface TrackLightningSendProps {
+  step: 'entry' | 'create' | 'confirm' | 'result'
+  value?: 'success' | 'failed'
+}
+
+export const trackLightningSend = (props: TrackLightningSendProps) => {
+  trackEvent(EVENTS.LightningSend, props);
+};
+
+export interface TrackLightningTopUpProps {
+  type: 'internal' | 'external'
+  step: 'entry' | 'create' | 'confirm' | 'result'
+  value?: 'success' | 'failed'
+}
+
+export const trackLightningTopUp = (props: TrackLightningTopUpProps) => {
+  trackEvent(EVENTS.LightningTopUp, props);
+};
+
+export const trackTransactionButton = (action: 'all' | 'refresh') => {
+  trackEvent(EVENTS.TransactionButton, {
+    action
+  });
+};
+
+export interface TrackLightningBackupWalletProps {
+  entry: 'create' | 'settings'
+  action: 'copy' | 'download'
+}
+
+export const trackLightningBackupWallet = (props: TrackLightningBackupWalletProps) => {
+  trackEvent(EVENTS.LightningBackupWallet, props);
+};

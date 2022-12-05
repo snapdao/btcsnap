@@ -27,6 +27,7 @@ import { observer } from 'mobx-react-lite';
 import { ConfirmView } from './ConfirmView';
 import { Loader, Modal as SemanticModal } from 'semantic-ui-react';
 import { Modal, Popup, Message, MessageType, H3 } from '../../../kits';
+import { trackLightningSend } from '../../../tracking';
 
 export const SendView = observer(
   ({
@@ -132,6 +133,9 @@ export const SendView = observer(
                   onClick={() => {
                     model.setIsConfirmModalOpen(true);
                     model.setError(undefined);
+                    trackLightningSend({
+                      step: 'create'
+                    });
                   }}>
                   Send
                 </PrimaryButton>

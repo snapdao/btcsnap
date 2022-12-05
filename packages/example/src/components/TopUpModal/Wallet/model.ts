@@ -10,11 +10,7 @@ import { generatePSBT, selectUtxos, SendInfo } from '../../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../../lib/snap';
 import { getTransactionLink } from '../../../lib/explorer';
-import {
-  trackSendSign,
-  trackTransactionBroadcast,
-  trackTransactionBroadcastSucceed,
-} from '../../../tracking';
+import { trackLightningTopUp } from '../../../tracking';
 import { FeeRate } from './types';
 import { BroadcastData, pushTransaction } from '../../../api/v1/pushTransaction';
 import { NETWORK_SCRIPT_TO_COIN } from '../../../constant/bitcoin';
@@ -453,18 +449,26 @@ class TopUpViewModel {
           this.scriptType,
         );
         this.txId = txId;
-        trackSendSign(this.network);
 
-        trackTransactionBroadcast(this.network);
         const coin = NETWORK_SCRIPT_TO_COIN[this.network][this.scriptType];
         const txData = this.adaptBroadcastData({ txId, txHex });
         await pushTransaction(coin, txData);
-        trackTransactionBroadcastSucceed(this.network);
+
+        trackLightningTopUp({
+          type: 'internal',
+          step: 'result',
+          value: 'success'
+        });
 
         this.status = 'success';
         this.isSending = false;
       } catch (e) {
         logger.error(e);
+        trackLightningTopUp({
+          type: 'internal',
+          step: 'result',
+          value: 'failed'
+        });
         if (typeof e === 'string') {
           this.errorMessage = mapErrorToUserFriendlyError(e);
         } else if (e instanceof Error) {

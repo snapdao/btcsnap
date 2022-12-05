@@ -8,4 +8,13 @@ export enum EVENTS {
   SendSign = 'User_Send_Sign',
   TransactionBroadcast = 'Trans_Broadcast',
   TransactionBroadcastSucceed = 'Trans_Broadcast_Succ',
+  TransactionButton = 'Transaction_Button',
+  LightningSetup = 'Lightning_Setup',
+  LightningAddSuccess = 'Lightning_Add_Success',
+  LightningWalletAmount = 'Lightning_Wallet_Amount',
+  LightningImportSuccess = 'Lightning_Import_Success',
+  LightningReceive = 'Lighting_Receive',
+  LightningSend = 'Lighting_Send',
+  LightningTopUp = 'Lighting_TopUp',
+  LightningBackupWallet = 'Lighting_Backup_Wallet',
 }

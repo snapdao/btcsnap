@@ -23,6 +23,10 @@ jest.mock('../../services/LightningService/createLightningWallet', () => ({
   createLightningWallet: jest.fn().mockResolvedValue(true),
 }));
 
+jest.mock('../../tracking/events', () => ({
+  trackLightningAddSuccess: jest.fn().mockReturnValue(void 0),
+}));
+
 describe('useLNWallet', () => {
   it('should return createLightningWallet given name and pubkey', async () => {
     jest.spyOn(snap, 'getLNWalletData').mockResolvedValue('pubkey');
