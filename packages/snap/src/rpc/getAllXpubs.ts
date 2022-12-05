@@ -11,7 +11,7 @@ export async function getAllXpubs(origin: string, wallet: Wallet): Promise<{xpub
     params: [
       {
         prompt: 'Access your extended public key',
-        description: `Do you want to allow ${origin} to access \n Bitcoin Legacy, \nSegWit and \nNative SegWit extended public keys of mainnet and testnet?`,
+        description: `Do you want to allow ${origin} to access Bitcoin Legacy, SegWit and Native SegWit extended public keys?`,
       },
     ],
   });
