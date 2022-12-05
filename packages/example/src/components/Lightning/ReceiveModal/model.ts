@@ -195,8 +195,7 @@ class ReceiveViewModel {
     try {
       this.isCreating = true;
       trackLightningReceive({
-        step: 'create',
-        value: 'success'
+        step: 'create'
       });
       const res = await addInvoice({
         amount: this.receiveAmount,

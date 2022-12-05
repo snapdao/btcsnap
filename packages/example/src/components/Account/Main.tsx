@@ -87,14 +87,14 @@ const Main = observer(({ balance }: MainProps) => {
         return;
       }
       setOpenedModal(modal);
-      if ([MainModal.Send, MainModal.Receive].includes(modal)) {
+      if (currentWalletType === WalletType.LightningWallet && [MainModal.Send, MainModal.Receive].includes(modal)) {
         const trackFn = MainModal.Send === modal ? trackLightningSend : trackLightningReceive;
         trackFn({
           step: 'entry'
         });
       }
     },
-    [current],
+    [current, currentWalletType],
   );
 
   const closeModal = useCallback(() => {
