@@ -48,7 +48,7 @@ const Account = observer(() => {
           inverted
           content={
             status === AppStatus.Register
-              ? 'Initializing, wait a few seconds, please.'
+              ? 'Initializing, it will take about 5 seconds.'
               : ''
           }
         />
