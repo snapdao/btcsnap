@@ -91,11 +91,11 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
                     const [int, dec] = value.split('.');
 
                     const isBTC = model.mainUnit === BitcoinUnit.BTC;
-                    const isSatoshi = model.mainUnit === bitcoinUnitMap.mainnet.Sats;
+                    const isSatoshi = model.mainUnit === bitcoinUnitMap.mainnet.sats;
                     const currDecMaxLen = {
                       [bitcoinUnitMap.mainnet.BTC]: 8,
                       [bitcoinUnitMap.mainnet.Currency]: 2,
-                      [bitcoinUnitMap.mainnet.Sats]: 0,
+                      [bitcoinUnitMap.mainnet.sats]: 0,
                     }[model.mainUnit];
                     const intMaxLen = int.length > (isBTC ? 2 : 9);
                     const decMaxLen = dec && dec.length > currDecMaxLen;

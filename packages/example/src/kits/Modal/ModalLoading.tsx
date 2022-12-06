@@ -1,4 +1,4 @@
-import { Loader, LoaderProps } from 'semantic-ui-react';
+import { Loader, LoaderProps, Modal } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 const Mask = styled.div`
@@ -11,11 +11,12 @@ const Mask = styled.div`
   z-index: 200;
 `;
 
-const ModalLoading = (args: LoaderProps) => {
+const ModalLoading = ({ inModal, ...args }: LoaderProps & { inModal?: boolean; } = { inModal: true }) => {
+  const Wrap = inModal ? Mask : Modal;
   return (
-    <Mask>
+    <Wrap open>
       <Loader {...args} />
-    </Mask>
+    </Wrap>
   );
 };
 

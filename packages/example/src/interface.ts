@@ -11,7 +11,7 @@ export enum BitcoinScriptType {
 
 export enum BitcoinUnit {
   BTC = 'BTC',
-  Sats = 'Sats',
+  Sats = 'sats',
   Currency = 'Currency',
 }
 

@@ -11,7 +11,7 @@ import {
   SendingText,
   SendingTo
 } from './styles';
-import { ConfirmModalContent, ConfirmMainHeader } from './styles';
+import { ConfirmModalContent } from './styles';
 import { HighLight, InvoiceDescription, PrimaryButton } from '../styles';
 import { Modal, Popup } from '../../../../kits';
 

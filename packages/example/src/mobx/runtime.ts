@@ -11,8 +11,14 @@ export enum AppStatus {
   Ready = 'ready',
 }
 
+export enum LightningAppStatus {
+  Ready = 'ready',
+  Expired = 'expired',
+}
+
 export const runtimeInitialState = {
   status: AppStatus.Ready,
+  lightningAppStatus: LightningAppStatus.Ready,
   connected: false,
   currencyRate: 0,
   wallets: [],
@@ -21,6 +27,7 @@ export const runtimeInitialState = {
 const Runtime = types
   .model('Runtime', {
     status: types.enumeration(Object.values(AppStatus)),
+    lightningAppStatus: types.enumeration(Object.values(LightningAppStatus)),
     connected: types.boolean,
     currencyRate: types.number,
     wallets: types.array(Wallet),
@@ -50,6 +57,9 @@ const Runtime = types
     },
     setCurrencyRate: (currencyRate: number) => {
       self.currencyRate = currencyRate;
+    },
+    setLightningAppStatus: (status: LightningAppStatus) => {
+      self.lightningAppStatus = status;
     },
     addWallet: (wallet: IWalletIn) => {
       const newWallet = Wallet.create(wallet);

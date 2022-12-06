@@ -17,6 +17,8 @@ import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
 import { WalletType } from '../../interface';
+import { Message, MessageType } from '../../kits';
+import LightningAppStatus from '../Lightning/AppStatus';
 
 const Account = observer(() => {
   const {
@@ -26,7 +28,7 @@ const Account = observer(() => {
     user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
     currentWalletType
   } = useAppStore();
-  const { balance, refresh, loadingBalance } = useBalance();
+  const { balance, refresh, loadingBalance, errorMessage } = useBalance();
   useCurrencyRate();
   useRegisterXpub();
 
@@ -56,8 +58,9 @@ const Account = observer(() => {
 
       <AccountBackground>
         <AccountContainer>
-          <Main balance={balance} />
+          <Main balance={balance} loadingBalance={loadingBalance} loadingBalanceErrorMessage={errorMessage} />
           <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
+
           {currentWalletType === WalletType.BitcoinWallet && (
             <AccountLabel>
               Powered by{' '}
@@ -67,6 +70,7 @@ const Account = observer(() => {
               | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank' rel='noreferrer'>SlowMist</a>
             </AccountLabel>
           )}
+
           {currentWalletType === WalletType.LightningWallet && (
             <AccountLabel>
               Powered by{' '}
@@ -75,6 +79,11 @@ const Account = observer(() => {
               </a>
             </AccountLabel>
           )}
+
+          {errorMessage && <Message type={MessageType.Error}>{errorMessage}</Message>}
+
+          <LightningAppStatus />
+
         </AccountContainer>
 
         <LNSetupModal />
