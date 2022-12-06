@@ -48,15 +48,15 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
   let Icon;
 
   switch(details.status) {
-  case TransactionStatus.Confirmed:
-    Icon = <SuccessIcon />;
-    break;
-  case TransactionStatus.Pending:
-    Icon = <img width='36' height='36' src={PendingImage}/>;
-    break;
-  case TransactionStatus.Failed:
-    Icon = <FailedIcon />;
-    break;
+    case TransactionStatus.Confirmed:
+      Icon = <SuccessIcon />;
+      break;
+    case TransactionStatus.Pending:
+      Icon = <img width='36' height='36' src={PendingImage}/>;
+      break;
+    case TransactionStatus.Failed:
+      Icon = <FailedIcon />;
+      break;
   }
 
   const amountText = currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(details.amount)).toFixed()

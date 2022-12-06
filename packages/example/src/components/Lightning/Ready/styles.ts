@@ -73,21 +73,6 @@ export const ButtonsContainer = styled.div`
   }
 `;
 
-export const CreateButton = styled(SnapButton)`
-  font-size: 16px;
-  font-weight: 600;
-  border: 1px solid #e1e6f0;
-  border-radius: 16px;
-  transition: 0.25s;
-
-  && {
-    background: #ffffff;
-    :hover {
-      background: rgba(0, 0, 0, 0.04);
-    }
-  }
-`;
-
 export const StartButton = styled(SnapButton)`
   color: #ffffff;
   font-size: 16px;

@@ -34,7 +34,7 @@ module.exports = {
     semi: ['warn', 'always'],
     quotes: ['warn', 'single'],
     'jsx-quotes': ['warn', 'prefer-single'],
-    indent: ['warn', 2],
+    indent: ['warn', 2,  { 'SwitchCase': 1 }],
     'comma-spacing': ['warn', { 'before': false, 'after': true }],
     'block-spacing': ['warn', 'always'],
     'react/react-in-jsx-scope': 'off',

@@ -2,6 +2,7 @@ import {getNetwork} from './bitcoin/getNetwork';
 import {Wallet, MetamaskBTCRpcRequest} from './interface';
 import {
   getExtendedPublicKey,
+  getAllXpubs,
   signPsbt,
   getMasterFingerprint,
   manageNetwork,
@@ -10,7 +11,7 @@ import {
   getLNDataFromSnap,
   signLNInvoice,
 } from './rpc';
-import { SnapError, RequestErrors } from "./errors";
+import { SnapError, RequestErrors } from './errors';
 
 declare let wallet: Wallet;
 
@@ -29,6 +30,11 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         wallet,
         request.params.scriptType,
         getNetwork(request.params.network),
+      );
+    case 'btc_getAllXpubs':
+      return getAllXpubs(
+        origin,
+        wallet,
       );
     case 'btc_signPsbt':
       const psbt = request.params.psbt;

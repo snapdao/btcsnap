@@ -1,14 +1,14 @@
 import {BitcoinNetwork, Wallet} from '../interface';
 import {getPersistedData} from '../utils/manageState';
 import {RpcRequest} from '../index';
-import { RequestErrors, SnapError } from "../errors";
+import { RequestErrors, SnapError } from '../errors';
 
 const DOMAIN_WHITELIST = [/\.justsnap\.io$/];
 
 const validateNetwork = async (wallet: Wallet, network: BitcoinNetwork) => {
   const snapNetwork = await getPersistedData(wallet, 'network', '');
   if (snapNetwork && network !== snapNetwork) {
-    throw SnapError.of(RequestErrors.NetworkNotMatch)
+    throw SnapError.of(RequestErrors.NetworkNotMatch);
   }
 };
 
@@ -17,7 +17,7 @@ const validateDomain = async (domain: string) => {
     pattern.test(domain),
   );
   if (!isDomainValid) {
-    throw SnapError.of(RequestErrors.DomainNotAllowed)
+    throw SnapError.of(RequestErrors.DomainNotAllowed);
   }
 };
 

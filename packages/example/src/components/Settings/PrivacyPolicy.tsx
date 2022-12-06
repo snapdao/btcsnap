@@ -24,7 +24,7 @@ const PrivacyPolicy = (({open, close}: ConnectProps) => {
     >
       <Modal
         open={true}
-        style={{width: '440px',height: '568px',marginTop: '72px', borderRadius: '20px'}}
+        style={{width: '440px', height: '568px', marginTop: '72px', borderRadius: '20px'}}
       >
         <ModalHeader>
           <ModalHeaderContainer>

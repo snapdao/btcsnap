@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { ReactComponent as ConnectIcon } from './image/connect.svg';
 import { ReactComponent as Reveal } from './image/reveal.svg';
-import { ReactComponent as WrongIcon } from './image/wrong.svg';
 import Modal from './Modal';
-import { getExtendedPublicKey } from '../../lib/snap';
+import { getAllExtendedPublicKeys } from '../../lib/snap';
 import { useAppStore } from '../../mobx';
 import { trackGetAddress } from '../../tracking';
 import { register } from '../../services/CryptoService/register';
@@ -11,11 +10,11 @@ import { AppStatus } from '../../mobx/runtime';
 import { observer } from 'mobx-react-lite';
 import ErrorPage from './Error';
 import { ErrorMessage } from './styles';
-import { Transition } from 'semantic-ui-react';
 import { SnapRequestErrors } from '../../errors/Snap/errors';
 import { logger } from '../../logger';
 import { SnapError } from '../../errors';
 import LoadingIcon from '../Icons/Loading';
+import { Message, MessageType } from '../../kits';
 
 export interface RevealXpubProps {
   open: boolean;
@@ -50,15 +49,16 @@ const RevealXpub = observer(
 
     const getXpub = useCallback(async () => {
       setIsRevealing(true);
-      getExtendedPublicKey(network, scriptType)
-        .then(async ({ xpub, mfp }) => {
-          if (xpub) {
+
+      getAllExtendedPublicKeys()
+        .then(async ({mfp, xpubs}) => {
+          if (mfp && xpubs.length > 0) {
             trackGetAddress(network);
             setStatus(AppStatus.Register);
             try {
-              await register(xpub, mfp, scriptType, network);
               onRevealed();
-            } catch (e: any) {
+              await register(xpubs, mfp);
+            } catch (e: unknown) {
               logger.error(e);
               setErrorMessage('Account init failed, please retry');
               setStatus(AppStatus.Connect);
@@ -91,7 +91,8 @@ const RevealXpub = observer(
           open={open && !fatalErrorMessage.message}
           close={close}
           isDisabled={isRevealing}
-          isFirstStep={isFirstStep}>
+          isFirstStep={isFirstStep}
+        >
           <ConnectIcon className='Connect-flask-icon' />
           <h2>
             Get Addresses for <br /> Bitcoin Snap
@@ -115,18 +116,11 @@ const RevealXpub = observer(
               </>
             )}
           </button>
-
-          <Transition
-            visible={shouldShowErrorMessage}
-            animation='fade up'
-            duration={200}>
-            <ErrorMessage>
-              <div>
-                <WrongIcon />
-                <span>{errorMessage}</span>
-              </div>
-            </ErrorMessage>
-          </Transition>
+          <>
+            {
+              shouldShowErrorMessage && <Message type={MessageType.Error}>{errorMessage}</Message>
+            }
+          </>
         </Modal>
 
         <ErrorPage

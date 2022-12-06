@@ -12,11 +12,11 @@ export interface TransactionProps {
 
 export const InvoiceDetailModal = (props: TransactionProps) => {
   switch (props.invoice.type){
-  case InvoiceTypes.Sent:
-    return <InvoiceSendModal {...props} />;
-  case InvoiceTypes.Received:
-    return <InvoiceReceiveModal {...props} />;
-  default:
-    return <OnChainModal {...props} />;
+    case InvoiceTypes.Sent:
+      return <InvoiceSendModal {...props} />;
+    case InvoiceTypes.Received:
+      return <InvoiceReceiveModal {...props} />;
+    default:
+      return <OnChainModal {...props} />;
   }
 };

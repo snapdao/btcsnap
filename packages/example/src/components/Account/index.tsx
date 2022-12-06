@@ -44,7 +44,14 @@ const Account = observer(() => {
   return (
     <>
       <Modal open={isLoading}>
-        <Loader inverted />
+        <Loader
+          inverted
+          content={
+            status === AppStatus.Register
+              ? 'Initializing, it will take about 5 seconds.'
+              : ''
+          }
+        />
       </Modal>
 
       <AccountBackground>
