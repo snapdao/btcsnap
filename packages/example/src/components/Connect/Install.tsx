@@ -3,8 +3,9 @@ import { ReactComponent as FlaskIcon } from './image/MetaMaskFlask.svg';
 import { ReactComponent as InstallIcon } from './image/install.svg';
 import Modal from './Modal';
 import { isFirefox } from '../../lib/helper';
+import { StepIndicatorProps } from './StepIndicator';
 
-interface InstallProps {
+interface InstallProps extends StepIndicatorProps {
   open: boolean;
   close: () => void;
   isFirstStep?: boolean;
@@ -16,9 +17,9 @@ const getFlaskInstallLink = () => {
     : 'https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk';
 };
 
-const Install = ({open, close, isFirstStep}: InstallProps) => {
+const Install = (props: InstallProps) => {
   return (
-    <Modal open={open} close={close} isFirstStep={isFirstStep}>
+    <Modal {...props}>
       <FlaskIcon className='Connect-flask-icon'/>
       <h2>Install MetaMask Flask</h2>
       <p className='Connect-install'>You will need to install the MetaMask Flask extension in order to use Bitcoin Snap.</p>
