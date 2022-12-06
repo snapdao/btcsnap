@@ -96,13 +96,13 @@
 
 .Connect-Modal-Container .Close-container {
   position: absolute;
-  top: 20px;
+  top: 0;
   right: 20px;
 }
 
 .Connect-Modal-Container .Close-container-disabled {
   position: absolute;
-  top: 20px;
+  top: 0;
   right: 20px;
 }
 

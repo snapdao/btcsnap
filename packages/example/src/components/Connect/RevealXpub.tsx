@@ -15,8 +15,9 @@ import { logger } from '../../logger';
 import { SnapError } from '../../errors';
 import LoadingIcon from '../Icons/Loading';
 import { Message, MessageType } from '../../kits';
+import { StepIndicatorProps } from './StepIndicator';
 
-export interface RevealXpubProps {
+export interface RevealXpubProps extends StepIndicatorProps {
   open: boolean;
   close: () => void;
   onRevealed: () => void;
@@ -29,7 +30,7 @@ interface ErrorMessage {
 }
 
 const RevealXpub = observer(
-  ({ open, close, onRevealed, isFirstStep }: RevealXpubProps) => {
+  ({onRevealed, ...rest }: RevealXpubProps) => {
     const {
       settings: { network, scriptType },
       current,
@@ -88,10 +89,8 @@ const RevealXpub = observer(
     return (
       <>
         <Modal
-          open={open && !fatalErrorMessage.message}
-          close={close}
           isDisabled={isRevealing}
-          isFirstStep={isFirstStep}
+          {...rest}
         >
           <ConnectIcon className='Connect-flask-icon' />
           <h2>

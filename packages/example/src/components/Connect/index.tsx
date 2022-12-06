@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import Install from './Install';
 import Connect from './Connect';
@@ -26,6 +26,8 @@ const Index = observer(() => {
   } = useAppStore();
   const [step, setStep] = useState<ConnectStep>(ConnectStep.Done);
   const [firstStep, setFirstStep] = useState<ConnectStep>();
+  const totalStep = useRef<number>(0);
+  const currentStep = step + totalStep.current - ConnectStep.Done;
 
   useEffect(() => {
     if(!persistDataLoaded){
@@ -44,6 +46,7 @@ const Index = observer(() => {
     }
     setStep(nextStep);
     setFirstStep(nextStep);
+    totalStep.current = ConnectStep.Done + 1 - nextStep;
   }, [current, setStep, persistDataLoaded]);
 
   const closeModal = useCallback(() => {
@@ -62,11 +65,15 @@ const Index = observer(() => {
         open={step === ConnectStep.Install}
         isFirstStep={firstStep === ConnectStep.Install}
         close={closeModal}
+        totalStep={totalStep.current}
+        currentStep={currentStep}
       />
       <Connect
         open={step === ConnectStep.Connect}
         isFirstStep={firstStep === ConnectStep.Connect}
         close={closeModal}
+        totalStep={totalStep.current}
+        currentStep={currentStep}
         onConnected={() => {
           setStep(ConnectStep.Reveal);
           setConnected(true);
@@ -76,6 +83,8 @@ const Index = observer(() => {
         open={step === ConnectStep.Reveal}
         close={closeModal}
         onRevealed={() => { setStep(ConnectStep.Done); }}
+        totalStep={totalStep.current}
+        currentStep={currentStep}
       />
     </>
   );

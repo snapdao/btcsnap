@@ -4,6 +4,9 @@ import { WalletType } from '../../interface';
 import { useAppStore } from '../../mobx';
 import CloseIcon from '../Icons/CloseIcon';
 import './Modal.css';
+import { StepIndicator } from './StepIndicator';
+import { ModalHeader } from './styles';
+import { StepIndicatorProps } from './StepIndicator';
 
 enum ModalAnimation {
   FadeUp = 'fade-up',
@@ -11,7 +14,7 @@ enum ModalAnimation {
   FadeOut = 'fade-out-left'
 }
 
-interface ConnectModalProps {
+interface ConnectModalProps extends StepIndicatorProps{
   open: boolean;
   close: () => void;
   children: JSX.Element | JSX.Element[];
@@ -19,7 +22,7 @@ interface ConnectModalProps {
   isFirstStep?: boolean;
 }
 
-const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = false}: ConnectModalProps) => {
+const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = false, totalStep, currentStep}: ConnectModalProps) => {
   const {
     switchWalletType
   } = useAppStore();
@@ -49,7 +52,10 @@ const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = fa
       open={isVisible}
     >
       <Modal.Content>
-        <CloseIcon onClick={() => !isDisabled && close()} isDisabled={isDisabled}/>
+        <ModalHeader>
+          <CloseIcon onClick={() => !isDisabled && close()} isDisabled={isDisabled}/>
+          <StepIndicator totalStep={totalStep} currentStep={currentStep} />
+        </ModalHeader>
         <div className='Connect-Modal-Content'>
           {children}
         </div>

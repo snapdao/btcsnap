@@ -6,15 +6,16 @@ import Modal from './Modal';
 import { connect } from '../../lib/snap';
 import { trackConnectClick, trackConnectSucceed } from '../../tracking';
 import LoadingIcon from '../Icons/Loading';
+import { StepIndicatorProps } from './StepIndicator';
 
-interface ConnectProps {
+interface ConnectProps extends StepIndicatorProps {
   open: boolean;
   close: () => void;
   onConnected: () => void;
   isFirstStep?: boolean;
 }
 
-const Connect = ({ open, close, onConnected, isFirstStep }: ConnectProps) => {
+const Connect = ({ onConnected, ...rest }: ConnectProps) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const connectMetaMask = useCallback(async () => {
@@ -32,10 +33,9 @@ const Connect = ({ open, close, onConnected, isFirstStep }: ConnectProps) => {
 
   return (
     <Modal
-      open={open}
-      close={close}
       isDisabled={isConnecting}
-      isFirstStep={isFirstStep}>
+      {...rest}
+    >
       <ConnectIcon className='Connect-flask-icon' />
       <h2>Connect to MetaMask Bitcoin Snap</h2>
       <p className='Connect-install'>

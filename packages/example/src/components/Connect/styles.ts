@@ -1,4 +1,13 @@
 import styled from 'styled-components';
+import { FlexCenter } from '../../kits';
+
+export const ModalHeader = styled(FlexCenter)`
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+`;
 
 export const Button = styled.button`
   position: absolute;
