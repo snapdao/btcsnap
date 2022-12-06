@@ -1,16 +1,17 @@
-import { BitcoinNetwork, BitcoinUnit } from '../interface';
+import { BitcoinUnit } from './../interface';
+import { BitcoinNetwork } from '../interface';
 
 export type BitcoinUnits = 'BTC' | 'sats' | 'tBTC' | 'tsats' | 'USD';
 
 export const bitcoinUnitMap: Record<BitcoinNetwork, Record<BitcoinUnit, BitcoinUnits>> = {
   [BitcoinNetwork.Main] : {
     BTC: 'BTC',
-    Sats: 'sats',
+    sats: 'sats',
     Currency: 'USD',
   },
   [BitcoinNetwork.Test] : {
     BTC: 'tBTC',
-    Sats: 'tsats',
+    sats: 'tsats',
     Currency: 'USD',
   }
 };

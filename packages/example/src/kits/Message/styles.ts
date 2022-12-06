@@ -9,6 +9,14 @@ export const MessageContainer = styled.div`
   top: 50px;
   left: 0;
   z-index: 300;
+  > .visible.transition {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 16px;
+    gap: 4px;
+  }
 `;
 
 export const MessageContent = styled.div`
@@ -17,14 +25,6 @@ export const MessageContent = styled.div`
   border: 0.5px solid #e1e6f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   border-radius: 12px;
-  .visible.transition & {
-    display: flex !important;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 16px;
-    gap: 4px;
-  }
   svg, span {
     display: inline-block;
   }

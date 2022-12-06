@@ -21,11 +21,11 @@ import { Modal } from '../../../../kits';
 import { useAppStore } from '../../../../mobx';
 import { observer } from 'mobx-react-lite';
 
-export const ResultView = observer(({open, model, close}: { open: boolean, model: LightningSendViewModel, close: () => void }) => {
+export const ResultView = observer(({ model, close }: { model: LightningSendViewModel, close: () => void }) => {
   const { lightning } = useAppStore();
 
   return (
-    <Modal open={open} close={close}>
+    <Modal open close={close}>
       <ResultContent>
         <ResultMainContainer>
           <ResultMainContent>

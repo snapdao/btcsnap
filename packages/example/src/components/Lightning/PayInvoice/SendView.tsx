@@ -31,11 +31,9 @@ import { trackLightningSend } from '../../../tracking';
 
 export const SendView = observer(
   ({
-    open,
     model,
     close,
   }: {
-    open: boolean;
     model: LightningSendViewModel;
     close: () => void;
   }) => {
@@ -44,7 +42,7 @@ export const SendView = observer(
     const sendModalRef = useRef<any>();
 
     return (
-      <Modal ref={modalRef} open={open} close={close}>
+      <Modal ref={modalRef} open close={close}>
         <LightningSendContainer ref={sendModalRef}>
           <SendModalContent>
             <Modal.Header

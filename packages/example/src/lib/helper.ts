@@ -1,8 +1,8 @@
-export const satoshiToBTC = (satoshi: number) => {
+export const satoshiToBTC = (satoshi: number): number => {
   return satoshi / (10 ** 8);
 };
 
-export const btcToSatoshi = (btc: number) => {
+export const btcToSatoshi = (btc: number): number => {
   return Math.round(btc * (10 ** 8));
 };
 

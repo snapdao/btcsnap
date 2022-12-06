@@ -172,11 +172,11 @@ class LightningSendViewModel {
         try {
           this.setIsPaying(true);
           const payResult = await payInvoice(this.invoice, signature.slice(2));
+          this.setStatus(payResult ? SendStatus.Succeed : SendStatus.Failed);
           trackLightningSend({
             step: 'result',
             value: 'success'
           });
-          this.setStatus(payResult ? SendStatus.Succeed : SendStatus.Failed);
           this.setIsPaying(false);
         } catch (e) {
           trackLightningSend({
