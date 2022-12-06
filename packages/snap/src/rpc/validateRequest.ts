@@ -30,6 +30,7 @@ export const validateRequest = async (
     case 'btc_getPublicExtendedKey':
     case 'btc_signPsbt':
       await validateNetwork(wallet, request.params.network);
+      break;
     case 'btc_getLNDataFromSnap':
     case 'btc_saveLNDataToSnap':
     case 'btc_signLNInvoice':
