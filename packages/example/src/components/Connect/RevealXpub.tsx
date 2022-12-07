@@ -16,6 +16,7 @@ import { SnapError } from '../../errors';
 import LoadingIcon from '../Icons/Loading';
 import { Message, MessageType } from '../../kits';
 import { StepIndicatorProps } from './StepIndicator';
+import { Loader, Modal as SModal } from 'semantic-ui-react';
 
 export interface RevealXpubProps extends StepIndicatorProps {
   open: boolean;
@@ -103,17 +104,10 @@ const RevealXpub = observer(
           <button
             className='Connect-button'
             disabled={isRevealing}
-            onClick={getXpub}>
-            {isRevealing ? (
-              <>
-                <LoadingIcon spin />
-              </>
-            ) : (
-              <>
-                <Reveal />
-                <span>Get Addresses</span>
-              </>
-            )}
+            onClick={getXpub}
+          >
+            <Reveal />
+            <span>Get Addresses</span>
           </button>
           <>
             {
@@ -127,6 +121,10 @@ const RevealXpub = observer(
           fatalErrorMessage={fatalErrorMessage}
           close={closeError}
         />
+
+        <SModal open={isRevealing}>
+          <Loader inverted content={'Continue at MetaMask'} />
+        </SModal>
       </>
     );
   },

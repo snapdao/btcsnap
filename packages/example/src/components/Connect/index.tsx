@@ -8,12 +8,14 @@ import './index.css';
 import { Browsers } from 'snapkit';
 import { isBrowserSupport } from '../../lib/helper';
 import { AppStatus } from '../../mobx/runtime';
+import { Ready } from './Ready';
 
 enum ConnectStep {
   Browser,
   Install,
   Connect,
   Reveal,
+  Ready,
   Done
 }
 
@@ -27,9 +29,13 @@ const Index = observer(() => {
   const [step, setStep] = useState<ConnectStep>(ConnectStep.Done);
   const [firstStep, setFirstStep] = useState<ConnectStep>();
   const totalStep = useRef<number>(0);
-  const currentStep = step + totalStep.current - ConnectStep.Done;
+  const currentStep = (step + totalStep.current + 1) - ConnectStep.Done;
 
   useEffect(() => {
+    if(current && step === ConnectStep.Ready){
+      return;
+    }
+
     if(!persistDataLoaded){
       return;
     }
@@ -46,7 +52,7 @@ const Index = observer(() => {
     }
     setStep(nextStep);
     setFirstStep(nextStep);
-    totalStep.current = ConnectStep.Done + 1 - nextStep;
+    totalStep.current = ConnectStep.Done - nextStep;
   }, [current, setStep, persistDataLoaded]);
 
   const closeModal = useCallback(() => {
@@ -82,7 +88,13 @@ const Index = observer(() => {
         isFirstStep={firstStep === ConnectStep.Reveal}
         open={step === ConnectStep.Reveal}
         close={closeModal}
-        onRevealed={() => { setStep(ConnectStep.Done); }}
+        onRevealed={() => { setStep(ConnectStep.Ready); }}
+        totalStep={totalStep.current}
+        currentStep={currentStep}
+      />
+      <Ready
+        open={step === ConnectStep.Ready}
+        close={() => { setStep(ConnectStep.Done); }}
         totalStep={totalStep.current}
         currentStep={currentStep}
       />

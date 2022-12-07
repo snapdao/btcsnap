@@ -1,7 +1,6 @@
 import React from 'react';
-import { StepContainer, StepIndex, StepsContainer } from './styles';
+import { CheckIcon, StepContainer, StepIndex, StepsContainer } from './styles';
 import { Dots } from '../../Icons/Dots';
-import { Icon } from 'snapkit';
 
 export interface StepIndicatorProps {
   totalStep: number;
@@ -21,7 +20,7 @@ export const StepIndicator = ({totalStep, currentStep}: StepIndicatorProps) => {
                 <StepIndex>
                   {
                     currentIndex === totalStep
-                      ? <Icon.Check height={'18px'} width={'18px'}/>
+                      ? <CheckIcon isComplete={currentStep === totalStep} />
                       : currentIndex
                   }
                 </StepIndex>

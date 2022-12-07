@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Modal } from 'semantic-ui-react';
 import { Button as SnapButton } from 'snapkit';
 import Confetti from 'react-confetti';
+import { FlexCenter } from '../../../kits';
 
 export const LNSetupModal = styled(Modal)`
   && {
@@ -22,6 +23,14 @@ export const LNSetupModal = styled(Modal)`
       border-radius: 20px;
     }
   }
+`;
+
+export const StepsContainer = styled(FlexCenter)`
+  position: absolute;
+  left: 0;
+  top: 20px;
+  height: 40px;
+  width: 100%;
 `;
 
 export const LNSetupModalContent = styled.div`

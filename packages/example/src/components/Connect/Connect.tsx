@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { Loader, Modal as SModal } from 'semantic-ui-react';
 import { ReactComponent as ConnectIcon } from './image/connect.svg';
 import { ReactComponent as MetaMaskIcon } from './image/MetaMask.svg';
 import ArrowRight from '../Icons/ArrowRight';
@@ -15,7 +16,7 @@ interface ConnectProps extends StepIndicatorProps {
   isFirstStep?: boolean;
 }
 
-const Connect = ({ onConnected, ...rest }: ConnectProps) => {
+const Connect = ({onConnected, ...rest}: ConnectProps) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const connectMetaMask = useCallback(async () => {
@@ -32,42 +33,41 @@ const Connect = ({ onConnected, ...rest }: ConnectProps) => {
   }, [setIsConnecting, onConnected]);
 
   return (
-    <Modal
-      isDisabled={isConnecting}
-      {...rest}
-    >
-      <ConnectIcon className='Connect-flask-icon' />
-      <h2>Connect to MetaMask Bitcoin Snap</h2>
-      <p className='Connect-install'>
-        If you do not have Bitcoin Snap installed, you will be prompted to do
-        so.
-      </p>
-      <a
-        href='https://docs.metamask.io/guide/snaps.html#what-is-snaps'
-        className='Connect-snap-link'
-        target='_blank'
-        rel='noopener noreferrer'>
-        What is Snaps
-        <span>
-          <ArrowRight size={18} />
-        </span>
-      </a>
-      <button
-        className='Connect-button'
-        disabled={isConnecting}
-        onClick={connectMetaMask}>
-        {isConnecting ? (
-          <>
-            <LoadingIcon spin />
-          </>
-        ) : (
-          <>
-            <MetaMaskIcon />
-            <span>Connect MetaMask</span>
-          </>
-        )}
-      </button>
-    </Modal>
+    <>
+      <Modal
+        isDisabled={isConnecting}
+        {...rest}
+      >
+        <ConnectIcon className='Connect-flask-icon'/>
+        <h2>Connect to MetaMask Bitcoin Snap</h2>
+        <p className='Connect-install'>
+          If you do not have Bitcoin Snap installed, you will be prompted to do
+          so.
+        </p>
+        <a
+          href='https://docs.metamask.io/guide/snaps.html#what-is-snaps'
+          className='Connect-snap-link'
+          target='_blank'
+          rel='noopener noreferrer'>
+          What is Snaps
+          <span>
+            <ArrowRight size={18}/>
+          </span>
+        </a>
+        <button
+          className='Connect-button'
+          disabled={isConnecting}
+          onClick={connectMetaMask}
+        >
+          <MetaMaskIcon/>
+          <span>Connect MetaMask</span>
+        </button>
+      </Modal>
+
+      <SModal open={isConnecting}>
+        <Loader inverted content={'Continue at MetaMask'} />
+      </SModal>
+    </>
   );
 };
 
