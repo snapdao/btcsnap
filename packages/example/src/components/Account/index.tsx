@@ -12,7 +12,6 @@ import {
   AccountLabel,
   CookieInfo,
 } from './styles';
-import { LNSetupModal } from '../Lightning';
 import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
@@ -32,16 +31,16 @@ const Account = observer(() => {
   useCurrencyRate();
   useRegisterXpub();
 
-  useEffect(() => {
-    const currentAccountReady =
-      !!current &&
-      status === AppStatus.Ready &&
-      !loadingBalance;
-    const shouldShowLNGuide = LNWalletStep === LNWalletStepStatus.Default;
-    if (currentAccountReady && shouldShowLNGuide) {
-      setLNWalletStep(LNWalletStepStatus.Ready);
-    }
-  }, [current, status, LNWalletStep, loadingBalance]);
+  // useEffect(() => {
+  //   const currentAccountReady =
+  //     !!current &&
+  //     status === AppStatus.Ready &&
+  //     !loadingBalance;
+  //   const shouldShowLNGuide = LNWalletStep === LNWalletStepStatus.Default;
+  //   if (currentAccountReady && shouldShowLNGuide) {
+  //     setLNWalletStep(LNWalletStepStatus.Ready);
+  //   }
+  // }, [current, status, LNWalletStep, loadingBalance]);
 
   return (
     <>
@@ -80,8 +79,6 @@ const Account = observer(() => {
 
           <LightningAppStatus />
         </AccountContainer>
-
-        <LNSetupModal />
 
         {/*  TODO  make cookie visible by removing the false below */}
         <Transition

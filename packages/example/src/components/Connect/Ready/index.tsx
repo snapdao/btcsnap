@@ -9,24 +9,32 @@ import {
   ConfettiContainer,
   CloseContainer,
   LNSetupModalContent,
-  ButtonsContainer,
+  ButtonsContainer, StepsContainer,
 } from './styles';
 import CloseIcon from '../../Icons/CloseIcon';
 import { TransitionablePortal } from 'semantic-ui-react';
 import { useAppStore } from '../../../mobx';
 import { LNWalletStepStatus } from '../../../mobx/user';
 import { useState } from 'react';
-import CreateWallet from '../CreateWallet';
+import CreateWallet from '../../Lightning/CreateWallet';
 import { AddLightningWallet } from '../../WalletList/AddLightningWallet';
 import { trackLightningSetup } from '../../../tracking';
+import { StepIndicator, StepIndicatorProps } from '../StepIndicator';
 
-export const Ready = observer(() => {
+
+export interface ReadyProps extends StepIndicatorProps {
+  open: boolean;
+  close: () => void;
+}
+
+export const Ready = observer(({open, close, ...rest}: ReadyProps) => {
   const {
     user: { LNWalletStep, setLNWalletStep },
   } = useAppStore();
   const [shouldShowCreateWallet, setShouldShowCreateWallet] = useState<boolean>(false);
 
   function onToUserGuide() {
+    close();
     trackLightningSetup('skip');
     setLNWalletStep(LNWalletStepStatus.UserGuide);
   }
@@ -36,20 +44,23 @@ export const Ready = observer(() => {
     setShouldShowCreateWallet(true);
   }
 
-  if(LNWalletStep !== LNWalletStepStatus.Ready){
-    return null;
-  }
+  // if(LNWalletStep !== LNWalletStepStatus.Ready){
+  //   return null;
+  // }
 
   return (
     <TransitionablePortal
-      open={true}
-      transition={{ animation: 'fade up', duration: '300' }}>
+      open={open}
+      transition={{ animation: 'fade left', duration: '300' }}>
       <LNSetupModal open={true}>
         <LNSetupModalContent>
           <ConfettiContainer
             width={window.innerWidth}
             height={window.innerHeight}
           />
+          <StepsContainer>
+            <StepIndicator {...rest} />
+          </StepsContainer>
           <CloseContainer>
             <CloseIcon onClick={onToUserGuide} />
           </CloseContainer>

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { FlexCenter } from '../../../kits';
+import { Icon } from 'snapkit';
 
 export const StepsContainer = styled(FlexCenter)`
   gap: 4px;
@@ -32,4 +33,10 @@ export const StepIndex = styled.span`
   font-weight: 600;
   font-size: 12px;
   line-height: 19px;
+`;
+
+export const CheckIcon = styled(Icon.Check)<{isComplete: boolean}>`
+  width: 18px;
+  height: 18px;
+  ${props => props.isComplete ? css`color: #ffffff` : ''};
 `;
