@@ -66,8 +66,11 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
       return getLNDataFromSnap(
         origin,
         wallet,
-        request.params.key,
-        request.params.walletId,
+        {
+          key: request.params.key,
+          ...(request.params.walletId && {walletId: request.params.walletId}),
+          ...(request.params.type && {type: request.params.type}),
+        }
       );
     case 'btc_signLNInvoice':
       return signLNInvoice(origin, wallet, request.params.invoice);

@@ -4,11 +4,20 @@ import {getPersistedData} from '../utils/manageState';
 import CryptoJs from 'crypto-js';
 import { RequestErrors, SnapError } from "../errors";
 
+interface GetLNDataFromSnap {
+  key: KeyOptions,
+  walletId?: string,
+  type?: 'get' | 'refresh',
+}
+
 export async function getLNDataFromSnap(
   domain: string,
   wallet: Wallet,
-  key: KeyOptions,
-  walletId?: string,
+  {
+    key,
+    walletId,
+    type = 'get',
+  }: GetLNDataFromSnap
 ): Promise<string> {
   switch (key) {
     case KeyOptions.PubKey:
@@ -21,14 +30,19 @@ export async function getLNDataFromSnap(
       );
       return lightning[walletId].password;
     case KeyOptions.Credential:
+      const param = {
+        get: {
+          prompt: 'Access your Lighting wallet credentials',
+          description: `Do you want to allow ${domain} to access your Lighting wallet credentials?`,
+        },
+        refresh: {
+          prompt: 'Lightning Wallet Data has Expired.',
+          description: 'For security purposes, Lightning Wallet data expires after 7 days and needs to be re-authorized.',
+        }
+      }[type]
       const result = await wallet.request({
         method: 'snap_confirm',
-        params: [
-          {
-            prompt: 'Access your Lighting wallet credentials',
-            description: `Do you want to allow ${domain} to access your Lighting wallet credentials?`,
-          },
-        ],
+        params: [param],
       });
       if (result) {
         const lightning = await getPersistedData<PersistedData['lightning']>(

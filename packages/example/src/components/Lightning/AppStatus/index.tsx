@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { refreshToken } from '../../../api/lightning/refreshToken';
 import { Message, MessageType } from '../../../kits';
@@ -6,7 +7,7 @@ import { useAppStore } from '../../../mobx';
 import { LightningAppStatus as LightningAppStatusEnum } from '../../../mobx/runtime';
 import LightningAppStatusExpired from './Expired';
 
-const LightningAppStatus = () => {
+const LightningAppStatus = observer(() => {
   const {
     lightning: { current },
     runtime: { lightningAppStatus, setLightningAppStatus }
@@ -17,23 +18,24 @@ const LightningAppStatus = () => {
     try {
       if (current) {
         const userId = current?.userId;
-        const credential = await getLNWalletData(GetLNWalletDataKey.Credential, userId);
+        const credential = await getLNWalletData(GetLNWalletDataKey.Credential, userId, 'refresh');
         if (!credential) throw new Error('Credential is empty.');
-        const refreshTokenResponse = await refreshToken();
-        console.log('%c Line:23 🍧 refreshTokenResponse', 'color:#4fff4B', refreshTokenResponse);
+        const [login, password] = credential.split(':');
+        const refreshCredentialRes = await refreshToken({ login, password });
+        if (!refreshCredentialRes) throw new Error('refreshCredentialRes is empty.');
         const userPassword = await getLNWalletData(GetLNWalletDataKey.Password, userId);
         if (!userPassword) throw new Error('userPassword is empty.');
 
         await saveLNDataToSnap({
           walletId: userId,
           credential,
-          password: userPassword
+          password: refreshCredentialRes.userPassword
         });
         setLightningAppStatus(LightningAppStatusEnum.Ready);
       } else {
         setLightningAppStatus(LightningAppStatusEnum.Ready);
       }
-    } catch(e: any) {
+    } catch (e: any) {
       setLightningAppStatus(LightningAppStatusEnum.Ready);
       setErrorMessage(e.message || 'credential get failed');
     }
@@ -49,6 +51,6 @@ const LightningAppStatus = () => {
     {lightningAppStatus === LightningAppStatusEnum.Expired ? <LightningAppStatusExpired /> : null}
     {errorMessage && <Message type={MessageType.Error} onClose={() => setErrorMessage('')}>{errorMessage}</Message>}
   </>;
-};
+});
 
 export default LightningAppStatus;

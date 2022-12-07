@@ -143,7 +143,9 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
     }
   }, [walletLength]);
 
-  const balanceText = useMemo(() => !loadingBalance && !loadingBalanceErrorMessage && current ? currentBalance : '--', [loadingBalance, loadingBalanceErrorMessage, currentBalance]);
+  const balanceText = useMemo(() => 
+    !loadingBalance && !loadingBalanceErrorMessage && current ? currentBalance : '--',
+  [loadingBalance, loadingBalanceErrorMessage, currentBalance, current]);
 
   return (
     <AccountMain>

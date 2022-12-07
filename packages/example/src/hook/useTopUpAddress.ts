@@ -7,17 +7,12 @@ export const useTopUpAddress = () => {
   const { current, lightning: { current: lightningCurrent } } = useAppStore();
   const [address, setAddress] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const fetchAddress = useCallback(async () => {
-    try {
-      const result = await getBtc();
-      if (!Array.isArray(result)) throw result;
-      const resultFirst = result.at(0)?.address;
-      return resultFirst;
-    } catch (e) {
-      logger.error(e);
-      setLoading(false);
-      return '';
-    }
+    const result = await getBtc();
+    if (!Array.isArray(result)) throw result;
+    const resultFirst = result.at(0)?.address;
+    return resultFirst;
   }, []);
 
   useEffect(() => {
@@ -26,20 +21,29 @@ export const useTopUpAddress = () => {
       return;
     }
     setLoading(true);
+    setErrorMessage('');
     async function load() {
-      const result = await fetchAddress();
-      if (result) {
-        setAddress(result);
-      } else {
+      try {
+        const result = await fetchAddress();
+        if (result) {
+          setAddress(result);
+        } else {
+          setAddress('');
+        }
+        setLoading(false);
+      } catch(e) {
+        logger.error(e);
         setAddress('');
+        setErrorMessage('Failed to get top up address, plase try again later.');
+        setLoading(false);
       }
-      setLoading(false);
     }
     load();
   }, [current, lightningCurrent]);
 
   return {
     address,
-    loading
+    loading,
+    errorMessage
   };
 };

@@ -22,7 +22,7 @@ const LoadingBox = <LoadingContainer>
 </LoadingContainer>;
 
 const TopUpWithExternalWalletModal = observer(({  close }: TopUpWithExternalWalletModalProps) => {
-  const { address, loading } = useTopUpAddress();
+  const { address, loading, errorMessage } = useTopUpAddress();
   const [addressCopied, setAddressCopy] = useState<boolean>(false);
 
   const copyAddress = async () => {
@@ -76,6 +76,9 @@ const TopUpWithExternalWalletModal = observer(({  close }: TopUpWithExternalWall
 
       {addressCopied && (
         <Message type={MessageType.Succeed}>Copied to clipboard</Message>
+      )}
+      {errorMessage && (
+        <Message type={MessageType.Error}>{errorMessage}</Message>
       )}
     </Modal>
   );

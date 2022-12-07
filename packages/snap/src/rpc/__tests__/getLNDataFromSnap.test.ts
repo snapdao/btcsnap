@@ -17,8 +17,10 @@ describe('getLNDataFromSnap', () => {
       await getLNDataFromSnap(
         LNDataToSnap.domain,
         walletStub,
-        key,
-        LNDataToSnap.walletId,
+        {
+          key,
+          walletId: LNDataToSnap.walletId,
+        }
       ),
     ).toBe('ln_password_1');
     expect(walletStub.rpcStubs.snap_manageState).toBeCalledTimes(1);
@@ -34,8 +36,10 @@ describe('getLNDataFromSnap', () => {
     await getLNDataFromSnap(
       LNDataToSnap.domain,
       walletStub,
-      key,
-      LNDataToSnap.walletId,
+      {
+        key,
+        walletId: LNDataToSnap.walletId,
+      }
     );
     expect(walletStub.rpcStubs.snap_confirm).toBeCalledTimes(1);
     expect(walletStub.rpcStubs.snap_manageState).toBeCalledTimes(1);
@@ -49,8 +53,10 @@ describe('getLNDataFromSnap', () => {
       getLNDataFromSnap(
         LNDataToSnap.domain,
         walletStub,
-        key,
-        LNDataToSnap.walletId,
+        {
+          key,
+          walletId: LNDataToSnap.walletId,
+        }
       ),
     ).rejects.toThrowError('Key cannot be recognized');
     expect(walletStub.rpcStubs.snap_getBip32Entropy).not.toHaveBeenCalled();
@@ -64,8 +70,10 @@ describe('getLNDataFromSnap', () => {
       getLNDataFromSnap(
         LNDataToSnap.domain,
         walletStub,
-        key,
-        LNDataToSnap.walletId,
+        {
+          key,
+          walletId: LNDataToSnap.walletId,
+        }
       ),
     ).rejects.toThrowError('User rejected the request.');
     expect(walletStub.rpcStubs.snap_getBip32Entropy).not.toHaveBeenCalled();

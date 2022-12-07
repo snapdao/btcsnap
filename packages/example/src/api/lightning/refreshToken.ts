@@ -1,20 +1,18 @@
-import { queryWithCurrentUserInfo } from './query';
+import { query } from './query';
 import { RequestType } from '../types';
 
 const endpoint = '/v1/snap/refresh_token/';
 
 export interface LightningRefreshTokenResponse {
-  category: 'receive',
-  amount: number,
-  confirmations: number,
-  address: string,
-  time: number
+  userId: string
+  userPassword: string
 }
 
-export const refreshToken = (): Promise<LightningRefreshTokenResponse> => {
-  return queryWithCurrentUserInfo(
+export const refreshToken = (args: { login: string, password: string }): Promise<LightningRefreshTokenResponse> => {
+  return query(
     endpoint,
     RequestType.Post,
     {},
+    args,
   );
 };

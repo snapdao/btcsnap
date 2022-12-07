@@ -25,6 +25,13 @@ const fetchResult = (
   });
 };
 
+export interface ErrorResponse {
+  success: boolean
+  error_code?: string;
+  error_message?: string;
+  error_description?: string;
+}
+
 const objectKeysToCamelCase = (snake_case: Record<string, any>): any => {
   if (
     typeof snake_case !== 'object' ||

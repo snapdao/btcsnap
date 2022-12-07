@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Loader, Modal, Transition } from 'semantic-ui-react';
+import { Transition } from 'semantic-ui-react';
 import { useRegisterXpub } from '../../hook/useRegisterXpub';
 import Main from './Main';
 import Aside from './Aside';
@@ -17,7 +17,7 @@ import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
 import { WalletType } from '../../interface';
-import { Message, MessageType } from '../../kits';
+import { Message, MessageType, Modal } from '../../kits';
 import LightningAppStatus from '../Lightning/AppStatus';
 
 const Account = observer(() => {
@@ -26,7 +26,7 @@ const Account = observer(() => {
     persistDataLoaded,
     runtime: { isLoading, status },
     user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
-    currentWalletType
+    currentWalletType,
   } = useAppStore();
   const { balance, refresh, loadingBalance, errorMessage } = useBalance();
   useCurrencyRate();
@@ -45,16 +45,12 @@ const Account = observer(() => {
 
   return (
     <>
-      <Modal open={isLoading}>
-        <Loader
-          inverted
-          content={
-            status === AppStatus.Register
-              ? 'Initializing, it will take about 5 seconds.'
-              : ''
-          }
-        />
-      </Modal>
+      {isLoading && <Modal.Loading
+        inModal={false}
+        content={status === AppStatus.Register
+          ? 'Initializing, it will take about 5 seconds.'
+          : ''}
+      ></Modal.Loading>}
 
       <AccountBackground>
         <AccountContainer>
@@ -83,7 +79,6 @@ const Account = observer(() => {
           {errorMessage && <Message type={MessageType.Error}>{errorMessage}</Message>}
 
           <LightningAppStatus />
-
         </AccountContainer>
 
         <LNSetupModal />
