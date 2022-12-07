@@ -44,8 +44,9 @@ export interface SaveLNDataToSnap {
 export interface GetLNDataFromSnap {
   method: 'btc_getLNDataFromSnap';
   params: {
-    walletId: string;
     key: KeyOptions;
+    walletId?: string;
+    type?: 'get' | 'refresh'
   };
 }
 

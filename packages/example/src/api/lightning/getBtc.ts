@@ -1,14 +1,9 @@
-import { queryWithCurrentUserInfo } from './query';
+import { queryWithCurrentUserInfo, ErrorResponse } from './query';
 import { RequestType } from '../types';
 
 const endpoint = '/v1/snap/getbtc/';
 
-export type GetBtcResponse = {
-  success: boolean
-  error_code?: string;
-  error_message?: string;
-  error_description?: string;
-} | {
+export type GetBtcResponse = ErrorResponse | {
   address: string
 }[]
 

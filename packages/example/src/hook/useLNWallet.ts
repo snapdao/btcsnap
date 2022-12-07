@@ -55,10 +55,5 @@ export const useLNWallet = () => {
     }
   }
 
-  async function getBalance() {
-    // TODO: get balance
-    // const pd = await getLNWalletData(KeyOptions.Password, userId);
-  }
-
-  return { createLoading, create, getBalance, wallet };
+  return { createLoading, create, wallet };
 };

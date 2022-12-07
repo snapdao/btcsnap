@@ -13,6 +13,7 @@ export enum BitcoinUnit {
   BTC = 'BTC',
   Sats = 'sats',
   Currency = 'Currency',
+  tBTC = 'tBTC'
 }
 
 export type Utxo = {

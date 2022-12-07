@@ -8,11 +8,13 @@ export const bitcoinUnitMap: Record<BitcoinNetwork, Record<BitcoinUnit, BitcoinU
     BTC: 'BTC',
     sats: 'sats',
     Currency: 'USD',
+    tBTC: 'tBTC',
   },
   [BitcoinNetwork.Test] : {
     BTC: 'tBTC',
     sats: 'tsats',
     Currency: 'USD',
+    tBTC: 'tBTC',
   }
 };
 

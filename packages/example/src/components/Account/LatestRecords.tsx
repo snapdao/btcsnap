@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactComponent as TransactionsIcon } from './image/transactions.svg';
 import { observer } from 'mobx-react-lite';
 import { TxListContainer, TxListContent, TxListEmpty, EmptyTip, TxErrorInfo, TxErrorRetryButton } from './styles';
@@ -22,11 +22,17 @@ interface TxCardProps {
 const TRANSACTION_TIPS = 'The previous transactions of addresses before using BitcoinSnap will not be displayed here.';
 
 export const LatestRecords = observer(({ loading, historyList, refresh, error }: TxCardProps) => {
-  const {currentWalletType} = useAppStore();
+  const {current, currentWalletType} = useAppStore();
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);
 
-  const recordList = [...historyList];
+  let recordList = [...historyList];
   recordList.sort((tx1, tx2) => tx2.datetime - tx1.datetime);
+
+  useEffect(() => {
+    if (currentWalletType === WalletType.BitcoinWallet && !current) {
+      recordList = [];
+    }
+  }, [current, currentWalletType]);
 
   return (
     <TxListContainer>

@@ -97,7 +97,8 @@ export const useBalance = (props?: Props) => {
           setStatus(AppStatus.Ready);
           setLoadingBalance(false);
           setBalanceForWallet(currentLNWallet.id, balance);
-        }).catch(() => {
+        }).catch((e) => {
+          logger.error(e);
           setErrorMessage('Loading failed. Please check your network connection.');
           setBalance(0);
           setStatus(AppStatus.Ready);
