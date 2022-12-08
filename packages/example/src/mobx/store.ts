@@ -153,7 +153,7 @@ const AppStore = types
     get currentUnit() {
       switch (self.currentWalletType) {
         case WalletType.BitcoinWallet:
-          return self.settings.network === BitcoinNetwork.Test ? BitcoinUnit.tBTC : self.user.bitcoinUnit || BitcoinUnit.BTC;
+          return self.user.bitcoinUnit || BitcoinUnit.BTC;
         case WalletType.LightningWallet:
           return self.lightning.current?.unit || BitcoinUnit.Sats;
       }

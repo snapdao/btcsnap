@@ -1,6 +1,6 @@
 import React, {
   forwardRef,
-  Ref,
+  ReactNode,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -19,10 +19,21 @@ import ModalLoading from './ModalLoading';
 import ModalFooter from './Footer';
 import ModalContainer from './Container';
 
-const BaseModal = forwardRef(
+type Props = ModalProps & {
+  open: boolean,
+  close: () => void,
+  children: ReactNode
+  key: string
+}
+
+type RefHandle = {
+  onClose: () => void
+}
+
+const BaseModal = forwardRef<RefHandle, Props>(
   (
-    { open, close, children, key, ...rest }: ModalProps,
-    ref: Ref<Record<string, any>>,
+    { open, close, children, key, ...rest },
+    ref,
   ) => {
     const [isVisible, setIsVisible] = useState<boolean>(open || false);
     const previousOpen = useRef<boolean>(false);

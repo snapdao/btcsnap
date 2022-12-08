@@ -30,6 +30,7 @@ import { useAppStore } from '../../../../mobx';
 import { observer } from 'mobx-react-lite';
 import { BitcoinUnit } from '../../../../interface';
 import BigNumber from 'bignumber.js';
+import { bitcoinUnitMap } from '../../../../lib/unit';
 
 interface TransactionProps {
   open: boolean;
@@ -63,6 +64,7 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
     : details.amount;
   const feeText = details.fee || details.fee === 0 ? currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(details.fee)).toFixed()
     : details.fee : '--';
+  const unitText = bitcoinUnitMap[network][currentUnit];
 
   return (
     <TransitionablePortal
@@ -92,7 +94,7 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
 
             <TransactionAmountValue>
               <span>{amountText}</span>
-              <span>{currentUnit}</span>
+              <span>{unitText}</span>
             </TransactionAmountValue>
           </TransactionAmount>
 
@@ -123,12 +125,12 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
           <TransactionDetailsAmountFee>
             <div>
               <span>Amount</span>
-              <span><span>{amountText}</span><span>{currentUnit}</span></span>
+              <span><span>{amountText}</span><span>{unitText}</span></span>
             </div>
             {!isFailed && (
               <div>
                 <span>Fee</span>
-                <span><span>{feeText}</span><span>{currentUnit}</span></span>
+                <span><span>{feeText}</span><span>{unitText}</span></span>
               </div>
             )}
           </TransactionDetailsAmountFee>

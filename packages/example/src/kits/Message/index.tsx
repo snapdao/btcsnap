@@ -18,18 +18,22 @@ interface MessageProps {
 
 export const Message = ({
   children,
-  duration = 1500,
+  duration,
   type = MessageType.Succeed,
   onClose,
 }: MessageProps) => {
   const [visible, setIsVisible] = useState<boolean>(true);
 
+  const timeout = !duration ? {
+    [MessageType.Succeed]: 1500,
+    [MessageType.Error]: 2000,
+  }[type] : duration;
   useEffect(() => {
     if (visible) {
       setTimeout(() => {
         setIsVisible(false);
         onClose && onClose();
-      }, duration);
+      }, timeout);
     }
   }, [visible]);
 
