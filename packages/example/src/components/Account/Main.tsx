@@ -135,7 +135,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
     setSecondaryUnit(
       currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC,
     );
-  }, [currentWalletType]);
+  }, [currentUnit, currentWalletType]);
 
   useEffect(() => {
     if (status === AppStatus.Ready && walletLength >= 1) {

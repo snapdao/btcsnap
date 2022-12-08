@@ -217,7 +217,7 @@ class SendViewModel {
   }
 
   satoshiToCurrentMainUnit(satoshi: number) {
-    switch (this.sendMainUnit as Exclude<BitcoinUnit, BitcoinUnit.tBTC>) {
+    switch (this.sendMainUnit) {
       case BitcoinUnit.BTC:
         return new BigNumber(satoshi).dividedBy(this.decimalFactor).toFixed();
       case BitcoinUnit.Sats:

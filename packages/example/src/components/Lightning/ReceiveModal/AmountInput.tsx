@@ -74,7 +74,7 @@ const AmountInput = observer(({ model }: AmountInputProps) => {
             [BitcoinUnit.BTC]: 8,
             [BitcoinUnit.Currency]: 2,
             [BitcoinUnit.Sats]: 0,
-          }[model.currUnit as Exclude<BitcoinUnit, BitcoinUnit.tBTC>];
+          }[model.currUnit];
           const intMaxLen = int.length > (isBTC ? 2 : 9);
           const decMaxLen = dec && dec.length > currDecMaxLen;
 
