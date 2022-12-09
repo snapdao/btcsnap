@@ -36,10 +36,10 @@ export const StepsContainer = styled(FlexCenter)`
 export const LNSetupModalContent = styled.div`
   height: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  padding: 40px 32px;
+  padding: 0;
 `;
 
 export const LastStepIcon = styled.div`
@@ -67,7 +67,6 @@ export const LastStepText = styled.p`
 export const ButtonsContainer = styled.div`
   width: 100%;
   flex: 1;
-  padding: 0 8px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -95,6 +94,7 @@ export const StartButton = styled(SnapButton)`
 `;
 
 export const ConfettiContainer = styled(Confetti)`
+  position: fixed !important;
   inset: ${(props) => -(props.height! / 2 - 257)}px 0 0
     ${(props) => -(props.width! / 2 - 180)}px !important;
 `;

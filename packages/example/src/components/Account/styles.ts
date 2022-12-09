@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components';
-import { H4 } from './../../kits/Layout/Text/Title/index';
-import { Button } from './../../kits/Button/index';
-import { FlexBetween } from './../../kits/Layout/Flex/index';
+import { FlexBetween, Button, H4 } from '../../kits';
 import { List } from '../../kits/List';
 
 export const AccountBackground = styled.div`
