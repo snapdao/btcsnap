@@ -36,8 +36,10 @@ export const StepIndex = styled.span`
   line-height: 19px;
 `;
 
-export const CheckIcon = styled(Icon.Check)<{isComplete: boolean}>`
+export const CheckIcon = styled(Icon.CheckS)<{isComplete: boolean}>`
   width: 18px;
   height: 18px;
-  ${props => props.isComplete ? css`color: #ffffff` : ''};
+  path {
+    stroke: ${props => props.isComplete ? '#FFFFFF' : 'var(--c-n80)'};
+  }
 `;

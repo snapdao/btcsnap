@@ -15,7 +15,7 @@ export const StepIndicator = ({totalStep, currentStep}: StepIndicatorProps) => {
   return (
     <StepsContainer>
       {
-        new Array(totalStep).fill(1).map((_, index) => {
+        Array.from({length: totalStep}).map((_, index) => {
           const currentIndex = index + 1;
           const currentStatus = currentIndex === currentStep ? 'inProgress' : (currentIndex > currentStep ? 'todo' : 'complete');
           return (

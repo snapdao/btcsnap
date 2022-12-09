@@ -25,7 +25,7 @@ export const useConnectStep = () => {
   const currentStepIndex = (step + totalStep.current + 1) - ConnectStep.Done + (shouldShowReady ? 0 : 1);
   
   useEffect(() => {
-    if(totalStep.current > 0 && current){
+    if(!!current && totalStep.current > 0){
       return;
     }
 

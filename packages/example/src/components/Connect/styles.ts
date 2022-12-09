@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { FlexCenter } from '../../kits';
+import { Browsers } from 'snapkit';
 
 export const ModalHeader = styled(FlexCenter)`
   position: absolute;
@@ -9,7 +10,7 @@ export const ModalHeader = styled(FlexCenter)`
   height: 40px;
 `;
 
-export const ModalContentContainer = styled.div<{ show: boolean}>`
+export const ModalContentContainer = styled.div<{ show: boolean }>`
   height: 100%;
   position: relative;
   width: 280px;
@@ -45,4 +46,15 @@ export const ConnectStepsContainer = styled.div<{ index: number }>`
   transition: 0.25s;
 
   left: ${props => -(props.index - 1) * 360}px;
+`;
+
+export const StyledBrowsers = styled(Browsers)`
+  && {
+    background: radial-gradient(50% 50% at 0% 0%, rgba(255, 182, 10, 0.12) 0%, rgba(255, 182, 10, 0) 100%), radial-gradient(50% 50% at 100% 0%, rgba(255, 108, 10, 0.14) 0%, rgba(255, 108, 10, 0) 100%), #FFFEFF;
+    .browsers-container {
+      a {
+        padding: 12px 24px;
+      }
+    }
+  }
 `;
