@@ -5,11 +5,10 @@ import Connect from './Connect';
 import { GetAddress } from './GetAddress';
 import { useAppStore } from '../../mobx';
 import './index.css';
-import { Browsers } from 'snapkit';
 import { AppStatus } from '../../mobx/runtime';
 import { Ready } from './Ready';
 import Modal from './Modal';
-import { ConnectStepsContainer, StepViewContainer } from './styles';
+import { StyledBrowsers, ConnectStepsContainer, StepViewContainer } from './styles';
 import { useConnectStep } from './useConnectStep';
 import { trackLightningSetup } from '../../tracking';
 import { LNWalletStepStatus } from '../../mobx/user';
@@ -46,7 +45,9 @@ const Index = observer(() => {
   }
 
   if(step === ConnectStep.Browser) {
-    return <Browsers open={step === ConnectStep.Browser} close={closeModal}/>;
+    return (
+      <StyledBrowsers list={['chrome', 'firefox', 'brave']} open={step === ConnectStep.Browser} close={closeModal} />
+    );
   }
 
   return (
