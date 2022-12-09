@@ -13,6 +13,7 @@ export const StepContainer = styled(FlexCenter)<{ status: 'todo' | 'inProgress' 
   height: 19px;
   border: 1px solid var(--c-pri50);
   border-radius: 10px;
+  transition: 0.25s;
 
   ${props => props.status === 'inProgress' ? css`
     background-color: var(--c-pri50);

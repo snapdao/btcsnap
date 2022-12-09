@@ -3,20 +3,16 @@ import { Loader, Modal as SModal } from 'semantic-ui-react';
 import { ReactComponent as ConnectIcon } from './image/connect.svg';
 import { ReactComponent as MetaMaskIcon } from './image/MetaMask.svg';
 import ArrowRight from '../Icons/ArrowRight';
-import Modal from './Modal';
 import { connect } from '../../lib/snap';
 import { trackConnectClick, trackConnectSucceed } from '../../tracking';
-import LoadingIcon from '../Icons/Loading';
-import { StepIndicatorProps } from './StepIndicator';
+import { ModalContentContainer } from './styles';
 
-interface ConnectProps extends StepIndicatorProps {
-  open: boolean;
-  close: () => void;
+interface ConnectProps {
+  show: boolean;
   onConnected: () => void;
-  isFirstStep?: boolean;
 }
 
-const Connect = ({onConnected, ...rest}: ConnectProps) => {
+const Connect = ({onConnected, show}: ConnectProps) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const connectMetaMask = useCallback(async () => {
@@ -34,10 +30,7 @@ const Connect = ({onConnected, ...rest}: ConnectProps) => {
 
   return (
     <>
-      <Modal
-        isDisabled={isConnecting}
-        {...rest}
-      >
+      <ModalContentContainer show={show}>
         <ConnectIcon className='Connect-flask-icon'/>
         <h2>Connect to MetaMask Bitcoin Snap</h2>
         <p className='Connect-install'>
@@ -62,8 +55,7 @@ const Connect = ({onConnected, ...rest}: ConnectProps) => {
           <MetaMaskIcon/>
           <span>Connect MetaMask</span>
         </button>
-      </Modal>
-
+      </ModalContentContainer>
       <SModal open={isConnecting}>
         <Loader inverted content={'Continue at MetaMask'} />
       </SModal>

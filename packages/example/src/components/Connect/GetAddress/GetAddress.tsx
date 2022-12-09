@@ -1,28 +1,26 @@
 import React, { useCallback, useState } from 'react';
-import { ReactComponent as ConnectIcon } from './image/connect.svg';
-import { ReactComponent as Reveal } from './image/reveal.svg';
-import Modal from './Modal';
-import { getAllExtendedPublicKeys } from '../../lib/snap';
-import { useAppStore } from '../../mobx';
-import { trackGetAddress } from '../../tracking';
-import { register } from '../../services/CryptoService/register';
-import { AppStatus } from '../../mobx/runtime';
+import { ReactComponent as ConnectIcon } from '../image/connect.svg';
+import { ReactComponent as Reveal } from '../image/reveal.svg';
+import { getAllExtendedPublicKeys } from '../../../lib/snap';
+import { useAppStore } from '../../../mobx';
+import { trackGetAddress } from '../../../tracking';
+import { register } from '../../../services/CryptoService/register';
+import { AppStatus } from '../../../mobx/runtime';
 import { observer } from 'mobx-react-lite';
-import ErrorPage from './Error';
-import { ErrorMessage } from './styles';
-import { SnapRequestErrors } from '../../errors/Snap/errors';
-import { logger } from '../../logger';
-import { SnapError } from '../../errors';
-import LoadingIcon from '../Icons/Loading';
-import { Message, MessageType } from '../../kits';
-import { StepIndicatorProps } from './StepIndicator';
+import { ErrorPage } from './ErrorPage';
+import { ErrorMessage, ErrorTipsContainer, LoadingContainer, ModalContainer } from './styles';
+import { logger } from '../../../logger';
+import { SnapError, SnapRequestErrors } from '../../../errors';
+import { Caption, Message, MessageType } from '../../../kits';
 import { Loader, Modal as SModal } from 'semantic-ui-react';
+import '../Modal.css';
+import { ModalContentContainer } from '../styles';
+import LoadingIcon from '../../Icons/Loading';
 
-export interface RevealXpubProps extends StepIndicatorProps {
-  open: boolean;
-  close: () => void;
+export interface GetAddressProps {
+  show: boolean;
   onRevealed: () => void;
-  isFirstStep?: boolean;
+  onRegister: (isRegistering: boolean) => void;
 }
 
 interface ErrorMessage {
@@ -30,14 +28,16 @@ interface ErrorMessage {
   code: number;
 }
 
-const RevealXpub = observer(
-  ({onRevealed, ...rest }: RevealXpubProps) => {
+export const GetAddress = observer(
+  ({show, onRegister, onRevealed}: GetAddressProps) => {
     const {
-      settings: { network, scriptType },
+      settings: {network, scriptType},
       current,
-      runtime: { setStatus },
+      accounts,
+      runtime: {setStatus},
     } = useAppStore();
     const [isRevealing, setIsRevealing] = useState<boolean>(false);
+    const [isRegistering, setIsRegistering] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [fatalErrorMessage, setFatalErrorMessage] = useState<ErrorMessage>({
       message: '',
@@ -51,18 +51,21 @@ const RevealXpub = observer(
 
     const getXpub = useCallback(async () => {
       setIsRevealing(true);
-
       getAllExtendedPublicKeys()
         .then(async ({mfp, xpubs}) => {
           if (mfp && xpubs.length > 0) {
             trackGetAddress(network);
             setStatus(AppStatus.Register);
             try {
-              onRevealed();
+              setIsRegistering(accounts.length === 0);
+              onRegister(true);
               await register(xpubs, mfp);
+              onRevealed();
+              onRegister(false);
             } catch (e: unknown) {
               logger.error(e);
               setErrorMessage('Account init failed, please retry');
+              onRegister(false);
               setStatus(AppStatus.Connect);
             }
           }
@@ -83,21 +86,34 @@ const RevealXpub = observer(
     }, [isRevealing, setIsRevealing, network, scriptType, current?.xpub]);
 
     const closeError = () => {
-      setFatalErrorMessage({ message: '', code: 0 });
+      setFatalErrorMessage({message: '', code: 0});
       setStatus(AppStatus.ConnectClosed);
     };
 
+    if (isRegistering) {
+      return (
+        <ModalContentContainer show={show}>
+          <ModalContainer>
+            <LoadingContainer>
+              <LoadingIcon width={'36px'} height={'36px'} spin color='var(--c-pri50)' />
+              <p>
+                <Caption>Initializing...</Caption>
+                <Caption>It will take about 5 seconds.</Caption>  
+              </p>
+            </LoadingContainer>
+          </ModalContainer>
+        </ModalContentContainer>
+      );
+    }
+
     return (
       <>
-        <Modal
-          isDisabled={isRevealing}
-          {...rest}
-        >
-          <ConnectIcon className='Connect-flask-icon' />
+        <ModalContentContainer show={show}>
+          <ConnectIcon className='Connect-flask-icon'/>
           <h2>
-            Get Addresses for <br /> Bitcoin Snap
+            Get Addresses for <br/> Bitcoin Snap
           </h2>
-          <p style={{ marginBottom: 100 }} className='Connect-install'>
+          <p style={{marginBottom: 82}} className='Connect-install'>
             Your Bitcoin account addresses will be created along with your
             MetaMask public key.
           </p>
@@ -106,16 +122,15 @@ const RevealXpub = observer(
             disabled={isRevealing}
             onClick={getXpub}
           >
-            <Reveal />
+            <Reveal/>
             <span>Get Addresses</span>
           </button>
-          <>
+          <ErrorTipsContainer>
             {
               shouldShowErrorMessage && <Message type={MessageType.Error}>{errorMessage}</Message>
             }
-          </>
-        </Modal>
-
+          </ErrorTipsContainer>
+        </ModalContentContainer>
         <ErrorPage
           open={!!fatalErrorMessage.message}
           fatalErrorMessage={fatalErrorMessage}
@@ -123,11 +138,9 @@ const RevealXpub = observer(
         />
 
         <SModal open={isRevealing}>
-          <Loader inverted content={'Continue at MetaMask'} />
+          <Loader inverted content={'Continue at MetaMask'}/>
         </SModal>
       </>
     );
   },
 );
-
-export default RevealXpub;

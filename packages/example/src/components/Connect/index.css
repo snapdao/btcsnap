@@ -1,5 +1,5 @@
 .Connect-flask-icon {
-  margin-top: 40px;
+  margin-top: 36px;
 }
 
 .Connect-Modal-Content h2 {
@@ -22,8 +22,6 @@
 }
 
 .Connect-button {
-  position: absolute;
-  bottom: 40px;
   width: 280px;
   height: 48px;
   border-radius: 16px;
@@ -60,18 +58,19 @@
 
 .Connect-snap-link {
   position: relative;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   font-weight: 600;
   color: #FF6C0A;
-  margin: 16px 0 64px;
+  margin-bottom: 64px;
 }
 .Connect-snap-link span {
   position: absolute;
   right: -18px;
   display: inline-block;
   height: 18px;
+  top: 2px;
 }
 
 .Connect-snap-link:hover {

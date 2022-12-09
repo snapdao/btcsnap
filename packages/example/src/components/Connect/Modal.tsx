@@ -22,7 +22,7 @@ interface ConnectModalProps extends StepIndicatorProps{
   isFirstStep?: boolean;
 }
 
-const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = false, totalStep, currentStep}: ConnectModalProps) => {
+const BasicModal = ({open, close, children, isDisabled = false, totalStep, currentStep}: ConnectModalProps) => {
   const {
     switchWalletType
   } = useAppStore();
@@ -42,13 +42,10 @@ const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = fa
     }
   }, [open, isVisible, openedBefore]);
 
-  const openClasses = isFirstStep ? ModalAnimation.FadeUp : ModalAnimation.FadeLeft;
-  const animationClasses = open ? openClasses : ModalAnimation.FadeOut;
-
   return (
     <Modal
       size='mini'
-      className={`Connect-Modal-Container ${animationClasses}`}
+      className={`Connect-Modal-Container ${ModalAnimation.FadeUp}`}
       open={isVisible}
     >
       <Modal.Content>

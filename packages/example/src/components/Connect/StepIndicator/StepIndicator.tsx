@@ -8,6 +8,10 @@ export interface StepIndicatorProps {
 }
 
 export const StepIndicator = ({totalStep, currentStep}: StepIndicatorProps) => {
+  if(totalStep <= 1) {
+    return null;
+  }
+
   return (
     <StepsContainer>
       {
