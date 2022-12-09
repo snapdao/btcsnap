@@ -20,7 +20,7 @@ import { Modal } from '../../kits/index';
 interface ConnectProps {
   open: boolean;
   close: () => void;
-  parentNode: any
+  parentNode: HTMLElement 
 }
 
 enum NetOptions {

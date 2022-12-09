@@ -2,7 +2,6 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { BitcoinNetwork, BitcoinScriptType } from '../interface';
 import { SnapError } from '../errors';
 import { logger } from '../logger';
-import { checkSnapError } from './helper';
 
 declare global {
   interface Window {
@@ -12,7 +11,7 @@ declare global {
 
 const { ethereum } = window;
 
-const snapId = 'npm:btcsnap';
+const snapId = 'local:http://localhost:8081';
 
 export async function connect(cb: (connected: boolean) => void) {
   let connected = false;
@@ -122,7 +121,6 @@ export async function getMasterFingerprint() {
     const error = new SnapError(
       err?.message || 'Snap get master fingerprint failed',
     );
-    checkSnapError(error);
     logger.error(error);
     return '';
   }
@@ -146,7 +144,6 @@ export async function updateNetworkInSnap(network: BitcoinNetwork) {
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Snap set Network failed');
-    checkSnapError(error);
     logger.error(error);
     throw error;
   }
@@ -176,7 +173,6 @@ export async function signPsbt(
     })) as Promise<{ txId: string; txHex: string }>;
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Sign PSBT failed');
-    checkSnapError(error);
     logger.error(error);
     throw error;
   }
@@ -210,7 +206,6 @@ export async function getLNWalletData(
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Get LNWalletData failed');
-    checkSnapError(error);
     logger.error(error);
     throw error;
   }
@@ -243,7 +238,6 @@ export async function saveLNDataToSnap({
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Save LNData failed');
-    checkSnapError(error);
     logger.error(error);
     throw error;
   }
@@ -267,7 +261,6 @@ export async function signLNInvoice(
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Sign invoice failed');
-    checkSnapError(error);
     logger.error(error);
     throw error;
   }

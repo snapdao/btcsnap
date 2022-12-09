@@ -23,8 +23,6 @@ const LightningAppStatus = observer(() => {
         const [login, password] = credential.split(':');
         const refreshCredentialRes = await refreshToken({ login, password });
         if (!refreshCredentialRes) throw new Error('refreshCredentialRes is empty.');
-        const userPassword = await getLNWalletData(GetLNWalletDataKey.Password, userId);
-        if (!userPassword) throw new Error('userPassword is empty.');
 
         await saveLNDataToSnap({
           walletId: userId,

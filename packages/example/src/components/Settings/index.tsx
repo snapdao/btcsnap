@@ -79,7 +79,8 @@ const Settings = observer(({ open, close }: SettingProps) => {
           }
           content={'Only available in the Bitcoin wallet'}
         />
-        <Network open={currentVisible === SettingOptions.Network} close={closeDialog} parentNode={parentNode.current} />
+
+        {parentNode.current && <Network open={currentVisible === SettingOptions.Network} close={closeDialog} parentNode={parentNode.current} />}
 
         <Divider style={{ margin: '16px 12px', width: 376}} />
 

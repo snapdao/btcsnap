@@ -32,10 +32,3 @@ export const isBrowserSupport = (ua: string) => {
 
 export const isFirefox = (ua: string) => ua.includes('Firefox');
 
-export function checkSnapError(error: SnapError) {
-  if (error.message.includes('This error is usually caused by resetting the recovery phrase')) {
-    const store = getAppStore();
-    store.runtime.setConnected(false);
-    store.resetStore();
-  }
-}
