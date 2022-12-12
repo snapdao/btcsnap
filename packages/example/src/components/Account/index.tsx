@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Loader, Transition } from 'semantic-ui-react';
+import { Loader, Transition, Modal } from 'semantic-ui-react';
 import { useRegisterXpub } from '../../hook/useRegisterXpub';
 import Main from './Main';
 import Aside from './Aside';
@@ -14,7 +14,7 @@ import {
 } from './styles';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
 import { WalletType } from '../../interface';
-import { Message, MessageType, Modal } from '../../kits';
+import { Message, MessageType } from '../../kits';
 import LightningAppStatus from '../Lightning/AppStatus';
 
 const Account = observer(() => {
