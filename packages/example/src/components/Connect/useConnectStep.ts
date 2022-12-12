@@ -2,15 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../mobx';
 import { isBrowserSupport } from '../../lib/helper';
 import { LNWalletStepStatus } from '../../mobx/user';
-
-export enum ConnectStep {
-  Browser,
-  Install,
-  Connect,
-  Reveal,
-  Ready,
-  Done
-}
+import { ConnectStep } from './index';
 
 export const useConnectStep = () => {
   const {
