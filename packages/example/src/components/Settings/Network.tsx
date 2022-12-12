@@ -28,7 +28,7 @@ enum NetOptions {
   Testnet
 }
 
-const AddressType = (({ open, close, parentNode}: ConnectProps) => {
+const Network = (({ open, close, parentNode}: ConnectProps) => {
   const { settings: { network, setNetwork, scriptType }, current, getAccountBy, switchToAccount, runtime: { setStatus }} = useAppStore();
   const [isSwitchNetWork, setIsSwitchNetWork] = useState<boolean>(false);
   const radioMainChecked = network === BitcoinNetwork.Main;
@@ -101,4 +101,4 @@ const AddressType = (({ open, close, parentNode}: ConnectProps) => {
   ;
 });
 
-export default AddressType;
+export default Network;
