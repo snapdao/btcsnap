@@ -34,10 +34,7 @@ const Runtime = types
   })
   .views((self) => ({
     get isLoading() {
-      return (
-        self.status === AppStatus.Register ||
-        self.status === AppStatus.FetchBalance
-      );
+      return self.status === AppStatus.FetchBalance;
     },
     getWallet(walletId: string){
       return self.wallets.find(wallet => wallet.id === walletId);

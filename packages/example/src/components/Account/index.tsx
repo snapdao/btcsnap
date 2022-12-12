@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Transition } from 'semantic-ui-react';
+import { Loader, Transition, Modal } from 'semantic-ui-react';
 import { useRegisterXpub } from '../../hook/useRegisterXpub';
 import Main from './Main';
 import Aside from './Aside';
@@ -12,45 +12,30 @@ import {
   AccountLabel,
   CookieInfo,
 } from './styles';
-import { LNSetupModal } from '../Lightning';
-import { AppStatus } from '../../mobx/runtime';
-import { LNWalletStepStatus } from '../../mobx/user';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
 import { WalletType } from '../../interface';
-import { Message, MessageType, Modal } from '../../kits';
+import { Message, MessageType } from '../../kits';
 import LightningAppStatus from '../Lightning/AppStatus';
 
 const Account = observer(() => {
   const {
-    current,
     persistDataLoaded,
-    runtime: { isLoading, status },
-    user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
+    runtime: { isLoading },
+    user: { isAgreeCookie, agreeCookie },
     currentWalletType,
   } = useAppStore();
   const { balance, refresh, loadingBalance, errorMessage } = useBalance();
+  const loadingModalParent = useRef<HTMLDivElement | null>(null);
   useCurrencyRate();
   useRegisterXpub();
 
-  useEffect(() => {
-    const currentAccountReady =
-      !!current &&
-      status === AppStatus.Ready &&
-      !loadingBalance;
-    const shouldShowLNGuide = LNWalletStep === LNWalletStepStatus.Default;
-    if (currentAccountReady && shouldShowLNGuide) {
-      setLNWalletStep(LNWalletStepStatus.Ready);
-    }
-  }, [current, status, LNWalletStep, loadingBalance]);
-
   return (
     <>
-      {isLoading && <Modal.Loading
-        inModal={false}
-        content={status === AppStatus.Register
-          ? 'Initializing, it will take about 5 seconds.'
-          : ''}
-      ></Modal.Loading>}
+      <div ref={loadingModalParent}>
+        <Modal open={isLoading} mountNode={loadingModalParent.current}>
+          <Loader inverted />
+        </Modal>
+      </div>
 
       <AccountBackground>
         <AccountContainer>
@@ -80,8 +65,6 @@ const Account = observer(() => {
 
           <LightningAppStatus />
         </AccountContainer>
-
-        <LNSetupModal />
 
         {/*  TODO  make cookie visible by removing the false below */}
         <Transition
