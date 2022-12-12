@@ -40,11 +40,6 @@ export const SnapRequestErrors = [
   {
     code: 20000,
     name: 'NoPermission',
-    message: 'This error is usually caused by resetting the recovery phrase, please try to reinstall MetaMask Flask'
-  },
-  {
-    code: 20000,
-    name: 'NoPermission',
     message: 'Unauthorized to perform action.'
   },
   {
