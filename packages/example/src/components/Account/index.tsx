@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Loader, Modal, Transition } from 'semantic-ui-react';
+import { Transition } from 'semantic-ui-react';
 import { useRegisterXpub } from '../../hook/useRegisterXpub';
 import Main from './Main';
 import Aside from './Aside';
@@ -17,6 +17,8 @@ import { AppStatus } from '../../mobx/runtime';
 import { LNWalletStepStatus } from '../../mobx/user';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
 import { WalletType } from '../../interface';
+import { Message, MessageType, Modal } from '../../kits';
+import LightningAppStatus from '../Lightning/AppStatus';
 
 const Account = observer(() => {
   const {
@@ -24,9 +26,9 @@ const Account = observer(() => {
     persistDataLoaded,
     runtime: { isLoading, status },
     user: { isAgreeCookie, agreeCookie, LNWalletStep, setLNWalletStep },
-    currentWalletType
+    currentWalletType,
   } = useAppStore();
-  const { balance, refresh, loadingBalance } = useBalance();
+  const { balance, refresh, loadingBalance, errorMessage } = useBalance();
   useCurrencyRate();
   useRegisterXpub();
 
@@ -43,21 +45,18 @@ const Account = observer(() => {
 
   return (
     <>
-      <Modal open={isLoading}>
-        <Loader
-          inverted
-          content={
-            status === AppStatus.Register
-              ? 'Initializing, it will take about 5 seconds.'
-              : ''
-          }
-        />
-      </Modal>
+      {isLoading && <Modal.Loading
+        inModal={false}
+        content={status === AppStatus.Register
+          ? 'Initializing, it will take about 5 seconds.'
+          : ''}
+      ></Modal.Loading>}
 
       <AccountBackground>
         <AccountContainer>
-          <Main balance={balance} />
+          <Main balance={balance} loadingBalance={loadingBalance} loadingBalanceErrorMessage={errorMessage} />
           <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
+
           {currentWalletType === WalletType.BitcoinWallet && (
             <AccountLabel>
               Powered by{' '}
@@ -67,6 +66,7 @@ const Account = observer(() => {
               | Audited by <a href='https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf' target='_blank' rel='noreferrer'>SlowMist</a>
             </AccountLabel>
           )}
+
           {currentWalletType === WalletType.LightningWallet && (
             <AccountLabel>
               Powered by{' '}
@@ -75,6 +75,10 @@ const Account = observer(() => {
               </a>
             </AccountLabel>
           )}
+
+          {errorMessage && <Message type={MessageType.Error}>{errorMessage}</Message>}
+
+          <LightningAppStatus />
         </AccountContainer>
 
         <LNSetupModal />

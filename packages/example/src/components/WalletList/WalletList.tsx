@@ -12,12 +12,13 @@ import {
   WalletListModal,
 } from './styles';
 import { observer } from 'mobx-react-lite';
-import { BitcoinNetwork, WalletType } from '../../interface';
+import { BitcoinNetwork, BitcoinUnit, WalletType } from '../../interface';
 import { AddLightningWallet } from './AddLightningWallet';
 import { Popup } from '../../kits';
 import CreateWallet from '../Lightning/CreateWallet';
 import EditWallet from '../EditWallet';
 import { useWalletsBalance } from '../../hook/useWalletsBalance';
+import { bitcoinUnitMap } from '../../lib/unit';
 
 export const WalletList = observer(({ open, close }: any) => {
   const {
@@ -63,6 +64,8 @@ export const WalletList = observer(({ open, close }: any) => {
   const parentNode = useRef<any>();
   const shouldDisableAddition =
     network === BitcoinNetwork.Test || lightning.hasReachedLimitation;
+
+  const unitText = bitcoinUnitMap[network][bitcoinUnit];
 
   useEffect(() => {
     setVisible(open);
@@ -141,7 +144,7 @@ export const WalletList = observer(({ open, close }: any) => {
                       }
                     }}
                     showEditWalletModal={onShowEditWalletModal}
-                    unit={bitcoinUnit}
+                    unit={unitText as BitcoinUnit}
                   />
                   {lightning.wallets.map((wallet) => (
                     <WalletCard

@@ -1,3 +1,4 @@
+import { getAppStore } from '../../mobx';
 import { BaseError } from '../base';
 import { PsbtValidateErrors, SnapRequestErrors } from './errors';
 
@@ -26,6 +27,11 @@ export const mapErrorToUserFriendlyError = (message: string) => {
   if(snapRequestError) {
     switch (snapRequestError.name) {
       case 'NoPermission':
+        if (snapRequestError.code === 20000) {
+          const store = getAppStore();
+          store.runtime.setConnected(false);
+          store.resetStore();
+        }
         return {...snapRequestError, message: 'This error is usually caused by resetting the recovery phrase, please try to reinstall MetaMask Flask'};
       case 'SignInvalidPath':
         return {...snapRequestError, message: 'Sign transaction failed'};

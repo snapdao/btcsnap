@@ -1,8 +1,10 @@
-export const satoshiToBTC = (satoshi: number) => {
+import { SnapError } from '../errors';
+import { getAppStore } from './../mobx/index';
+export const satoshiToBTC = (satoshi: number): number => {
   return satoshi / (10 ** 8);
 };
 
-export const btcToSatoshi = (btc: number) => {
+export const btcToSatoshi = (btc: number): number => {
   return Math.round(btc * (10 ** 8));
 };
 
@@ -29,3 +31,4 @@ export const isBrowserSupport = (ua: string) => {
 };
 
 export const isFirefox = (ua: string) => ua.includes('Firefox');
+

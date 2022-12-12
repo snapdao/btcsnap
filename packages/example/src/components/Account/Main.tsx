@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../../mobx';
 import { BitcoinNetwork, BitcoinScriptType, BitcoinUnit, WalletType } from '../../interface';
@@ -46,6 +46,8 @@ import { AppStatus } from '../../mobx/runtime';
 
 export interface MainProps {
   balance: number; // Satoshi
+  loadingBalance: boolean
+  loadingBalanceErrorMessage?: string
 }
 
 enum MainModal {
@@ -55,7 +57,7 @@ enum MainModal {
   TopUp,
 }
 
-const Main = observer(({ balance }: MainProps) => {
+const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: MainProps) => {
   const {
     settings: { network },
     current,
@@ -133,13 +135,15 @@ const Main = observer(({ balance }: MainProps) => {
     setSecondaryUnit(
       currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC,
     );
-  }, [currentWalletType]);
+  }, [currentUnit, currentWalletType]);
 
   useEffect(() => {
     if (status === AppStatus.Ready && walletLength >= 1) {
       trackLightningWalletAmount(walletLength);
     }
   }, [walletLength]);
+
+  const balanceText = !loadingBalance && !loadingBalanceErrorMessage && current ? currentBalance : '--';
 
   return (
     <AccountMain>
@@ -162,7 +166,7 @@ const Main = observer(({ balance }: MainProps) => {
               if (currentWalletType !== WalletType.BitcoinWallet) return; 
               openModal(MainModal.Details);
             }}>
-            {currentBalance} {unit[currentUnit]}
+            {balanceText} {unit[currentUnit]}
           </BalanceLeftLabel>
           <BalanceLeftArrow>
             <ArrowRight size={25} />

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from 'semantic-ui-react';
+import { WalletType } from '../../interface';
+import { useAppStore } from '../../mobx';
 import CloseIcon from '../Icons/CloseIcon';
 import './Modal.css';
 
@@ -18,6 +20,9 @@ interface ConnectModalProps {
 }
 
 const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = false}: ConnectModalProps) => {
+  const {
+    switchWalletType
+  } = useAppStore();
   const [isVisible, setIsVisible] = useState<boolean>(open);
   const openedBefore = useRef<boolean>();
 
@@ -28,6 +33,7 @@ const BasicModal = ({open, close, children, isDisabled = false, isFirstStep = fa
     } else if (openedBefore.current) {
       setTimeout(() => {
         setIsVisible(false);
+        switchWalletType(WalletType.BitcoinWallet);
       }, 250);
       openedBefore.current = false;
     }

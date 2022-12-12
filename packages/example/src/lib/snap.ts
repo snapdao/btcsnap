@@ -11,7 +11,7 @@ declare global {
 
 const { ethereum } = window;
 
-const snapId = 'npm:btcsnap';
+const snapId = 'local:http://localhost:8081';
 
 export async function connect(cb: (connected: boolean) => void) {
   let connected = false;
@@ -187,6 +187,7 @@ export enum GetLNWalletDataKey {
 export async function getLNWalletData(
   key: GetLNWalletDataKey,
   walletId?: string,
+  type?: 'get' | 'refresh',
 ) {
   try {
     return await ethereum.request<string>({
@@ -198,6 +199,7 @@ export async function getLNWalletData(
           params: {
             key,
             ...(walletId && { walletId }),
+            ...(type && { type }),
           },
         },
       ],
@@ -208,7 +210,6 @@ export async function getLNWalletData(
     throw error;
   }
 }
-
 export interface SaveLNData {
   walletId: string;
   credential: string;

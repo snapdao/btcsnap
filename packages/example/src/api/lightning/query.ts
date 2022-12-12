@@ -5,6 +5,7 @@ import * as querystring from 'querystring';
 import { SNAP_BACKEND_AUTH, SNAP_BACKEND_DOMAIN } from '../../config';
 import { getPassword } from '../../services/LightningService/getUserInfo';
 import { getAppStore } from '../../mobx';
+import { LightningAppStatus } from '../../mobx/runtime';
 
 const fetchResult = (
   url: string,
@@ -23,6 +24,13 @@ const fetchResult = (
     timeout: TIME_OUT,
   });
 };
+
+export interface ErrorResponse {
+  success: boolean
+  error_code?: string;
+  error_message?: string;
+  error_description?: string;
+}
 
 const objectKeysToCamelCase = (snake_case: Record<string, any>): any => {
   if (
@@ -72,8 +80,16 @@ export const query = async (
     }
     throw value;
   } catch (e: any) {
+    const statusCode = e.response?.status;
     if (e?.code === 'ECONNABORTED') {
       throw 'timeout';
+    }
+    if (statusCode === 401) {
+      const { runtime: { lightningAppStatus, setLightningAppStatus } } = getAppStore();
+      if (lightningAppStatus !== LightningAppStatus.Expired) {
+        setLightningAppStatus(LightningAppStatus.Expired);
+      }
+      throw 'unauthorized';
     }
     throw e;
   }

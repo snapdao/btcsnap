@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Modal from './Modal';
 import { observer } from 'mobx-react-lite';
 import CloseIcon from '../Icons/CloseIcon';
@@ -36,6 +36,7 @@ const SHOW_POLICY_RELATED_SETTINGS = false;
 
 const Settings = observer(({ open, close }: SettingProps) => {
   const { settings: {network}, currentWalletType } = useAppStore();
+  const parentNode = useRef(null);
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const openDialog = (option: SettingOptions) => {
     setCurrentVisible(option);
@@ -55,7 +56,7 @@ const Settings = observer(({ open, close }: SettingProps) => {
         <CloseIcon onClick={close} />
       </SettingHeader>
 
-      <SettingContent>
+      <SettingContent ref={parentNode}>
         <Popup
           disabled={currentWalletType === WalletType.BitcoinWallet}
           wide
@@ -78,7 +79,8 @@ const Settings = observer(({ open, close }: SettingProps) => {
           }
           content={'Only available in the Bitcoin wallet'}
         />
-        <Network open={currentVisible === SettingOptions.Network} close={closeDialog} />
+
+        {parentNode.current && <Network open={currentVisible === SettingOptions.Network} close={closeDialog} parentNode={parentNode.current} />}
 
         <Divider style={{ margin: '16px 12px', width: 376}} />
 

@@ -19,10 +19,8 @@ export const PayInvoice = observer(({close, balance, exchangeRate}: PayInvoicePr
   useEffect(() => {
     model.setExchangeRate(exchangeRate);
   }, [exchangeRate]);
-  return (
-    <>
-      <SendView open={model.status === SendStatus.Init} model={model} close={close}/>
-      <ResultView open={model.status !== SendStatus.Init} model={model} close={close}/>
-    </>
-  );
+  
+  return model.status === SendStatus.Init ? 
+    <SendView model={model} close={close}/>
+    : <ResultView model={model} close={close}/>;
 });
