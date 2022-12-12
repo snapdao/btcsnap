@@ -98,7 +98,7 @@ export const GetAddress = observer(
               <LoadingIcon width={'36px'} height={'36px'} spin color='var(--c-pri50)' />
               <p>
                 <Caption>Initializing...</Caption>
-                <Caption>It will take about 5 seconds.</Caption>  
+                <Caption>It will take about 10 seconds.</Caption>
               </p>
             </LoadingContainer>
           </ModalContainer>
