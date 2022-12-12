@@ -20,7 +20,7 @@ export const StepIndicator = ({totalStep, currentStep}: StepIndicatorProps) => {
           const currentStatus = currentIndex === currentStep ? 'inProgress' : (currentIndex > currentStep ? 'todo' : 'complete');
           return (
             <>
-              <StepContainer status={currentStatus} key={index}>
+              <StepContainer status={currentStatus} key={`connect-${index}`}>
                 <StepIndex>
                   {
                     currentIndex === totalStep
