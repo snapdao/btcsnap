@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import TopUpWithWalletModal from './Wallet';
-import TopUpWithExternalWalletModal from './ExternalWallet';
+import TopUpWithBitcoinModal from './Bitcoin';
+import TopUpWithLightningInternalModal from './LightningInternal';
+import TopUpWithExternalWalletModal from './LightningExternal';
 import { BitcoinNetwork, BitcoinScriptType, BitcoinUnit } from '../../interface';
 
 interface Props {
-  type: 'wallet' | 'externalWallet';
+  type: 'bitcoin' | 'lightningWalletInternal' | 'lightningWalletExternal';
   close: () => void;
   walletProps: {
     currencyRate: number;
@@ -16,8 +17,9 @@ interface Props {
 
 const TopUpModal = observer(({ type, close, walletProps }: Props) => {
   return {
-    wallet: <TopUpWithWalletModal close={close} {...walletProps} />,
-    externalWallet: <TopUpWithExternalWalletModal close={close} />,
+    bitcoin: <TopUpWithBitcoinModal close={close} {...walletProps} />,
+    lightningWalletInternal: <TopUpWithLightningInternalModal close={close} {...walletProps} />,
+    lightningWalletExternal: <TopUpWithExternalWalletModal close={close} />,
   }[type];
 });
 

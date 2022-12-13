@@ -10,7 +10,7 @@ import { generatePSBT, selectUtxos, SendInfo } from '../../../lib';
 import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../../lib/snap';
 import { getTransactionLink } from '../../../lib/explorer';
-import { trackLightningTopUp } from '../../../tracking';
+import { trackTopUp } from '../../../tracking';
 import { FeeRate } from './types';
 import { BroadcastData, pushTransaction } from '../../../api/v1/pushTransaction';
 import { NETWORK_SCRIPT_TO_COIN } from '../../../constant/bitcoin';
@@ -454,8 +454,9 @@ class TopUpViewModel {
         const txData = this.adaptBroadcastData({ txId, txHex });
         await pushTransaction(coin, txData);
 
-        trackLightningTopUp({
-          type: 'internal',
+        trackTopUp({
+          type: 'lightning',
+          lightningType: 'internal',
           step: 'result',
           value: 'success'
         });
@@ -464,8 +465,9 @@ class TopUpViewModel {
         this.isSending = false;
       } catch (e) {
         logger.error(e);
-        trackLightningTopUp({
-          type: 'internal',
+        trackTopUp({
+          type: 'lightning',
+          lightningType: 'internal',
           step: 'result',
           value: 'failed'
         });
