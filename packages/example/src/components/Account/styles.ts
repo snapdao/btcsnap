@@ -493,6 +493,15 @@ export const TopUpButton = styled(Button).attrs({
     &:hover {
       background: var(--sk-color-n00);
     }
+
+    &.disabled {
+      pointer-events: visible;
+      background: white;
+      color: var(--sk-color-n40);
+      .icon-prefix {
+        opacity: 0.3;
+      }
+    }
   }
 `;
 

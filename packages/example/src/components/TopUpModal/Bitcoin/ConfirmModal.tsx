@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import {Container, Divider, Loader, Modal, TransitionablePortal} from 'semantic-ui-react';
 import BTCValue from './BTCValue';
 import CloseIcon from '../../Icons/CloseIcon';
-import { trackLightningTopUp } from '../../../tracking';
+import { trackTopUp } from '../../../tracking';
 import {
   MiddleTitleHeader,
   CloseContainer,
@@ -29,8 +29,9 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
         <Button
           onClick={() => {
             model.setConfirmOpen(true);
-            trackLightningTopUp({
-              type: 'internal',
+            trackTopUp({
+              type: 'lightning',
+              lightningType: 'internal',
               step: 'create',
             });
           }}
@@ -123,8 +124,9 @@ const ConfirmModal: FunctionComponent<ConfirmModalProps> = observer(props => {
                 style={{ marginTop: 44 }}
                 primary
                 onClick={() => {
-                  trackLightningTopUp({
-                    type: 'internal',
+                  trackTopUp({
+                    type: 'lightning',
+                    lightningType: 'internal',
                     step: 'confirm',
                   });
                   model.send();
