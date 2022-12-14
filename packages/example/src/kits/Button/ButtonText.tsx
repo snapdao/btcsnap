@@ -14,7 +14,7 @@ const ButtonTextWrap = styled(H3)<{ loading?: boolean }>`
     return props.loading
       ? css`color: var(--sk-color-n40);`
       : css`&:hover {
-        color: var(--sk-color-n50);
+        color: var(--sk-color-pri50);
       }`;
   }}
 `;
