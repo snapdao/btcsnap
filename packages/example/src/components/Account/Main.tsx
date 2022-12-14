@@ -129,8 +129,6 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
   };
 
   function setTopUpPopupVisible(open: boolean) {
-    console.log('open');
-    console.log('asdf', topUpVisibleData);
     setTopUpVisibleData({
       ...topUpVisibleData,
       open,

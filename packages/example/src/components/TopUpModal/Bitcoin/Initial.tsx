@@ -1,69 +1,35 @@
-import React, { ChangeEvent, FunctionComponent, useMemo, useRef, useState } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 
 import './index.css';
-import ConfirmModal from './ConfirmModal';
-import TransactionFee from './TransactionFee';
-import SwitchIcon from '../../Icons/SwitchIcon';
-import ArrowDown from '../../Icons/ArrowDown';
-
 import {
   SendContainer,
   SendTitle,
   SendBody,
   SendAmountContainer,
-  SendAmountInput,
-  SendAmountMax,
-  SendTextError,
-  SendAmountItem,
-  SendAmountTransition,
-  SendAmountFee,
-  SendAvailableContainer,
-  SendButtonContainer,
   CancelButton,
-  SendAvailableBox,
-  BalanceBox,
-  BalanceUnit,
   AddressCaption,
 } from './styles';
 import { Icon } from 'snapkit';
-import { Body, Caption, H3, H4, Input, Modal } from '../../../kits';
-import BitcoinIcon2 from '../../Icons/BitcoinIcon2';
-import { BalanceContainer } from './styles';
-import { useAppStore } from '../../../mobx';
-import { useBalance } from '../../../hook/useBalance';
-import { BitcoinUnit, WalletType } from '../../../interface';
-import { satoshiToBTC } from '../../../lib/helper';
-import { bitcoinUnitMap } from '../../../lib/unit';
+import { Button, Caption, FlexCenter, H3, Modal, Popup } from '../../../kits';
+import { ReactComponent as PaymentMethod } from './images/paymentMethod.svg';
 import Divider from '../../../kits/Divider';
+import Alert from '../../../kits/Alert';
+import InfoIcon from '../../Icons/InfoIcon';
+import { useAppStore } from '../../../mobx';
 
 export type InitialProps = {
   model: SendViewModel;
   close: () => void;
 };
 
-const numberReg = /^\d*(?:\.\d*)?$/;
-
 const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => {
-  const { currentUnit } = useAppStore();
-  const { balance } = useBalance({ type: WalletType.BitcoinWallet});
-  const [transactionFee, setTransactionFee] = useState<boolean>(false);
+  const {
+    settings: { dynamicAddress }
+  } = useAppStore();
   const topUpModalRef = useRef<any>();
-
-  const openTransactionFee = () => {
-    setTransactionFee(true);
-  };
-
-  const closeTransactionFee = () => {
-    setTransactionFee(false);
-  };
   
-  const balanceText = currentUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
-  const showFee = useMemo(() => {
-    return model.amountText !== '' && model.amountValid.valid;
-  }, [model.amountText, model.amountValid]);
-
   return (
     <>
       <SendContainer>
@@ -78,38 +44,52 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
         {model.utxoLoading && <Modal.Loading />}
 
         <SendBody ref={topUpModalRef}>
-          <SendTitle>Receive Address</SendTitle>
+          <SendTitle>
+            Receive Address
+            {dynamicAddress && <Popup
+              trigger={
+                <InfoIcon />
+              }
+              inverted
+            >
+              <Caption>
+                The Bitcoins you bought will be sent to this address. To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via wallet profile.
+              </Caption>
+            </Popup>}
+          </SendTitle>
           <SendAmountContainer>
             <AddressCaption>{model.to}</AddressCaption>
-            <Divider color="var(--sk-color-ntd10)"/>
           </SendAmountContainer>
+          <Divider color='var(--sk-color-ntd10)'/>
           <SendTitle>Payment Method</SendTitle>
-          <SendAmountContainer>
-            <AddressCaption>{model.to}</AddressCaption>
-            <Divider color="var(--sk-color-ntd10)"/>
+          <SendAmountContainer style={{ marginTop: 12 }}>
+            <PaymentMethod />
           </SendAmountContainer>
-
-          <BalanceContainer>
-            <div />
-            <BalanceBox>
-              <H4>Balance</H4>
-              <div>
-                <Caption>{balanceText}</Caption>
-                <BalanceUnit>{currentUnit}</BalanceUnit>
-              </div>
-            </BalanceBox>
-          </BalanceContainer>
         </SendBody>
       </SendContainer>
 
-      <SendContainer>
-        <SendButtonContainer>
+      <Modal.Footer style={{ flexDirection: 'column' }}>
+        <Alert style={{ marginBottom: 16 }}>
+          <Caption style={{ color: 'var(--sk-color-n60)'}}>
+            After clicking <span style={{ color: 'var(--sk-color-n80)'}}>Continue</span>, you will be redirected to Mercuryo to complete your purchase securely.
+          </Caption>
+        </Alert>
+        <FlexCenter style={{ width: '100%', gap: 24 }}>
           <CancelButton onClick={close}>
             Cancel
           </CancelButton>
-          <ConfirmModal model={model} parentNode={topUpModalRef.current} />
-        </SendButtonContainer>
-      </SendContainer>
+          <Button
+            onClick={() => {
+              model.setStatus('pending')
+            }}
+            primary
+            style={{ maxWidth: 176 }}
+            disabled={!model.to}
+          >
+          Continue
+          </Button>
+        </FlexCenter>
+      </Modal.Footer>
     </>
   );
 });

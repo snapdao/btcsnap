@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
+import { ComponentPropsWithoutRef } from 'react';
 import { Container } from './styles';
 
-interface Props {
-  children: ReactNode;
+interface Props extends ComponentPropsWithoutRef<'div'> {
+  [k: string]: any;
 }
 
-const ModalFooter = ({ children }: Props) => {
-  return <Container>{children}</Container>;
+const ModalFooter = ({ children, ...args }: Props) => {
+  return <Container {...args}>{children}</Container>;
 };
 
 export default ModalFooter;
