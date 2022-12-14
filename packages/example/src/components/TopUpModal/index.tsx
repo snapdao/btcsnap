@@ -17,7 +17,7 @@ interface Props {
 
 const TopUpModal = observer(({ type, close, walletProps }: Props) => {
   return {
-    bitcoin: <TopUpWithBitcoinModal close={close} {...walletProps} />,
+    bitcoin: <TopUpWithBitcoinModal close={close} />,
     lightningWalletInternal: <TopUpWithLightningInternalModal close={close} {...walletProps} />,
     lightningWalletExternal: <TopUpWithExternalWalletModal close={close} />,
   }[type];

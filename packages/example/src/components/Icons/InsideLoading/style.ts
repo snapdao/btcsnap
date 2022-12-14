@@ -1,0 +1,18 @@
+import { circularMotion } from './../../../kits/Animation/rotate';
+import styled, { css } from 'styled-components';
+
+export const Spin = styled.div<{ enable: boolean; color?: string }>`
+  color: ${(props) => props.color};
+  ${(props) =>
+    props.enable &&
+    css`
+      top: 0;
+      left: 0;
+      animation: ${circularMotion} 1s infinite;
+      animation-timing-function: linear;
+    `}
+  > img {
+    width: 100%;
+    height: 100%;
+  }
+`;

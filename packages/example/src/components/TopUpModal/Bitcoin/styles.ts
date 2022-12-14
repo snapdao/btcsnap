@@ -43,7 +43,7 @@ export const AddressCaption = styled(Caption)`
   display: flex;
   align-items: center;
   height: 48px;
-`
+`;
 
 export const LeftTitleHeader = styled.div`
   display: flex;
@@ -74,13 +74,16 @@ export const CloseContainer = styled.div`
   right: 20px;
 `;
 
-export const SendTitle = styled.span`
-  display: inline-block;
+export const SendTitle = styled.span.attrs({ className: 'send-title' })`
+  display: flex;
+  align-items: center;
   color: #9095A3;
   font-weight: 600;
-
-  + .${SendTitle.styledComponentId} {
-
+  ~ .send-title {
+    margin-top: 32px;
+  }
+  > svg {
+    margin-left: 4px;
   }
 `;
 
@@ -90,126 +93,6 @@ export const SendBody = styled.div`
 
 export const SendAmountContainer = styled.div`
   margin-top: 8px;
-`;
-
-export const SendAmountItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  &:first-child {
-    margin-bottom: 8px;
-  }
-`;
-
-export const SendAmountInput = styled.div`
-  display: flex;
-  align-items: center;
-  & > input {
-    border: none;
-    font-size: 40px;
-    font-weight: 400;
-    max-width: 280px;
-    line-height: 52px;
-    padding: 0;
-    background: transparent;
-  }
-  & > span {
-    display: flex;
-    align-items: center;
-    margin-top: 14px;
-    color: #F58300;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    cursor: pointer;
-  }
-`;
-
-export const SendAmountMax = styled.span`
-  display: none;
-  width: 35px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #F58300;
-  margin-top: 10px;
-  padding: 0 4px;
-  cursor: pointer;
-  background: rgba(255, 108, 10, 0.2);
-  border-radius: 4px;
-  :hover {
-    color: #FFFFFF;
-    background-color: #F58300;
-    transition: 0.25s;
-  }
-  :not(:hover) {
-    transition: 0.25s;
-  }
-`;
-
-export const SendTextError = styled.div`
-  margin-bottom: 8px;
-  line-height: 20px;
-  color: #EB2F00;
-`;
-
-export const SendAmountTransition = styled.div`
-  display: flex;
-  justify-content: center;
-  color: rgba(0, 0, 0, 0.4);
-  font-size: 16px;
-  & > span:first-child {
-    display: inline-block;
-    max-width: 200px;
-    overflow: hidden;
-    color: #111214;
-  }
-  & > span {
-    display: inline-block;
-    line-height: 24px;
-    color: #F58300;
-    margin-left: 4px;
-  }
-`;
-
-export const SendAmountFee = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  & > span:nth-child(2) {
-    display: flex;
-    align-items: center;
-    margin-left: 16px;
-    cursor: pointer;
-    span {
-      margin-right: 4px;
-    }
-    span:nth-child(2) {
-      color: #656D85;
-    }
-    :hover {
-      & > svg > path {
-        fill: #F58300;
-        transition: 0.25s;
-      }
-    }
-    :not(:hover) {
-      & > svg > path {
-        fill: #656D85;
-        transition: 0.25s;
-      }
-    }
-  }
-`;
-
-export const SendAvailableContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const SendAvailableBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0 4px;
 `;
 
 export const SendToContainer = styled.div`
@@ -230,15 +113,6 @@ export const SendToInput = styled.div`
       border-bottom: 1px solid #F58300;
     }
   }
-`;
-
-export const SendButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 32px;
-  position: absolute;
-  bottom: 32px;
 `;
 
 export const CancelButton = styled.button`
@@ -396,18 +270,6 @@ export const BalanceContainer = styled(FlexBetween)`
   width: 100%;
   `;
 
-export const BalanceBox = styled(FlexBetween)`
-  gap: 0 16px;
-  > h4 {
-    color: var(--sk-color-n50);
-  }
-`;
-
-export const BalanceUnit = styled(Caption)`
-  margin-left: 4px;
-  color: var(--sk-color-n60);
-`;
-
 export const AddressBox = styled(FlexCenter)`
   align-items: center;
   gap: 0 4px;
@@ -416,3 +278,30 @@ export const AddressBox = styled(FlexCenter)`
     fill: var(--sk-color-pri50);
   }
 `;
+
+export const PendingContainer = styled(FlexCenter)`
+  flex-direction: column;
+  padding: 64px 0;
+`
+
+export const ResultContainer = styled(FlexCenter)`
+  flex-direction: column;
+  padding: 4px 0 24px;
+`
+
+export const PendingIconContainer = styled.div`
+  position: relative;
+  width: 96px;
+  height: 96px;
+  > * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .pending-icon {
+    width: 96px;
+    height: 96px;
+  }
+`
+
