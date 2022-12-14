@@ -122,7 +122,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
 
       <Modal.Footer style={{ flexDirection: 'column', gap: '24px 0' }}>
         {
-          model.status === 'pending' ?
+          ['pending', 'timeout'].includes(model.status) ?
             <>
               <Button onClick={close}>Close</Button>
               <Button.Text loading={model.isRefresh} onClick={model.refreshStatus}>I‘ve Finished the Payment</Button.Text>
