@@ -66,6 +66,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           <SendTitle>
             Receive Address
             {dynamicAddress && <Popup
+              wide
               trigger={
                 <InfoIcon />
               }
