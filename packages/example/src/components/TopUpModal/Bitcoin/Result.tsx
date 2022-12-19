@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import SendViewModel from './model';
 import { observer } from 'mobx-react-lite';
 import './index.css';
@@ -21,13 +21,14 @@ import MercuryoIcon from '../../Icons/MercuryoIcon';
 import InsideLoadingIcon from '../../Icons/InsideLoading';
 import { BitcoinUnit } from '../../../interface';
 import BTCValue from './BTCValue';
+import { trackTopUp } from '../../../tracking';
 
 export type SuccessProps = {
   model: SendViewModel;
   close: () => void;
 };
 
-const INTERVAL_TIME = 2000
+const INTERVAL_TIME = 5000;
 
 const Result = observer(({ model, close }: SuccessProps) => {
   const { runtime: { setStatus } } = useAppStore();
@@ -38,31 +39,60 @@ const Result = observer(({ model, close }: SuccessProps) => {
       ? 'Getting Payment Status...'
       : 'Please finish your payment in the new tab';
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> = 0 as any;
-    let interval: ReturnType<typeof setInterval> = 0 as any;
+  const [ intervalTimer, setIntervalTimer ] = useState<number | null>(null);
+  const [ timeoutTimer, setTimeoutTimer ] = useState<number | null>(null);
 
-    timer = setTimeout(() => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
       clearTimeout(timer);
       clearInterval(interval);
       model.setStatus('timeout');
-    }, 10000);
+    }, 2 * 60 * 1000);
+    setTimeoutTimer(timer as unknown as number);
 
-    interval = setInterval(() => {
-      model.refreshStatus()
-    }, INTERVAL_TIME)
+    const interval = setInterval(() => {
+      model.refreshStatus();
+    }, INTERVAL_TIME);
+    setIntervalTimer(interval as unknown as number);
 
     return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
-    }
+      clearTimeout(timeoutTimer as unknown as number);
+      clearInterval(intervalTimer as unknown as number);
+    };
   }, []);
 
   useEffect(() => {
     if(model.status === 'success'){
+      clearTimeout(timeoutTimer as unknown as number);
+      clearInterval(intervalTimer as unknown as number);
       setStatus(AppStatus.RefreshApp);
     }
-  }, [model.status]);
+  }, [ model.status, timeoutTimer, intervalTimer ]);
+
+  function manmualRefreshStatus() {
+    if (model.isRefresh) return;
+    const isTimeout = model.status === 'timeout'
+    if (isTimeout) {
+      model.setStatus('pending')
+    }
+    model.setIsRefresh(true);
+    model.refreshStatus();
+    setTimeout(() => {
+      model.setIsRefresh(false);
+      if (['success', 'failed'].includes(model.status)) return
+      if (isTimeout) {
+        model.setStatus('timeout')
+      }
+    }, 5000);
+  }
+
+  function onClose() {
+    trackTopUp({
+      type: 'bitcoin',
+      step: 'close',
+    })
+    close()
+  }
 
   return (
     <div>
@@ -74,7 +104,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               <H3 style={{ marginLeft: 10 }}>TOP UP</H3>
             </>
             : null}
-        onClose={close}
+        onClose={onClose}
       />
       <Modal.Background>
         {[ 'pending', 'timeout' ].includes(model.status) && (
@@ -125,20 +155,20 @@ const Result = observer(({ model, close }: SuccessProps) => {
               'text-secondary text-align-center text-size-normal text-line-height-normal'
             }
           >
-            <p className={'result-sucess-p'}>The network may need up to 60 mins to completely process the transaction.</p>
+            <p className={'result-sucess-p'}>Payment successful. The network may need up to 2−4 hours to completely process the transaction. In rare cases, it may take up to 48 hours due to some delays.</p>
           </div>
         </ResultSuccessSection>
       )}
 
       {model.status === 'failed' && (
         <FailedContainer>
-          <FailedText>{model.errorMessage.message}<span> [{model.errorMessage.code}] </span>.</FailedText>
+          <FailedText>{model.errorMessage.message}.</FailedText>
         </FailedContainer>
       )}
 
       {model.status === 'timeout' && (
         <FailedContainer>
-          <FailedText>支付成功后可能仍需要一点时间才能获取到充值结果，如果你已完成付款，请检查你注册 Mercuryo 使用的邮箱是否收到付款证明</FailedText>
+          <FailedText>Timeout to get paid result. Payment result is subject to Mercuryo email notification. Find on live chat through the bottom right side of mercuryo.io</FailedText>
         </FailedContainer>
       )}
 
@@ -146,8 +176,8 @@ const Result = observer(({ model, close }: SuccessProps) => {
         {
           [ 'pending', 'timeout' ].includes(model.status) ?
             <>
-              <Button onClick={close}>Close</Button>
-              <Button.Text loading={model.isRefresh} onClick={model.refreshStatus}>I‘ve Finished the Payment</Button.Text>
+              <Button onClick={onClose}>Close</Button>
+              <Button.Text loading={model.isRefresh} onClick={manmualRefreshStatus}>I‘ve Finished the Payment</Button.Text>
             </>
             : <Button primary onClick={close}>OK</Button>
         }
