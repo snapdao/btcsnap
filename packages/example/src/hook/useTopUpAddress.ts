@@ -2,9 +2,10 @@ import { useAppStore } from '../mobx';
 import { useCallback, useEffect, useState } from 'react';
 import { getBtc } from '../api/lightning/getBtc';
 import { logger } from '../logger';
+import { WalletType } from '../interface';
 
 export const useTopUpAddress = () => {
-  const { current, lightning: { current: lightningCurrent } } = useAppStore();
+  const { current, lightning: { current: lightningCurrent }, currentWalletType } = useAppStore();
   const [address, setAddress] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -16,7 +17,7 @@ export const useTopUpAddress = () => {
   }, []);
 
   useEffect(() => {
-    if (!lightningCurrent) {
+    if (currentWalletType === WalletType.LightningWallet && !lightningCurrent) {
       setAddress('');
       return;
     }

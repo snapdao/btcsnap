@@ -26,6 +26,7 @@ export type InitialProps = {
 
 const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => {
   const {
+    current,
     settings: { dynamicAddress }
   } = useAppStore();
   const topUpModalRef = useRef<any>();
@@ -80,11 +81,13 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           </CancelButton>
           <Button
             onClick={() => {
-              model.setStatus('pending')
+              if (!current) return
+              model.confirmTopUp(`${current.path}/0/${current.receiveAddressIndex}`, current.mfp)
             }}
             primary
             style={{ maxWidth: 176 }}
             disabled={!model.to}
+            loading={model.isGetSignature}
           >
           Continue
           </Button>

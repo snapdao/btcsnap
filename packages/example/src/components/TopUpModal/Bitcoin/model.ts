@@ -2,6 +2,9 @@ import { makeAutoObservable } from 'mobx';
 import { trackTopUp } from '../../../tracking';
 import { mapErrorToUserFriendlyError } from '../../../errors/Snap/SnapError';
 import { logger } from '../../../logger';
+import { queryMercuryoSignature } from '../../../api/v1/mercuryoSignature';
+import { address } from 'bitcoinjs-lib';
+import { queryFiatRecord } from '../../../api/v1/fiatRecord';
 
 class TopUpViewModel {
   public to = '';
@@ -11,9 +14,11 @@ class TopUpViewModel {
 
   public errorMessage: {message: string, code: number} = { message: '', code: 0 };
 
-  private txId?: string;
+  public txId?: string;
 
   public isRefresh = false;
+
+  public isGetSignature = false;
 
   public utxoLoading = false;
 
@@ -51,6 +56,10 @@ class TopUpViewModel {
     this.to = value;
   };
 
+  setTxId = (value: string) => {
+    this.txId = value;
+  }
+
   get isEmptyTo() {
     return this.to === '';
   }
@@ -59,18 +68,39 @@ class TopUpViewModel {
     this.isRefresh = bool;
   }
 
+  setIsGetSignature = (bool: boolean) => {
+    this.isGetSignature = bool;
+  }
+
+  confirmTopUp = async (path: string, xfp: string) => {
+    this.setIsGetSignature(true);
+    const res = await queryMercuryoSignature(this.to, path, xfp);
+    console.log('res', res);
+    this.setTxId(res.txId);
+
+    this.setIsGetSignature(false);
+    this.setStatus('pending');
+    window.open(`https://sandbox-exchange.mrcr.io/?widget_id=98926ac6-70b2-4138-8431-a8b7e44fd61a&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
+  }
+
   refreshStatus = async () => {
     let timer: ReturnType<typeof setTimeout> = 0 as any;
     try {
+      if (!this.txId) return;
       this.setIsRefresh(true);
-      this.txId = 'asdfafsd';
-      timer = setTimeout(() => {
-        this.status = 'success';
-        this.setIsRefresh(false);
-      }, 5000);
+      const res = await queryFiatRecord(this.txId);
+      console.log('res', res);
 
+      if ((res.type === 'buy' && res.status === 'paid') || res.type === 'withdraw') {
+        this.status = 'success';
+      }
+      this.setIsRefresh(false);
+
+      timer = setTimeout(() => {
+        clearTimeout(timer);
+      }, 10000);
     } catch (e) {
-      timer && clearTimeout(timer)
+      timer && clearTimeout(timer);
       logger.error(e);
       trackTopUp({
         type: 'lightning',
