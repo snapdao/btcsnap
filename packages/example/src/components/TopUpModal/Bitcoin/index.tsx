@@ -6,14 +6,14 @@ import Initial from './Initial';
 import Result from './Result';
 import { useSendInfo } from './useSendInfo';
 import { Message, MessageType, Modal } from '../../../kits';
-import { useTopUpAddress } from '../../../hook/useTopUpAddress';
+import { useReceiveAddress } from '../../../hook/useReceiveAddress';
 
 type ContainerProps = {
   close: () => void;
 };
 
 const TopUpWithWalletModal = ({ close }: ContainerProps) => {
-  const { address, loading, errorMessage } = useTopUpAddress();
+  const { address, loading } = useReceiveAddress()
   const { utxos, utxoLoading } = useSendInfo();
 
   const model = useMemo(() => {
@@ -25,7 +25,7 @@ const TopUpWithWalletModal = ({ close }: ContainerProps) => {
     model.setUtxoLoading(utxoLoading);
   }, [ utxos, address, loading, utxoLoading ]);
 
-  return <TopUpModal model={model} errorMessage={errorMessage} close={close} />;
+  return <TopUpModal model={model} close={close} />;
 };
 
 const TopUpModal = observer((props: { model: TopUpViewModel, errorMessage?: string, close: () => void }) => {
