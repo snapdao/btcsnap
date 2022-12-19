@@ -3,12 +3,11 @@ import { trackTopUp } from '../../../tracking';
 import { mapErrorToUserFriendlyError } from '../../../errors/Snap/SnapError';
 import { logger } from '../../../logger';
 import { queryMercuryoSignature } from '../../../api/v1/mercuryoSignature';
-import { address } from 'bitcoinjs-lib';
-import { queryFiatRecord } from '../../../api/v1/fiatRecord';
+import { FiatRecord, queryFiatRecord } from '../../../api/v1/fiatRecord';
 
 class TopUpViewModel {
   public to = '';
-  public amountText = '5555';
+  public amountText = '';
 
   public status: 'initial' | 'pending' | 'timeout' | 'success' | 'failed' = 'initial';
 
@@ -99,19 +98,26 @@ class TopUpViewModel {
   refreshStatus = async () => {
     try {
       if (!this.txId) return;
-      this.setIsRefresh(true);
       const res = await queryFiatRecord(this.txId);
-      console.log('res', res);
 
       if ((res.type === 'buy' && res.status === 'paid') || res.type === 'withdraw') {
         this.status = 'success';
+        this.amountText = res.amount;
+        trackTopUp({
+          type: 'bitcoin',
+          step: 'result',
+          value: 'success'
+        })
+      } else if ((['cancelled', 'order_failed', 'descriptor_failed'] as FiatRecord['status'][]).includes(res.status)) {
+        this.status = 'failed';
+        this.amountText = res.amount;
+        const errMsg = { cancelled: 'Transaction cancelled' }[res.status as string] || 'Payment failed, please check the email sent by Mercuryo or go to mercuryo.io and contact live Chat';
+        throw new Error(errMsg)
       }
-      this.setIsRefresh(false);
     } catch (e) {
       logger.error(e);
       trackTopUp({
-        type: 'lightning',
-        lightningType: 'internal',
+        type: 'bitcoin',
         step: 'result',
         value: 'failed'
       });

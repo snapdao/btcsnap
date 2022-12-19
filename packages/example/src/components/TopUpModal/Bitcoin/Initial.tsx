@@ -18,6 +18,7 @@ import Divider from '../../../kits/Divider';
 import Alert from '../../../kits/Alert';
 import InfoIcon from '../../Icons/InfoIcon';
 import { useAppStore } from '../../../mobx';
+import { trackTopUp } from '../../../tracking';
 
 export type InitialProps = {
   model: SendViewModel;
@@ -33,7 +34,19 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
 
   function confirmContinue() {
     if (!current) return;
+    trackTopUp({
+      type: 'bitcoin',
+      step: 'create',
+    })
     model.confirmTopUp(`${current.path}/0/${current.receiveAddressIndex}`, current.mfp);
+  }
+
+  function onClose() {
+    trackTopUp({
+      type: 'bitcoin',
+      step: 'close',
+    })
+    close()
   }
   
   return (
@@ -44,7 +57,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
             <Icon.TopUp width='24' height='24' color='var(--sk-color-pri50)' />
             <H3 style={{ marginLeft: 10 }}>TOP UP</H3>
           </>}
-          onClose={close}
+          onClose={onClose}
         />
 
         {model.utxoLoading && <Modal.Loading />}
@@ -81,7 +94,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           </Caption>
         </Alert>
         <FlexCenter style={{ width: '100%', gap: 24 }}>
-          <CancelButton onClick={close}>
+          <CancelButton onClick={onClose}>
             Cancel
           </CancelButton>
           <Button

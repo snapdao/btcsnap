@@ -16,16 +16,16 @@ const BTCValue: FunctionComponent<BTCValueProps> = ({
   const textSizeClass = `text-size-${size}`;
   const textWeightClass = `text-weight-${fontWeight}`;
   const textClass = `${textSizeClass} ${textWeightClass}`;
-  return (
+  return value ? (
     <span className={'btcValue-span'}>
-      <span className={textClass} style={ {display: 'inline-block'}}>{value}</span>
+      <span className={textClass} style={{ display: 'inline-block' }}>{value}</span>
       <span
         style={{ fontSize: 16, marginLeft: 4, color: '#F58300', display: 'inline-block' }}
         className={textWeightClass}>
         {unit}
       </span>
     </span>
-  );
+  ) : null;
 };
 
 export default BTCValue;
