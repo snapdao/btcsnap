@@ -73,18 +73,30 @@ class TopUpViewModel {
   }
 
   confirmTopUp = async (path: string, xfp: string) => {
-    this.setIsGetSignature(true);
-    const res = await queryMercuryoSignature(this.to, path, xfp);
-    console.log('res', res);
-    this.setTxId(res.txId);
+    try {
+      this.setIsGetSignature(true);
+      const res = await queryMercuryoSignature(this.to, path, xfp);
+      this.setTxId(res.txId);
 
-    this.setIsGetSignature(false);
-    this.setStatus('pending');
-    window.open(`https://sandbox-exchange.mrcr.io/?widget_id=98926ac6-70b2-4138-8431-a8b7e44fd61a&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
+      this.setIsGetSignature(false);
+      this.setStatus('pending');
+      window.open(`https://sandbox-exchange.mrcr.io/?widget_id=98926ac6-70b2-4138-8431-a8b7e44fd61a&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
+    } catch(e) {
+      logger.error(e);
+      if (typeof e === 'string') {
+        this.errorMessage = mapErrorToUserFriendlyError(e);
+      } else if (e instanceof Error) {
+        this.errorMessage = mapErrorToUserFriendlyError(e.message || 'refresh error');
+      }
+      this.setIsGetSignature(false);
+    }
+  }
+
+  setErrorMessage = (value: string) => {
+    this.errorMessage.message = value
   }
 
   refreshStatus = async () => {
-    let timer: ReturnType<typeof setTimeout> = 0 as any;
     try {
       if (!this.txId) return;
       this.setIsRefresh(true);
@@ -95,12 +107,7 @@ class TopUpViewModel {
         this.status = 'success';
       }
       this.setIsRefresh(false);
-
-      timer = setTimeout(() => {
-        clearTimeout(timer);
-      }, 10000);
     } catch (e) {
-      timer && clearTimeout(timer);
       logger.error(e);
       trackTopUp({
         type: 'lightning',

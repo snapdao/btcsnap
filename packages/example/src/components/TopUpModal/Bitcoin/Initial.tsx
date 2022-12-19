@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 
@@ -12,7 +12,7 @@ import {
   AddressCaption,
 } from './styles';
 import { Icon } from 'snapkit';
-import { Button, Caption, FlexCenter, H3, Modal, Popup } from '../../../kits';
+import { Button, Caption, FlexCenter, H3, Message, MessageType, Modal, Popup } from '../../../kits';
 import { ReactComponent as PaymentMethod } from './images/paymentMethod.svg';
 import Divider from '../../../kits/Divider';
 import Alert from '../../../kits/Alert';
@@ -30,6 +30,11 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
     settings: { dynamicAddress }
   } = useAppStore();
   const topUpModalRef = useRef<any>();
+
+  function confirmContinue() {
+    if (!current) return;
+    model.confirmTopUp(`${current.path}/0/${current.receiveAddressIndex}`, current.mfp);
+  }
   
   return (
     <>
@@ -71,8 +76,8 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
 
       <Modal.Footer style={{ flexDirection: 'column' }}>
         <Alert style={{ marginBottom: 16 }}>
-          <Caption style={{ color: 'var(--sk-color-n60)'}}>
-            After clicking <span style={{ color: 'var(--sk-color-n80)'}}>Continue</span>, you will be redirected to Mercuryo to complete your purchase securely.
+          <Caption style={{ color: 'var(--sk-color-n60)' }}>
+            After clicking <span style={{ color: 'var(--sk-color-n80)' }}>Continue</span>, you will be redirected to Mercuryo to complete your purchase securely.
           </Caption>
         </Alert>
         <FlexCenter style={{ width: '100%', gap: 24 }}>
@@ -80,10 +85,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
             Cancel
           </CancelButton>
           <Button
-            onClick={() => {
-              if (!current) return
-              model.confirmTopUp(`${current.path}/0/${current.receiveAddressIndex}`, current.mfp)
-            }}
+            onClick={confirmContinue}
             primary
             style={{ maxWidth: 176 }}
             disabled={!model.to}
@@ -93,6 +95,8 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           </Button>
         </FlexCenter>
       </Modal.Footer>
+
+      {model.errorMessage.message && <Message type={MessageType.Error} onClose={() => model.setErrorMessage('')}>Topup failed</Message>}
     </>
   );
 });

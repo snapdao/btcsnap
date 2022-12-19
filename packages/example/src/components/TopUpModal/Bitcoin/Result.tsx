@@ -27,6 +27,8 @@ export type SuccessProps = {
   close: () => void;
 };
 
+const INTERVAL_TIME = 2000
+
 const Result = observer(({ model, close }: SuccessProps) => {
   const { runtime: { setStatus } } = useAppStore();
 
@@ -35,6 +37,26 @@ const Result = observer(({ model, close }: SuccessProps) => {
     : model.isRefresh
       ? 'Getting Payment Status...'
       : 'Please finish your payment in the new tab';
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> = 0 as any;
+    let interval: ReturnType<typeof setInterval> = 0 as any;
+
+    timer = setTimeout(() => {
+      clearTimeout(timer);
+      clearInterval(interval);
+      model.setStatus('timeout');
+    }, 10000);
+
+    interval = setInterval(() => {
+      model.refreshStatus()
+    }, INTERVAL_TIME)
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    }
+  }, []);
 
   useEffect(() => {
     if(model.status === 'success'){
@@ -122,7 +144,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
 
       <Modal.Footer style={{ flexDirection: 'column', gap: '24px 0' }}>
         {
-          ['pending', 'timeout'].includes(model.status) ?
+          [ 'pending', 'timeout' ].includes(model.status) ?
             <>
               <Button onClick={close}>Close</Button>
               <Button.Text loading={model.isRefresh} onClick={model.refreshStatus}>I‘ve Finished the Payment</Button.Text>
