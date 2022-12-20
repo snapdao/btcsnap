@@ -1,0 +1,102 @@
+
+.space-around {
+    justify-content: space-around;
+}
+
+.horizontal-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.text-secondary {
+    color: #9095A3;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.text-error {
+    padding: 4px 0;
+    line-height: 20px;
+    color: #EB2F00;
+}
+
+.text-size-large {
+    font-size: 36px;
+}
+
+.text-size-normal {
+    font-size: 16px;
+}
+
+.text-line-height-normal {
+    line-height: 24px;
+}
+
+.text-weight-bold {
+    font-weight: 600;
+}
+
+.confirm-top-span {
+    padding-bottom: 8px;
+}
+
+.confirm-middle-span {
+    padding: 12px 0;
+}
+
+.confirm-bottom-span {
+    padding-bottom: 20px;
+}
+
+.confirm-btc-box span:nth-child(1){
+    display: inline-block;
+    height: 48px;
+}
+
+.confirm-btc-box .btcValue-span span:nth-child(1) {
+    display: inline-block;
+    line-height: 48px;
+}
+
+.btcValue-span span:nth-child(1) {
+    display: inline-block;
+    line-height: 24px;
+}
+
+.btcValue-span span:nth-child(2) {
+    display: inline-block;
+    line-height: 24px;
+}
+
+input:focus-visible {
+    outline: none;
+}
+
+::placeholder {
+    color: #C5CAD6;
+}
+
+.account-tag {
+    height: 24px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+    padding: 0 6px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 16px;
+}
+
+.result-sucess-p {
+    line-height: 24px;
+}
+
+.result-failed-p {
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+

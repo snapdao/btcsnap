@@ -88,14 +88,15 @@ export const trackLightningSend = (props: TrackLightningSendProps) => {
   trackEvent(EVENTS.LightningSend, props);
 };
 
-export interface TrackLightningTopUpProps {
-  type: 'internal' | 'external'
-  step: 'entry' | 'create' | 'confirm' | 'result'
+export interface TrackTopUp {
+  type: 'bitcoin' | 'lightning'
+  lightningType?: 'internal' | 'external'
+  step: 'entry' | 'create' | 'confirm' | 'close' | 'result'
   value?: 'success' | 'failed'
 }
 
-export const trackLightningTopUp = (props: TrackLightningTopUpProps) => {
-  trackEvent(EVENTS.LightningTopUp, props);
+export const trackTopUp = (props: TrackTopUp) => {
+  trackEvent(EVENTS.TopUp, props);
 };
 
 export const trackTransactionButton = (action: 'all' | 'refresh') => {

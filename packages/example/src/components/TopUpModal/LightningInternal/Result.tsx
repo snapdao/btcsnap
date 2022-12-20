@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import SendViewModel from './model';
 import { observer } from 'mobx-react-lite';
-import BTCValue from './BTCValue';
 import './index.css';
 import { ReactComponent as SendSuccess } from '../../../assets/send_success.svg';
 import { ReactComponent as SendFailed } from '../../../assets/send_failed.svg';
@@ -16,6 +15,7 @@ import {
 } from './styles';
 import { useAppStore } from '../../../mobx';
 import { AppStatus } from '../../../mobx/runtime';
+import BTCValue from '../Bitcoin/BTCValue';
 
 export type SuccessProps = {
   model: SendViewModel;
