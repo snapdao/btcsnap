@@ -12,7 +12,10 @@ const ButtonTextWrap = styled(H3)<{ loading?: boolean }>`
   transition: all 0.25s;
   ${props => {
     return props.loading
-      ? css`color: var(--sk-color-n40);`
+      ? css`
+          cursor: not-allowed;
+          color: var(--sk-color-n40);
+        `
       : css`&:hover {
         color: var(--sk-color-pri50);
       }`;
