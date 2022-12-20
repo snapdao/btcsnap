@@ -29,6 +29,7 @@ jobs:
           BACKEND_API_DOMAIN: ${{ secrets.BACKEND_API_DOMAIN }}
           SNAP_BACKEND_API_DOMAIN: ${{ secrets.SNAP_BACKEND_API_DOMAIN }}
           SNAP_BACKEND_API_AUTH: ${{ secrets.SNAP_BACKEND_API_AUTH }}
+          FIAT_MRCR_API_WIDGET_ID: ${{ secrets.FIAT_MRCR_API_WIDGET_ID }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_SOURCE: ${{ secrets.SENTRY_SOURCE }}
