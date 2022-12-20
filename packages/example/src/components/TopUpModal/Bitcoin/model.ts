@@ -20,8 +20,6 @@ class TopUpViewModel {
 
   public isGetSignature = false;
 
-  public utxoLoading = false;
-
   constructor() {
     makeAutoObservable(this);
   }
@@ -42,10 +40,6 @@ class TopUpViewModel {
     this.setIsRefresh(false);
     this.to = '';
     this.amountText = '';
-  };
-
-  setUtxoLoading = (value: boolean) => {
-    this.utxoLoading = value;
   };
 
   setStatus (status: typeof this.status) {
