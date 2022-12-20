@@ -74,7 +74,7 @@ class TopUpViewModel {
 
       this.setIsGetSignature(false);
       this.setStatus('pending');
-      const host = ENVIRONMENT !== 'development' ? 'exchange.mercuryo.io' : 'sandbox-exchange.mrcr.io'
+      const host = ENVIRONMENT === 'production' ? 'exchange.mercuryo.io' : 'sandbox-exchange.mrcr.io'
       window.open(`https://${host}/?widget_id=${FIAT_MRCR_WIDGET_ID}&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
     } catch(e) {
       logger.error(e);
