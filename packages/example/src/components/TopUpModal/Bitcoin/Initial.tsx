@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 

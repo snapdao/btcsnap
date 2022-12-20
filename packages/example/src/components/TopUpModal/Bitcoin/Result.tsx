@@ -62,9 +62,11 @@ const Result = observer(({ model, close }: SuccessProps) => {
   }, []);
 
   useEffect(() => {
-    if(model.status === 'success'){
+    if (['timeout', 'failed', 'success'].includes(model.status)) {
       clearTimeout(timeoutTimer as unknown as number);
       clearInterval(intervalTimer as unknown as number);
+    }
+    if(model.status === 'success'){
       setStatus(AppStatus.RefreshApp);
     }
   }, [ model.status, timeoutTimer, intervalTimer ]);

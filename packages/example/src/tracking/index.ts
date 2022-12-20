@@ -12,7 +12,7 @@ export const CONTEXT = {
 export const trackInit = () => {
   const trackToken = TRACK_TOKEN;
   if (!trackToken) {
-    console.error('[mixpanel] init error, not found token');
+    console.error('[mixpanel] init error, token not found');
     return;
   }
   const isNonProd = ENVIRONMENT !== 'production';

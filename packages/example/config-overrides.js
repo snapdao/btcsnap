@@ -26,6 +26,7 @@ module.exports = function override(config, env) {
             BACKEND_API_AUTH: JSON.stringify(process.env.BACKEND_API_AUTH),
             SNAP_BACKEND_API_DOMAIN: JSON.stringify(process.env.SNAP_BACKEND_API_DOMAIN),
             SNAP_BACKEND_API_AUTH: JSON.stringify(process.env.SNAP_BACKEND_API_AUTH),
+            FIAT_MRCR_API_WIDGET_ID: JSON.stringify(process.env.FIAT_MRCR_API_WIDGET_ID),
             ENV: JSON.stringify(process.env.ENV),
             SENTRY_SOURCE: JSON.stringify(process.env.SENTRY_SOURCE),
         })
