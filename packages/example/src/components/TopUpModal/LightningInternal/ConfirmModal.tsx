@@ -2,7 +2,6 @@ import SendViewModel from './model';
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import {Container, Divider, Loader, Modal, TransitionablePortal} from 'semantic-ui-react';
-import BTCValue from './BTCValue';
 import CloseIcon from '../../Icons/CloseIcon';
 import { trackTopUp } from '../../../tracking';
 import {
@@ -12,6 +11,7 @@ import {
 } from './styles';
 import { Button, Caption, Popup } from '../../../kits';
 import InfoIcon from '../../Icons/InfoIcon';
+import BTCValue from '../Bitcoin/BTCValue';
 
 export type ConfirmModalProps = {
   model: SendViewModel;

@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import TopUpViewModel from './model';
 import Initial from './Initial';
 import Result from './Result';
-import { useSendInfo } from './useSendInfo';
 import { Message, MessageType, Modal } from '../../../kits';
 import { useReceiveAddress } from '../../../hook/useReceiveAddress';
 
@@ -14,7 +13,6 @@ type ContainerProps = {
 
 const TopUpWithWalletModal = ({ close }: ContainerProps) => {
   const { address, loading } = useReceiveAddress()
-  const { utxos, utxoLoading } = useSendInfo();
 
   const model = useMemo(() => {
     return new TopUpViewModel();
@@ -22,8 +20,7 @@ const TopUpWithWalletModal = ({ close }: ContainerProps) => {
 
   useEffect(() => {
     !loading && model.setTo(address);
-    model.setUtxoLoading(utxoLoading);
-  }, [ utxos, address, loading, utxoLoading ]);
+  }, [ address, loading ]);
 
   return <TopUpModal model={model} close={close} />;
 };

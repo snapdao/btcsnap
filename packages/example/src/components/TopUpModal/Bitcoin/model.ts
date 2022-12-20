@@ -4,6 +4,7 @@ import { mapErrorToUserFriendlyError } from '../../../errors/Snap/SnapError';
 import { logger } from '../../../logger';
 import { queryMercuryoSignature } from '../../../api/v1/mercuryoSignature';
 import { FiatRecord, queryFiatRecord } from '../../../api/v1/fiatRecord';
+import { ENVIRONMENT, FIAT_MRCR_WIDGET_ID } from '../../../config';
 
 class TopUpViewModel {
   public to = '';
@@ -79,7 +80,8 @@ class TopUpViewModel {
 
       this.setIsGetSignature(false);
       this.setStatus('pending');
-      window.open(`https://sandbox-exchange.mrcr.io/?widget_id=98926ac6-70b2-4138-8431-a8b7e44fd61a&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
+      const host = ENVIRONMENT !== 'development' ? 'exchange.mercuryo.io' : 'sandbox-exchange.mrcr.io'
+      window.open(`https://${host}/?widget_id=${FIAT_MRCR_WIDGET_ID}&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
     } catch(e) {
       logger.error(e);
       if (typeof e === 'string') {
