@@ -498,6 +498,7 @@ export const TopUpButton = styled(Button).attrs({
       pointer-events: visible;
       background: white;
       color: var(--sk-color-n40);
+      cursor: not-allowed;
       .icon-prefix {
         opacity: 0.3;
       }
