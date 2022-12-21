@@ -221,7 +221,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
         <Popup
           open={topUpVisibleData.open}
           position={network === BitcoinNetwork.Main ? 'top right' : 'top center'}
-          basic
+          basic={network === BitcoinNetwork.Main}
           inverted={isTestNetwork}
           hoverable={false}
           openOnTriggerMouseEnter={false}
