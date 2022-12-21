@@ -99,7 +99,7 @@ class LightningSendViewModel {
 
   get expireTime() {
     if (this.expireTotalSeconds <= 0) {
-      return {hours: 0, minutes: 0, seconds: 0};
+      return { hours: 0, minutes: 0, seconds: 0 };
     }
     return covertSecondsToHM(this.expireTotalSeconds);
   }

@@ -22,7 +22,7 @@ interface ConnectModalProps extends StepIndicatorProps{
   isFirstStep?: boolean;
 }
 
-const BasicModal = ({open, close, children, isDisabled = false, totalStep, currentStep}: ConnectModalProps) => {
+const BasicModal = ({ open, close, children, isDisabled = false, totalStep, currentStep }: ConnectModalProps) => {
   const {
     switchWalletType
   } = useAppStore();

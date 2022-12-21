@@ -39,8 +39,8 @@ const Result = observer(({ model, close }: SuccessProps) => {
       ? 'Getting Payment Status...'
       : 'Please finish your payment in the new tab';
 
-  const [ intervalTimer, setIntervalTimer ] = useState<number | null>(null);
-  const [ timeoutTimer, setTimeoutTimer ] = useState<number | null>(null);
+  const [intervalTimer, setIntervalTimer] = useState<number | null>(null);
+  const [timeoutTimer, setTimeoutTimer] = useState<number | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -69,21 +69,21 @@ const Result = observer(({ model, close }: SuccessProps) => {
     if(model.status === 'success'){
       setStatus(AppStatus.RefreshApp);
     }
-  }, [ model.status, timeoutTimer, intervalTimer ]);
+  }, [model.status, timeoutTimer, intervalTimer]);
 
   function manmualRefreshStatus() {
     if (model.isRefresh) return;
-    const isTimeout = model.status === 'timeout'
+    const isTimeout = model.status === 'timeout';
     if (isTimeout) {
-      model.setStatus('pending')
+      model.setStatus('pending');
     }
     model.setIsRefresh(true);
     model.refreshStatus();
     setTimeout(() => {
       model.setIsRefresh(false);
-      if (['success', 'failed'].includes(model.status)) return
+      if (['success', 'failed'].includes(model.status)) return;
       if (isTimeout) {
-        model.setStatus('timeout')
+        model.setStatus('timeout');
       }
     }, 5000);
   }
@@ -92,15 +92,15 @@ const Result = observer(({ model, close }: SuccessProps) => {
     trackTopUp({
       type: 'bitcoin',
       step: 'close',
-    })
-    close()
+    });
+    close();
   }
 
   return (
     <div>
       <Modal.Header
         left={
-          ![ 'success', 'failed' ].includes(model.status)
+          !['success', 'failed'].includes(model.status)
             ? <>
               <Icon.TopUp width='24' height='24' color='var(--sk-color-pri50)' />
               <H3 style={{ marginLeft: 10 }}>TOP UP</H3>
@@ -109,7 +109,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
         onClose={onClose}
       />
       <Modal.Background>
-        {[ 'pending', 'timeout' ].includes(model.status) && (
+        {['pending', 'timeout'].includes(model.status) && (
           <PendingContainer>
             <PendingIconContainer>
               <InsideLoadingIcon spin={model.status !== 'timeout'} width={96} height={96} />
@@ -120,7 +120,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
             </Body>
           </PendingContainer>
         )}
-        { [ 'success', 'failed' ].includes(model.status) && 
+        { ['success', 'failed'].includes(model.status) && 
           <ResultContainer>
             {{
               success: <SendSuccess />,
@@ -176,7 +176,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
 
       <Modal.Footer style={{ flexDirection: 'column', gap: '24px 0' }}>
         {
-          [ 'pending', 'timeout' ].includes(model.status) ?
+          ['pending', 'timeout'].includes(model.status) ?
             <>
               <Button onClick={onClose}>Close</Button>
               <Button.Text loading={model.isRefresh} onClick={manmualRefreshStatus}>I‘ve Finished the Payment</Button.Text>

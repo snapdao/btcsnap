@@ -3,7 +3,7 @@ import { ModalProps } from 'semantic-ui-react';
 import { Modal } from '../../kits';
 import './Modal.css';
 
-const SettingsModal = ({open, close, children}: ModalProps ) => {
+const SettingsModal = ({ open, close, children }: ModalProps ) => {
   return (
     <Modal
       size='tiny'

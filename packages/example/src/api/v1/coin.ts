@@ -10,5 +10,5 @@ export type CoinsResponse = {
 };
 
 export const queryCoinV1 = (coinCode: SupportedCoins): Promise<CoinsResponse> => {
-  return query(endpoint, RequestType.Get, {}, {coin: coinCode});
+  return query(endpoint, RequestType.Get, {}, { coin: coinCode });
 };

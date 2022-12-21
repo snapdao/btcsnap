@@ -7,7 +7,7 @@ export interface StepIndicatorProps {
   currentStep: number;
 }
 
-export const StepIndicator = ({totalStep, currentStep}: StepIndicatorProps) => {
+export const StepIndicator = ({ totalStep, currentStep }: StepIndicatorProps) => {
   if(totalStep <= 1) {
     return null;
   }
@@ -15,7 +15,7 @@ export const StepIndicator = ({totalStep, currentStep}: StepIndicatorProps) => {
   return (
     <StepsContainer>
       {
-        Array.from({length: totalStep}).map((_, index) => {
+        Array.from({ length: totalStep }).map((_, index) => {
           const currentIndex = index + 1;
           const currentStatus = currentIndex === currentStep ? 'inProgress' : (currentIndex > currentStep ? 'todo' : 'complete');
           return (

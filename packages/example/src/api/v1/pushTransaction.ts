@@ -17,5 +17,5 @@ export const pushTransaction = (
   coinCode: SupportedCoins,
   txData: BroadcastData,
 ): Promise<Record<string, any>> => {
-  return query(endpoint, RequestType.Post, {}, {coin: coinCode, origin_tx_id: txData.txid, ...txData });
+  return query(endpoint, RequestType.Post, {}, { coin: coinCode, origin_tx_id: txData.txid, ...txData });
 };

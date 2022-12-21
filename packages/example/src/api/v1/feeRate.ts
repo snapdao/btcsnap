@@ -19,5 +19,5 @@ export type FeeRateResponse = {
 export const queryFeeRate = (
   coinCode: SupportedCoins,
 ): Promise<FeeRateResponse> => {
-  return query(endpoint, RequestType.Get, {}, {chain_coin: coinCode});
+  return query(endpoint, RequestType.Get, {}, { chain_coin: coinCode });
 };

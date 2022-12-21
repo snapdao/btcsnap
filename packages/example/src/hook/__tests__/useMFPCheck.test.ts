@@ -6,7 +6,7 @@ import { waitFor } from '@testing-library/react';
 describe('useMFPCheck', () => {
   it('should return isSameMFP as true given same MFP from snap', () => {
     jest.spyOn(snap, 'getMasterFingerprint').mockResolvedValue(defaultStore.current.mfp);
-    const {result} = renderHooksWithContext(() => useMFPCheck());
+    const { result } = renderHooksWithContext(() => useMFPCheck());
 
     waitFor(() =>
       expect(result.current).toMatchObject({
@@ -19,7 +19,7 @@ describe('useMFPCheck', () => {
 
   it('should return isSameMFP as false given a different mfp from snap', () => {
     jest.spyOn(snap, 'getMasterFingerprint').mockResolvedValue(defaultStore.current.mfp);
-    const {result} = renderHooksWithContext(() => useMFPCheck(), {current: undefined} as any);
+    const { result } = renderHooksWithContext(() => useMFPCheck(), { current: undefined } as any);
 
     waitFor(() =>
       expect(result.current).toMatchObject({
@@ -30,7 +30,7 @@ describe('useMFPCheck', () => {
   });
 
   it('should return isSameMFP as false when current account is not exist', () => {
-    const {result} = renderHooksWithContext(() => useMFPCheck(), {current: undefined} as any);
+    const { result } = renderHooksWithContext(() => useMFPCheck(), { current: undefined } as any);
     expect(result.current).toMatchObject({
       isChecking: true,
       isSameMFP: false

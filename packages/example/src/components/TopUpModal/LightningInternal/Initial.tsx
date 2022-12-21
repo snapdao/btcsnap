@@ -46,7 +46,7 @@ const numberReg = /^\d*(?:\.\d*)?$/;
 
 const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => {
   const { currentUnit } = useAppStore();
-  const { balance } = useBalance({ type: WalletType.BitcoinWallet});
+  const { balance } = useBalance({ type: WalletType.BitcoinWallet });
   const [transactionFee, setTransactionFee] = useState<boolean>(false);
   const topUpModalRef = useRef<any>();
 

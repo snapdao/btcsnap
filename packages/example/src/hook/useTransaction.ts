@@ -10,7 +10,7 @@ interface UseTransaction {
   offset?: number;
 }
 
-export const useTransaction = ({size, offset}: UseTransaction) => {
+export const useTransaction = ({ size, offset }: UseTransaction) => {
   const { current, currentWalletType } = useAppStore();
   const [txList, setTxList] = useState<TransactionDetail[]>([]);
   const [count, setCount] = useState(0);
@@ -33,7 +33,7 @@ export const useTransaction = ({size, offset}: UseTransaction) => {
   useEffect(() => {
     if (current && currentWalletType === WalletType.BitcoinWallet) {
       setLoading(true);
-      queryActivities({coin: current.coinCode, count: size, loadMoreTxs: lastTx})
+      queryActivities({ coin: current.coinCode, count: size, loadMoreTxs: lastTx })
         .then(res =>
           res.activities.map(tx => {
             const isReceive = tx.action === 'recv_external';

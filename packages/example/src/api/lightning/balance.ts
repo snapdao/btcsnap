@@ -14,6 +14,6 @@ export const balance = (userId = ''): Promise<LightningBalanceResponse> => {
     endpoint,
     RequestType.Get,
     {},
-    {user_id: userId}
+    { user_id: userId }
   );
 };

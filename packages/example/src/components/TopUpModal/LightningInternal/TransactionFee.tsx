@@ -34,7 +34,7 @@ const transactionFeeOptions = (fee: FeeRate, feeRate: FeeRate) : TransactionFeeT
   { label: 'Slow', type: 'low', time: 70, fee: fee.low, satVByte: feeRate.low }
 ];
 
-const TransactionFee = observer(({open, close, showFee, model}: TransactionFeeProps) => {
+const TransactionFee = observer(({ open, close, showFee, model }: TransactionFeeProps) => {
 
   return (
     <TransitionablePortal
@@ -43,7 +43,7 @@ const TransactionFee = observer(({open, close, showFee, model}: TransactionFeePr
     >
       <Modal
         open={true}
-        style={{width: '440px', marginTop: '272px', borderRadius: '20px'}}
+        style={{ width: '440px', marginTop: '272px', borderRadius: '20px' }}
       >
         <MiddleTitleHeader>
           <p>Transaction Fee</p>

@@ -37,7 +37,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
     trackTopUp({
       type: 'bitcoin',
       step: 'create',
-    })
+    });
     model.confirmTopUp(`${current.path}/0/${current.receiveAddressIndex}`, current.mfp);
   }
 
@@ -45,8 +45,8 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
     trackTopUp({
       type: 'bitcoin',
       step: 'close',
-    })
-    close()
+    });
+    close();
   }
   
   return (

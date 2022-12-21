@@ -53,7 +53,7 @@ const TopUpWithExternalWalletModal = observer(({  close }: TopUpWithExternalWall
               <H3 style={{ marginLeft: 12 }}>TOP UP</H3>
             </>
           }
-          style={{ padding: '20px 26px 0'}}
+          style={{ padding: '20px 26px 0' }}
           onClose={() => close()}
         />
         {loading

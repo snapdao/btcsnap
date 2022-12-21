@@ -52,7 +52,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
     loadMore: loadMoreTx,
     hasMore: hasMoreTx,
     error: errorTx,
-  } = useTransaction({size, offset});
+  } = useTransaction({ size, offset });
   const {
     invoices,
     loading: loadingInvoice,
@@ -60,7 +60,7 @@ export const useHistoryRecords = (size = 5, offset?: number): HistoryRecordHookR
     loadMore: loadMoreInvoice,
     hasMore: hasMoreInvoice,
     error: errorInvoice,
-  } = useInvoices({size, offset});
+  } = useInvoices({ size, offset });
   const [historyRecords, setHistoryRecords] = useState<HistoryRecord[]>([]);
 
   useEffect(() => {

@@ -12,7 +12,7 @@ type ContainerProps = {
 };
 
 const TopUpWithWalletModal = ({ close }: ContainerProps) => {
-  const { address, loading } = useReceiveAddress()
+  const { address, loading } = useReceiveAddress();
 
   const model = useMemo(() => {
     return new TopUpViewModel();
@@ -20,7 +20,7 @@ const TopUpWithWalletModal = ({ close }: ContainerProps) => {
 
   useEffect(() => {
     !loading && model.setTo(address);
-  }, [ address, loading ]);
+  }, [address, loading]);
 
   return <TopUpModal model={model} close={close} />;
 };

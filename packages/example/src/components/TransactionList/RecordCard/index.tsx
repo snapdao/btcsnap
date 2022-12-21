@@ -9,7 +9,7 @@ interface RecordCardProps {
   onClick?: () => void;
 }
 
-export const RecordCard = ({ loading, record, onClick}: RecordCardProps) => {
+export const RecordCard = ({ loading, record, onClick }: RecordCardProps) => {
   return (
     loading ? <StyledRecordCardSkeleton /> : record ? 
       <StyledRecordCard

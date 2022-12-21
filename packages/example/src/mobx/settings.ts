@@ -1,4 +1,4 @@
-import {types} from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { BitcoinNetwork, BitcoinScriptType } from '../interface';
 
 export const settingsInitialState = {

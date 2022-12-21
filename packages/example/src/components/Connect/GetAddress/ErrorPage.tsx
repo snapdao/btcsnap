@@ -20,7 +20,7 @@ interface ErrorProps {
   };
 }
 
-export const ErrorPage = ({open, close, fatalErrorMessage}: ErrorProps) => {
+export const ErrorPage = ({ open, close, fatalErrorMessage }: ErrorProps) => {
   return (
     <Modal
       size='mini'

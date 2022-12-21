@@ -54,7 +54,7 @@ class SendViewModel {
 
   public status: 'initial' | 'success' | 'failed' = 'initial';
 
-  public errorMessage: {message: string, code: number} = {message: '', code: 0};
+  public errorMessage: {message: string, code: number} = { message: '', code: 0 };
   public isAddressValid = true;
 
   public confirmOpen = false;
@@ -86,7 +86,7 @@ class SendViewModel {
     this.status = 'initial';
     this.confirmOpen = false;
     this.txId = undefined;
-    this.errorMessage = {message: '', code: 0};
+    this.errorMessage = { message: '', code: 0 };
     this.isSending = false;
     this.to = '';
     this.sendAmountText = '';

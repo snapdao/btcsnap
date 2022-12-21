@@ -29,12 +29,12 @@ interface ErrorMessage {
 }
 
 export const GetAddress = observer(
-  ({show, onRegister, onRevealed}: GetAddressProps) => {
+  ({ show, onRegister, onRevealed }: GetAddressProps) => {
     const {
-      settings: {network, scriptType},
+      settings: { network, scriptType },
       current,
       accounts,
-      runtime: {setStatus},
+      runtime: { setStatus },
     } = useAppStore();
     const [isRevealing, setIsRevealing] = useState<boolean>(false);
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
@@ -52,7 +52,7 @@ export const GetAddress = observer(
     const getXpub = useCallback(async () => {
       setIsRevealing(true);
       getAllExtendedPublicKeys()
-        .then(async ({mfp, xpubs}) => {
+        .then(async ({ mfp, xpubs }) => {
           if (mfp && xpubs.length > 0) {
             trackGetAddress(network);
             setStatus(AppStatus.Register);
@@ -86,7 +86,7 @@ export const GetAddress = observer(
     }, [isRevealing, setIsRevealing, network, scriptType, current?.xpub]);
 
     const closeError = () => {
-      setFatalErrorMessage({message: '', code: 0});
+      setFatalErrorMessage({ message: '', code: 0 });
       setStatus(AppStatus.ConnectClosed);
     };
 
@@ -113,7 +113,7 @@ export const GetAddress = observer(
           <h2>
             Get Addresses for <br/> Bitcoin Snap
           </h2>
-          <p style={{marginBottom: 82}} className='Connect-install'>
+          <p style={{ marginBottom: 82 }} className='Connect-install'>
             Your Bitcoin account addresses will be created along with your
             MetaMask public key.
           </p>

@@ -38,8 +38,8 @@ type GroupedUtxo = {
   }
 }
 
-const Details = (({open, close, balance, unit}: AccountDetails) => {
-  const {utxoList, loading} = useUtxo();
+const Details = (({ open, close, balance, unit }: AccountDetails) => {
+  const { utxoList, loading } = useUtxo();
   const [isOpen, setIsOpen] = useState<boolean>(open);
 
   const grouppedUtxos = utxoList.reduce((acc: GroupedUtxo, current: Utxo) => {
@@ -92,7 +92,7 @@ const Details = (({open, close, balance, unit}: AccountDetails) => {
           {loading ?
             <LoadingContainer><LoadingIcon /></LoadingContainer> :
             Object.values(grouppedUtxos).map((item) => {
-              const {change, index} = fromHdPathToObj(item.path!);
+              const { change, index } = fromHdPathToObj(item.path!);
               return (
                 <AccountListItem key={item.address}>
                   <AccountListLabel>

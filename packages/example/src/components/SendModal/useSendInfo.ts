@@ -16,7 +16,7 @@ export const useSendInfo = () => {
   useEffect(() => {
     if(current && utxoList.length > 0) {
 
-      const {index} = fromHdPathToObj(nextChange);
+      const { index } = fromHdPathToObj(nextChange);
       const changeAddressPubkey = coinManager.xpubToPubkey(current.xpub, Number(1), Number(index));
       const changeAddress = coinManager.deriveAddress(changeAddressPubkey, current.scriptType, current.network);
       

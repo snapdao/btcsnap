@@ -8,8 +8,8 @@ export const useConnectStep = () => {
   const {
     current,
     persistDataLoaded,
-    runtime: {connected},
-    user: {LNWalletStep}
+    runtime: { connected },
+    user: { LNWalletStep }
   } = useAppStore();
   const [step, setStep] = useState<ConnectStep>(ConnectStep.Done);
   const [shouldShowReady, setShouldShowReady] = useState<boolean>(false);

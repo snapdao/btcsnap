@@ -1,5 +1,5 @@
-import {IAnyModelType, types} from 'mobx-state-tree';
-import {Coins} from '../constant/supportedCoins';
+import { IAnyModelType, types } from 'mobx-state-tree';
+import { Coins } from '../constant/supportedCoins';
 import Account from './account';
 
 const Address = types

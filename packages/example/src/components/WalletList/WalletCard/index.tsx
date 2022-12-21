@@ -46,7 +46,7 @@ export const WalletCard = observer(
           type: walletType,
         });
       },
-      [ id, walletType ],
+      [id, walletType],
     );
 
     const walletCardItem = (

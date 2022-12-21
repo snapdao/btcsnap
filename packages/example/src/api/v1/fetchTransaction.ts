@@ -8,5 +8,5 @@ export const fetchTransaction = (
   networkCode: BitcoinNetworkCode,
   txId: string,
 ): Promise<Record<string, any>> => {
-  return query(endpoint, RequestType.Get, {}, {coin: networkCode, tx_id: txId });
+  return query(endpoint, RequestType.Get, {}, { coin: networkCode, tx_id: txId });
 };

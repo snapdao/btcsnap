@@ -26,7 +26,7 @@ export const generateLogger = ({
   return {
     info: (infoError: any) => {
       console.info(`**********  ${infoError}  **********`);
-      const {report, enableInfoReport = false} = infoConfig || {};
+      const { report, enableInfoReport = false } = infoConfig || {};
       if (enableReport && enableInfoReport) {
         const message =
           infoError instanceof Error ? infoError.message : infoError;
@@ -36,7 +36,7 @@ export const generateLogger = ({
 
     warn: (warnError: any) => {
       console.warn(`**********  ${warnError}  **********`);
-      const {report, enableWarnReport = false} = warnConfig || {};
+      const { report, enableWarnReport = false } = warnConfig || {};
       if (enableReport && enableWarnReport) {
         const message =
           warnError instanceof Error ? warnError.message : warnError;
@@ -47,8 +47,8 @@ export const generateLogger = ({
     error: (e: any) => {
       withScope((scope) => {
         console.info('[Error]: ', e);
-        scope.setUser({id: getAppStore().current?.mfp});
-        const {report, enableErrorReport = true} = errorConfig || {};
+        scope.setUser({ id: getAppStore().current?.mfp });
+        const { report, enableErrorReport = true } = errorConfig || {};
 
         if (enableReport && enableErrorReport && !!report) {
           if (e instanceof Error) {

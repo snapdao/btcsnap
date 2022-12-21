@@ -11,7 +11,7 @@ interface PayInvoiceProps {
   balance: number;
 }
 
-export const PayInvoice = observer(({close, balance, exchangeRate}: PayInvoiceProps) => {
+export const PayInvoice = observer(({ close, balance, exchangeRate }: PayInvoiceProps) => {
   const model = useMemo(() => {
     return new LightningSendViewModel(balance, exchangeRate);
   }, []);

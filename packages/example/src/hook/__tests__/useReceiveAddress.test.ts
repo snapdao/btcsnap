@@ -55,13 +55,13 @@ describe('useReceiveAddress', () => {
     it('should return address and path from remote api', async() => {
       const store  = {
         ...defaultStore,
-        settings: { dynamicAddress: false},
+        settings: { dynamicAddress: false },
         current: {
           ...defaultStore.current
         }
       };
 
-      const {result} = renderHooksWithContext(() => useReceiveAddress(), store);
+      const { result } = renderHooksWithContext(() => useReceiveAddress(), store);
 
       expect(result.current).toEqual({
         loading: false,
@@ -77,12 +77,12 @@ describe('useReceiveAddress', () => {
     it('should return address and path from current account', async() => {
       const store  = {
         ...defaultStore,
-        settings: { dynamicAddress: false},
+        settings: { dynamicAddress: false },
         current: {
           ...defaultStore.current
         }
       };
-      const {result} = renderHooksWithContext(() => useReceiveAddress(), store);
+      const { result } = renderHooksWithContext(() => useReceiveAddress(), store);
 
       expect(result.current).toEqual({
         loading: false,
@@ -97,9 +97,9 @@ describe('useReceiveAddress', () => {
   it('should return empty address when current does not exist ', () => {
     const store = {
       current: undefined,
-      settings: { dynamicAddress: true}
+      settings: { dynamicAddress: true }
     };
-    const {result} = renderHooksWithContext(() => useReceiveAddress(), store as any);
+    const { result } = renderHooksWithContext(() => useReceiveAddress(), store as any);
     expect(result.current).toMatchObject({
       address: '',
       path: ''

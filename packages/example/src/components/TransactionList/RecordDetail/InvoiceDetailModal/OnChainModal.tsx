@@ -29,7 +29,7 @@ import { BitcoinUnit } from '../../../../interface';
 import BigNumber from 'bignumber.js';
 import { satoshiToBTC } from '../../../../lib/helper';
 
-export const OnChainModal = (({open, close, invoice, parent}: TransactionProps) => {
+export const OnChainModal = (({ open, close, invoice, parent }: TransactionProps) => {
   const { currentUnit } = useAppStore();
 
   const amountText = currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(invoice.amount)).toFixed()

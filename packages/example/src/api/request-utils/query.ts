@@ -7,7 +7,7 @@ import { getAppStore } from '../../mobx';
 
 const fetchResult = (
   url: string,
-  {method, headers, body}: RequestObject,
+  { method, headers, body }: RequestObject,
 ): Promise<AxiosResponse> => {
   if (method === RequestType.Get) {
     return axios.get(url, {

@@ -32,10 +32,10 @@ export const WalletList = observer(({ open, close }: any) => {
   } = useAppStore();
   useWalletsBalance();
 
-  const [ visible, setVisible ] = useState<boolean>(open);
-  const [ shouldShowCreateWallet, setShouldShowCreateWallet ] =
+  const [visible, setVisible] = useState<boolean>(open);
+  const [shouldShowCreateWallet, setShouldShowCreateWallet] =
     useState<boolean>(false);
-  const [ currentEditWallet, setCurrentEditWallet ] = useState<{
+  const [currentEditWallet, setCurrentEditWallet] = useState<{
     open: boolean;
     id: string | null;
     type: WalletType;

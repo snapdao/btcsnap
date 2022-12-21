@@ -9,7 +9,7 @@ import { logger } from '../logger';
 export const useCurrencyRate = () => {
   const {
     current,
-    runtime: {setCurrencyRate},
+    runtime: { setCurrencyRate },
   } = useAppStore();
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,13 +24,13 @@ export const useCurrencyRate = () => {
         NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
       const response = await queryCoinV1(coinCode);
       const rate = Number(response.coins?.[coinCode]?.coinInfo?.rate) || 0;
-      return {rate};
+      return { rate };
     };
 
     if (current) {
       setLoading(true);
       queryCurrencyRate(current)
-        .then(({rate}) => {
+        .then(({ rate }) => {
           setCurrencyRate(rate);
           setLoading(false);
         })

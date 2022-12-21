@@ -16,5 +16,5 @@ export type SendInfoResponse = {
 };
 
 export const querySendInfo = (coinCode: SupportedCoins): Promise<SendInfoResponse> => {
-  return query(endpoint, RequestType.Get, {}, {coin: coinCode});
+  return query(endpoint, RequestType.Get, {}, { coin: coinCode });
 };
