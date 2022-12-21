@@ -37,42 +37,49 @@ export const WalletCard = observer(
   }: WalletCardProps) => {
     const edit = useCallback(
       (event) => {
+        if(!available){
+          return;
+        }
         event.stopPropagation();
         showEditWalletModal({
           id,
           type: walletType,
         });
       },
-      [id, walletType],
+      [ id, walletType ],
     );
 
     const walletCardItem = (
-      <WalletCardContainer active={selected} onClick={onClick}>
-        <WalletCardContent type={walletType} available={available}>
-          <WalletCardHeader>
-            <WalletCardName>{name}</WalletCardName>
-            <AdjustIcon
-              style={{ color: 'white' }}
-              onClick={edit}
-              disabled={!available}
-            />
-          </WalletCardHeader>
-          <WalletCardBalance>
-            {balance} {unit}
-          </WalletCardBalance>
-        </WalletCardContent>
-      </WalletCardContainer>
+      <WalletCardContent type={walletType} available={available}>
+        <WalletCardHeader>
+          <WalletCardName>{name}</WalletCardName>
+          <AdjustIcon
+            style={{ color: 'white' }}
+            onClick={edit}
+            disabled={!available}
+          />
+        </WalletCardHeader>
+        <WalletCardBalance>
+          {balance} {unit}
+        </WalletCardBalance>
+      </WalletCardContent>
     );
 
-    return available ? (
-      walletCardItem
-    ) : (
-      <Popup
-        position='top center'
-        content={!available && 'Not available on Testnet'}
-        inverted
-        trigger={walletCardItem}
-      />
+    return (
+      <WalletCardContainer active={selected} onClick={onClick}>
+        {
+          available ?
+            walletCardItem
+            : (
+              <Popup
+                position='top center'
+                content={!available && 'Not available on Testnet'}
+                inverted
+                trigger={walletCardItem}
+              />
+            )
+        }
+      </WalletCardContainer>
     );
   },
 );

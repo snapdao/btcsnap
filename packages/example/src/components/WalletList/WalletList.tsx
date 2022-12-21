@@ -32,10 +32,10 @@ export const WalletList = observer(({ open, close }: any) => {
   } = useAppStore();
   useWalletsBalance();
 
-  const [visible, setVisible] = useState<boolean>(open);
-  const [shouldShowCreateWallet, setShouldShowCreateWallet] =
+  const [ visible, setVisible ] = useState<boolean>(open);
+  const [ shouldShowCreateWallet, setShouldShowCreateWallet ] =
     useState<boolean>(false);
-  const [currentEditWallet, setCurrentEditWallet] = useState<{
+  const [ currentEditWallet, setCurrentEditWallet ] = useState<{
     open: boolean;
     id: string | null;
     type: WalletType;
@@ -137,7 +137,7 @@ export const WalletList = observer(({ open, close }: any) => {
                     key={current?.id}
                     walletType={WalletType.BitcoinWallet}
                     balance={getWalletBalance(current?.id || '')}
-                    selected={selectedWallet === current?.id}
+                    selected={lightning.hasLightningWallet && selectedWallet === current?.id}
                     onClick={() => {
                       if (current) {
                         switchToWallet(WalletType.BitcoinWallet, current.xpub);
@@ -172,11 +172,9 @@ export const WalletList = observer(({ open, close }: any) => {
                     <Popup
                       position='top center'
                       content={
-                        network === BitcoinNetwork.Test
-                          ? 'Not available on Testnet'
-                          : lightning.hasReachedLimitation
-                            ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
-                            : null
+                        lightning.hasReachedLimitation
+                          ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
+                          : null
                       }
                       disabled={!shouldDisableAddition}
                       trigger={
