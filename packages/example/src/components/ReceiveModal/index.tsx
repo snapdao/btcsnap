@@ -14,8 +14,7 @@ import { observer } from 'mobx-react-lite';
 import { useReceiveAddress } from '../../hook/useReceiveAddress';
 import { useAppStore } from '../../mobx';
 import { copyToClipboard } from '../../utils/clipboard';
-import { Message, MessageType } from '../../kits/Message';
-import { H3, Modal } from '../../kits';
+import { Message, MessageType, H3, Modal } from '../../kits';
 
 type ReceiveModalProps = {
   open: boolean;
@@ -25,7 +24,7 @@ type ReceiveModalProps = {
 const DYNAMIC_ADDRESS =
   'To ensure maximum privacy, we generate a new Bitcoin address each time a deposit is received. You can disable this functionality and remain with a static address via wallet profile.';
 const STATIC_ADDRESS =
-  'You will use this fixed address for every receipt of Bitcoin. You can Enable Dynamic address functionality in settings to maximize your privacy.';
+  'You will use this fixed address for every receipt of Bitcoin. You can Enable Dynamic address functionality in wallet profile to maximize your privacy.';
 
 const ReceiveModal = observer(({ open, close }: ReceiveModalProps) => {
   const {

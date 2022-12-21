@@ -5,7 +5,7 @@ export const Container = styled.div`
   width: 320px;
   height: 114px;
   padding: 16px;
-  background: #fff8f3;
+  background: linear-gradient(185.06deg, rgba(255, 108, 10, 0.012) 4.07%, rgba(255, 108, 10, 0.06) 95.93%) #FFFFFF;
   border-radius: 8px;
 `;
 

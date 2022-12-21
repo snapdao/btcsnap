@@ -102,6 +102,14 @@ const Aside = observer(({ refreshBalance, loadingBalance }: AsideProps) => {
                 borderRadius: 22,
               },
             }}
+            floaterProps={{
+              styles: {
+                arrow: {
+                  spread: 12,
+                  length: 6,
+                }
+              }
+            }}
             tooltipComponent={UserGuide}
           />
           {!!current && (
