@@ -40,7 +40,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
     'array-bracket-spacing': [ 'warn', 'always', { 'singleValue': false } ],
-    'block-spacing': [ 'warn', 'always' ],
     'object-curly-spacing': [ 'warn', 'always' ],
   },
   settings: {
