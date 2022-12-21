@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LightningIcon2 = ({size = 18}: {
+export const LightningIcon2 = ({ size = 18 }: {
   size?: number;
 }) => {
   return (

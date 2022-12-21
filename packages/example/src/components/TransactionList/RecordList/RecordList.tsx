@@ -35,12 +35,12 @@ interface RecordListProps {
 
 const TRANSACTION_HISTORY_RECORD_TIPS = 'The previous transactions of addresses before using BitcoinSnap will not be displayed here.';
 
-export const RecordList = observer(({open, close, defaultRecords}: RecordListProps) => {
+export const RecordList = observer(({ open, close, defaultRecords }: RecordListProps) => {
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);
   const [recordList, setRecordList] = useState<HistoryRecord[]>(defaultRecords);
   const listModalRef = useRef<HTMLDivElement>(null);
 
-  const {currentWalletType} = useAppStore();
+  const { currentWalletType } = useAppStore();
   const offset = currentWalletType === WalletType.BitcoinWallet
     ? (defaultRecords.at(-1)?.data as TransactionDetail)?.marker
     : defaultRecords.length;
@@ -67,7 +67,7 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
   }, [historyRecords]);
 
   return (
-    <Modal open={open} onClose={close} style={{width: 440, height: 640, borderRadius: 20, position: 'relative'}}>
+    <Modal open={open} onClose={close} style={{ width: 440, height: 640, borderRadius: 20, position: 'relative' }}>
       <ListContainer>
         <ModalHeader ref={listModalRef}>
           <ModalHeaderContainer>
@@ -95,7 +95,7 @@ export const RecordList = observer(({open, close, defaultRecords}: RecordListPro
                         position='top center'
                         content={TRANSACTION_HISTORY_RECORD_TIPS}
                         inverted
-                        style={{width: 260}}
+                        style={{ width: 260 }}
                       />
                     )
                   }

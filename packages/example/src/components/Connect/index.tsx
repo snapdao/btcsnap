@@ -24,7 +24,7 @@ export enum ConnectStep {
 
 const Index = observer(() => {
   const {
-    runtime: {status, setStatus, setConnected},
+    runtime: { status, setStatus, setConnected },
     user: { setLNWalletStep, LNWalletStep },
   } = useAppStore();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);

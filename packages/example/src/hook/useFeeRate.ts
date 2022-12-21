@@ -10,7 +10,7 @@ const initFeeRate: FeeRate = {
 };
 
 export const useFeeRate = () => {
-  const {current} = useAppStore();
+  const { current } = useAppStore();
   const [feeRate, setFeeRate] = useState<FeeRate>(initFeeRate);
   const [count, setCount] = useState(0);
 

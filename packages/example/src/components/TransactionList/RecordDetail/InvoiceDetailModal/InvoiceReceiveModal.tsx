@@ -67,11 +67,11 @@ const getExpiredSeconds = (invoice: InvoiceDetail): number => {
   return expireDateTime.getTime() - new Date().getTime();
 };
 
-export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: TransactionProps) => {
-  const { lightning, runtime: {currencyRate}, currentUnit } = useAppStore();
+export const InvoiceReceiveModal = observer((({ open, close, invoice, parent }: TransactionProps) => {
+  const { lightning, runtime: { currencyRate }, currentUnit } = useAppStore();
   const [showInvoiceDetails, setShowInvoiceDetails] = useState<boolean>(false);
   const [invoiceModal, setInvoiceModal] = useState<ReceiveViewModel | null>(null);
-  const [timeLeft, { start, pause }] = useCountDown({startTimeMilliseconds: getExpiredSeconds(invoice)});
+  const [timeLeft, { start, pause }] = useCountDown({ startTimeMilliseconds: getExpiredSeconds(invoice) });
 
   useEffect(() => {
     if(invoice.status === InvoiceStatus.Pending){
@@ -198,9 +198,9 @@ export const InvoiceReceiveModal = observer((({open, close, invoice, parent}: Tr
               invoice.description && (
                 <>
                   <RecordItemRowDivider/>
-                  <RecordItemLabel style={{margin: '20px 0 8px'}}>Description</RecordItemLabel>
+                  <RecordItemLabel style={{ margin: '20px 0 8px' }}>Description</RecordItemLabel>
                   <RecordItemContent
-                    style={{marginBottom: 20}}
+                    style={{ marginBottom: 20 }}
                     wordBreak={invoice.description.split(' ').some(word => word.length > 30)}
                   >
                     {invoice.description}

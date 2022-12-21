@@ -1,4 +1,4 @@
-import {StoreVersion} from './StoreVersion';
+import { StoreVersion } from './StoreVersion';
 
 export class Migration<
   T extends keyof StoreVersion,

@@ -6,7 +6,7 @@ describe('useCountDown', () => {
   const expiredTime = 15555;
   it('should return createLightningWallet given name and pubkey', async () => {
     const { result: { current: [{ seconds }, { start, pause }] } } = renderHook(() => 
-      useCountDown({startTimeMilliseconds: expiredTime})
+      useCountDown({ startTimeMilliseconds: expiredTime })
     );
     
     await waitFor(async () => {

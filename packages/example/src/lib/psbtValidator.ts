@@ -13,7 +13,7 @@ interface ValidateTxData {
   to: string;
 }
 
-export const validateTx = ({psbt, utxoAmount, changeAddressPath, to}: ValidateTxData) => {
+export const validateTx = ({ psbt, utxoAmount, changeAddressPath, to }: ValidateTxData) => {
   return isChangeAddressBelongsToCurrentAccount(psbt, changeAddressPath, to) &&
     !isFeeTooHigh(psbt, utxoAmount) &&
     !hasDustOutput(psbt);
@@ -27,13 +27,13 @@ const isFeeTooHigh = (psbt: Psbt, utxoAmount: number) => {
 
 const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: string, to: string) => {
   const changeAddress = psbt.txOutputs.find(output => output.address !== to);
-  const {current} = getAppStore();
+  const { current } = getAppStore();
   if(current) {
     // changeAddress exists
     if (changeAddress) {
-      const {xpub, scriptType, network} = current;
+      const { xpub, scriptType, network } = current;
       const address = changeAddress.address;
-      const {change, index} = fromHdPathToObj(changeAddressPath);
+      const { change, index } = fromHdPathToObj(changeAddressPath);
       const pubkey = coinManager.xpubToPubkey(xpub, Number(change), Number(index));
       return address === coinManager.deriveAddress(pubkey, scriptType, network);
     }

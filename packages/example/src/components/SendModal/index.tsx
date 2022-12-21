@@ -17,8 +17,8 @@ type ContainerProps = {
   unit: BitcoinUnit;
 };
 
-const SendContainer = ({network, scriptType, close, unit, currencyRate}: ContainerProps) => {
-  const {feeRate, utxos, sendInfo} = useSendInfo();
+const SendContainer = ({ network, scriptType, close, unit, currencyRate }: ContainerProps) => {
+  const { feeRate, utxos, sendInfo } = useSendInfo();
 
   const model = useMemo(() => {
     return new SendViewModel(
@@ -53,7 +53,7 @@ const SendModal = observer((props: { model: SendViewModel, close: () => void }) 
       closeOnDocumentClick={false}
     >
       <Modal
-        style={{width: 440, minHeight: 640, borderRadius: 20, position: 'relative'}}
+        style={{ width: 440, minHeight: 640, borderRadius: 20, position: 'relative' }}
         onOpen={() => {
           model.resetState();
         }}

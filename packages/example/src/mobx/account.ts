@@ -111,7 +111,7 @@ const Account = types
   .actions((self) => ({
     validateAndAddAddress: (addressIn: IAddressIn, isDynamic: boolean) => {
       if (validateAddress(addressIn, self)) {
-        return self.addAddress({...addressIn, parent: self.id}, isDynamic);
+        return self.addAddress({ ...addressIn, parent: self.id }, isDynamic);
       }
       console.error(
         `#store_account_error: verify failed, coin ${self.coinCode}, address ${addressIn.address}, path: ${addressIn.change}/${addressIn.index}`,

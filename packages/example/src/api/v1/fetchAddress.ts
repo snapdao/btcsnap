@@ -24,5 +24,5 @@ export const fetchAddresses = (
   xpub: string,
   assetCode: SupportedCoins,
 ): Promise<FetchAddressResponse> => {
-  return query(endpoint, RequestType.Get, {}, {asset_coin: assetCode, pub_key: xpub}, xfp);
+  return query(endpoint, RequestType.Get, {}, { asset_coin: assetCode, pub_key: xpub }, xfp);
 };

@@ -17,7 +17,7 @@ import { AddLightningWallet } from '../../WalletList/AddLightningWallet';
 import { trackLightningSetup } from '../../../tracking';
 import { ModalContentContainer } from '../styles';
 
-export const Ready = observer(({show, onClose}: {show: boolean; onClose: () => void}) => {
+export const Ready = observer(({ show, onClose }: {show: boolean; onClose: () => void}) => {
   const {
     user: { setLNWalletStep },
   } = useAppStore();

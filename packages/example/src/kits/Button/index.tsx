@@ -13,8 +13,8 @@ const Button = ({ children, ...args }: WButtonProps) => {
   );
 };
 
-Button.Text = ButtonText
+Button.Text = ButtonText;
 
 export {
   Button
-}
+};

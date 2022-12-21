@@ -30,7 +30,7 @@ import { BitcoinUnit } from '../../../../interface';
 import BigNumber from 'bignumber.js';
 import { satoshiToBTC } from '../../../../lib/helper';
 
-export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionProps) => {
+export const InvoiceSendModal = (({ open, close, invoice, parent }: TransactionProps) => {
   const { currentUnit } = useAppStore();
 
   const amountText = currentUnit === BitcoinUnit.BTC ? BigNumber(satoshiToBTC(invoice.amount)).toFixed()
@@ -106,8 +106,8 @@ export const InvoiceSendModal = (({open, close, invoice, parent}: TransactionPro
             {
               invoice.description && (
                 <>
-                  <RecordItemLabel style={{marginBottom: 8}}>Description</RecordItemLabel>
-                  <RecordItemContent style={{marginBottom: 20}}>{invoice.description}</RecordItemContent>
+                  <RecordItemLabel style={{ marginBottom: 8 }}>Description</RecordItemLabel>
+                  <RecordItemContent style={{ marginBottom: 20 }}>{invoice.description}</RecordItemContent>
                 </>
               )
             }

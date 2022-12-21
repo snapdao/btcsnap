@@ -1,4 +1,4 @@
-import {StoreVersion_0} from './0';
+import { StoreVersion_0 } from './0';
 
 export type StoreVersion = {
   0: StoreVersion_0;

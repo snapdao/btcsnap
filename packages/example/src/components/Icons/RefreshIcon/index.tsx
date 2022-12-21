@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-const RefreshIcon = ({onClick, loading}: {onClick: () => void; loading: boolean}) => {
+const RefreshIcon = ({ onClick, loading }: {onClick: () => void; loading: boolean}) => {
   return (
     <div className={`Refresh-container ${loading ? 'Refresh-icon-rotate' : ''}`} onClick={onClick}>
       <svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'>

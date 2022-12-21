@@ -11,7 +11,7 @@ interface RecordDetailProps {
   parent?: HTMLElement
 }
 
-export const RecordDetail = ({record, ...rest}: RecordDetailProps) => {
+export const RecordDetail = ({ record, ...rest }: RecordDetailProps) => {
 
   switch (record.type) {
     case HistoryRecordType.BitcoinTransaction:

@@ -22,7 +22,7 @@ interface TxCardProps {
 const TRANSACTION_TIPS = 'The previous transactions of addresses before using BitcoinSnap will not be displayed here.';
 
 export const LatestRecords = observer(({ loading, historyList, refresh, error }: TxCardProps) => {
-  const {current, currentWalletType} = useAppStore();
+  const { current, currentWalletType } = useAppStore();
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);
 
   let recordList = [...historyList];
@@ -70,7 +70,7 @@ export const LatestRecords = observer(({ loading, historyList, refresh, error }:
                       <Popup
                         trigger={<div><InfoIcon/></div>}
                         content={TRANSACTION_TIPS}
-                        style={{width: '296px'}}
+                        style={{ width: '296px' }}
                       />
                     )
                   }

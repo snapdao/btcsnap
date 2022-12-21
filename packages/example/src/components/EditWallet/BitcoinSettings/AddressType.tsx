@@ -34,15 +34,15 @@ interface AddressType {
 }
 
 export const addressTypeOptions: AddressType[] = [
-  {label: 'HD Native SegWit (Bech32)', type: BitcoinScriptType.P2WPKH},
-  {label: 'HD Nested SegWit (P2SH)', type: BitcoinScriptType.P2SH_P2WPKH},
-  {label: 'HD Legacy (P2PKH)', type: BitcoinScriptType.P2PKH},
+  { label: 'HD Native SegWit (Bech32)', type: BitcoinScriptType.P2WPKH },
+  { label: 'HD Nested SegWit (P2SH)', type: BitcoinScriptType.P2SH_P2WPKH },
+  { label: 'HD Legacy (P2PKH)', type: BitcoinScriptType.P2PKH },
 ];
 
 type Balances = Record<BitcoinScriptType, string>
 
-export const AddressType = (({open, close, onChanged}: AddressTypeProps) => {
-  const { settings: {scriptType, setScriptType, network}, switchToAccount, current, connectedScriptTypes} = useAppStore();
+export const AddressType = (({ open, close, onChanged }: AddressTypeProps) => {
+  const { settings: { scriptType, setScriptType, network }, switchToAccount, current, connectedScriptTypes } = useAppStore();
   const [balances, setBalances] = useState<Balances>();
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export const AddressType = (({open, close, onChanged}: AddressTypeProps) => {
     >
       <Modal
         open={true}
-        style={{width: '440px', marginTop: '160px', borderRadius: '20px'}}
+        style={{ width: '440px', marginTop: '160px', borderRadius: '20px' }}
       >
         <ModalHeader>
           <ModalHeaderContainer>

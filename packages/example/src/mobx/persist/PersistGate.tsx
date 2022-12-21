@@ -1,5 +1,5 @@
-import {observer} from 'mobx-react-lite';
-import React, {Fragment, FunctionComponent} from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { Fragment, FunctionComponent } from 'react';
 
 export const PersistGate: FunctionComponent<{
   store: any;

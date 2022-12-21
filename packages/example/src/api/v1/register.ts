@@ -13,5 +13,5 @@ export type RegisterResponse = {
 export const register = (
   hdToken: string
 ): Promise<RegisterResponse> => {
-  return query(endpoint, RequestType.Post, {}, {channel: CHANNEL}, hdToken);
+  return query(endpoint, RequestType.Post, {}, { channel: CHANNEL }, hdToken);
 };

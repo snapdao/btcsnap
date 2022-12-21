@@ -25,7 +25,7 @@ describe('useTopUpAddress', () => {
     it('should return address from remote api', async() => {
       const store  = {
         ...defaultStore,
-        settings: { dynamicAddress: false},
+        settings: { dynamicAddress: false },
       };
 
       const { result, waitForNextUpdate } = renderHooksWithContext(() => useTopUpAddress(), store);

@@ -31,16 +31,16 @@ module.exports = {
         ignoreRestSiblings: true
       }
     ],
-    semi: [ 'warn', 'always' ],
-    quotes: [ 'warn', 'single' ],
-    'jsx-quotes': [ 'warn', 'prefer-single' ],
-    indent: [ 'warn', 2,  { 'SwitchCase': 1 } ],
-    'comma-spacing': [ 'warn', { 'before': false, 'after': true } ],
-    'block-spacing': [ 'warn', 'always' ],
+    semi: ['warn', 'always'],
+    quotes: ['warn', 'single'],
+    'jsx-quotes': ['warn', 'prefer-single'],
+    indent: ['warn', 2,  { 'SwitchCase': 1 }],
+    'comma-spacing': ['warn', { 'before': false, 'after': true }],
+    'block-spacing': ['warn', 'always'],
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
-    'array-bracket-spacing': [ 'warn', 'always', { 'singleValue': false } ],
-    'object-curly-spacing': [ 'warn', 'always' ],
+    'array-bracket-spacing': ['warn', 'never', { 'singleValue': false }],
+    'object-curly-spacing': ['warn', 'always'],
   },
   settings: {
     react: {

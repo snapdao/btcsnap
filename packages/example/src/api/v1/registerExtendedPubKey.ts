@@ -17,4 +17,4 @@ export const registerExtendedPubKey = (
   script_type: string,
   xfp: string
 ): Promise<RegisterExtendedPubKeyResponse> =>
-  query(endpoint, RequestType.Post, {}, {coin, path, key, script_type}, xfp);
+  query(endpoint, RequestType.Post, {}, { coin, path, key, script_type }, xfp);

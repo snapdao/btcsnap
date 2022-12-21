@@ -12,7 +12,7 @@ interface ConnectProps {
   onConnected: () => void;
 }
 
-const Connect = ({onConnected, show}: ConnectProps) => {
+const Connect = ({ onConnected, show }: ConnectProps) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const connectMetaMask = useCallback(async () => {

@@ -4,7 +4,7 @@ import * as api from '../../api/v1/activities';
 import { renderHooksWithContext } from '../../__tests__/utils/renderHookWithContext';
 
 jest.mock('../../api/v1/activities', () => ({
-  queryActivities: jest.fn().mockResolvedValue({activities: [
+  queryActivities: jest.fn().mockResolvedValue({ activities: [
     {
       'id': '694450751165972480',
       'txid': 'f1b6b41b542482c3b522ce0c235358f897e8377c2ba96b81f9ab9a2b085e2a3d',
@@ -65,7 +65,7 @@ jest.mock('../../api/v1/activities', () => ({
       'fee': 10848,
       'replaced_by': ''
     }
-  ]}),
+  ] }),
   ActivityStatus: jest.fn().mockReturnValue({
     Confirming: 'Confirming',
     Complete: 'complete',
@@ -82,7 +82,7 @@ describe('useTransaction', () => {
     jest.clearAllMocks();
   });
   it('should return hasMore and txList when current exist ', async() => {
-    const {result, waitForNextUpdate} = renderHooksWithContext(() => useTransaction({size:5}));
+    const { result, waitForNextUpdate } = renderHooksWithContext(() => useTransaction({ size:5 }));
     await waitForNextUpdate();
 
     expect(result.current).toMatchObject({
@@ -124,7 +124,7 @@ describe('useTransaction', () => {
   });
 
   it('should be able to refresh transaction', async() => {
-    const {result, waitForNextUpdate} = renderHooksWithContext(() => useTransaction({size:5}));
+    const { result, waitForNextUpdate } = renderHooksWithContext(() => useTransaction({ size:5 }));
     await waitForNextUpdate();
     expect(api.queryActivities).toBeCalledTimes(1);
 

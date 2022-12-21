@@ -78,12 +78,12 @@ export const ResultSuccessSection = styled.div`
 export const PendingContainer = styled(FlexCenter)`
   flex-direction: column;
   padding: 64px 0;
-`
+`;
 
 export const ResultContainer = styled(FlexCenter)`
   flex-direction: column;
   padding: 4px 0 24px;
-`
+`;
 
 export const PendingIconContainer = styled.div`
   position: relative;
@@ -99,5 +99,5 @@ export const PendingIconContainer = styled.div`
     width: 96px;
     height: 96px;
   }
-`
+`;
 

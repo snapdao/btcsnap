@@ -12,7 +12,7 @@ enum SettingOptions {
 }
 
 export const BitcoinSettings = observer(() => {
-  const {settings: {scriptType, dynamicAddress, setDynamicAddress}} = useAppStore();
+  const { settings: { scriptType, dynamicAddress, setDynamicAddress } } = useAppStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const [showSettingSuccessMessage, setShowSettingSuccessMessage] = useState<boolean>(false);
   const openDialog = (option: SettingOptions) => {

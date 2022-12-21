@@ -13,8 +13,8 @@ interface UseInvoices {
   offset?: number;
 }
 
-export const useInvoices = ({size, offset = 0}: UseInvoices) => {
-  const {currentWalletType, lightning} = useAppStore();
+export const useInvoices = ({ size, offset = 0 }: UseInvoices) => {
+  const { currentWalletType, lightning } = useAppStore();
   const [allTransactions, setAllTransactions] = useState<InvoiceDetail[]>([]);
   const [invoices, setInvoices] = useState<InvoiceDetail[]>([]);
   const [count, setCount] = useState(0);

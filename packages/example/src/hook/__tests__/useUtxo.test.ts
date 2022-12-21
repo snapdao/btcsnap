@@ -25,7 +25,7 @@ jest.mock('../../api/v1/fetchTransaction', () => ({
 describe('useUtxo', () => {
 
   it('should return nextChange and utxoList from current', async () => {
-    const {result, waitForNextUpdate} = renderHooksWithContext(() => useUtxo());
+    const { result, waitForNextUpdate } = renderHooksWithContext(() => useUtxo());
     await waitForNextUpdate();
 
     expect(result.current).toEqual({

@@ -13,14 +13,14 @@ const queryBitcoinBalance = async (current: IAccount) => {
     NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
   const response = await queryCoinV2();
   const balance = Number(response.coins[coinCode].balance) || 0;
-  return {balance};
+  return { balance };
 };
 
 export const useWalletsBalance = () => {
   const {
     current,
     lightning,
-    runtime: {getWallet, setBalanceForWallet},
+    runtime: { getWallet, setBalanceForWallet },
     currentWalletType,
     persistDataLoaded
   } = useAppStore();
@@ -35,7 +35,7 @@ export const useWalletsBalance = () => {
         return;
       }
       queryBitcoinBalance(current)
-        .then(({balance}) => {
+        .then(({ balance }) => {
           setBalanceForWallet(current.id, balance);
         })
         .catch((e) => {

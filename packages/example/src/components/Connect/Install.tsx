@@ -15,14 +15,14 @@ const getFlaskInstallLink = () => {
     : 'https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk';
 };
 
-const Install = ({show}: InstallProps) => {
+const Install = ({ show }: InstallProps) => {
   return (
     <ModalContentContainer show={show}>
       <FlaskIcon className='Connect-flask-icon'/>
       <h2>Install MetaMask Flask</h2>
       <p className='Connect-install'>You will need to install the MetaMask Flask extension in order to use Bitcoin Snap.</p>
       <p className='Connect-flask'>Please disable the regular MetaMask extension prior to using flask.</p>
-      <SubCaption style={{ marginBottom: 16, color: 'var(--c-n60)'}}>Refresh this page after the installation</SubCaption>
+      <SubCaption style={{ marginBottom: 16, color: 'var(--c-n60)' }}>Refresh this page after the installation</SubCaption>
       <a
         href={getFlaskInstallLink()}
         className='Connect-button'

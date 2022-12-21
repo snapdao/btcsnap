@@ -9,7 +9,7 @@ import { useAppStore } from '../mobx';
 import { logger } from '../logger';
 
 export const useUtxo = () => {
-  const {current} = useAppStore();
+  const { current } = useAppStore();
   const [utxoList, setUtxoList] = useState<Utxo[]>([]);
   const [nextChangePath, setNextChangePath] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,7 +20,7 @@ export const useUtxo = () => {
       querySendInfo(current.coinCode).then(data => {
         const utxoList = data.spendables
           .map(utxo => {
-            const {change, index} = fromHdPathToObj(utxo.hdPath);
+            const { change, index } = fromHdPathToObj(utxo.hdPath);
             const pubkey = coinManager.xpubToPubkey(current.xpub, Number(change), Number(index));
             return {
               transactionHash: utxo.txid,
@@ -31,13 +31,13 @@ export const useUtxo = () => {
               pubkey,
             };
           });
-        return {utxoList, nextChange: data.unusedChangeAddressHdPath};
+        return { utxoList, nextChange: data.unusedChangeAddressHdPath };
       }).then(data => {
         setLoading(false);
         return fetchRawTx(data['utxoList'], data['nextChange'], current.network);
       })
         .then(data => {
-          const {utxoList, nextChange} = data;
+          const { utxoList, nextChange } = data;
           setUtxoList(utxoList);
           setNextChangePath(nextChange);
         })

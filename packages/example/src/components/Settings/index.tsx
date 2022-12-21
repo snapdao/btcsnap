@@ -35,7 +35,7 @@ enum SettingOptions {
 const SHOW_POLICY_RELATED_SETTINGS = false;
 
 const Settings = observer(({ open, close }: SettingProps) => {
-  const { settings: {network}, currentWalletType } = useAppStore();
+  const { settings: { network }, currentWalletType } = useAppStore();
   const parentNode = useRef(null);
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const openDialog = (option: SettingOptions) => {
@@ -82,7 +82,7 @@ const Settings = observer(({ open, close }: SettingProps) => {
 
         {parentNode.current && <Network open={currentVisible === SettingOptions.Network} close={closeDialog} parentNode={parentNode.current} />}
 
-        <Divider style={{ margin: '16px 12px', width: 376}} />
+        <Divider style={{ margin: '16px 12px', width: 376 }} />
 
         {
           SHOW_POLICY_RELATED_SETTINGS ? (
@@ -98,7 +98,7 @@ const Settings = observer(({ open, close }: SettingProps) => {
                 <span><ArrowRight size={18} /></span>
               </SettingItem>
               <PrivacyPolicy open={currentVisible === SettingOptions.Privacy} close={closeDialog} />
-              <Divider style={{margin: '16px'}} />
+              <Divider style={{ margin: '16px' }} />
             </>
           ) : null
         }

@@ -23,7 +23,7 @@ export type SuccessProps = {
 };
 
 const Result = observer(({ model, close }: SuccessProps) => {
-  const { runtime: {setStatus}} = useAppStore();
+  const { runtime: { setStatus } } = useAppStore();
 
   useEffect(() => {
     if(model.status === 'success'){
@@ -101,7 +101,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
               href={model.transactionLink}
               target={'_blank'}
               className={'explorer-link text-weight-bold all-center'}
-              style={{ color: '#FF6C0A', marginTop: 20, lineHeight: '20px'}} rel='noreferrer'>
+              style={{ color: '#FF6C0A', marginTop: 20, lineHeight: '20px' }} rel='noreferrer'>
               View on Explorer
             </a>
           </div>

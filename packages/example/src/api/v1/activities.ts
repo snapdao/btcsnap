@@ -67,6 +67,6 @@ export type Activity = {
   receiverAddresses?: [string, number][];
 };
 
-export const queryActivities = ({count, type = 'all', coin, loadMoreTxs} :ActivitiesRequest): Promise<ActivitiesResponse> => {
+export const queryActivities = ({ count, type = 'all', coin, loadMoreTxs } :ActivitiesRequest): Promise<ActivitiesResponse> => {
   return query(endpoint, RequestType.Get, {}, { coin, activity_num: count, type, load_more_ts: loadMoreTxs });
 };

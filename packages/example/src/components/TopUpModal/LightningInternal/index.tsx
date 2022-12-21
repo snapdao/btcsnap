@@ -17,7 +17,7 @@ type ContainerProps = {
   unit: BitcoinUnit;
 };
 
-const TopUpWithWalletModal = ({network, scriptType, close, unit, currencyRate}: ContainerProps) => {
+const TopUpWithWalletModal = ({ network, scriptType, close, unit, currencyRate }: ContainerProps) => {
   const { address, loading, errorMessage } = useTopUpAddress();
   const { feeRate, utxos, sendInfo, utxoLoading } = useSendInfo();
 
@@ -51,7 +51,7 @@ const TopUpModal = observer((props: { model: TopUpViewModel, errorMessage?: stri
   const { model, close, errorMessage } = props;
   return (
     <Modal
-      style={{width: 440, minHeight: 640, borderRadius: 20, position: 'relative'}}
+      style={{ width: 440, minHeight: 640, borderRadius: 20, position: 'relative' }}
       onOpen={() => {
         model.resetState();
       }}

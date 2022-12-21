@@ -74,7 +74,7 @@ class TopUpViewModel {
 
       this.setIsGetSignature(false);
       this.setStatus('pending');
-      const host = ENVIRONMENT === 'production' ? 'exchange.mercuryo.io' : 'sandbox-exchange.mrcr.io'
+      const host = ENVIRONMENT === 'production' ? 'exchange.mercuryo.io' : 'sandbox-exchange.mrcr.io';
       window.open(`https://${host}/?widget_id=${FIAT_MRCR_WIDGET_ID}&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
     } catch(e) {
       logger.error(e);
@@ -88,7 +88,7 @@ class TopUpViewModel {
   }
 
   setErrorMessage = (value: string) => {
-    this.errorMessage.message = value
+    this.errorMessage.message = value;
   }
 
   refreshStatus = async () => {
@@ -103,12 +103,12 @@ class TopUpViewModel {
           type: 'bitcoin',
           step: 'result',
           value: 'success'
-        })
+        });
       } else if ((['cancelled', 'order_failed', 'descriptor_failed'] as FiatRecord['status'][]).includes(res.status)) {
         this.status = 'failed';
         this.amountText = res.amount;
         const errMsg = { cancelled: 'Transaction cancelled' }[res.status as string] || 'Payment failed, please check the email sent by Mercuryo or go to mercuryo.io and contact live Chat';
-        throw new Error(errMsg)
+        throw new Error(errMsg);
       }
     } catch (e) {
       logger.error(e);

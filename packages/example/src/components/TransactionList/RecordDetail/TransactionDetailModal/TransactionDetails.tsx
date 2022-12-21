@@ -39,8 +39,8 @@ interface TransactionProps {
   parent?: HTMLElement
 }
 
-export const TransactionDetails = observer(({open, close, details, parent}:TransactionProps) => {
-  const {settings: {network}, currentUnit} = useAppStore();
+export const TransactionDetails = observer(({ open, close, details, parent }:TransactionProps) => {
+  const { settings: { network }, currentUnit } = useAppStore();
   const isFailed = details.status === TransactionStatus.Failed;
   const isPending = details.status === TransactionStatus.Pending;
   const isSendType = details.type === TransactionTypes.Sent;
@@ -74,7 +74,7 @@ export const TransactionDetails = observer(({open, close, details, parent}:Trans
       <Modal
         open={true}
         mountNode={parent}
-        style={{width: 440, height: 612, marginTop: 28, borderRadius: 20}}
+        style={{ width: 440, height: 612, marginTop: 28, borderRadius: 20 }}
       >
         <TransactionDetailsTop>
           <ModalHeaderCenter>

@@ -6,7 +6,7 @@ interface CloseIconProps {
   isDisabled?: boolean
 }
 
-const CloseIcon = ({onClick, isDisabled}: CloseIconProps) => {
+const CloseIcon = ({ onClick, isDisabled }: CloseIconProps) => {
   return (
     <div className={isDisabled ? 'Close-container-disabled' : 'Close-container'} onClick={onClick}>
       <svg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'>

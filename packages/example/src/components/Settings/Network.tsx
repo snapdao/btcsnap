@@ -28,8 +28,8 @@ enum NetOptions {
   Testnet
 }
 
-const Network = (({ open, close, parentNode}: ConnectProps) => {
-  const { settings: { network, setNetwork, scriptType }, current, getAccountBy, switchToAccount, runtime: { setStatus }} = useAppStore();
+const Network = (({ open, close, parentNode }: ConnectProps) => {
+  const { settings: { network, setNetwork, scriptType }, current, getAccountBy, switchToAccount, runtime: { setStatus } } = useAppStore();
   const [isSwitchNetWork, setIsSwitchNetWork] = useState<boolean>(false);
   const radioMainChecked = network === BitcoinNetwork.Main;
   const radioTestChecked = network === BitcoinNetwork.Test;
@@ -69,7 +69,7 @@ const Network = (({ open, close, parentNode}: ConnectProps) => {
     <Modal.Loading inModal={false} content='Continue at MetaMask'/> :
     parentNode && <Modal
       open={open}
-      style={{width: 440, marginTop: 425, height: 215, borderRadius: 20 }}
+      style={{ width: 440, marginTop: 425, height: 215, borderRadius: 20 }}
       mountNode={parentNode}
     >
       <ModalHeader>
