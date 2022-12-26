@@ -19,6 +19,7 @@ import Network from './Network';
 import { useAppStore } from '../../mobx';
 import { WalletType } from '../../interface';
 import { Popup } from '../../kits';
+import AboutBitcoinSnap from './About';
 
 interface SettingProps {
   open: boolean;
@@ -30,6 +31,7 @@ enum SettingOptions {
   AddressType,
   Terms,
   Privacy,
+  About,
 }
 
 const SHOW_POLICY_RELATED_SETTINGS = false;
@@ -103,6 +105,13 @@ const Settings = observer(({ open, close }: SettingProps) => {
           ) : null
         }
 
+        <SettingItem onClick={() => openDialog(SettingOptions.About)} >
+          <span>About BitcoinSnap</span>
+          <span>
+            <ArrowRight size={18} />
+          </span>
+        </SettingItem>
+        {currentVisible === SettingOptions.About && <AboutBitcoinSnap open={true} close={closeDialog} />}
         <SettingItem>
           <span>Version</span>
           <span>v{VERSION}</span>
