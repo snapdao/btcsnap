@@ -99,7 +99,7 @@ const Settings = observer(({open, close}: SettingProps) => {
             <ArrowRight size={18} />
           </span>
         </SettingItem>
-        {currentVisible === SettingOptions.About && <AboutBitcoinSnap open={true} close={closeDialog} />}
+        {currentVisible === SettingOptions.About && <AboutBitcoinSnap open close={closeDialog} />}
         <SettingItem>
           <span>Version</span>
           <span>V{VERSION}</span>
