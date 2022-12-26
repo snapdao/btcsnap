@@ -23,7 +23,7 @@ const AboutBitcoinSnap = (({ open, close }: ConnectProps) => {
       transition={{ animation: 'fade up', duration: '300' }}
     >
       <Modal
-        open={true}
+        open
         style={{ width: '440px', height: '320px', marginTop: '370px', borderRadius: '20px' }}
       >
         <ModalHeader style={{ paddingLeft: 155}}>
