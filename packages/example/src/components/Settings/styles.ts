@@ -305,6 +305,30 @@ export const TermsContainer = styled.div`
   }
 `
 
+//----- AboutBitcoinSnap -----
+export const AboutBitcoinSnapContainer = styled.div`
+  height: 468px;
+  margin: 20px 0;
+  padding: 0 32px;
+  overflow-y: hidden;
+  :hover {
+    overflow-y: overlay;
+  }
+  & > h2 {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 20px 0 12px 0;
+  }
+  & > p:last-child {
+    mask: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+`;
 export const MaskArea = styled.div`
   position: absolute;
   left: 0;
