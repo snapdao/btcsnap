@@ -218,67 +218,71 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
           Market Price: <span>{currencyRate} USD</span>
         </MarketPrice>
 
-        <Popup
-          open={topUpVisibleData.open}
-          position={network === BitcoinNetwork.Main ? 'top right' : 'top center'}
-          basic={network === BitcoinNetwork.Main}
-          inverted={isTestNetwork}
-          hoverable={false}
-          openOnTriggerMouseEnter={false}
-          closeOnTriggerMouseLeave={false}
-          closeOnPortalMouseLeave={false}
-          closeOnTriggerClick={false}
-          onClose={() => setTopUpPopupVisible(false)}
-          trigger={
-            <span>
-              <TopUpButton
-                icon={
-                  <Icon.TopUp
-                    width='18px'
-                    height='18px'
-                    color='var(--sk-color-pri50)' />
-                }
-                onClick={() => {
-                  if (isTestNetwork) return;
-                  setTopUpPopupVisible(!topUpVisibleData.open);
-                  setTopUpVisible();
-                }}
-                onMouseEnter={() => {
-                  if (!isTestNetwork) return;
-                  setTopUpPopupVisible(true);
-                }}
-                onMouseLeave={() => {
-                  if (!isTestNetwork) return;
-                  setTopUpPopupVisible(false);
-                }}
-                className={isTestNetwork ? 'disabled' : ''}
-              >
-                <H4>TOP UP</H4>
-              </TopUpButton>
-            </span>
-          }
-          style={network === BitcoinNetwork.Main ? { borderRadius: 16 } : {}}>
-          {
-            network === BitcoinNetwork.Main && currentWalletType === WalletType.LightningWallet
-              ? <TopUpList>
-                <List.Field
-                  icon={<Icon.Wallet width='24px' height='24px' color='var(--sk-color-pri50)'/>}
-                  title={<H4>With Your Wallet</H4>}
-                  hoverable
-                  onClick={() => openTopUpModal('lightningWalletInternal')}
-                />
-                <List.Field
-                  icon={<Icon.WalletEx width='24px' height='24px'  color='var(--sk-color-n60)' />}
-                  title={<H4>With External Wallet</H4>}
-                  hoverable
-                  onClick={() => openTopUpModal('lightningWalletExternal')}
-                />
-              </TopUpList>
-              : isTestNetwork
-                ? <Caption>Not available on Testnet</Caption>
-                : null
-          }
-        </Popup>
+        {
+          currentWalletType !== WalletType.BitcoinWallet && (
+            <Popup
+              open={topUpVisibleData.open}
+              position={network === BitcoinNetwork.Main ? 'top right' : 'top center'}
+              basic={network === BitcoinNetwork.Main}
+              inverted={isTestNetwork}
+              hoverable={false}
+              openOnTriggerMouseEnter={false}
+              closeOnTriggerMouseLeave={false}
+              closeOnPortalMouseLeave={false}
+              closeOnTriggerClick={false}
+              onClose={() => setTopUpPopupVisible(false)}
+              trigger={
+                <span>
+                  <TopUpButton
+                    icon={
+                      <Icon.TopUp
+                        width='18px'
+                        height='18px'
+                        color='var(--sk-color-pri50)'/>
+                    }
+                    onClick={() => {
+                      if (isTestNetwork) return;
+                      setTopUpPopupVisible(!topUpVisibleData.open);
+                      setTopUpVisible();
+                    }}
+                    onMouseEnter={() => {
+                      if (!isTestNetwork) return;
+                      setTopUpPopupVisible(true);
+                    }}
+                    onMouseLeave={() => {
+                      if (!isTestNetwork) return;
+                      setTopUpPopupVisible(false);
+                    }}
+                    className={isTestNetwork ? 'disabled' : ''}
+                  >
+                    <H4>TOP UP</H4>
+                  </TopUpButton>
+                </span>
+              }
+              style={network === BitcoinNetwork.Main ? { borderRadius: 16 } : {}}>
+              {
+                network === BitcoinNetwork.Main && currentWalletType === WalletType.LightningWallet
+                  ? <TopUpList>
+                    <List.Field
+                      icon={<Icon.Wallet width='24px' height='24px' color='var(--sk-color-pri50)'/>}
+                      title={<H4>With Your Wallet</H4>}
+                      hoverable
+                      onClick={() => openTopUpModal('lightningWalletInternal')}
+                    />
+                    <List.Field
+                      icon={<Icon.WalletEx width='24px' height='24px' color='var(--sk-color-n60)'/>}
+                      title={<H4>With External Wallet</H4>}
+                      hoverable
+                      onClick={() => openTopUpModal('lightningWalletExternal')}
+                    />
+                  </TopUpList>
+                  : isTestNetwork
+                    ? <Caption>Not available on Testnet</Caption>
+                    : null
+              }
+            </Popup>
+          )
+        }
       </Footer>
 
       {openedModal === MainModal.Details && (
