@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAppStore } from "../../mobx";
 import Modal from "./Modal";
 import { observer } from "mobx-react-lite";
@@ -14,7 +14,6 @@ import AddressType, { addressTypeOptions } from "./AddressType";
 // import PrivacyPolicy from "./PrivacyPolicy";
 import Network from "./Network";
 import { VERSION } from "../../config";
-import AboutBitcoinSnap from "./About";
 
 interface SettingProps {
   open: boolean;
@@ -26,7 +25,6 @@ enum SettingOptions {
   AddressType,
   Terms,
   Privacy,
-  About,
 }
 
 const Settings = observer(({open, close}: SettingProps) => {
@@ -93,13 +91,6 @@ const Settings = observer(({open, close}: SettingProps) => {
         <PrivacyPolicy open={currentVisible === SettingOptions.Privacy} close={closeDialog} />
         <Divider style={{margin: '16px'}} /> */}
 
-        <SettingItem onClick={() => openDialog(SettingOptions.About)} >
-          <span>About BitcoinSnap</span>
-          <span>
-            <ArrowRight size={18} />
-          </span>
-        </SettingItem>
-        {currentVisible === SettingOptions.About && <AboutBitcoinSnap open close={closeDialog} />}
         <SettingItem>
           <span>Version</span>
           <span>V{VERSION}</span>
