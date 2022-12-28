@@ -21,7 +21,7 @@ export const WalletCardContent = styled.div<{
   width: 240px;
   height: 135px;
   border-radius: 16px;
-  background: url(${(props) =>
+  background: ${(props) => props.type === WalletType.BitcoinWallet ? '#e88b17' : '#366be9'} url(${(props) =>
     props.type === WalletType.BitcoinWallet ? YellowCard : BlueCard});
   opacity: ${(props) => (props.available ? 1 : 0.3)};
   transition: 0.25s;
