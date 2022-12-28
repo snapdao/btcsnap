@@ -1,5 +1,5 @@
-import {IAnyModelType, types} from 'mobx-state-tree';
-import {Coins} from '../constant/supportedCoins';
+import { IAnyModelType, types } from 'mobx-state-tree';
+import { Coins } from '../constant/supportedCoins';
 import Account from './account';
 
 const Address = types
@@ -10,6 +10,6 @@ const Address = types
     coinCode: types.enumeration(Coins),
     change: types.number,
     index: types.number,
-  })
+  });
 
 export default Address;

@@ -1,13 +1,13 @@
 import React from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { Container, Label } from 'semantic-ui-react';
-import './index.css'
+import { Container } from 'semantic-ui-react';
+import './index.css';
 
 type AddressBoxProps = {
   address?: string;
 };
 
-const AddressBox = ({address}: AddressBoxProps) => {
+const AddressBox = ({ address }: AddressBoxProps) => {
   if (address) {
     return (
       <Container textAlign='center'>

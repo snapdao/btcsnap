@@ -4,6 +4,7 @@ import { Network, networks } from 'bitcoinjs-lib';
 import { BitcoinNetwork, ScriptType, SLIP10Node, Wallet } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
 import { getPersistedData, updatePersistedData } from '../utils/manageState';
+import { RequestErrors, SnapError } from "../errors";
 
 export const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -73,10 +74,10 @@ export async function getExtendedPublicKey(origin: string, wallet: Wallet, scrip
 
                 return { mfp, xpub };
             } else {
-                throw new Error('User reject to access the key')
+                throw SnapError.of(RequestErrors.RejectKey);
             }
             
         default:
-            throw new Error('ScriptType is not supported.');
+            throw SnapError.of(RequestErrors.ScriptTypeNotSupport);
     }
 }

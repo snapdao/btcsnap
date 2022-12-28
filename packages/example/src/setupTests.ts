@@ -7,8 +7,8 @@ import '@testing-library/jest-dom';
 jest.mock('./config', () => ({
   BACKEND_DOMAIN : 'api_host',
   BACKEND_AUTH : 'api_auth',
-  ENVIRONMENT : "development",
+  ENVIRONMENT : 'development',
   TRACK_TOKEN : '',
-  VERSION : "1.0.0",
+  VERSION : '1.0.0',
   SENTRY_DSN: 'sentry_dsn'
 }));

@@ -11,6 +11,6 @@ export const Coins = Object.values(SupportedCoins);
 
 
 export enum BitcoinNetworkCode {
-  Main = "BTC",
-  Test = "BTC_TESTNET"
+  Main = 'BTC',
+  Test = 'BTC_TESTNET'
 }

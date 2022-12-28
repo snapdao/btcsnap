@@ -1,15 +1,8 @@
 import * as bitcoin from 'bitcoinjs-lib';
-import { networks, payments, Psbt, PsbtTxInput, crypto } from 'bitcoinjs-lib';
-import { Address, BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface';
+import { networks, payments, Psbt, crypto } from 'bitcoinjs-lib';
+import { BitcoinNetwork, BitcoinScriptType, Utxo } from '../interface';
 import coinSelect from 'coinselect';
 import coinSelectSplit from 'coinselect/split';
-
-interface Bip32Derivation {
-  masterFingerprint: Buffer;
-  pubkey: Buffer;
-  path: string;
-}
-
 
 type networkAndScriptType = {
   [key: string]: {
@@ -171,7 +164,7 @@ const composePsbt = (
     networkConfig = networks.testnet;
   }
 
-  let psbt = new Psbt({ network: networkConfig });
+  const psbt = new Psbt({ network: networkConfig });
 
   if (!inputs) throw new Error('Utxo selections error please retry');
 
@@ -187,7 +180,7 @@ const composePsbt = (
           pubkey: each.pubkey,
         },
       ],
-    }
+    };
 
     if (scriptType === BitcoinScriptType.P2PKH && each.rawHex) {
       psbt.addInput({
@@ -264,7 +257,6 @@ const calculateScript = (publicKey: Buffer, network: bitcoin.Network) => {
 const compileScript = (script: Buffer) => {
   return bitcoin.script.compile([
     bitcoin.script.OPS.OP_HASH160,
-    // @ts-ignore
     crypto.hash160(script),
     bitcoin.script.OPS.OP_EQUAL,
   ]);

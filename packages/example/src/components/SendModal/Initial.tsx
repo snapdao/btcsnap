@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 
 import './index.css';
-import ConfirmModal from "./ConfirmModal";
-import TransactionFee from "./TransactionFee"
-import CloseIcon from "../Icons/CloseIcon";
-import SendIcon from "../Icons/SendIcon";
-import SwitchIcon from "../Icons/SwitchIcon";
+import ConfirmModal from './ConfirmModal';
+import TransactionFee from './TransactionFee';
+import CloseIcon from '../Icons/CloseIcon';
+import SendIcon from '../Icons/SendIcon';
+import SwitchIcon from '../Icons/SwitchIcon';
 import ArrowDown from '../Icons/ArrowDown';
 
 import {
@@ -29,7 +29,7 @@ import {
   SendToInput,
   SendButtonContainer,
   CancelButton, SendAvailableText,
-} from "./styles";
+} from './styles';
 
 export type InitialProps = {
   model: SendViewModel;
@@ -41,11 +41,11 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
 
   const openTransactionFee = () => {
     setTransactionFee(true);
-  }
+  };
 
   const closeTransactionFee = () => {
     setTransactionFee(false);
-  }
+  };
 
   return (
     <>
@@ -67,7 +67,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
                   size={model.amountLength}
                   value={model.sendAmountMain}
                   onChange={e => { model.handleSendInput(e.target.value); }}
-                  placeholder="0"
+                  placeholder='0'
                 />
                 <span onClick={() => model.switchUnits()}>{model.mainUnit}<SwitchIcon /></span>
               </SendAmountInput>
@@ -113,9 +113,9 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           <SendTitle>To</SendTitle>
           <SendToInput>
             <input
-              placeholder="Paste or input the destination address"
+              placeholder='Paste or input the destination address'
               value={model.to}
-              onChange={e => {model.setTo(e.target.value)}}
+              onChange={e => { model.setTo(e.target.value); }}
             />
           </SendToInput>
 

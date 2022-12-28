@@ -3,9 +3,11 @@
   "private": true,
   "jest": {
     "modulePathIgnorePatterns": [
-        "__data__"
+      "__data__"
     ],
-    "testMatch": [ "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
+    ],
     "testEnvironment": "node"
   },
   "scripts": {
@@ -15,19 +17,23 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
     "@types/jest": "^25.2.3",
-    "lerna": "^4.0.0",
-    "jest": "^27.5.1",
-    "tsdx": "^0.14.1",
-    "sinon": "^9.0.1",
-    "@types/sinon": "^7.5.2",
     "@types/node": "^12.12.35",
+    "@types/sinon": "^7.5.2",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
+    "eslint-plugin-react": "^7.27.1",
     "eslint": "^7.11.0",
+    "jest": "^27.5.1",
+    "lerna": "^4.0.0",
+    "sinon": "^9.0.1",
+    "tsdx": "^0.14.1",
     "typescript": "4.3.5"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "resolutions": {
     "@types/react": "^17.0.40"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }

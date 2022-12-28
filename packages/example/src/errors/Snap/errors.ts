@@ -22,7 +22,7 @@ export const PsbtValidateErrors = [
   {
     code: 10005,
     name: 'ChangeAddressInvalid',
-    message: `Change address doesn't belongs to current account`
+    message: 'Change address doesn\'t belongs to current account'
   },
   {
     code: 10006,
@@ -34,7 +34,7 @@ export const PsbtValidateErrors = [
     name: 'AmountNotMatch',
     message: 'Transaction input amount not match'
   },
-]
+];
 
 export const SnapRequestErrors = [
   {
@@ -87,4 +87,4 @@ export const SnapRequestErrors = [
     name: 'UserReject',
     message: 'User rejected the request.'
   }
-]
+];

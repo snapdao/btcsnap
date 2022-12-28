@@ -1,8 +1,8 @@
-import { query } from "../request-utils/query";
-import { RequestType } from "../types";
-import { SupportedCoins } from "../../constant/supportedCoins";
+import { query } from '../request-utils/query';
+import { RequestType } from '../types';
+import { SupportedCoins } from '../../constant/supportedCoins';
 
-const endpoint = "/v1/self_custody/fetch_addresses/";
+const endpoint = '/v1/self_custody/fetch_addresses/';
 
 interface Address {
   address: string;
@@ -24,5 +24,5 @@ export const fetchAddresses = (
   xpub: string,
   assetCode: SupportedCoins,
 ): Promise<FetchAddressResponse> => {
-  return query(endpoint, RequestType.Get, {}, {asset_coin: assetCode, pub_key: xpub}, xfp);
-}
+  return query(endpoint, RequestType.Get, {}, { asset_coin: assetCode, pub_key: xpub }, xfp);
+};

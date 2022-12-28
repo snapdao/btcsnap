@@ -1,12 +1,12 @@
 import { types } from 'mobx-state-tree';
 import { Coins, SupportedCoins } from '../constant/supportedCoins';
 import Address from './address';
-import { BitcoinNetwork, BitcoinScriptType } from "../interface";
-import { IAddressIn } from "./types";
-import { coinManager } from "../services/CoinManager";
-import { generateAddressId } from "./utils";
-import { EXTENDED_PUBKEY_PATH } from "../constant/bitcoin";
-import { registerExtendedPubKey } from "../api";
+import { BitcoinNetwork, BitcoinScriptType } from '../interface';
+import { IAddressIn } from './types';
+import { coinManager } from '../services/CoinManager';
+import { generateAddressId } from './utils';
+import { EXTENDED_PUBKEY_PATH } from '../constant/bitcoin';
+import { registerExtendedPubKey } from '../api';
 
 const validateAddress = (
   addressIn: {index: number; address: string},
@@ -14,7 +14,7 @@ const validateAddress = (
 ): boolean => {
   try {
     const addressPub = coinManager.xpubToPubkey(accountIn.xpub, 0, addressIn.index);
-    let derivedAddress = coinManager.deriveAddress(addressPub, accountIn.scriptType, accountIn.network);
+    const derivedAddress = coinManager.deriveAddress(addressPub, accountIn.scriptType, accountIn.network);
     return derivedAddress.toLowerCase() === addressIn.address.toLowerCase();
   } catch (e) {
     return false;
@@ -46,11 +46,11 @@ const Account = types
         const scriptType = self.scriptType;
         const network = self.network;
 
-        const coin = network === BitcoinNetwork.Main ? "BTC" : "BTC_TESTNET";
+        const coin = network === BitcoinNetwork.Main ? 'BTC' : 'BTC_TESTNET';
         const path = EXTENDED_PUBKEY_PATH[network][scriptType];
         registerExtendedPubKey(coin, path, self.xpub, scriptType, mfp).then(() => {
           self.setHasXpubSynced(true);
-        })
+        });
       } catch (e) {
         console.error('Failed to sync xpub', e);
       }
@@ -100,7 +100,7 @@ const Account = types
     get receiveAddress() {
       const receiveAddress = self.addresses.find((addr) => addr.index === self.receiveAddressIndex);
       if(receiveAddress){
-        return receiveAddress
+        return receiveAddress;
       } else {
         const address = self.deriveAddress(0);
         self.addAddress(address, false);
@@ -111,7 +111,7 @@ const Account = types
   .actions((self) => ({
     validateAndAddAddress: (addressIn: IAddressIn, isDynamic: boolean) => {
       if (validateAddress(addressIn, self)) {
-        return self.addAddress({...addressIn, parent: self.id}, isDynamic);
+        return self.addAddress({ ...addressIn, parent: self.id }, isDynamic);
       }
       console.error(
         `#store_account_error: verify failed, coin ${self.coinCode}, address ${addressIn.address}, path: ${addressIn.change}/${addressIn.index}`,

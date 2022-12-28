@@ -76,7 +76,7 @@ export class BtcTx {
             to: psbtHelper.toAddresses.join(","),
             value: psbtHelper.sendAmount,
             fee: psbtHelper.fee,
-            network: "testnet",
+            network: this.network,
         }
 
         if(changeAddress.length > 0){
@@ -86,7 +86,7 @@ export class BtcTx {
     }
 
     extractPsbtJsonString() {
-        return JSON.stringify(this.extractPsbtJson(), null, 2);
+        return Object.entries(this.extractPsbtJson()).map(([key, value]) => `${key}: ${value}\n`).join('')
     }
 
 

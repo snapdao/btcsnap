@@ -1,5 +1,5 @@
 .Connect-flask-icon {
-  margin-top: 40px;
+  margin-top: 36px;
 }
 
 .Connect-Modal-Content h2 {
@@ -22,8 +22,6 @@
 }
 
 .Connect-button {
-  position: absolute;
-  bottom: 40px;
   width: 280px;
   height: 48px;
   border-radius: 16px;
@@ -45,6 +43,10 @@
   transition: 0.25s;
 }
 
+.Connect-button:hover svg path {
+  fill: #FFFFFF;
+}
+
 .Connect-button:not(:hover) {
   background: #111214;
   transition: 0.25s;
@@ -56,18 +58,19 @@
 
 .Connect-snap-link {
   position: relative;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   font-weight: 600;
   color: #FF6C0A;
-  margin: 16px 0 64px;
+  margin-bottom: 64px;
 }
 .Connect-snap-link span {
   position: absolute;
   right: -18px;
   display: inline-block;
   height: 18px;
+  top: 2px;
 }
 
 .Connect-snap-link:hover {
@@ -92,13 +95,13 @@
 
 .Connect-Modal-Container .Close-container {
   position: absolute;
-  top: 20px;
+  top: 0;
   right: 20px;
 }
 
 .Connect-Modal-Container .Close-container-disabled {
   position: absolute;
-  top: 20px;
+  top: 0;
   right: 20px;
 }
 
@@ -109,14 +112,3 @@
 .desc {
   padding-bottom: 24px;
 }
-
-.Loading-icon {
-  animation: iconRotate 1s infinite;
-  animation-timing-function: linear;
-}
-
-@keyframes iconRotate {
-  0% {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
-}
-

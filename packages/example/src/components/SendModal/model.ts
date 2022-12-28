@@ -11,11 +11,6 @@ import validate, { Network } from 'bitcoin-address-validation';
 import { signPsbt } from '../../lib/snap';
 import { getTransactionLink } from '../../lib/explorer';
 import {
-  TransactionDetail,
-  TransactionStatus,
-  TransactionTypes
-} from '../TransactionList/types';
-import {
   trackSendSign,
   trackTransactionBroadcast,
   trackTransactionBroadcastSucceed,
@@ -27,8 +22,8 @@ import { validateTx } from '../../lib/psbtValidator';
 import { Psbt } from 'bitcoinjs-lib';
 import { btcToSatoshi, satoshiToBTC } from '../../lib/helper';
 import { bitcoinUnitMap } from '../../lib/unit';
-import { mapErrorToUserFriendlyError } from "../../errors/Snap/SnapError";
-import { logger } from "../../logger";
+import { mapErrorToUserFriendlyError } from '../../errors/Snap/SnapError';
+import { logger } from '../../logger';
 
 const dealWithDigital = (text: string, precision = 2) => {
   const digitalRegex =
@@ -46,7 +41,7 @@ const dealWithDigital = (text: string, precision = 2) => {
 };
 
 class SendViewModel {
-  public to: string = '';
+  public to = '';
   private sendAmountText = '';
   private decimal = 8;
   private decimalFactor = new BigNumber(10).pow(this.decimal);
@@ -59,8 +54,8 @@ class SendViewModel {
 
   public status: 'initial' | 'success' | 'failed' = 'initial';
 
-  public errorMessage: {message: string, code: number} = {message: '', code: 0};
-  public isAddressValid: boolean = true;
+  public errorMessage: {message: string, code: number} = { message: '', code: 0 };
+  public isAddressValid = true;
 
   public confirmOpen = false;
 
@@ -91,7 +86,7 @@ class SendViewModel {
     this.status = 'initial';
     this.confirmOpen = false;
     this.txId = undefined;
-    this.errorMessage = {message: '', code: 0};
+    this.errorMessage = { message: '', code: 0 };
     this.isSending = false;
     this.to = '';
     this.sendAmountText = '';
@@ -153,8 +148,8 @@ class SendViewModel {
         return this.sendSatoshis.isNaN()
           ? '0.00'
           : new BigNumber(
-              satoshiToBTC(this.sendSatoshis.toNumber() * this.exchangeRate),
-            ).toFixed(2);
+            satoshiToBTC(this.sendSatoshis.toNumber() * this.exchangeRate),
+          ).toFixed(2);
     }
   }
 
@@ -168,8 +163,8 @@ class SendViewModel {
 
   get formattedTo() {
     if (this.to.length > 12) {
-      let head = this.to.slice(0, 6);
-      let tail = this.to.slice(this.to.length - 6);
+      const head = this.to.slice(0, 6);
+      const tail = this.to.slice(this.to.length - 6);
       return `${head}...${tail}`;
     }
     return this.to;
@@ -266,8 +261,8 @@ class SendViewModel {
         .toString();
     } else {
       return this.sendSatoshis
-      .plus(this.fee)
-      .toString();
+        .plus(this.fee)
+        .toString();
     }
   }
 
@@ -294,12 +289,12 @@ class SendViewModel {
   get toValid() {
     if (this.isEmptyTo) {
       this.isAddressValid = true;
-      return true
+      return true;
     };
     const network =
       this.network === BitcoinNetwork.Main ? Network.mainnet : Network.testnet;
     const isValid = validate(this.to, network);
-    setTimeout(() => { this.isAddressValid = isValid }, 500);
+    setTimeout(() => { this.isAddressValid = isValid; }, 500);
     return isValid;
   }
 

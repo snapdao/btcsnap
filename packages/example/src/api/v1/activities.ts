@@ -1,6 +1,6 @@
-import { SupportedCoins } from "../../constant/supportedCoins";
-import { query } from "../request-utils/query";
-import { RequestType } from "../types";
+import { SupportedCoins } from '../../constant/supportedCoins';
+import { query } from '../request-utils/query';
+import { RequestType } from '../types';
 
 const endpoint = '/v1/self_custody/activities/';
 
@@ -8,7 +8,7 @@ interface ActivitiesRequest {
   coin: SupportedCoins;
   count: number;
   loadMoreTxs?: number;
-  type?: "send" | "receive" | "all";
+  type?: 'send' | 'receive' | 'all';
 }
 
 export type ActivitiesResponse = {
@@ -67,6 +67,6 @@ export type Activity = {
   receiverAddresses?: [string, number][];
 };
 
-export const queryActivities = ({count, type = "all", coin, loadMoreTxs} :ActivitiesRequest): Promise<ActivitiesResponse> => {
+export const queryActivities = ({ count, type = 'all', coin, loadMoreTxs } :ActivitiesRequest): Promise<ActivitiesResponse> => {
   return query(endpoint, RequestType.Get, {}, { coin, activity_num: count, type, load_more_ts: loadMoreTxs });
 };

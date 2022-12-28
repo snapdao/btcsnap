@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0-beta.0",
   "description": "btcsnap: Metamask Snap to manage your bitcoin",
   "proposedName": "btcsnap",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "YwcI0lB579SIHUElrkLHDm8pf5Da+AmoRUspvLuI+64=",
+    "shasum": "I0CtOOJ29joWvXheiqgadBCnfzOmbmvpIErWWgy3xtU=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

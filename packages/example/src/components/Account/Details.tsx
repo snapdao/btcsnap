@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Modal, TransitionablePortal } from 'semantic-ui-react';
-import CloseIcon from "../Icons/CloseIcon";
-import LoadingIcon from "../Icons/Loading";
-import { ReactComponent as AccountIcon } from "./image/wallet.svg";
-import { satoshiToBTC } from "../../lib/helper";
-import { useUtxo } from "../../hook/useUtxo";
-import { fromHdPathToObj } from "../../lib/cryptoPath";
+import CloseIcon from '../Icons/CloseIcon';
+import LoadingIcon from '../Icons/Loading';
+import { ReactComponent as AccountIcon } from './image/wallet.svg';
+import { satoshiToBTC } from '../../lib/helper';
+import { useUtxo } from '../../hook/useUtxo';
+import { fromHdPathToObj } from '../../lib/cryptoPath';
 import {
   AccountDetailTop,
   ModalHeader,
@@ -20,9 +20,9 @@ import {
   AccountListLabelTop,
   AccountListLabelBottom,
   LoadingContainer
-} from "./styles"
-import { BitcoinUnits, isBTC } from "../../lib/unit";
-import { Utxo } from "../../interface";
+} from './styles';
+import { BitcoinUnits, isBTC } from '../../lib/unit';
+import { Utxo } from '../../interface';
 
 type AccountDetails = {
   open: boolean;
@@ -38,30 +38,30 @@ type GroupedUtxo = {
   }
 }
 
-const Details = (({open, close, balance, unit}: AccountDetails) => {
-  const {utxoList, loading} = useUtxo();
+const Details = (({ open, close, balance, unit }: AccountDetails) => {
+  const { utxoList, loading } = useUtxo();
   const [isOpen, setIsOpen] = useState<boolean>(open);
 
   const grouppedUtxos = utxoList.reduce((acc: GroupedUtxo, current: Utxo) => {
     if(acc[current.address]) {
-      let newCount = acc[current.address].count + 1;
-      let newSum = acc[current.address].value + current.value
+      const newCount = acc[current.address].count + 1;
+      const newSum = acc[current.address].value + current.value;
       acc[current.address] = {
         ...acc[current.address],
         count: newCount,
         value: newSum
-      }
+      };
     } else {
       acc[current.address] = {
         ...current,
         count: 1
-      }
+      };
     }
-    return acc
-  }, {})
+    return acc;
+  }, {});
 
   const switchValue = (value: number) =>
-    isBTC(unit) ? satoshiToBTC(value) : value
+    isBTC(unit) ? satoshiToBTC(value) : value;
 
   return (
     <TransitionablePortal
@@ -92,7 +92,7 @@ const Details = (({open, close, balance, unit}: AccountDetails) => {
           {loading ?
             <LoadingContainer><LoadingIcon /></LoadingContainer> :
             Object.values(grouppedUtxos).map((item) => {
-            const {change, index} = fromHdPathToObj(item.path!);
+              const { change, index } = fromHdPathToObj(item.path!);
               return (
                 <AccountListItem key={item.address}>
                   <AccountListLabel>
@@ -108,13 +108,13 @@ const Details = (({open, close, balance, unit}: AccountDetails) => {
                     </AccountListLabelBottom>
                   </AccountListLabel>
                 </AccountListItem>
-              )
+              );
             })
           }
         </AccountDetailBottom>
       </Modal>
     </TransitionablePortal>
-  )
-})
+  );
+});
 
-export default Details
+export default Details;

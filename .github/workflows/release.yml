@@ -21,12 +21,15 @@ jobs:
       - name: run test
         run: yarn test
       - name: Build
-        run: yarn run build
+        run: CI=false yarn run build
         working-directory: packages/example
         env:
           PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
           BACKEND_API_AUTH: ${{ secrets.BACKEND_API_AUTH }}
           BACKEND_API_DOMAIN: ${{ secrets.BACKEND_API_DOMAIN }}
+          SNAP_BACKEND_API_DOMAIN: ${{ secrets.SNAP_BACKEND_API_DOMAIN }}
+          SNAP_BACKEND_API_AUTH: ${{ secrets.SNAP_BACKEND_API_AUTH }}
+          FIAT_MRCR_API_WIDGET_ID: ${{ secrets.FIAT_MRCR_API_WIDGET_ID }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_SOURCE: ${{ secrets.SENTRY_SOURCE }}

@@ -1,13 +1,13 @@
 import { Modal, TransitionablePortal } from 'semantic-ui-react';
 import React, { useEffect, useMemo } from 'react';
 
-import './index.css'
+import './index.css';
 import { observer } from 'mobx-react-lite';
 import SendViewModel from './model';
 import { BitcoinNetwork, BitcoinScriptType, BitcoinUnit } from '../../interface';
 import Initial from './Initial';
 import Result from './Result';
-import { useSendInfo } from "./useSendInfo";
+import { useSendInfo } from './useSendInfo';
 
 type ContainerProps = {
   currencyRate: number;
@@ -17,8 +17,8 @@ type ContainerProps = {
   unit: BitcoinUnit;
 };
 
-const SendContainer = ({network, scriptType, close, unit, currencyRate}: ContainerProps) => {
-  const {feeRate, utxos, sendInfo} = useSendInfo()
+const SendContainer = ({ network, scriptType, close, unit, currencyRate }: ContainerProps) => {
+  const { feeRate, utxos, sendInfo } = useSendInfo();
 
   const model = useMemo(() => {
     return new SendViewModel(
@@ -38,7 +38,7 @@ const SendContainer = ({network, scriptType, close, unit, currencyRate}: Contain
     if (sendInfo) {
       model.setSendInfo(sendInfo);
     }
-    model.setNetwork(network)
+    model.setNetwork(network);
   }, [utxos, feeRate, sendInfo, network]);
 
   return <SendModal model={model} close={close} />;
@@ -53,7 +53,7 @@ const SendModal = observer((props: { model: SendViewModel, close: () => void }) 
       closeOnDocumentClick={false}
     >
       <Modal
-        style={{width: 440, minHeight: 640, borderRadius: 20, position: 'relative'}}
+        style={{ width: 440, minHeight: 640, borderRadius: 20, position: 'relative' }}
         onOpen={() => {
           model.resetState();
         }}

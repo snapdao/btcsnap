@@ -1,30 +1,30 @@
-import React, { useCallback, useState } from "react";
-import { ReactComponent as MenuIcon } from "./image/menu.svg";
-import MenuPanel from "./MenuPanel";
-import Settings from "../Settings";
+import React, { useCallback, useState } from 'react';
+import { ReactComponent as MenuIcon } from './image/menu.svg';
+import MenuPanel from './MenuPanel';
+import Settings from '../Settings';
 import { Transition } from 'semantic-ui-react';
-import { MenuContainer, MenuButton } from "./styles";
+import { MenuContainer, MenuButton } from './styles';
 
 const Menu = () => {
   const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
 
   const closeMenuPanel = useCallback(() => {
-    setVisible(false)
-  }, [setVisible])
+    setVisible(false);
+  }, [setVisible]);
 
   const openSettingModal = useCallback(() => {
     setIsSettingModalOpen(true);
-    setVisible(false)
-  }, [setIsSettingModalOpen])
+    setVisible(false);
+  }, [setIsSettingModalOpen]);
 
   const closeSettingModal = useCallback(() => {
-    setIsSettingModalOpen(false)
-  }, [setIsSettingModalOpen])
+    setIsSettingModalOpen(false);
+  }, [setIsSettingModalOpen]);
 
   const settingClick = useCallback(() => {
-    setVisible(visible => !visible)
-  },[setVisible])
+    setVisible(visible => !visible);
+  }, [setVisible]);
 
   return (
     <MenuContainer>

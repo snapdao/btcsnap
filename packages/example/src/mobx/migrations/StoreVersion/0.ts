@@ -1,5 +1,5 @@
 import { SupportedCoins } from '../../../constant/supportedCoins';
-import { BitcoinNetwork, BitcoinScriptType } from "../../../interface";
+import { BitcoinNetwork, BitcoinScriptType } from '../../../interface';
 
 type accountId = string;
 type addressId = string;
