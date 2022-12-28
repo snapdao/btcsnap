@@ -54,16 +54,14 @@ export const AddressContainer = styled.div`
   height: 296px;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to left, #f58300, #f58300) left top no-repeat,
-    linear-gradient(to bottom, #f58300, #f58300) left top no-repeat,
-    linear-gradient(to left, #f58300, #f58300) right top no-repeat,
-    linear-gradient(to bottom, #f58300, #f58300) right top no-repeat,
-    linear-gradient(to left, #f58300, #f58300) left bottom no-repeat,
-    linear-gradient(to bottom, #f58300, #f58300) left bottom no-repeat,
-    linear-gradient(to left, #f58300, #f58300) right bottom no-repeat,
-    linear-gradient(to left, #f58300, #f58300) right bottom no-repeat;
-  background-color: #ffffff;
-  background-size: 1.64px 9.84px, 9.84px 1.64px, 1.64px 9.84px, 9.84px 1.64px;
+  background: linear-gradient(to left, rgb(245, 131, 0), rgb(245, 131, 0)) left top / 1.64px 9.84px no-repeat,
+    linear-gradient(to bottom, rgb(245, 131, 0), rgb(245, 131, 0)) left top / 9.84px 1.64px no-repeat,
+    linear-gradient(to left, rgb(245, 131, 0), rgb(245, 131, 0)) right top / 1.64px 9.84px no-repeat,
+    linear-gradient(to bottom, rgb(245, 131, 0), rgb(245, 131, 0)) right top / 9.84px 1.64px no-repeat,
+    linear-gradient(to left, rgb(245, 131, 0), rgb(245, 131, 0)) left bottom  / 1.64px 9.84px no-repeat,
+    linear-gradient(to bottom, rgb(245, 131, 0), rgb(245, 131, 0)) left bottom  / 9.84px 1.64px no-repeat,
+    linear-gradient(to left, rgb(245, 131, 0), rgb(245, 131, 0)) right bottom / 1.64px 9.84px no-repeat,
+    linear-gradient(to left, rgb(245, 131, 0), rgb(245, 131, 0)) right bottom / 9.84px 1.64px no-repeat rgb(255, 255, 255);
 `;
 
 export const AddressLabel = styled.div`
