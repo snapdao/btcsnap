@@ -60,7 +60,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           onClose={onClose}
         />
 
-        {!model.to && <Modal.Loading />}
+        {!model.to && <Modal.Loading inModal />}
 
         <SendBody ref={topUpModalRef}>
           <SendTitle>
