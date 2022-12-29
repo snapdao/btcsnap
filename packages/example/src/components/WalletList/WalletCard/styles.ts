@@ -22,7 +22,7 @@ export const WalletCardContent = styled.div<{
   height: 135px;
   border-radius: 16px;
   background: ${(props) => props.type === WalletType.BitcoinWallet ? '#e88b17' : '#366be9'} url(${(props) =>
-    props.type === WalletType.BitcoinWallet ? YellowCard : BlueCard});
+  props.type === WalletType.BitcoinWallet ? YellowCard : BlueCard});
   opacity: ${(props) => (props.available ? 1 : 0.3)};
   transition: 0.25s;
   :hover {

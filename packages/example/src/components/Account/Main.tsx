@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../../mobx';
 import { BitcoinNetwork, BitcoinScriptType, BitcoinUnit, WalletType } from '../../interface';

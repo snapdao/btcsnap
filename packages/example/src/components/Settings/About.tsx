@@ -26,7 +26,7 @@ const AboutBitcoinSnap = (({ open, close }: ConnectProps) => {
         open
         style={{ width: '440px', height: '320px', marginTop: '370px', borderRadius: '20px' }}
       >
-        <ModalHeader style={{ paddingLeft: 155}}>
+        <ModalHeader style={{ paddingLeft: 155 }}>
           <ModalHeaderContainer>
             <ModalHeaderLabel>About BitcoinSnap</ModalHeaderLabel>
           </ModalHeaderContainer>
