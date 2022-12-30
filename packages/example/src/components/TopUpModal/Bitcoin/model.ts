@@ -6,19 +6,23 @@ import { queryMercuryoSignature } from '../../../api/v1/mercuryoSignature';
 import { FiatRecord, queryFiatRecord } from '../../../api/v1/fiatRecord';
 import { ENVIRONMENT, FIAT_MRCR_WIDGET_ID } from '../../../config';
 
+type TopUpStatus = 'initial' | 'pending' | 'timeout' | 'success' | 'failed'
+
 class TopUpViewModel {
   public to = '';
   public amountText = '';
 
-  public status: 'initial' | 'pending' | 'timeout' | 'success' | 'failed' = 'initial';
+  public status: TopUpStatus = 'initial';
 
-  public errorMessage: {message: string, code: number} = { message: '', code: 0 };
+  public errorMessage = '';
 
   public txId?: string;
 
   public isRefresh = false;
 
   public isGetSignature = false;
+
+  public manualRefreshed = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -36,13 +40,13 @@ class TopUpViewModel {
   resetState = () => {
     this.status = 'initial';
     this.txId = undefined;
-    this.errorMessage = { message: '', code: 0 };
+    this.errorMessage = '';
     this.setIsRefresh(false);
     this.to = '';
     this.amountText = '';
   };
 
-  setStatus (status: typeof this.status) {
+  setStatus (status: TopUpStatus) {
     this.status = status;
   }
 
@@ -56,6 +60,14 @@ class TopUpViewModel {
 
   get isEmptyTo() {
     return this.to === '';
+  }
+
+  get showDelayHint() {
+    return this.status === 'pending' && this.manualRefreshed && !this.isRefresh;
+  }
+
+  setManualRefreshed(){
+    this.manualRefreshed = true;
   }
 
   setIsRefresh = (bool: boolean) => {
@@ -76,19 +88,15 @@ class TopUpViewModel {
       this.setStatus('pending');
       const host = ENVIRONMENT === 'production' ? 'exchange.mercuryo.io' : 'sandbox-exchange.mrcr.io';
       window.open(`https://${host}/?widget_id=${FIAT_MRCR_WIDGET_ID}&type=buy&currency=BTC&merchant_transaction_id=${this.txId}&address=${this.to}&signature=${res.signature}`);
-    } catch(e) {
+    } catch(e: any) {
       logger.error(e);
-      if (typeof e === 'string') {
-        this.errorMessage = mapErrorToUserFriendlyError(e);
-      } else if (e instanceof Error) {
-        this.errorMessage = mapErrorToUserFriendlyError(e.message || 'refresh error');
-      }
+      this.errorMessage = e?.message || 'refresh error';
       this.setIsGetSignature(false);
     }
   }
 
   setErrorMessage = (value: string) => {
-    this.errorMessage.message = value;
+    this.errorMessage = value;
   }
 
   refreshStatus = async () => {
@@ -107,22 +115,16 @@ class TopUpViewModel {
       } else if ((['cancelled', 'order_failed', 'descriptor_failed'] as FiatRecord['status'][]).includes(res.status)) {
         this.status = 'failed';
         this.amountText = res.amount;
-        const errMsg = { cancelled: 'Transaction cancelled' }[res.status as string] || 'Payment failed, please check the email sent by Mercuryo or go to mercuryo.io and contact live Chat';
-        throw new Error(errMsg);
+        trackTopUp({
+          type: 'bitcoin',
+          step: 'result',
+          value: 'failed'
+        });
+        this.errorMessage = { cancelled: 'Transaction cancelled' }[res.status as string] || 'Payment failed, please check the email sent by Mercuryo or go to mercuryo.io and contact live Chat';
       }
-    } catch (e) {
+    } catch (e: any) {
       logger.error(e);
-      trackTopUp({
-        type: 'bitcoin',
-        step: 'result',
-        value: 'failed'
-      });
-      if (typeof e === 'string') {
-        this.errorMessage = mapErrorToUserFriendlyError(e);
-      } else if (e instanceof Error) {
-        this.errorMessage = mapErrorToUserFriendlyError(e.message || 'refresh error');
-      }
-      this.status = 'failed';
+      this.errorMessage = e?.message || 'refresh error';
       this.setIsRefresh(false);
     }
   };

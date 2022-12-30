@@ -16,6 +16,6 @@ export const FIAT_MRCR_WIDGET_ID = FIAT_MRCR_API_WIDGET_ID;
 
 export const ENVIRONMENT = ENV || 'development';
 export const TRACK_TOKEN = PROJECT_TOKEN;
-export const VERSION = '2.0.0';
+export const VERSION = '2.1.0';
 
 export const SENTRY_DSN = SENTRY_SOURCE || '';
