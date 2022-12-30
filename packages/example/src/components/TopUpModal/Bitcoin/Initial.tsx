@@ -110,7 +110,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
         </FlexCenter>
       </Modal.Footer>
 
-      {model.errorMessage.message && <Message type={MessageType.Error} onClose={() => model.setErrorMessage('')}>Topup failed</Message>}
+      {model.errorMessage && <Message type={MessageType.Error} onClose={() => model.setErrorMessage('')}>Topup failed</Message>}
     </>
   );
 });

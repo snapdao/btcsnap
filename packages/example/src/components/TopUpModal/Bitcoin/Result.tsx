@@ -71,7 +71,8 @@ const Result = observer(({ model, close }: SuccessProps) => {
     }
   }, [model.status, timeoutTimer, intervalTimer]);
 
-  function manmualRefreshStatus() {
+  function manualRefreshStatus() {
+    model.setManualRefreshed();
     if (model.isRefresh) return;
     const isTimeout = model.status === 'timeout';
     if (isTimeout) {
@@ -164,7 +165,7 @@ const Result = observer(({ model, close }: SuccessProps) => {
 
       {model.status === 'failed' && (
         <FailedContainer>
-          <FailedText>{model.errorMessage.message}.</FailedText>
+          <FailedText>{model.errorMessage}.</FailedText>
         </FailedContainer>
       )}
 
@@ -174,12 +175,18 @@ const Result = observer(({ model, close }: SuccessProps) => {
         </FailedContainer>
       )}
 
+      {model.showDelayHint && (
+        <FailedContainer>
+          <FailedText>It might take a few minutes to receive the payment result, please refer to the notification email or check changes on your balance for the final result if you have complete the process</FailedText>
+        </FailedContainer>
+      )}
+
       <Modal.Footer style={{ flexDirection: 'column', gap: '24px 0' }}>
         {
           ['pending', 'timeout'].includes(model.status) ?
             <>
               <Button onClick={onClose}>Close</Button>
-              <Button.Text loading={model.isRefresh} onClick={manmualRefreshStatus}>I‘ve Finished the Payment</Button.Text>
+              <Button.Text loading={model.isRefresh} onClick={manualRefreshStatus}>I‘ve Finished the Payment</Button.Text>
             </>
             : <Button primary onClick={close}>OK</Button>
         }
