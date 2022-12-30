@@ -169,15 +169,9 @@ const Result = observer(({ model, close }: SuccessProps) => {
         </FailedContainer>
       )}
 
-      {model.status === 'timeout' && (
+      {(model.status === 'timeout' || model.showDelayHint) && (
         <FailedContainer>
-          <FailedText>Timeout to get paid result. Payment result is subject to Mercuryo email notification. Find on live chat through the bottom right side of mercuryo.io</FailedText>
-        </FailedContainer>
-      )}
-
-      {model.showDelayHint && (
-        <FailedContainer>
-          <FailedText>It might take a few minutes to receive the payment result, please refer to the notification email or check changes on your balance for the final result if you have complete the process</FailedText>
+          <FailedText>It might take a few minutes to receive the payment result, please refer to the notification email or check changes on your balance for the final result if you have completed the process in Mercuryo.</FailedText>
         </FailedContainer>
       )}
 
