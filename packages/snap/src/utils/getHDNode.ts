@@ -3,6 +3,7 @@ import {BIP32Interface} from 'bip32';
 import {BitcoinNetwork, SLIP10Node, Wallet} from '../interface';
 import {getNetwork} from '../bitcoin/getNetwork';
 import {parseLightningPath} from '../bitcoin/cryptoPath';
+import { trimHexPrefix } from '../utils/hexHelper';
 
 const CRYPTO_CURVE = 'secp256k1';
 
@@ -23,8 +24,8 @@ export const getHDNode = async (wallet: Wallet, hdPath: string) => {
     },
   })) as SLIP10Node;
 
-  const privateKeyBuffer = Buffer.from(slip10Node.privateKey, 'hex');
-  const chainCodeBuffer = Buffer.from(slip10Node.chainCode, 'hex');
+  const privateKeyBuffer = Buffer.from(trimHexPrefix(slip10Node.privateKey), 'hex');
+  const chainCodeBuffer = Buffer.from(trimHexPrefix(slip10Node.chainCode), 'hex');
   const node: BIP32Interface = bip32.fromPrivateKey(
     privateKeyBuffer,
     chainCodeBuffer,

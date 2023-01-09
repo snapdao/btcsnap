@@ -3,7 +3,7 @@ import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
 import { BitcoinNetwork, ScriptType, SLIP10Node, Wallet } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
-import { getPersistedData, updatePersistedData } from '../utils/manageState';
+import { getPersistedData, updatePersistedData, trimHexPrefix } from '../utils';
 import { RequestErrors, SnapError } from "../errors";
 
 export const pathMap: Record<ScriptType, string[]> = {
@@ -28,8 +28,8 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
         },
     }) as SLIP10Node
 
-    const privateKeyBuffer = Buffer.from(slip10Node.privateKey, "hex")
-    const chainCodeBuffer = Buffer.from(slip10Node.chainCode, "hex")
+    const privateKeyBuffer = Buffer.from(trimHexPrefix(slip10Node.privateKey), "hex")
+    const chainCodeBuffer = Buffer.from(trimHexPrefix(slip10Node.chainCode), "hex")
     const node: BIP32Interface = bip32.fromPrivateKey(privateKeyBuffer, chainCodeBuffer, network)
     //@ts-ignore 
     // ignore checking since no function to set depth for node
