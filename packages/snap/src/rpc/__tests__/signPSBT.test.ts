@@ -13,7 +13,7 @@ jest.mock("../../bitcoin", () => {
     BtcTx: jest.fn().mockImplementation(() => {
       return {
         validateTx: () => true,
-        extractPsbtJsonString: () => {},
+        extractPsbtJsonString: () => "",
         signTx: mockSignPsbt
       };
     }),
@@ -39,7 +39,7 @@ describe('signPsbt', () => {
   })
 
   it('should call BtcTx to sign psbt if user approved', async () => {
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(true);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
     snapStub.rpcStubs.snap_manageState.mockResolvedValue({network: BitcoinNetwork.Test});
 
     await signPsbt(domain, snapStub, testPsbtBase64, BitcoinNetwork.Test, ScriptType.P2PKH)
@@ -47,7 +47,7 @@ describe('signPsbt', () => {
   })
 
   it('should reject the sign request and throw error if user reject the sign the pbst', async () => {
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(false);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
 
     await expect(signPsbt(domain, snapStub, testPsbtBase64, BitcoinNetwork.Test, ScriptType.P2PKH))
       .rejects

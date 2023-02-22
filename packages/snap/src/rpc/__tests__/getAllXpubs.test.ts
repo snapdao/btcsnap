@@ -17,7 +17,7 @@ describe('getAllXpubs', () => {
   });
 
   it('should get all 6 extended public keys from wallet if user approve', async () => {
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(true);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(bip44.slip10Node);
     const {xpubs} = await getAllXpubs(domain, snapStub);
 
@@ -33,7 +33,7 @@ describe('getAllXpubs', () => {
   });
 
   it('should raise error if user reject', async () => {
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(false);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
 
     await expect(getExtendedPublicKey(domain, snapStub, ScriptType.P2PKH, networks.regtest))
       .rejects

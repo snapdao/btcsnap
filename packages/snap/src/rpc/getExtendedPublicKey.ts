@@ -5,6 +5,7 @@ import { BitcoinNetwork, ScriptType, SLIP10Node, Snap } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
 import { getPersistedData, updatePersistedData, trimHexPrefix } from '../utils';
 import { RequestErrors, SnapError } from "../errors";
+import { heading, panel, text } from "@metamask/snaps-ui";
 
 export const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -53,13 +54,14 @@ export async function getExtendedPublicKey(origin: string, snap: Snap, scriptTyp
         case ScriptType.P2WPKH:
         case ScriptType.P2SH_P2WPKH:
             const result = await snap.request({
-                method: 'snap_confirm',
-                params: [
-                  {
-                    prompt: 'Access your extended public key',
-                    description: `Do you want to allow ${origin} to access Bitcoin ${networkName} ${scriptType} extended public key?`,
-                  },
-                ],
+                method: 'snap_dialog',
+                params: {
+                    type: 'Confirmation',
+                    content: panel([
+                        heading('Access your extended public key'),
+                        text(`Do you want to allow ${origin} to access Bitcoin ${networkName} ${scriptType} extended public key?`),
+                    ]),
+                },
             });
 
             if(result) {

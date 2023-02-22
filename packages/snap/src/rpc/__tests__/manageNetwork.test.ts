@@ -42,7 +42,7 @@ describe('masterFingerprint', () => {
 
     it("should set network to target when user approves given target network", async () => {
       snapStub.rpcStubs.snap_manageState.mockResolvedValue({mfp, network});
-      snapStub.rpcStubs.snap_confirm.mockResolvedValue(true);
+      snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
       jest.spyOn(manageState, 'updatePersistedData');
       await manageNetwork(origin, snapStub, "set", BitcoinNetwork.Main);
 
@@ -51,7 +51,7 @@ describe('masterFingerprint', () => {
 
     it("should not set network to target when user not approve given target network", async () => {
       snapStub.rpcStubs.snap_manageState.mockResolvedValue({mfp, network});
-      snapStub.rpcStubs.snap_confirm.mockResolvedValue(false);
+      snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
       jest.spyOn(manageState, 'updatePersistedData');
       await manageNetwork(origin, snapStub, "set", BitcoinNetwork.Main);
 

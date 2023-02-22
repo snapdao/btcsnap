@@ -3,6 +3,7 @@ import {Snap, PersistedData, KeyOptions, LNHdPath} from '../interface';
 import {getPersistedData} from '../utils/manageState';
 import CryptoJs from 'crypto-js';
 import { RequestErrors, SnapError } from "../errors";
+import { heading, panel, text } from "@metamask/snaps-ui";
 
 interface GetLNDataFromSnap {
   key: KeyOptions,
@@ -41,8 +42,14 @@ export async function getLNDataFromSnap(
         }
       }[type]
       const result = await snap.request({
-        method: 'snap_confirm',
-        params: [param],
+        method: 'snap_dialog',
+        params: {
+          type: 'Confirmation',
+          content: panel([
+            heading(param.prompt),
+            text(param.description),
+          ]),
+        },
       });
       if (result) {
         const lightning = await getPersistedData<PersistedData['lightning']>(

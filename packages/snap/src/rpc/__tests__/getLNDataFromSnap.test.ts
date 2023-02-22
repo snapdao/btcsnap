@@ -28,7 +28,7 @@ describe('getLNDataFromSnap', () => {
 
   it(`should return credential and password if user use the 'Credential' key`, async () => {
     const key = KeyOptions.Credential;
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(true);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
     snapStub.rpcStubs.snap_manageState.mockResolvedValue(LNDataFromSnap);
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(
       bip44.slip10Node,
@@ -41,13 +41,13 @@ describe('getLNDataFromSnap', () => {
         walletId: LNDataToSnap.walletId,
       }
     );
-    expect(snapStub.rpcStubs.snap_confirm).toBeCalledTimes(1);
+    expect(snapStub.rpcStubs.snap_dialog).toBeCalledTimes(1);
     expect(snapStub.rpcStubs.snap_manageState).toBeCalledTimes(1);
   });
 
   it('should throw error if user use the wrong key', async () => {
     const key = 'wrongKey' as any;
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(true);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
 
     await expect(
       getLNDataFromSnap(
@@ -64,7 +64,7 @@ describe('getLNDataFromSnap', () => {
 
   it('should throw error if user reject to access the lightning key', async () => {
     const key = KeyOptions.Credential;
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(false);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
 
     await expect(
       getLNDataFromSnap(

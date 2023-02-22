@@ -17,7 +17,7 @@ describe('getExtendedPublicKey', () => {
   })
 
   it('should get extended public key from wallet if user approve', async () => {
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(true);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(bip44.slip10Node);
 
     const {xpub} = await getExtendedPublicKey(domain, snapStub, ScriptType.P2PKH, networks.bitcoin)
@@ -27,7 +27,7 @@ describe('getExtendedPublicKey', () => {
   })
 
   it('should raise error if user reject', async () => {
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(false);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
 
     await expect(getExtendedPublicKey(domain, snapStub, ScriptType.P2PKH, networks.regtest))
       .rejects
@@ -36,7 +36,7 @@ describe('getExtendedPublicKey', () => {
   })
 
   it('should raise error if script type not supported', async () => {
-    snapStub.rpcStubs.snap_confirm.mockResolvedValue(true);
+    snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
 
     await expect(getExtendedPublicKey(domain, snapStub, "p2sh" as ScriptType, networks.regtest))
       .rejects

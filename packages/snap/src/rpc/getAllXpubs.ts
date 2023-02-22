@@ -1,3 +1,4 @@
+import { panel, text, heading } from '@metamask/snaps-ui';
 import { networks } from 'bitcoinjs-lib';
 import { BitcoinNetwork, ScriptType, Snap } from '../interface';
 import { convertXpub } from '../bitcoin/xpubConverter';
@@ -7,13 +8,14 @@ import { RequestErrors, SnapError } from '../errors';
 
 export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: string[], mfp: string}> {
   const result = await snap.request({
-    method: 'snap_confirm',
-    params: [
-      {
-        prompt: 'Access your extended public key',
-        description: `${origin} is trying to access your Bitcoin Legacy, SegWit and Native SegWit extended public keys.`,
-      },
-    ],
+    method: 'snap_dialog',
+    params: {
+      type: 'Confirmation',
+      content: panel([
+        heading('Access your extended public key'),
+        text(`${origin} is trying to access your Bitcoin Legacy, SegWit and Native SegWit extended public keys.`),
+      ]),
+    },
   });
 
   if (result) {
