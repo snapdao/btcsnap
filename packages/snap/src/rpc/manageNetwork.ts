@@ -1,13 +1,13 @@
-import { BitcoinNetwork, Wallet } from '../interface';
+import { BitcoinNetwork, Snap } from '../interface';
 import { getPersistedData, updatePersistedData } from '../utils/manageState';
 import { RequestErrors, SnapError } from "../errors";
 
-export async function manageNetwork(origin: string, wallet: Wallet, action: 'get' | 'set', target?: BitcoinNetwork): Promise<string | void> {
+export async function manageNetwork(origin: string, snap: Snap, action: 'get' | 'set', target?: BitcoinNetwork): Promise<string | void> {
   switch (action) {
     case 'get':
-      return getPersistedData<BitcoinNetwork | "">(wallet, "network", "");
+      return getPersistedData<BitcoinNetwork | "">(snap, "network", "");
     case 'set':
-      const result = await wallet.request({
+      const result = await snap.request({
         method: 'snap_confirm',
         params: [
           {
@@ -17,7 +17,7 @@ export async function manageNetwork(origin: string, wallet: Wallet, action: 'get
         ],
       });
       if (result) {
-        await updatePersistedData(wallet, "network", target)
+        await updatePersistedData(snap, "network", target)
         return target;
       } else {
         return "";

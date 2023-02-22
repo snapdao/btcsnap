@@ -1,4 +1,4 @@
-import {Wallet, LNHdPath} from '../interface';
+import {Snap, LNHdPath} from '../interface';
 import {getHDNode} from '../utils/getHDNode';
 import {transferInvoiceContent} from '../utils/transferLNData';
 import bitcoinMessage from 'bitcoinjs-message';
@@ -6,11 +6,11 @@ import { RequestErrors, SnapError } from '../errors';
 
 export async function signLNInvoice(
   domain: string,
-  wallet: Wallet,
+  snap: Snap,
   invoice: string,
 ): Promise<string> {
   const textContent = transferInvoiceContent(invoice);
-  const result = await wallet.request({
+  const result = await snap.request({
     method: 'snap_confirm',
     params: [
       {
@@ -22,7 +22,7 @@ export async function signLNInvoice(
   });
 
   if (result) {
-    const privateKey = (await getHDNode(wallet, LNHdPath)).privateKey;
+    const privateKey = (await getHDNode(snap, LNHdPath)).privateKey;
     const signature = bitcoinMessage
       .sign(invoice, privateKey, true)
       .toString('hex');

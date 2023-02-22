@@ -1,7 +1,7 @@
 import * as bip32 from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
-import { BitcoinNetwork, ScriptType, SLIP10Node, Wallet } from '../interface';
+import { BitcoinNetwork, ScriptType, SLIP10Node, Snap } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
 import { getPersistedData, updatePersistedData, trimHexPrefix } from '../utils';
 import { RequestErrors, SnapError } from "../errors";
@@ -14,13 +14,13 @@ export const pathMap: Record<ScriptType, string[]> = {
 
 export const CRYPTO_CURVE = "secp256k1";
 
-export async function extractAccountPrivateKey(wallet: Wallet, network: Network, scriptType: ScriptType): Promise<{node:BIP32Interface, mfp: string}> {
+export async function extractAccountPrivateKey(snap: Snap, network: Network, scriptType: ScriptType): Promise<{node:BIP32Interface, mfp: string}> {
     const path = [...pathMap[scriptType]]
     if (network != networks.bitcoin) {
         path[path.length - 1] = "1'";
     }
 
-    const slip10Node = await wallet.request({
+    const slip10Node = await snap.request({
         method: "snap_getBip32Entropy",
         params: {
             path,
@@ -46,13 +46,13 @@ export async function extractAccountPrivateKey(wallet: Wallet, network: Network,
 }
 
 
-export async function getExtendedPublicKey(origin: string, wallet: Wallet, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
+export async function getExtendedPublicKey(origin: string, snap: Snap, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
     const networkName = network == networks.bitcoin ? "mainnet" : "testnet";
     switch (scriptType) {
         case ScriptType.P2PKH:
         case ScriptType.P2WPKH:
         case ScriptType.P2SH_P2WPKH:
-            const result = await wallet.request({
+            const result = await snap.request({
                 method: 'snap_confirm',
                 params: [
                   {
@@ -63,13 +63,13 @@ export async function getExtendedPublicKey(origin: string, wallet: Wallet, scrip
             });
 
             if(result) {
-                const { node: accountNode, mfp } = await extractAccountPrivateKey(wallet, network, scriptType)
+                const { node: accountNode, mfp } = await extractAccountPrivateKey(snap, network, scriptType)
                 const accountPublicKey = accountNode.neutered();
                 const xpub = convertXpub(accountPublicKey.toBase58(), scriptType, network);
 
-                const snapNetwork = await getPersistedData(wallet, "network", "");
+                const snapNetwork = await getPersistedData(snap, "network", "");
                 if(!snapNetwork) {
-                    await updatePersistedData(wallet, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
+                    await updatePersistedData(snap, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
                 }
 
                 return { mfp, xpub };

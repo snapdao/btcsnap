@@ -1,8 +1,8 @@
-import { SLIP10Node, Wallet } from '../interface';
+import { SLIP10Node, Snap } from '../interface';
 import { CRYPTO_CURVE, pathMap } from '../rpc/getExtendedPublicKey';
 
-export async function getMasterFingerprint(wallet: Wallet): Promise<string | void> {
-  const slip10Node = await wallet.request({
+export async function getMasterFingerprint(snap: Snap): Promise<string | void> {
+  const slip10Node = await snap.request({
     method: 'snap_getBip32Entropy',
     params: {
       path: pathMap.P2WPKH,

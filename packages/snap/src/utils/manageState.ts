@@ -1,11 +1,11 @@
-import {PersistedData, Wallet} from '../interface';
+import {PersistedData, Snap} from '../interface';
 
 export const getPersistedData = async <T>(
-  wallet: Wallet,
+  snap: Snap,
   key: keyof PersistedData,
   defaultValue: T,
 ): Promise<T> => {
-  const persistedData = await wallet.request<PersistedData>({
+  const persistedData = await snap.request<PersistedData>({
     method: 'snap_manageState',
     params: ['get'],
   });
@@ -16,11 +16,11 @@ export const getPersistedData = async <T>(
 };
 
 export const updatePersistedData = async (
-  wallet: Wallet,
+  snap: Snap,
   key: keyof PersistedData,
   value: any,
 ) => {
-  const persistedData = await wallet.request<PersistedData>({
+  const persistedData = await snap.request<PersistedData>({
     method: 'snap_manageState',
     params: ['get'],
   });
@@ -29,7 +29,7 @@ export const updatePersistedData = async (
     [key]: value,
   };
 
-  await wallet.request({
+  await snap.request({
     method: 'snap_manageState',
     params: ['update', updatedData],
   });

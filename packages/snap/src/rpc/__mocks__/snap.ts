@@ -1,8 +1,8 @@
-import {Wallet} from "../../interface";
+import {Snap} from "../../interface";
 
 type RpcStubs = "snap_getBip32Entropy" | "snap_manageState" | "snap_confirm"
 
-export class WalletMock implements Wallet {
+export class SnapMock implements Snap {
   public readonly registerRpcMessageHandler = jest.fn();
 
   public readonly requestStub = jest.fn();

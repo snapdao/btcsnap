@@ -1,5 +1,5 @@
 import {getNetwork} from './bitcoin/getNetwork';
-import {Wallet, MetamaskBTCRpcRequest} from './interface';
+import {Snap, MetamaskBTCRpcRequest} from './interface';
 import {
   getExtendedPublicKey,
   getAllXpubs,
@@ -13,7 +13,7 @@ import {
 } from './rpc';
 import { SnapError, RequestErrors } from './errors';
 
-declare let wallet: Wallet;
+declare let snap: Snap;
 
 export type RpcRequest = {
   origin: string;
@@ -21,43 +21,43 @@ export type RpcRequest = {
 };
 
 export const onRpcRequest = async ({origin, request}: RpcRequest) => {
-  await validateRequest(wallet, origin, request);
+  await validateRequest(snap, origin, request);
 
   switch (request.method) {
     case 'btc_getPublicExtendedKey':
       return getExtendedPublicKey(
         origin,
-        wallet,
+        snap,
         request.params.scriptType,
         getNetwork(request.params.network),
       );
     case 'btc_getAllXpubs':
       return getAllXpubs(
         origin,
-        wallet,
+        snap,
       );
     case 'btc_signPsbt':
       const psbt = request.params.psbt;
       return signPsbt(
         origin,
-        wallet,
+        snap,
         psbt,
         request.params.network,
         request.params.scriptType,
       );
     case 'btc_getMasterFingerprint':
-      return getMasterFingerprint(wallet);
+      return getMasterFingerprint(snap);
     case 'btc_network':
       return manageNetwork(
         origin,
-        wallet,
+        snap,
         request.params.action,
         request.params.network,
       );
     case 'btc_saveLNDataToSnap':
       return saveLNDataToSnap(
         origin,
-        wallet,
+        snap,
         request.params.walletId,
         request.params.credential,
         request.params.password,
@@ -65,7 +65,7 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
     case 'btc_getLNDataFromSnap':
       return getLNDataFromSnap(
         origin,
-        wallet,
+        snap,
         {
           key: request.params.key,
           ...(request.params.walletId && {walletId: request.params.walletId}),
@@ -73,7 +73,7 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         }
       );
     case 'btc_signLNInvoice':
-      return signLNInvoice(origin, wallet, request.params.invoice);
+      return signLNInvoice(origin, snap, request.params.invoice);
     default:
       throw SnapError.of(RequestErrors.MethodNotSupport);
   }

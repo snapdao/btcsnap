@@ -72,7 +72,7 @@ export type BTCMethodCallback = (
   requestObject: MetamaskBTCRpcRequest,
 ) => Promise<unknown>;
 
-export interface Wallet {
+export interface Snap {
   registerRpcMessageHandler: (fn: BTCMethodCallback) => unknown;
   request<T>(options: {
     method: string;
