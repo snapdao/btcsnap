@@ -17,50 +17,48 @@ Additional information can be found [here](https://docs.metamask.io/guide/snaps.
 
 ```ts
 const result: boolean = await ethereum.request({
-    method: 'wallet_enable',
-    params: [
-      {
-        wallet_snap: { "npm:btcsnap": {} },
-      },
-    ],
-  });
+  method: 'wallet_requestSnaps',
+  params: {
+    "npm:btcsnap": {},
+  }
+})
 ```
 
 2. Get an extended public key
 
 ```ts
-const result: string = await ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: [
-      "npm:btcsnap",
-      {
-        method: 'btc_getPublicExtendedKey',
-        params: {
-          network: "Main", // for testnet use "Test" ,
-          scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
-        },
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: "npm:btcsnap",
+    request: {
+      method: 'btc_getPublicExtendedKey',
+      params: {
+        network: "test",
+        scriptType: "P2WPKH"
       },
-    ],
-  });
+    }
+  }
+})
 ```
 
 3. Sign Psbt
 
 ```ts
 const result: { txId:string, txHex:string } = await ethereum.request({
-      method: 'wallet_invokeSnap',
-      params: [
-        snapId,
-        {
-          method: 'btc_signPsbt',
-          params: {
-            psbt: base64Psbt, // base64 string for the pbst,
-            network: "Main", // for testnet use "Test",
-            scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
-          },
-        },
-      ],
-    })
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: "npm:btcsnap",
+    request: {
+      method: 'btc_signPsbt',
+      params: {
+        psbt: base64Psbt, // base64 string for the pbst,
+        network: "Main", // for testnet use "Test",
+        scriptType: "P2PKH" // "P2SH-P2WPKH" or "P2WPKH"
+      },
+    },
+  }
+})
 ```
 
 
@@ -84,7 +82,7 @@ yarn test
 
 | File       | % Stmts | % Branch | % Funcs | % Lines |
 |------------|---------|----------|---------|---------|
-| All files  |    97.2 |    91.34 |     100 |   97.14 |
+| All files  |    97.67 |    91.46 |     100 | 97.61   |
 
 ## Live Example
 
