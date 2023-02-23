@@ -7,7 +7,9 @@ export const getPersistedData = async <T>(
 ): Promise<T> => {
   const persistedData = await snap.request<PersistedData>({
     method: 'snap_manageState',
-    params: ['get'],
+    params: {
+      operation: 'get'
+    },
   });
   if (persistedData && persistedData[key]) {
     return persistedData[key] as unknown as T;
@@ -22,7 +24,9 @@ export const updatePersistedData = async (
 ) => {
   const persistedData = await snap.request<PersistedData>({
     method: 'snap_manageState',
-    params: ['get'],
+    params: {
+      operation: 'get'
+    },
   });
   const updatedData = {
     ...persistedData,
@@ -31,6 +35,9 @@ export const updatePersistedData = async (
 
   await snap.request({
     method: 'snap_manageState',
-    params: ['update', updatedData],
+    params: {
+      operation: 'update',
+      newState: updatedData
+    },
   });
 };

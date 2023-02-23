@@ -4,7 +4,7 @@ import { AccountSigner, BtcTx } from '../bitcoin';
 import { getPersistedData } from '../utils/manageState';
 import { getNetwork } from '../bitcoin/getNetwork';
 import { SnapError, RequestErrors } from "../errors";
-import { heading, panel, text } from "@metamask/snaps-ui";
+import { heading, panel, text, divider } from "@metamask/snaps-ui";
 
 export async function signPsbt(domain: string, snap: Snap, psbt: string, network: BitcoinNetwork, scriptType: ScriptType): Promise<{ txId: string, txHex: string }> {
   const snapNetwork = await getPersistedData<BitcoinNetwork>(snap, "network", '' as BitcoinNetwork);
@@ -13,6 +13,8 @@ export async function signPsbt(domain: string, snap: Snap, psbt: string, network
   }
 
   const btcTx = new BtcTx(psbt, snapNetwork);
+  const txDetails = btcTx.extractPsbtJson()
+
   const result = await snap.request({
     method: 'snap_dialog',
     params: {
@@ -20,7 +22,8 @@ export async function signPsbt(domain: string, snap: Snap, psbt: string, network
       content: panel([
         heading('Sign Bitcoin Transaction'),
         text(`Please verify this ongoing Transaction from ${domain}`),
-        text(btcTx.extractPsbtJsonString()),
+        divider(),
+        panel(Object.entries(txDetails).map(([key, value]) => text(`**${key}**:\n ${value}`))),
       ]),
     },
   });

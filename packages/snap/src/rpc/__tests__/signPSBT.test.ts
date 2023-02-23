@@ -13,7 +13,13 @@ jest.mock("../../bitcoin", () => {
     BtcTx: jest.fn().mockImplementation(() => {
       return {
         validateTx: () => true,
-        extractPsbtJsonString: () => "",
+        extractPsbtJson: jest.fn().mockReturnValue({
+          from: "mx5m68zHiGnFEoMjTdkWinmBAYsWyp9DJk",
+          to: "mx5m68zHiGnFEoMjTdkWinmBAYsWyp9DJk",
+          value: 9500,
+          fee: 500,
+          network: "test"
+        }),
         signTx: mockSignPsbt
       };
     }),

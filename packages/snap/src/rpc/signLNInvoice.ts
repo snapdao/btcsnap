@@ -3,14 +3,14 @@ import {getHDNode} from '../utils/getHDNode';
 import {transferInvoiceContent} from '../utils/transferLNData';
 import bitcoinMessage from 'bitcoinjs-message';
 import { RequestErrors, SnapError } from '../errors';
-import { heading, panel, text } from "@metamask/snaps-ui";
+import { divider, heading, panel, text } from "@metamask/snaps-ui";
 
 export async function signLNInvoice(
   domain: string,
   snap: Snap,
   invoice: string,
 ): Promise<string> {
-  const textContent = transferInvoiceContent(invoice);
+  const invoiceContent = transferInvoiceContent(invoice);
   const result = await snap.request({
     method: 'snap_dialog',
     params: {
@@ -18,7 +18,8 @@ export async function signLNInvoice(
       content: panel([
         heading('Sign Lightning Transaction'),
         text(`Please verify this ongoing transaction from ${domain}`),
-        text(textContent),
+        divider(),
+        panel(Object.entries(invoiceContent).map(([key, value]) => text(`**${key}**:\n ${value}`))),
       ]),
     },
   });
