@@ -1,8 +1,8 @@
-import {Wallet} from "../../interface";
+import {Snap} from "../../interface";
 
-type RpcStubs = "snap_getBip32Entropy" | "snap_manageState" | "snap_confirm"
+type RpcStubs = "snap_getBip32Entropy" | "snap_manageState" | "snap_dialog"
 
-export class WalletMock implements Wallet {
+export class SnapMock implements Snap {
   public readonly registerRpcMessageHandler = jest.fn();
 
   public readonly requestStub = jest.fn();
@@ -10,7 +10,7 @@ export class WalletMock implements Wallet {
   public readonly rpcStubs: Record<RpcStubs, jest.Mock> = {
     snap_getBip32Entropy: jest.fn(),
     snap_manageState: jest.fn(),
-    snap_confirm: jest.fn(),
+    snap_dialog: jest.fn(),
   }
 
   public request<T>(options: { method: RpcStubs, params: unknown[] }): Promise<T> {

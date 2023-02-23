@@ -1,7 +1,7 @@
 import { onRpcRequest } from '../index';
 import { getExtendedPublicKey, signPsbt, getMasterFingerprint, manageNetwork, validateRequest, saveLNDataToSnap, signLNInvoice, getLNDataFromSnap } from '../rpc';
 import { BitcoinNetwork, KeyOptions, ScriptType } from '../interface';
-import { WalletMock } from '../rpc/__mocks__/wallet';
+import { SnapMock } from '../rpc/__mocks__/snap';
 import { LNDataToSnap } from '../rpc/__tests__/fixtures/bitcoinNode';
 
 jest.mock('../utils/manageState', () => ({
@@ -22,16 +22,16 @@ jest.mock('../rpc', () => {
   };
 });
 
-const wallet = new WalletMock();
+const snap = new SnapMock();
 const domain = "www.justsnap.io"
 
 describe('index', () => {
   beforeAll(() => {
-    (global as any).wallet = wallet;
+    (global as any).snap = snap;
   });
 
   afterAll(() => {
-    delete (global as any).wallet;
+    delete (global as any).snap;
   });
 
   describe('validateRequest', () => {

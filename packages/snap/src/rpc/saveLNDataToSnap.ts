@@ -1,16 +1,16 @@
-import {Wallet, LNHdPath} from '../interface';
+import {Snap, LNHdPath} from '../interface';
 import {getHDNode} from '../utils/getHDNode';
 import {getPersistedData, updatePersistedData} from '../utils/manageState';
 import CryptoJs from 'crypto-js';
 
 export async function saveLNDataToSnap(
   domain: string,
-  wallet: Wallet,
+  snap: Snap,
   walletId: string,
   credential: string,
   password: string,
 ) {
-  const privateKey = (await getHDNode(wallet, LNHdPath)).privateKey.toString(
+  const privateKey = (await getHDNode(snap, LNHdPath)).privateKey.toString(
     'hex',
   );
   const salt = CryptoJs.lib.WordArray.random(16);
@@ -22,7 +22,7 @@ export async function saveLNDataToSnap(
   const iv = CryptoJs.lib.WordArray.random(16);
   const encrypted = CryptoJs.AES.encrypt(credential, key, {iv: iv});
   const encryptText = salt.toString() + iv.toString() + encrypted.toString();
-  const result = await getPersistedData(wallet, 'lightning', {});
+  const result = await getPersistedData(snap, 'lightning', {});
   const newLightning = {
     ...result,
     [walletId]: {
@@ -31,5 +31,5 @@ export async function saveLNDataToSnap(
     },
   };
 
-  await updatePersistedData(wallet, 'lightning', newLightning);
+  await updatePersistedData(snap, 'lightning', newLightning);
 }

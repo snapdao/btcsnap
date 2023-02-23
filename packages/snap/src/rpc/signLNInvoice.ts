@@ -1,28 +1,31 @@
-import {Wallet, LNHdPath} from '../interface';
+import {Snap, LNHdPath} from '../interface';
 import {getHDNode} from '../utils/getHDNode';
 import {transferInvoiceContent} from '../utils/transferLNData';
 import bitcoinMessage from 'bitcoinjs-message';
 import { RequestErrors, SnapError } from '../errors';
+import { divider, heading, panel, text } from "@metamask/snaps-ui";
 
 export async function signLNInvoice(
   domain: string,
-  wallet: Wallet,
+  snap: Snap,
   invoice: string,
 ): Promise<string> {
-  const textContent = transferInvoiceContent(invoice);
-  const result = await wallet.request({
-    method: 'snap_confirm',
-    params: [
-      {
-        prompt: 'Sign Lightning Transaction',
-        description: `Please verify this ongoing transaction from ${domain}`,
-        textAreaContent: textContent,
-      },
-    ],
+  const invoiceContent = transferInvoiceContent(invoice);
+  const result = await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'Confirmation',
+      content: panel([
+        heading('Sign Lightning Transaction'),
+        text(`Please verify this ongoing transaction from ${domain}`),
+        divider(),
+        panel(Object.entries(invoiceContent).map(([key, value]) => text(`**${key}**:\n ${value}`))),
+      ]),
+    },
   });
 
   if (result) {
-    const privateKey = (await getHDNode(wallet, LNHdPath)).privateKey;
+    const privateKey = (await getHDNode(snap, LNHdPath)).privateKey;
     const signature = bitcoinMessage
       .sign(invoice, privateKey, true)
       .toString('hex');

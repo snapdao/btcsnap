@@ -22,15 +22,13 @@ const formatInvoice = (invoice:string) => {
   };
 };
 
-export const transferInvoiceContent = (invoice: string ) => {
+export const transferInvoiceContent = (invoice: string) => {
   const formattedInvoice = formatInvoice(invoice);
-
-  const invoiceContent = {
+  return {
     network: `Lightning on Bitcoin ${formattedInvoice.isMainnet ? 'mainnet' : 'testnet'}`,
     type: 'send',
     amount: formattedInvoice.amount + ' sats',
     expired_in: formatTime(formattedInvoice.expireTime),
     description: formattedInvoice.description,
   };
-  return Object.entries(invoiceContent).map(([key, value]) => `${key}: ${value}\n`).join('');
 };

@@ -64,25 +64,28 @@
     // here we get permissions to interact with and install the snap
     async function connect () {
       await ethereum.request({
-        method: 'wallet_enable',
-        params: [{
-          wallet_snap: { [snapId]: {} },
-        }]
+        method: 'wallet_requestSnaps',
+        params: {
+          [snapId]: {},
+        }
       })
     }
 
-    // here we call the snap's "hello" method
+    // here we call the snap's method to get extended pubkey
     async function getPubKey () {
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'btc_getPublicExtendedKey',
-            params: {
-              network: "test",
-              scriptType: "P2WPKH"
+          params: {
+            snapId,
+            request: {
+              method: 'btc_getPublicExtendedKey',
+              params: {
+                network: "test",
+                scriptType: "P2WPKH"
+              },
             }
-          }]
+          }
         })
         const xpubNode = document.getElementById("extendedPubKey")
         const mfpNode = document.getElementById("mfp")
@@ -98,9 +101,15 @@
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'btc_getAllXpubs',
-          }]
+          params: {
+            snapId,
+            request: {
+              method: 'btc_getAllXpubs',
+              params: {
+                someKey: "value"
+              }
+            }
+          }
         })
         const mfp = response.mfp;
         const xpubsStr = response.xpubs.join('<br />');
@@ -117,9 +126,12 @@
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'btc_getMasterFingerprint',
-          }]
+          params: {
+            snapId,
+            request: {
+              method: 'btc_getMasterFingerprint',
+            }
+          }
         })
         const mfpNode = document.getElementById("mfp")
         mfpNode.textContent = `mfp: ${response}`
@@ -133,14 +145,17 @@
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'btc_signPsbt',
-            params: {
-              psbt: "cHNidP8BAFUCAAAAAT9MXJk0OEoyuubJXTnMqxo7Hj08Wv7yHJsw9URN/9a7AQAAAAD/////ARwlAAAAAAAAGXapFLW2YqzVecKrjOg8i5S0MDzxe/OmiKwAAAAAAAEA4QIAAAAAAQGGHEltyRyXjljtT3zc4tO1/4Y1U5zibwVdAl9QxaXdCQEAAAAA/v///wI1xv9wAAAAABYAFIWiDQ/MrBorRi/oI6gcJXZ8OlKRECcAAAAAAAAZdqkUtbZirNV5wquM6DyLlLQwPPF786aIrAJHMEQCICh8bgzVpHXdYRzjQKHwro1i8zZQWb9JF0C90qy2UbN+AiA6x4zrT04ZDicTqT2xUuFywc7e1H/BYwm69N1w6W6/wAEhA2ijz+sT/T1ycTtaI1/ZfCmtv5r8BkT52aFU1akQJlJHqmchACIGA5QpeTH0HwcDirFXCpKj+/v0ttc8sOP4PwSLUJRWIJiXDP0+QYsAAAAAAAAAAAAA",
-              network: "test",
-              scriptType: "P2PKH"
+          params: {
+            snapId,
+            request: {
+              method: 'btc_signPsbt',
+              params: {
+                psbt: "cHNidP8BAFUCAAAAAT9MXJk0OEoyuubJXTnMqxo7Hj08Wv7yHJsw9URN/9a7AQAAAAD/////ARwlAAAAAAAAGXapFLW2YqzVecKrjOg8i5S0MDzxe/OmiKwAAAAAAAEA4QIAAAAAAQGGHEltyRyXjljtT3zc4tO1/4Y1U5zibwVdAl9QxaXdCQEAAAAA/v///wI1xv9wAAAAABYAFIWiDQ/MrBorRi/oI6gcJXZ8OlKRECcAAAAAAAAZdqkUtbZirNV5wquM6DyLlLQwPPF786aIrAJHMEQCICh8bgzVpHXdYRzjQKHwro1i8zZQWb9JF0C90qy2UbN+AiA6x4zrT04ZDicTqT2xUuFywc7e1H/BYwm69N1w6W6/wAEhA2ijz+sT/T1ycTtaI1/ZfCmtv5r8BkT52aFU1akQJlJHqmchACIGA5QpeTH0HwcDirFXCpKj+/v0ttc8sOP4PwSLUJRWIJiXDP0+QYsAAAAAAAAAAAAA",
+                network: "test",
+                scriptType: "P2PKH"
+              }
             }
-          }]
+          }
         })
         const node2 = document.getElementById("txId")
         node2.textContent = `txId: ${response.txId}`
@@ -157,14 +172,17 @@
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'btc_saveLNDataToSnap',
-            params: {
-              walletId: "id00000001",
-              credential: "testAdmin:12345678",
-              password: "ln_password_1"
+          params: {
+            snapId,
+            request: {
+              method: 'btc_saveLNDataToSnap',
+              params: {
+                walletId: "id00000001",
+                credential: "testAdmin:12345678",
+                password: "ln_password_1"
+              }
             }
-          }]
+          }
         })
       } catch(err) {
         console.error(err)
@@ -177,13 +195,16 @@
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'btc_getLNDataFromSnap',
-            params: {
-              walletId: "id00000001",
-              key: "credential"
+          params: {
+            snapId,
+            request: {
+              method: 'btc_getLNDataFromSnap',
+              params: {
+                walletId: "id00000001",
+                key: "credential"
+              }
             }
-          }]
+          }
         })
       } catch(err) {
         console.error(err)
@@ -196,12 +217,15 @@
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'btc_signLNInvoice',
-            params: {
-              invoice: "lnbc100u1p34k6pppp5332v7z238qt7jrhjz5mkhckdx2uuc50d8xzpfyanj8p3plav9z5sdq8w3jhxaqcqzpgxqyz5vqsp5stj40j57779ahamqp9p3rpq0eudt75f9kxw7yyhuwwaxfmuqsqzq9qyyssqqudc8qc5np9rj5ypn6p9jlafn5sc02nwp60at38cwem4ycz9p9pqdlknk5k3yfayh3pzhndjt2gev8g4rqtnr6art5cagr2c0f3xkxqqfx27k5",
+          params: {
+            snapId,
+            request: {
+              method: 'btc_signLNInvoice',
+              params: {
+                invoice: "lnbc100u1p34k6pppp5332v7z238qt7jrhjz5mkhckdx2uuc50d8xzpfyanj8p3plav9z5sdq8w3jhxaqcqzpgxqyz5vqsp5stj40j57779ahamqp9p3rpq0eudt75f9kxw7yyhuwwaxfmuqsqzq9qyyssqqudc8qc5np9rj5ypn6p9jlafn5sc02nwp60at38cwem4ycz9p9pqdlknk5k3yfayh3pzhndjt2gev8g4rqtnr6art5cagr2c0f3xkxqqfx27k5",
+              }
             }
-          }]
+          }
         })
       } catch(err) {
         console.error(err)

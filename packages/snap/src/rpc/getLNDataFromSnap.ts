@@ -1,8 +1,9 @@
 import {getHDNode} from '../utils/getHDNode';
-import {Wallet, PersistedData, KeyOptions, LNHdPath} from '../interface';
+import {Snap, PersistedData, KeyOptions, LNHdPath} from '../interface';
 import {getPersistedData} from '../utils/manageState';
 import CryptoJs from 'crypto-js';
 import { RequestErrors, SnapError } from "../errors";
+import { heading, panel, text } from "@metamask/snaps-ui";
 
 interface GetLNDataFromSnap {
   key: KeyOptions,
@@ -12,7 +13,7 @@ interface GetLNDataFromSnap {
 
 export async function getLNDataFromSnap(
   domain: string,
-  wallet: Wallet,
+  snap: Snap,
   {
     key,
     walletId,
@@ -21,10 +22,10 @@ export async function getLNDataFromSnap(
 ): Promise<string> {
   switch (key) {
     case KeyOptions.PubKey:
-      return (await getHDNode(wallet, LNHdPath)).publicKey.toString('hex');
+      return (await getHDNode(snap, LNHdPath)).publicKey.toString('hex');
     case KeyOptions.Password:
       const lightning = await getPersistedData<PersistedData['lightning']>(
-        wallet,
+        snap,
         'lightning',
         {},
       );
@@ -40,13 +41,19 @@ export async function getLNDataFromSnap(
           description: 'For security purposes, Lightning Wallet data expires after 7 days and needs to be re-authorized.',
         }
       }[type]
-      const result = await wallet.request({
-        method: 'snap_confirm',
-        params: [param],
+      const result = await snap.request({
+        method: 'snap_dialog',
+        params: {
+          type: 'Confirmation',
+          content: panel([
+            heading(param.prompt),
+            text(param.description),
+          ]),
+        },
       });
       if (result) {
         const lightning = await getPersistedData<PersistedData['lightning']>(
-          wallet,
+          snap,
           'lightning',
           {},
         );
@@ -55,7 +62,7 @@ export async function getLNDataFromSnap(
         const iv = CryptoJs.enc.Hex.parse(encryptText.substring(32, 64));
         const encrypted = encryptText.substring(64);
         const privateKey = (
-          await getHDNode(wallet, LNHdPath)
+          await getHDNode(snap, LNHdPath)
         ).privateKey.toString('hex');
         const key = CryptoJs.PBKDF2(privateKey, salt, {
           keySize: 512 / 32,
