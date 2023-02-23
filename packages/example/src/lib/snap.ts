@@ -17,16 +17,12 @@ export async function connect(cb: (connected: boolean) => void) {
   let connected = false;
   try {
     const result: any = await ethereum.request({
-      method: 'wallet_enable',
-      params: [
-        {
-          wallet_snap: {
-            [snapId]: {
-              version: '1.2.0',
-            },
-          },
+      method: 'wallet_requestSnaps',
+      params: {
+        [snapId]: {
+          version: '1.2.0',
         },
-      ],
+      }
     });
 
     const hasError = !!result?.snaps?.[snapId]?.error;
@@ -60,16 +56,16 @@ export async function getExtendedPublicKey(
   try {
     return (await ethereum.request({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_getPublicExtendedKey',
           params: {
             network: networkParams,
             scriptType,
           },
         },
-      ],
+      },
     })) as ExtendedPublicKey;
   } catch (err: any) {
     const error = new SnapError(
@@ -89,13 +85,13 @@ export async function getAllExtendedPublicKeys(): Promise<AllXpubs> {
   try {
     return (await ethereum.request({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_getAllXpubs',
           params: {},
         },
-      ],
+      },
     })) as AllXpubs;
   } catch (err: any) {
     const error = new SnapError(
@@ -110,12 +106,12 @@ export async function getMasterFingerprint() {
   try {
     return await ethereum.request({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_getMasterFingerprint',
         },
-      ],
+      },
     });
   } catch (err: any) {
     const error = new SnapError(
@@ -131,16 +127,16 @@ export async function updateNetworkInSnap(network: BitcoinNetwork) {
   try {
     return await ethereum.request({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_network',
           params: {
             action: 'set',
             network: networkParams,
           },
         },
-      ],
+      },
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Snap set Network failed');
@@ -159,9 +155,9 @@ export async function signPsbt(
   try {
     return (await ethereum.request({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_signPsbt',
           params: {
             psbt: base64Psbt,
@@ -169,7 +165,7 @@ export async function signPsbt(
             scriptType,
           },
         },
-      ],
+      },
     })) as Promise<{ txId: string; txHex: string }>;
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Sign PSBT failed');
@@ -192,9 +188,9 @@ export async function getLNWalletData(
   try {
     return await ethereum.request<string>({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_getLNDataFromSnap',
           params: {
             key,
@@ -202,7 +198,7 @@ export async function getLNWalletData(
             ...(type && { type }),
           },
         },
-      ],
+      },
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Get LNWalletData failed');
@@ -224,9 +220,9 @@ export async function saveLNDataToSnap({
   try {
     return await ethereum.request<string>({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_saveLNDataToSnap',
           params: {
             walletId,
@@ -234,7 +230,7 @@ export async function saveLNDataToSnap({
             password,
           },
         },
-      ],
+      },
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Save LNData failed');
@@ -249,15 +245,15 @@ export async function signLNInvoice(
   try {
     return ethereum.request<string>({
       method: 'wallet_invokeSnap',
-      params: [
+      params: {
         snapId,
-        {
+        request: {
           method: 'btc_signLNInvoice',
           params: {
             invoice,
           },
         },
-      ],
+      },
     });
   } catch (err: any) {
     const error = new SnapError(err?.message || 'Sign invoice failed');

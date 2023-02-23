@@ -7,7 +7,7 @@
     "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "MS7p3iuoz09Z0nHFMeJuvVXcmUY+dK7YUuaqisaZ4v4=",
+    "shasum": "bZFP6Q2TliD/IZjSjkDTcr2uJuE9qAXDdZYrvBhH5I4=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -17,7 +17,6 @@
     }
   },
   "initialPermissions": {
-    "snap_confirm": {},
     "snap_dialog": {},
     "snap_manageState": {},
     "endowment:rpc": {
