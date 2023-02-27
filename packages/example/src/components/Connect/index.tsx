@@ -83,7 +83,10 @@ const Index = observer(() => {
           />
           <Ready
             show={step === ConnectStep.Ready}
-            onClose={() => { setStep(ConnectStep.Done); }}
+            onClose={() => {
+              setLNWalletStep(LNWalletStepStatus.Done);
+              setStep(ConnectStep.Done);
+            }}
           />
         </ConnectStepsContainer>
       </StepViewContainer>
