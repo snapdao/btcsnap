@@ -69,7 +69,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
     updateCurrentWalletUnit,
     currentWalletType,
     runtime: { continueConnect, currencyRate, status },
-    lightning: { walletLength },
+    lightning: { walletLength, hasLightningWallet },
     user: { hasReadLightningNotice, setReadLightningNotice },
   } = useAppStore();
   const unit = bitcoinUnitMap[network];
@@ -158,7 +158,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
   }, [walletLength]);
 
   const balanceText = !loadingBalance && !loadingBalanceErrorMessage && current ? currentBalance : '--';
-  const shouldShowImportantNotice = persistDataLoaded && (!hasReadLightningNotice || currentWalletType === WalletType.LightningWallet);
+  const shouldShowImportantNotice = persistDataLoaded && hasLightningWallet && (!hasReadLightningNotice || currentWalletType === WalletType.LightningWallet);
 
   return (
     <AccountMain>
