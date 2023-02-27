@@ -196,8 +196,33 @@ export const TestnetSpan = styled.span`
   border-radius: 10px;
 `;
 
-export const BalanceContainer = styled.div`
-  margin: 56px 0 76px;
+
+export const ImportantNotice = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 12px;
+  gap: 4px;
+  background: rgba(255, 108, 10, 0.1);
+  border: 1px solid #F58300;
+  border-radius: 12px;
+  margin: 32px 0 -24px;
+`;
+
+export const ImportantNoticeHeader = styled.div`
+  width: 100%;
+  color: var(--c-pri60);
+  position: relative;
+  & > div {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+`;
+
+export const BalanceContainer = styled.div<{hasNotice: boolean}>`
+  margin: 56px 0 ${props => props.hasNotice ? 48 : 76}px;
 `;
 
 export const BalanceLabel = styled.p`

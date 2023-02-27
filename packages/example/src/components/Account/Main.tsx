@@ -27,6 +27,8 @@ import {
   Footer,
   TopUpButton,
   TopUpList,
+  ImportantNotice,
+  ImportantNoticeHeader
 } from './styles';
 
 import { ReactComponent as Logo } from './image/logo.svg';
@@ -38,11 +40,12 @@ import SendIcon from '../Icons/SendIcon';
 import { satoshiToBTC } from '../../lib/helper';
 import { PayInvoice } from '../Lightning/PayInvoice';
 import LightningReceiveModal from '../Lightning/ReceiveModal';
-import { Caption, H4, Popup } from '../../kits';
+import { Caption, H4, H5, Popup, SubCaption } from '../../kits';
 import { Icon } from 'snapkit';
 import { List } from '../../kits/List';
 import { trackLightningReceive, trackLightningSend, trackTopUp, trackLightningWalletAmount } from '../../tracking';
 import { AppStatus } from '../../mobx/runtime';
+import CloseIcon from '../Icons/CloseIcon';
 
 export interface MainProps {
   balance: number; // Satoshi
@@ -61,11 +64,13 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
   const {
     settings: { network },
     current,
+    persistDataLoaded,
     currentUnit,
     updateCurrentWalletUnit,
     currentWalletType,
     runtime: { continueConnect, currencyRate, status },
-    lightning: { walletLength }
+    lightning: { walletLength, hasLightningWallet },
+    user: { hasReadLightningNotice, setReadLightningNotice },
   } = useAppStore();
   const unit = bitcoinUnitMap[network];
   const [topUpVisibleData, setTopUpVisibleData] = useState<{
@@ -153,6 +158,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
   }, [walletLength]);
 
   const balanceText = !loadingBalance && !loadingBalanceErrorMessage && current ? currentBalance : '--';
+  const shouldShowImportantNotice = persistDataLoaded && hasLightningWallet && (!hasReadLightningNotice || currentWalletType === WalletType.LightningWallet);
 
   return (
     <AccountMain>
@@ -167,7 +173,22 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
         )}
       </LogoContainer>
 
-      <BalanceContainer>
+      {
+        shouldShowImportantNotice && (
+          <ImportantNotice>
+            <ImportantNoticeHeader>
+              <H5>Important Notice</H5>
+              {
+                currentWalletType === WalletType.BitcoinWallet &&
+                <CloseIcon size={'small'} onClick={setReadLightningNotice}/>
+              }
+            </ImportantNoticeHeader>
+            <SubCaption>The Lightning Wallet service is under maintenance. To prevent the loss of your assets, please move them to other LN wallets before April 15.</SubCaption>
+          </ImportantNotice>
+        )
+      }
+
+      <BalanceContainer hasNotice={shouldShowImportantNotice}>
         <BalanceLabel>current balance</BalanceLabel>
         <BalanceLeftItem hoverable={currentWalletType === WalletType.BitcoinWallet}>
           <BalanceLeftLabel
@@ -230,32 +251,34 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
           closeOnTriggerClick={false}
           onClose={() => setTopUpPopupVisible(false)}
           trigger={
-            <span>
-              <TopUpButton
-                icon={
-                  <Icon.TopUp
-                    width='18px'
-                    height='18px'
-                    color='var(--sk-color-pri50)'/>
-                }
-                onClick={() => {
-                  if (isTestNetwork) return;
-                  setTopUpPopupVisible(!topUpVisibleData.open);
-                  setTopUpVisible();
-                }}
-                onMouseEnter={() => {
-                  if (!isTestNetwork) return;
-                  setTopUpPopupVisible(true);
-                }}
-                onMouseLeave={() => {
-                  if (!isTestNetwork) return;
-                  setTopUpPopupVisible(false);
-                }}
-                className={isTestNetwork ? 'disabled' : ''}
-              >
-                <H4>TOP UP</H4>
-              </TopUpButton>
-            </span>
+            currentWalletType !== WalletType.LightningWallet && (
+              <span>
+                <TopUpButton
+                  icon={
+                    <Icon.TopUp
+                      width='18px'
+                      height='18px'
+                      color='var(--sk-color-pri50)'/>
+                  }
+                  onClick={() => {
+                    if (isTestNetwork) return;
+                    setTopUpPopupVisible(!topUpVisibleData.open);
+                    setTopUpVisible();
+                  }}
+                  onMouseEnter={() => {
+                    if (!isTestNetwork) return;
+                    setTopUpPopupVisible(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (!isTestNetwork) return;
+                    setTopUpPopupVisible(false);
+                  }}
+                  className={isTestNetwork ? 'disabled' : ''}
+                >
+                  <H4>TOP UP</H4>
+                </TopUpButton>
+              </span>
+            )
           }
           style={network === BitcoinNetwork.Main ? { borderRadius: 16 } : {}}>
           {

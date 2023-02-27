@@ -12,6 +12,7 @@ export const userInitialState = {
   isAgreeCookie: false,
   LNWalletStep: LNWalletStepStatus.Default,
   bitcoinUnit: BitcoinUnit.BTC,
+  hasReadLightningNotice: false,
 };
 
 const User = types
@@ -23,6 +24,7 @@ const User = types
       types.enumeration(Object.values(BitcoinUnit)),
       BitcoinUnit.BTC,
     ),
+    hasReadLightningNotice: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     agreeCookie: () => {
@@ -37,6 +39,9 @@ const User = types
     updateUser(bitcoinWalletName: string) {
       self.bitcoinWalletName = bitcoinWalletName;
     },
+    setReadLightningNotice: () => {
+      self.hasReadLightningNotice = true;
+    }
   }));
 
 export default User;

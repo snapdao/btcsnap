@@ -27,3 +27,13 @@
   cursor: no-drop;
   transition: 0.25s;
 }
+
+.small {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+}
+
+.small:hover {
+  background: rgba(0, 0, 0, 0.1);
+}

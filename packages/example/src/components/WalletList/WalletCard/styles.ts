@@ -48,7 +48,7 @@ export const WalletCardHeader = styled.div`
 `;
 
 export const WalletCardBalance = styled.div`
-  margin-top: 12px;
+  margin-top: 7px;
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;
@@ -60,4 +60,13 @@ export const WalletCardName = styled(H4)`
   overflow: hidden;
   color: white;
   text-overflow: ellipsis;
+`;
+
+export const WalletNotice = styled.div`
+  display: inline-block;
+  margin-top: 25px;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 18px;
 `;
