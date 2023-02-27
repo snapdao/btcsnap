@@ -52,15 +52,6 @@ const Account = observer(() => {
             </AccountLabel>
           )}
 
-          {currentWalletType === WalletType.LightningWallet && (
-            <AccountLabel>
-              Powered by{' '}
-              <a href='https://lndhub.io/' target='_blank' rel='noreferrer'>
-                LNDHub
-              </a>
-            </AccountLabel>
-          )}
-
           {errorMessage && <Message type={MessageType.Error}>{errorMessage}</Message>}
 
           <LightningAppStatus />
