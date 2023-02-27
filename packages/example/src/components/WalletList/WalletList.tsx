@@ -63,7 +63,7 @@ export const WalletList = observer(({ open, close }: any) => {
 
   const parentNode = useRef<any>();
   const shouldDisableAddition =
-    network === BitcoinNetwork.Test || lightning.hasReachedLimitation;
+    network === BitcoinNetwork.Test || lightning.hasReachedLimitation || true;
 
   const unitText = bitcoinUnitMap[network][bitcoinUnit];
 
@@ -174,7 +174,7 @@ export const WalletList = observer(({ open, close }: any) => {
                       content={
                         lightning.hasReachedLimitation
                           ? 'You can only add up to a maximum of 10 Lightning Wallets at any one time'
-                          : null
+                          : 'Unable to create lightning wallet while lightning wallet service is under maintenance'
                       }
                       disabled={!shouldDisableAddition}
                       trigger={

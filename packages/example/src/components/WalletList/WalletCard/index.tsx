@@ -5,11 +5,12 @@ import {
   WalletCardContainer,
   WalletCardContent,
   WalletCardHeader,
-  WalletCardName,
+  WalletCardName, WalletNotice,
 } from './styles';
 import { observer } from 'mobx-react-lite';
-import { Popup } from '../../../kits/Popup';
+import { Popup } from '../../../kits';
 import AdjustIcon from '../../Icons/AdjustIcon';
+import InfoIcon from '../../Icons/InfoIcon';
 
 interface WalletCardProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   id: string;
@@ -62,6 +63,19 @@ export const WalletCard = observer(
         <WalletCardBalance>
           {balance} {unit}
         </WalletCardBalance>
+        {
+          walletType === WalletType.LightningWallet && (
+            <Popup
+              wide
+              content={'The Lightning Wallet service is under maintenance. To prevent the loss of your assets, please move them to other LN wallets before April 15.'}
+              trigger={(
+                <WalletNotice>
+                  <InfoIcon color={'#F54814'} />
+                </WalletNotice>
+              )}
+            />
+          )
+        }
       </WalletCardContent>
     );
 
