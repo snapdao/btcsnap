@@ -251,32 +251,34 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
           closeOnTriggerClick={false}
           onClose={() => setTopUpPopupVisible(false)}
           trigger={
-            <span>
-              <TopUpButton
-                icon={
-                  <Icon.TopUp
-                    width='18px'
-                    height='18px'
-                    color='var(--sk-color-pri50)'/>
-                }
-                onClick={() => {
-                  if (isTestNetwork) return;
-                  setTopUpPopupVisible(!topUpVisibleData.open);
-                  setTopUpVisible();
-                }}
-                onMouseEnter={() => {
-                  if (!isTestNetwork) return;
-                  setTopUpPopupVisible(true);
-                }}
-                onMouseLeave={() => {
-                  if (!isTestNetwork) return;
-                  setTopUpPopupVisible(false);
-                }}
-                className={isTestNetwork ? 'disabled' : ''}
-              >
-                <H4>TOP UP</H4>
-              </TopUpButton>
-            </span>
+            currentWalletType !== WalletType.LightningWallet && (
+              <span>
+                <TopUpButton
+                  icon={
+                    <Icon.TopUp
+                      width='18px'
+                      height='18px'
+                      color='var(--sk-color-pri50)'/>
+                  }
+                  onClick={() => {
+                    if (isTestNetwork) return;
+                    setTopUpPopupVisible(!topUpVisibleData.open);
+                    setTopUpVisible();
+                  }}
+                  onMouseEnter={() => {
+                    if (!isTestNetwork) return;
+                    setTopUpPopupVisible(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (!isTestNetwork) return;
+                    setTopUpPopupVisible(false);
+                  }}
+                  className={isTestNetwork ? 'disabled' : ''}
+                >
+                  <H4>TOP UP</H4>
+                </TopUpButton>
+              </span>
+            )
           }
           style={network === BitcoinNetwork.Main ? { borderRadius: 16 } : {}}>
           {
