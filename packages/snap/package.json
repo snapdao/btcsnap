@@ -46,7 +46,7 @@
     "test": "jest --watchAll=false"
   },
   "dependencies": {
-    "@metamask/snaps-cli": "^0.18.0",
+    "@metamask/snaps-cli": "^0.32.2",
     "@metamask/snaps-ui": "^0.29.0",
     "bip32": "^2.0.6",
     "bitcoinjs-lib": "^6.0.1",
