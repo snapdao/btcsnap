@@ -11,7 +11,7 @@ export async function manageNetwork(origin: string, snap: Snap, action: 'get' | 
       const result = await snap.request({
         method: 'snap_dialog',
         params: {
-          type: 'Confirmation',
+          type: 'confirmation',
           content: panel([
             heading('Switch your network'),
             text(`Do you want to allow ${origin} to switch Bitcoin network to ${target}?`),

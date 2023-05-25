@@ -10,7 +10,7 @@ export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: s
   const result = await snap.request({
     method: 'snap_dialog',
     params: {
-      type: 'Confirmation',
+      type: 'confirmation',
       content: panel([
         heading('Access your extended public key'),
         text(`${origin} is trying to access your Bitcoin Legacy, SegWit and Native SegWit extended public keys.`),
@@ -24,7 +24,7 @@ export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: s
       const network = bitcoinNetwork === BitcoinNetwork.Main ? networks.bitcoin : networks.testnet;
       return await Promise.all(Object.values(ScriptType).map(async (scriptType: ScriptType) => {
         const { node: accountNode, mfp } = await extractAccountPrivateKey(snap, network, scriptType);
-        xfp = xfp || mfp; 
+        xfp = xfp || mfp;
         const accountPublicKey = accountNode.neutered();
         return convertXpub(accountPublicKey.toBase58(), scriptType, network);
       }));

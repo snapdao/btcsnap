@@ -14,7 +14,7 @@ export async function signLNInvoice(
   const result = await snap.request({
     method: 'snap_dialog',
     params: {
-      type: 'Confirmation',
+      type: 'confirmation',
       content: panel([
         heading('Sign Lightning Transaction'),
         text(`Please verify this ongoing transaction from ${domain}`),
