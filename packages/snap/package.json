@@ -47,14 +47,15 @@
   },
   "dependencies": {
     "@metamask/snaps-cli": "^0.32.2",
-    "@metamask/snaps-ui": "^0.29.0",
+    "@metamask/snaps-ui": "^0.32.2",
     "bip32": "^2.0.6",
     "bitcoinjs-lib": "^6.0.1",
     "bitcoinjs-message": "^2.2.0",
     "bn.js": "^5.2.1",
     "bs58check": "^2.1.2",
     "crypto-js": "^4.1.1",
-    "light-bolt11-decoder": "^2.1.0"
+    "light-bolt11-decoder": "^2.1.0",
+    "secp256k1": "^5.0.0"
   },
   "publishConfig": {
     "access": "public",
