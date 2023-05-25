@@ -13,6 +13,9 @@ import {
 } from './rpc';
 import { SnapError, RequestErrors } from './errors';
 
+// @ts-ignore
+globalThis.Buffer = require('buffer/').Buffer;
+
 declare let snap: Snap;
 
 export type RpcRequest = {

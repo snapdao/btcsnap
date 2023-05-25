@@ -53,6 +53,7 @@
     "bitcoinjs-message": "^2.2.0",
     "bn.js": "^5.2.1",
     "bs58check": "^2.1.2",
+    "buffer": "^6.0.3",
     "crypto-js": "^4.1.1",
     "light-bolt11-decoder": "^2.1.0",
     "secp256k1": "^5.0.0"
@@ -65,6 +66,7 @@
     "@types/bs58check": "^2.1.0",
     "@types/create-hash": "^1.2.2",
     "@types/crypto-js": "^4.1.1",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "through2": "^4.0.2"
   }
 }
