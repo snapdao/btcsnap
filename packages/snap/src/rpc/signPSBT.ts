@@ -18,7 +18,7 @@ export async function signPsbt(domain: string, snap: Snap, psbt: string, network
   const result = await snap.request({
     method: 'snap_dialog',
     params: {
-      type: 'Confirmation',
+      type: 'confirmation',
       content: panel([
         heading('Sign Bitcoin Transaction'),
         text(`Please verify this ongoing Transaction from ${domain}`),

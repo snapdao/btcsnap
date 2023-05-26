@@ -32,7 +32,7 @@ export async function extractAccountPrivateKey(snap: Snap, network: Network, scr
     const privateKeyBuffer = Buffer.from(trimHexPrefix(slip10Node.privateKey), "hex")
     const chainCodeBuffer = Buffer.from(trimHexPrefix(slip10Node.chainCode), "hex")
     const node: BIP32Interface = bip32.fromPrivateKey(privateKeyBuffer, chainCodeBuffer, network)
-    //@ts-ignore 
+    //@ts-ignore
     // ignore checking since no function to set depth for node
     node.__DEPTH = slip10Node.depth;
     //@ts-ignore
@@ -56,7 +56,7 @@ export async function getExtendedPublicKey(origin: string, snap: Snap, scriptTyp
             const result = await snap.request({
                 method: 'snap_dialog',
                 params: {
-                    type: 'Confirmation',
+                    type: 'confirmation',
                     content: panel([
                         heading('Access your extended public key'),
                         text(`Do you want to allow ${origin} to access Bitcoin ${networkName} ${scriptType} extended public key?`),
@@ -78,7 +78,7 @@ export async function getExtendedPublicKey(origin: string, snap: Snap, scriptTyp
             } else {
                 throw SnapError.of(RequestErrors.RejectKey);
             }
-            
+
         default:
             throw SnapError.of(RequestErrors.ScriptTypeNotSupport);
     }

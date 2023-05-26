@@ -44,7 +44,7 @@ export async function getLNDataFromSnap(
       const result = await snap.request({
         method: 'snap_dialog',
         params: {
-          type: 'Confirmation',
+          type: 'confirmation',
           content: panel([
             heading(param.prompt),
             text(param.description),
