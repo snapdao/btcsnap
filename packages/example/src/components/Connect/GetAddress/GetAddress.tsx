@@ -49,6 +49,14 @@ export const GetAddress = observer(
       (item) => item.name === 'RejectKey' || 'UserReject',
     ).map((error) => error.message);
 
+    const showErrorToast = (message: string) => {
+      setErrorMessage(message);
+      setShowErrorMessage(true);
+      setTimeout(() => {
+        setShowErrorMessage(false);
+      }, 2000);
+    };
+
     const handleRegister = useCallback(async (xpubs, mfp) => {
       try {
         setIsRegistering(accounts.length === 0);
@@ -58,7 +66,7 @@ export const GetAddress = observer(
       } catch (e: unknown) {
         setIsRegistering(false);
         logger.error(e);
-        setErrorMessage('Account init failed, please retry');
+        showErrorToast('Account init failed, please retry');
         setStatus(AppStatus.Connect);
       } finally {
         onRegister(false);
@@ -75,11 +83,7 @@ export const GetAddress = observer(
         }
       } catch (err: any) {
         if (expectErrorMessages.includes(err.message)) {
-          setErrorMessage(err.message);
-          setShowErrorMessage(true);
-          setTimeout(() => {
-            setShowErrorMessage(false);
-          }, 2000);
+          showErrorToast(err.message);
         } else {
           setFatalErrorMessage(err);
         }
