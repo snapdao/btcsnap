@@ -49,41 +49,49 @@ export const GetAddress = observer(
       (item) => item.name === 'RejectKey' || 'UserReject',
     ).map((error) => error.message);
 
+    const handleRegister = useCallback(async (xpubs, mfp) => {
+      try {
+        setIsRegistering(accounts.length === 0);
+        onRegister(true);
+        await register(xpubs, mfp);
+        onRevealed();
+      } catch (e: unknown) {
+        setIsRegistering(false);
+        logger.error(e);
+        setErrorMessage('Account init failed, please retry');
+        setStatus(AppStatus.Connect);
+      } finally {
+        onRegister(false);
+      }
+    }, [accounts]);
+
+    const handleGetAllExtendedPublicKeys = useCallback(async () => {
+      try {
+        const { mfp, xpubs } = await getAllExtendedPublicKeys();
+        if (mfp && xpubs.length > 0) {
+          trackGetAddress(network);
+          setStatus(AppStatus.Register);
+          await handleRegister(xpubs, mfp);
+        }
+      } catch (err: any) {
+        if (expectErrorMessages.includes(err.message)) {
+          setErrorMessage(err.message);
+          setShowErrorMessage(true);
+          setTimeout(() => {
+            setShowErrorMessage(false);
+          }, 2000);
+        } else {
+          setFatalErrorMessage(err);
+        }
+      } finally {
+        setIsRevealing(false);
+      }
+    }, [network, scriptType, current?.xpub, handleRegister]);
+
     const getXpub = useCallback(async () => {
       setIsRevealing(true);
-      getAllExtendedPublicKeys()
-        .then(async ({ mfp, xpubs }) => {
-          if (mfp && xpubs.length > 0) {
-            trackGetAddress(network);
-            setStatus(AppStatus.Register);
-            try {
-              setIsRegistering(accounts.length === 0);
-              onRegister(true);
-              await register(xpubs, mfp);
-              onRevealed();
-              onRegister(false);
-            } catch (e: unknown) {
-              logger.error(e);
-              setErrorMessage('Account init failed, please retry');
-              onRegister(false);
-              setStatus(AppStatus.Connect);
-            }
-          }
-          setIsRevealing(false);
-        })
-        .catch((err: SnapError) => {
-          if (expectErrorMessages.includes(err.message)) {
-            setErrorMessage(err.message);
-            setShowErrorMessage(true);
-            setTimeout(() => {
-              setShowErrorMessage(false);
-            }, 2000);
-          } else {
-            setFatalErrorMessage(err);
-          }
-          setIsRevealing(false);
-        });
-    }, [isRevealing, setIsRevealing, network, scriptType, current?.xpub]);
+      await handleGetAllExtendedPublicKeys();
+    }, [handleGetAllExtendedPublicKeys]);
 
     const closeError = () => {
       setFatalErrorMessage({ message: '', code: 0 });
@@ -109,9 +117,9 @@ export const GetAddress = observer(
     return (
       <>
         <ModalContentContainer show={show}>
-          <ConnectIcon className='Connect-flask-icon'/>
+          <ConnectIcon className='Connect-flask-icon' />
           <h2>
-            Get Addresses for <br/> Bitcoin Snap
+            Get Addresses for <br /> Bitcoin Snap
           </h2>
           <p style={{ marginBottom: 82 }} className='Connect-install'>
             Your Bitcoin account addresses will be created along with your
@@ -122,7 +130,7 @@ export const GetAddress = observer(
             disabled={isRevealing}
             onClick={getXpub}
           >
-            <Reveal/>
+            <Reveal />
             <span>Get Addresses</span>
           </button>
           <ErrorTipsContainer>
@@ -138,7 +146,7 @@ export const GetAddress = observer(
         />
 
         <SModal open={isRevealing}>
-          <Loader inverted content={'Continue at MetaMask'}/>
+          <Loader inverted content={'Continue at MetaMask'} />
         </SModal>
       </>
     );
