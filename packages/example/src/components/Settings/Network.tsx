@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppStore } from '../../mobx';
-import { BitcoinNetwork } from '../../interface';
+import { BitcoinNetwork, BitcoinScriptType } from '../../interface';
 import CloseIcon from '../Icons/CloseIcon';
 import NetworkIcon from '../Icons/Network';
 import { updateNetworkInSnap } from '../../lib/snap';
@@ -20,7 +20,7 @@ import { Modal } from '../../kits/index';
 interface ConnectProps {
   open: boolean;
   close: () => void;
-  parentNode: HTMLElement 
+  parentNode: HTMLElement
 }
 
 enum NetOptions {
@@ -41,32 +41,40 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
     };
   }, [open]);
 
-  const onNetworkChecked = (netValue: BitcoinNetwork) => {
-    if(netValue === network) {
+  const switchNetworkAndUpdateState = async (netValue: BitcoinNetwork, currentAccount: typeof current, scriptType: BitcoinScriptType) => {
+    const targetNetwork = await updateNetworkInSnap(netValue);
+
+    if (targetNetwork) {
+      setNetwork(netValue);
+      currentAccount && switchToAccount(currentAccount.mfp, scriptType, netValue);
+
+      if (currentAccount && !!getAccountBy(currentAccount.mfp, scriptType, netValue)) {
+        setStatus(AppStatus.FetchBalance);
+      } else {
+        setStatus(AppStatus.Connect);
+      }
+    }
+  };
+
+  const onNetworkChecked = async (netValue: BitcoinNetwork) => {
+    if (netValue === network) {
       return;
     }
     setIsSwitchNetWork(true);
-    updateNetworkInSnap(netValue)
-      .then((targetNetwork) => {
-        if(targetNetwork) {
-          setNetwork(netValue);
-          current && switchToAccount(current.mfp, scriptType, netValue);
-          if(current && !!getAccountBy(current.mfp, scriptType, netValue)) {
-            setStatus(AppStatus.FetchBalance);
-          } else {
-            setStatus(AppStatus.Connect);
-          }
-        }
-        close();
-      }).catch(() => {
-        close();
-      });
+
+    try {
+      await switchNetworkAndUpdateState(netValue, current, scriptType);
+    } catch (error) {
+      console.error('Error switching network:', error);
+    } finally {
+      close();
+    }
   };
 
   if (!isSwitchNetWork && !parentNode) return null;
 
   return isSwitchNetWork ?
-    <Modal.Loading inModal={false} content='Continue at MetaMask'/> :
+    <Modal.Loading inModal={false} content='Continue at MetaMask' /> :
     parentNode && <Modal
       open={open}
       style={{ width: 440, marginTop: 425, height: 215, borderRadius: 20 }}
@@ -83,7 +91,7 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
         <NetworkItem
           onClick={() => onNetworkChecked(BitcoinNetwork.Main)} checked={radioMainChecked}>
           <NetworkItemLabel>
-            <NetworkIcon network={BitcoinNetwork.Main}/>
+            <NetworkIcon network={BitcoinNetwork.Main} />
             <span>Mainnet</span>
           </NetworkItemLabel>
           <NetworkItemRadio value={NetOptions.Mainnet} checked={radioMainChecked} />
@@ -98,7 +106,7 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
         </NetworkItem>
       </NetworkContainer>
     </Modal>
-  ;
+    ;
 });
 
 export default Network;
