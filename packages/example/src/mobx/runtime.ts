@@ -16,6 +16,21 @@ export enum LightningAppStatus {
   Expired = 'expired',
 }
 
+const formatAmount = (amount: number | null | undefined): number => {
+  if (amount === null || amount === undefined) {
+    return 0.00;
+  }
+  try {
+    const parsedAmount = parseFloat(`${amount}`);
+    if (isNaN(parsedAmount)) {
+      return 0.00;
+    }
+    return parseFloat(parsedAmount.toFixed(2));
+  } catch (error) {
+    return 0.00;
+  }
+};
+
 export const runtimeInitialState = {
   status: AppStatus.Ready,
   lightningAppStatus: LightningAppStatus.Ready,
@@ -53,7 +68,7 @@ const Runtime = types
       self.connected = hasConnected;
     },
     setCurrencyRate: (currencyRate: number) => {
-      self.currencyRate = currencyRate;
+      self.currencyRate = formatAmount(currencyRate);
     },
     setLightningAppStatus: (status: LightningAppStatus) => {
       self.lightningAppStatus = status;
