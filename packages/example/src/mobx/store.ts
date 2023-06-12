@@ -74,12 +74,14 @@ const AppStore = types
     },
   }))
   .actions((self) => ({
-    createAccount(accountIn: IAccountIn): IAccount {
+    async createAccount(accountIn: IAccountIn): Promise<IAccount> {
       const storedAccount = self.accounts.find(
         (account) => account.xpub === accountIn.xpub,
       );
       if (storedAccount) return storedAccount;
-      return Account.create(accountIn);
+      const account = Account.create(accountIn);
+      await account.initialize();
+      return account;
     },
     addAccount(newAccount: IAccount) {
       const isAccountExist = self.accounts.find(

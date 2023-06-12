@@ -48,7 +48,7 @@ const Account = types
 
         const coin = network === BitcoinNetwork.Main ? 'BTC' : 'BTC_TESTNET';
         const path = EXTENDED_PUBKEY_PATH[network][scriptType];
-        registerExtendedPubKey(coin, path, self.xpub, scriptType, mfp).then(() => {
+        await registerExtendedPubKey(coin, path, self.xpub, scriptType, mfp).then(() => {
           self.setHasXpubSynced(true);
         });
       } catch (e) {
@@ -65,8 +65,10 @@ const Account = types
     },
   }))
   .actions((self) => ({
-    afterCreate: () => {
-      !self.hasSyncXPub && self.syncXPub();
+    initialize: async () => {
+      if (!self.hasSyncXPub) {
+        await self.syncXPub();
+      }
     },
     addAddress: (addressIn: IAddressIn, isDynamic: boolean) => {
       const storeAddress = self.getAddress(addressIn.address);
