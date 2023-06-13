@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "1.1.2",
   "description": "btcsnap: Metamask Snap to manage your bitcoin",
   "proposedName": "btcsnap",
   "repository": {
@@ -7,11 +7,11 @@
     "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "EDrxEcqqRyMCVcgn6Y9BpxRHqFjCfqXahKDC8jqiwuI=",
+    "shasum": "Rhd744sDdDhlTCXsxlXyPCxgCc8PqF8iPsw5kM7BObs=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "packageName": "btcsnap",
+        "packageName": "@velygood/btcsnap-mainnet",
         "registry": "https://registry.npmjs.org"
       }
     }
@@ -35,14 +35,6 @@
       {
         "path": [
           "m",
-          "44'",
-          "1'"
-        ],
-        "curve": "secp256k1"
-      },
-      {
-        "path": [
-          "m",
           "49'",
           "0'"
         ],
@@ -51,24 +43,8 @@
       {
         "path": [
           "m",
-          "49'",
-          "1'"
-        ],
-        "curve": "secp256k1"
-      },
-      {
-        "path": [
-          "m",
           "84'",
           "0'"
-        ],
-        "curve": "secp256k1"
-      },
-      {
-        "path": [
-          "m",
-          "84'",
-          "1'"
         ],
         "curve": "secp256k1"
       }

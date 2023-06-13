@@ -8,9 +8,9 @@ import { RequestErrors, SnapError } from "../errors";
 import { heading, panel, text } from "@metamask/snaps-ui";
 
 export const pathMap: Record<ScriptType, string[]> = {
-    [ScriptType.P2PKH]: ['m', "44'", "0'"],
-    [ScriptType.P2SH_P2WPKH]: ['m', "49'", "0'"],
-    [ScriptType.P2WPKH]: ['m', "84'", "0'"]
+    [ScriptType.P2PKH]: ['m', "44'", "1'"],
+    [ScriptType.P2SH_P2WPKH]: ['m', "49'", "1'"],
+    [ScriptType.P2WPKH]: ['m', "84'", "1'"]
 }
 
 export const CRYPTO_CURVE = "secp256k1";
@@ -71,7 +71,7 @@ export async function getExtendedPublicKey(origin: string, snap: Snap, scriptTyp
 
                 const snapNetwork = await getPersistedData(snap, "network", "");
                 if(!snapNetwork) {
-                    await updatePersistedData(snap, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
+                    await updatePersistedData(snap, "network", BitcoinNetwork.Test);
                 }
 
                 return { mfp, xpub };

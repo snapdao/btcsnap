@@ -87,7 +87,6 @@ export enum ScriptType {
 }
 
 export enum BitcoinNetwork {
-  Main = 'main',
   Test = 'test',
 }
 

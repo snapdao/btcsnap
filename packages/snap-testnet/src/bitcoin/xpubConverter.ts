@@ -14,7 +14,7 @@ const xpubPrefixes: Record<XpubPrefix, string> = {
   'vpub': '045f1cf6',
 }
 
-const scriptTypeToXpubPrefix: Record<ScriptType, Record<BitcoinNetwork, XpubPrefix>> = {
+const scriptTypeToXpubPrefix: Record<ScriptType, Record<BitcoinNetwork | any, XpubPrefix>> = {
   [ScriptType.P2PKH]: {
     main: 'xpub',
     test: 'tpub'
@@ -30,8 +30,7 @@ const scriptTypeToXpubPrefix: Record<ScriptType, Record<BitcoinNetwork, XpubPref
 }
 
 export const convertXpub = (xpub: string, to: ScriptType, network: Network): string => {
-  const net = network === networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test;
-  const xpubPrefix = scriptTypeToXpubPrefix[to][net];
+  const xpubPrefix = scriptTypeToXpubPrefix[to][BitcoinNetwork.Test];
 
   let data = decode(xpub);
   data = data.slice(4);

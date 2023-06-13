@@ -1,6 +1,6 @@
 {
   "name": "@velygood/btcsnap-mainnet",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "btcsnap: Metamask snap to manage your bitcoin",
   "author": "aaronisme <aarondongchen@gmail.com>",
   "homepage": "",
@@ -39,11 +39,12 @@
   },
   "scripts": {
     "build": "yarn build:tx && yarn build:snap",
-    "rebuild": "yarn build:tx && yarn build:snap && yarn test:snap",
+    "rebuild": "npx mm-snap manifest --fix && yarn build:tx && yarn build:snap && yarn test:snap",
     "test:snap": "mm-snap serve",
     "build:snap": "rm -rf build && mm-snap build",
     "build:tx": "rm -rf dist && tsdx build",
-    "test": "jest --watchAll=false"
+    "test": "jest --watchAll=false",
+    "publish-snap": "yarn && yarn build && npx mm-snap manifest --fix && npm publish"
   },
   "dependencies": {
     "@metamask/snaps-cli": "^0.32.2",

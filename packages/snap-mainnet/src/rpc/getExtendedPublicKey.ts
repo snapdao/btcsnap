@@ -71,7 +71,7 @@ export async function getExtendedPublicKey(origin: string, snap: Snap, scriptTyp
 
                 const snapNetwork = await getPersistedData(snap, "network", "");
                 if(!snapNetwork) {
-                    await updatePersistedData(snap, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
+                    await updatePersistedData(snap, "network", BitcoinNetwork.Main);
                 }
 
                 return { mfp, xpub };

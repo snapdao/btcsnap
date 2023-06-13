@@ -10,10 +10,7 @@ const CRYPTO_CURVE = 'secp256k1';
 export const getHDNode = async (snap: Snap, hdPath: string) => {
   const {purpose, coinType, account, change, index} =
     parseLightningPath(hdPath);
-  const network =
-    coinType.value === '0'
-      ? getNetwork(BitcoinNetwork.Main)
-      : getNetwork(BitcoinNetwork.Test);
+  const network = getNetwork(BitcoinNetwork.Test);
   const path = ['m', purpose.value, coinType.value];
 
   const slip10Node = (await snap.request({

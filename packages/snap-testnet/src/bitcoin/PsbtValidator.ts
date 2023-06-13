@@ -24,7 +24,7 @@ export class PsbtValidator {
   }
 
   get coinType(){
-    return this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAINNET_COIN_TYPE: BITCOIN_TESTNET_COIN_TYPE;
+    return BITCOIN_TESTNET_COIN_TYPE;
   }
 
   allInputsHaveRawTxHex() {
@@ -49,7 +49,7 @@ export class PsbtValidator {
   }
 
   everyOutputMatchesNetwork() {
-    const addressPattern = this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAIN_NET_ADDRESS_PATTERN : BITCOIN_TEST_NET_ADDRESS_PATTERN;
+    const addressPattern = BITCOIN_TEST_NET_ADDRESS_PATTERN;
     const result = this.tx.data.outputs.every((output, index) => {
      if(output.bip32Derivation){
        return output.bip32Derivation.every(derivation => {
