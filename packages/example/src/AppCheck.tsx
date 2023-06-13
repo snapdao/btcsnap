@@ -5,13 +5,13 @@ import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 
 export const AppCheck = observer(() => {
-  const { resetStore } = useAppStore();
+  const { resetAllExceptNetwork } = useAppStore();
   const { isChecking, isSameMFP } = useMFPCheck();
 
   useEffect(() => {
     const mfpChangedInMM = !isChecking && !isSameMFP;
     if(mfpChangedInMM){
-      resetStore();
+      resetAllExceptNetwork();
     }
   }, [isChecking, isSameMFP]);
 

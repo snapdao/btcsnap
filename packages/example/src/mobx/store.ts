@@ -151,6 +151,13 @@ const AppStore = types
       self.switchWalletType(WalletType.BitcoinWallet);
     },
   }))
+  .actions((self) => ({
+    resetAllExceptNetwork() {
+      const originNetwork = self.settings.network;
+      self.resetStore();
+      self.settings.network = originNetwork;
+    }
+  }))
   .views((self) => ({
     get currentUnit() {
       switch (self.currentWalletType) {
