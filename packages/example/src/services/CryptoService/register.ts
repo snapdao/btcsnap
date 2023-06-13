@@ -10,7 +10,7 @@ export const register = async (xpubs: string[], mfp: string) => {
     const registeredMfp = appStore.registeredMfp();
     const registerAnotherMFP = registeredMfp !== '' && registeredMfp !== mfp;
     if (registerAnotherMFP) {
-      appStore.resetAllExceptNetwork();
+      appStore.resetStore();
     }
     const MfpRegistered = registeredMfp === mfp;
     if (!MfpRegistered) {

@@ -19,7 +19,7 @@ const getSnapInfoFromNetwork = (isTestnet = false) => {
 
   return {
     snap: `${snapId}-${isTestnet || store.settings.network === BitcoinNetwork.Test ? BitcoinNetwork.Test : BitcoinNetwork.Main}`,
-    version: '1.1.1',
+    version: '1.1.2',
   };
 };
 
@@ -125,9 +125,6 @@ export async function getAllExtendedPublicKeys(isTestnet = false): Promise<AllXp
 }
 
 export async function getMasterFingerprint() {
-  const store = getAppStore();
-  // eslint-disable-next-line no-debugger
-  debugger
   try {
     return await ethereum.request({
       method: 'wallet_invokeSnap',
