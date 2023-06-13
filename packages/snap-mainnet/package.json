@@ -1,0 +1,72 @@
+{
+  "name": "@velygood/btcsnap-mainnet",
+  "version": "1.1.1",
+  "description": "btcsnap: Metamask snap to manage your bitcoin",
+  "author": "aaronisme <aarondongchen@gmail.com>",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snapdao/btcsnap"
+  },
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/bundle.js",
+    "snap.manifest.json"
+  ],
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "__data__"
+    ],
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
+    ],
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "__tests__/fixtures",
+      "interface.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
+  },
+  "scripts": {
+    "build": "yarn build:tx && yarn build:snap",
+    "rebuild": "yarn build:tx && yarn build:snap && yarn test:snap",
+    "test:snap": "mm-snap serve",
+    "build:snap": "rm -rf build && mm-snap build",
+    "build:tx": "rm -rf dist && tsdx build",
+    "test": "jest --watchAll=false"
+  },
+  "dependencies": {
+    "@metamask/snaps-cli": "^0.32.2",
+    "@metamask/snaps-ui": "^0.32.2",
+    "bip32": "^2.0.6",
+    "bitcoinjs-lib": "^6.0.1",
+    "bitcoinjs-message": "^2.2.0",
+    "bn.js": "^5.2.1",
+    "bs58check": "^2.1.2",
+    "buffer": "^6.0.3",
+    "crypto-js": "^4.1.1",
+    "light-bolt11-decoder": "^2.1.0",
+    "secp256k1": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@types/bs58check": "^2.1.0",
+    "@types/create-hash": "^1.2.2",
+    "@types/crypto-js": "^4.1.1",
+    "prettier": "^2.7.1",
+    "through2": "^4.0.2"
+  }
+}

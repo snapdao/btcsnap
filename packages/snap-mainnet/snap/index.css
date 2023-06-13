@@ -1,0 +1,20 @@
+button {
+  height: 25px;
+  padding: 5px 10px;
+  margin: 5px 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  color: #ffffff;
+  background: #F58300;
+  transition: 0.2s;
+}
+
+button:not(:hover) {
+  color: #111214;
+  background: #E1E6F0;
+  transition: 0.2s;
+}
