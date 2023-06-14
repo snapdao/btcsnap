@@ -43,7 +43,8 @@
     "test:snap": "mm-snap serve",
     "build:snap": "rm -rf build && mm-snap build",
     "build:tx": "rm -rf dist && tsdx build",
-    "test": "jest --watchAll=false"
+    "test": "jest --watchAll=false",
+    "publish-snap": "yarn && yarn build && npx mm-snap manifest --fix && npm publish"
   },
   "dependencies": {
     "@metamask/snaps-cli": "^0.32.2",
