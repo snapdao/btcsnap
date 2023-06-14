@@ -1,3 +1,5 @@
+import { getCoinType } from './utils/network';
+
 export interface GetPublicExtendedKeyRequest {
   method: 'btc_getPublicExtendedKey';
   params: {
@@ -98,7 +100,7 @@ export enum KeyOptions {
 }
 
 const LightningAccount = Buffer.from('Lightning').readInt32BE();
-export const LNHdPath = `m/84'/0'/${LightningAccount}'/0/0`;
+export const LNHdPath = `m/84'/${getCoinType()}'/${LightningAccount}'/0/0`;
 
 export interface PersistedData {
   network?: BitcoinNetwork;

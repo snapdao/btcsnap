@@ -5,7 +5,8 @@ module.exports = {
     "dist": "dist",
     "outfileName": "bundle.js",
     "port":8081,
-    "src": "dist/index.js"
+    "src": "dist/index.js",
+    "writeManifest": true,
   },
   bundlerCustomizer: (bundler) => {
     // We don't provide Buffer by default, so we need to provide it manually.

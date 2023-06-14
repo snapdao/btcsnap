@@ -4,11 +4,7 @@ import { BitcoinNetwork } from '../interface';
 import { PsbtHelper } from '../bitcoin/PsbtHelper';
 import { fromHdPathToObj } from './cryptoPath';
 import { PsbtValidateErrors, SnapError } from "../errors";
-
-const BITCOIN_MAINNET_COIN_TYPE = 0;
-const BITCOIN_TESTNET_COIN_TYPE = 1;
-const BITCOIN_MAIN_NET_ADDRESS_PATTERN = /^(1|3|bc1)/;
-const BITCOIN_TEST_NET_ADDRESS_PATTERN = /^(m|n|2|tb1)/;
+import { getCoinTypeFromSnapType, getAddressPatternFromSnapType } from '../utils/network';
 
 export class PsbtValidator {
   static FEE_THRESHOLD = 10000000;
@@ -24,7 +20,7 @@ export class PsbtValidator {
   }
 
   get coinType(){
-    return this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAINNET_COIN_TYPE: BITCOIN_TESTNET_COIN_TYPE;
+    return getCoinTypeFromSnapType(this.snapNetwork);
   }
 
   allInputsHaveRawTxHex() {
@@ -49,7 +45,7 @@ export class PsbtValidator {
   }
 
   everyOutputMatchesNetwork() {
-    const addressPattern = this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAIN_NET_ADDRESS_PATTERN : BITCOIN_TEST_NET_ADDRESS_PATTERN;
+    const addressPattern = getAddressPatternFromSnapType(this.snapNetwork);
     const result = this.tx.data.outputs.every((output, index) => {
      if(output.bip32Derivation){
        return output.bip32Derivation.every(derivation => {
