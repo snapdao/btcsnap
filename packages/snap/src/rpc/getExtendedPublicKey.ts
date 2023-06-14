@@ -1,7 +1,7 @@
 import * as bip32 from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
-import { BitcoinNetwork, ScriptType, SLIP10Node, Snap } from '../interface';
+import { ScriptType, SLIP10Node, Snap } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
 import { getPersistedData, updatePersistedData, trimHexPrefix } from '../utils';
 import { getCoinType, getSnapTypeFromNetwork } from '../utils/network';
