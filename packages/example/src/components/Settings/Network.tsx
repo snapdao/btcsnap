@@ -51,6 +51,8 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
 
       if (!(currentAccount && !!getAccountBy(currentAccount.mfp, scriptType, netValue))) {
         setStatus(AppStatus.Connect);
+      } else {
+        setStatus(AppStatus.FetchBalance);
       }
     }
   };

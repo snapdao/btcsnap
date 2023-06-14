@@ -48,7 +48,6 @@ export const switchNetworkAndSnapIfNeeded = async (nextNetwork: BitcoinNetwork) 
   const store = getAppStore();
   try {
     store.runtime.setSwapping(true);
-    store.disconnectAccount();
     store.settings.setNetwork(nextNetwork);
     await connect(async () => {
       const { mfp, xpubs } = await getAllExtendedPublicKeys(isTestnet);

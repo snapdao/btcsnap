@@ -17,7 +17,7 @@ export const useBalance = (props?: Props) => {
   const {
     current,
     currentWalletType,
-    runtime: { setStatus, getWallet, setBalanceForWallet },
+    runtime: { setStatus, status, getWallet, setBalanceForWallet },
     lightning,
   } = useAppStore();
   const [count, setCount] = useState(0);
@@ -118,10 +118,10 @@ export const useBalance = (props?: Props) => {
   }, [current, currentWalletType, lightning.current]);
 
   useEffect(() => {
-    if (count > 0) {
+    if (count > 0 || status === AppStatus.FetchBalance) {
       fetchBalance(true);
     }
-  }, [count]);
+  }, [count, status]);
 
   return {
     balance,
