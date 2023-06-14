@@ -1,4 +1,5 @@
 const through = require('through2');
+const envify = require('envify/custom');
 
 module.exports = {
   cliOptions: {
@@ -10,6 +11,9 @@ module.exports = {
   },
   bundlerCustomizer: (bundler) => {
     // We don't provide Buffer by default, so we need to provide it manually.
+    bundler.transform(envify({
+      // NETWORK: 'testnet',
+    }));
     bundler.transform(function () {
       let data = '';
       return through(
