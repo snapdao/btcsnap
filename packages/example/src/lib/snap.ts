@@ -46,12 +46,17 @@ export async function connect(cb: (connected: boolean) => void, isTestnet = fals
 export const switchNetworkAndSnapIfNeeded = async (nextNetwork: BitcoinNetwork) => {
   const isTestnet = nextNetwork === BitcoinNetwork.Test;
   const store = getAppStore();
-  store.disconnectAccount();
-  store.settings.setNetwork(nextNetwork);
-  await connect(async () => {
-    const { mfp, xpubs } = await getAllExtendedPublicKeys(isTestnet);
-    await register(xpubs, mfp);
-  }, isTestnet);
+  try {
+    store.runtime.setSwapping(true);
+    store.disconnectAccount();
+    store.settings.setNetwork(nextNetwork);
+    await connect(async () => {
+      const { mfp, xpubs } = await getAllExtendedPublicKeys(isTestnet);
+      await register(xpubs, mfp);
+    }, isTestnet);
+  } finally {
+    store.runtime.setSwapping(false);
+  }
 };
 
 /**

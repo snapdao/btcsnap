@@ -39,16 +39,16 @@ export const useBalance = (props?: Props) => {
       return { balance };
     };
 
-    if(currentWalletType === WalletType.BitcoinWallet || props?.type === WalletType.BitcoinWallet) {
+    if (currentWalletType === WalletType.BitcoinWallet || props?.type === WalletType.BitcoinWallet) {
       if (current) {
         const wallet = getWallet(current.id);
-        if(wallet && wallet.balanceFetched && !forceFetch){
+        if (wallet && wallet.balanceFetched && !forceFetch) {
           setBalance(wallet.balance);
           setStatus(AppStatus.Ready);
           return;
         }
 
-        if(!hasFetched.current){
+        if (!hasFetched.current) {
           setStatus(AppStatus.FetchBalance);
         }
 
@@ -58,33 +58,32 @@ export const useBalance = (props?: Props) => {
         queryBalance(current)
           .then(({ balance }) => {
             setBalance(balance);
-            setStatus(AppStatus.Ready);
-            setLoadingBalance(false);
-            setBalanceForWallet(current.id, balance);
           })
           .catch((e) => {
             logger.error(e);
             setErrorMessage('Loading failed. Please check your network connection.');
-            setLoadingBalance(false);
             setBalance(0);
+          })
+          .finally(() => {
             setStatus(AppStatus.Ready);
             setBalanceForWallet(current.id, balance);
+            setLoadingBalance(false);
           });
       } else {
         setErrorMessage('Loading failed. Please select your wallet');
         setBalance(0);
         setStatus(AppStatus.Ready);
       }
-    } else if(currentWalletType === WalletType.LightningWallet) {
+    } else if (currentWalletType === WalletType.LightningWallet) {
       if (lightning.current) {
         const currentLNWallet = lightning.current;
         const wallet = getWallet(currentLNWallet.id);
-        if(wallet && wallet.balanceFetched && !forceFetch){
+        if (wallet && wallet.balanceFetched && !forceFetch) {
           setBalance(wallet.balance);
           setStatus(AppStatus.Ready);
           return;
         }
-        if(!hasFetched.current){
+        if (!hasFetched.current) {
           setStatus(AppStatus.FetchBalance);
         }
         hasFetched.current = true;
@@ -119,7 +118,7 @@ export const useBalance = (props?: Props) => {
   }, [current, currentWalletType, lightning.current]);
 
   useEffect(() => {
-    if(count > 0) {
+    if (count > 0) {
       fetchBalance(true);
     }
   }, [count]);

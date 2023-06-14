@@ -29,7 +29,7 @@ enum NetOptions {
 }
 
 const Network = (({ open, close, parentNode }: ConnectProps) => {
-  const { settings: { network, setNetwork, scriptType }, current, getAccountBy, switchToAccount, runtime: { setStatus, setSwapping } } = useAppStore();
+  const { settings: { network, setNetwork, scriptType }, current, getAccountBy, switchToAccount, runtime: { setStatus } } = useAppStore();
   const [isSwitchNetWork, setIsSwitchNetWork] = useState<boolean>(false);
   const radioMainChecked = network === BitcoinNetwork.Main;
   const radioTestChecked = network === BitcoinNetwork.Test;
@@ -49,9 +49,7 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
       setNetwork(netValue);
       currentAccount && switchToAccount(currentAccount.mfp, scriptType, netValue);
 
-      if (currentAccount && !!getAccountBy(currentAccount.mfp, scriptType, netValue)) {
-        setStatus(AppStatus.FetchBalance);
-      } else {
+      if (!(currentAccount && !!getAccountBy(currentAccount.mfp, scriptType, netValue))) {
         setStatus(AppStatus.Connect);
       }
     }
@@ -64,12 +62,10 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
     setIsSwitchNetWork(true);
 
     try {
-      setSwapping(true);
       await switchNetworkAndUpdateState(netValue, current, scriptType);
     } catch (error) {
       console.error('Error switching network:', error);
     } finally {
-      setSwapping(false);
       close();
     }
   };
