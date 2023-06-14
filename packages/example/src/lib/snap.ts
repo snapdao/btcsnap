@@ -19,7 +19,7 @@ const getSnapInfoFromNetwork = (isTestnet = false) => {
 
   return {
     snap: `${snapId}-${isTestnet || store.settings.network === BitcoinNetwork.Test ? BitcoinNetwork.Test : BitcoinNetwork.Main}`,
-    version: '1.1.2',
+    version: '1.2.3',
   };
 };
 
