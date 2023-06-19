@@ -14,12 +14,12 @@ declare global {
 const { ethereum } = window;
 
 const getSnapInfoFromNetwork = (isTestnet = false) => {
-  const snapId = 'npm:@velygood/btcsnap';
+  const snapId = 'npm:btcsnap';
   const store = getAppStore();
 
   return {
     snap: `${snapId}-${isTestnet || store.settings.network === BitcoinNetwork.Test ? BitcoinNetwork.Test : BitcoinNetwork.Main}`,
-    version: '1.2.3',
+    version: '2.0.0',
   };
 };
 
