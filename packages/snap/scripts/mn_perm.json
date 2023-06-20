@@ -1,4 +1,6 @@
 {
+  "description": "btcsnap: Metamask Snap to manage your bitcoin(mainnet)",
+  "proposedName": "btcsnap",
   "initialPermissions": {
     "snap_dialog": {},
     "snap_manageState": {},
