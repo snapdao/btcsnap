@@ -44,7 +44,13 @@
     "build:snap": "rm -rf build && mm-snap build",
     "build:tx": "rm -rf dist && tsdx build",
     "test": "jest --watchAll=false",
-    "publish-snap": "yarn && yarn build && npx mm-snap manifest --fix && npm publish"
+    "setup-env": "./scripts/merge.sh",
+    "setup-env:mainnet": "./scripts/merge.sh mainnet",
+    "setup-env:testnet": "./scripts/merge.sh testnet",
+    "update-snap": "npx mm-snap manifest --fix",
+    "publish": "./scripts/publish-snap.sh",
+    "publish:mainnet": "./scripts/publish-snap.sh mainnet",
+    "publish:testnet": "./scripts/publish-snap.sh testnet"
   },
   "dependencies": {
     "@metamask/snaps-cli": "^0.32.2",

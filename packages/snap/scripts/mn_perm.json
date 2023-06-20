@@ -1,21 +1,4 @@
 {
-  "version": "2.0.0",
-  "description": "btcsnap: Metamask Snap to manage your bitcoin",
-  "proposedName": "btcsnap",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/snapdao/btcsnap"
-  },
-  "source": {
-    "shasum": "W+UQSnOMvjZXqcWEGDo89dcnUg+fGvfOYHgJjCBicYI=",
-    "location": {
-      "npm": {
-        "filePath": "dist/bundle.js",
-        "packageName": "btcsnap",
-        "registry": "https://registry.npmjs.org"
-      }
-    }
-  },
   "initialPermissions": {
     "snap_dialog": {},
     "snap_manageState": {},
@@ -49,6 +32,5 @@
         "curve": "secp256k1"
       }
     ]
-  },
-  "manifestVersion": "0.1"
+  }
 }

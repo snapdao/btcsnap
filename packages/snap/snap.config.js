@@ -12,7 +12,7 @@ module.exports = {
   bundlerCustomizer: (bundler) => {
     // We don't provide Buffer by default, so we need to provide it manually.
     bundler.transform(envify({
-      // NETWORK: 'testnet',
+      NETWORK: process.env.NETWORK || undefined,
     }));
     bundler.transform(function () {
       let data = '';
