@@ -7,7 +7,7 @@
     "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "W+UQSnOMvjZXqcWEGDo89dcnUg+fGvfOYHgJjCBicYI=",
+    "shasum": "sorW/F+CGeMtj/dR2s6zIWZl4eLOpVmJgrENT4JRV5U=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -28,7 +28,7 @@
         "path": [
           "m",
           "44'",
-          "0'"
+          "1'"
         ],
         "curve": "secp256k1"
       },
@@ -36,7 +36,7 @@
         "path": [
           "m",
           "49'",
-          "0'"
+          "1'"
         ],
         "curve": "secp256k1"
       },
@@ -44,7 +44,7 @@
         "path": [
           "m",
           "84'",
-          "0'"
+          "1'"
         ],
         "curve": "secp256k1"
       }

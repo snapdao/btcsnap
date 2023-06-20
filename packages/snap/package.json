@@ -49,8 +49,8 @@
     "setup-env:testnet": "./scripts/merge.sh testnet",
     "update-snap": "npx mm-snap manifest --fix",
     "publish": "./scripts/publish-snap.sh",
-    "publish:mainnet": "./scripts/publish-snap.sh mainnet",
-    "publish:testnet": "./scripts/publish-snap.sh testnet"
+    "publish:mainnet": "yarn run publish mainnet",
+    "publish:testnet": "yarn run publish testnet"
   },
   "dependencies": {
     "@metamask/snaps-cli": "^0.32.2",
