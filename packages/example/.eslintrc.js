@@ -32,6 +32,7 @@ module.exports = {
       }
     ],
     semi: ['warn', 'always'],
+    'no-debugger': ['warn'],
     quotes: ['warn', 'single'],
     'jsx-quotes': ['warn', 'prefer-single'],
     indent: ['warn', 2,  { 'SwitchCase': 1 }],

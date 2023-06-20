@@ -4,6 +4,7 @@ import { BitcoinNetwork, ScriptType, Snap } from '../interface';
 import { convertXpub } from '../bitcoin/xpubConverter';
 import { extractAccountPrivateKey } from './getExtendedPublicKey';
 import { RequestErrors, SnapError } from '../errors';
+import { getNetworkFromSnapType, getAllTheSupportedSnapTypes } from '../utils/network';
 
 
 export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: string[], mfp: string}> {
@@ -20,8 +21,8 @@ export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: s
 
   if (result) {
     let xfp = '';
-    const xpubsInNetworks = await Promise.all(Object.values(BitcoinNetwork).map(async (bitcoinNetwork: BitcoinNetwork) => {
-      const network = bitcoinNetwork === BitcoinNetwork.Main ? networks.bitcoin : networks.testnet;
+    const xpubsInNetworks = await Promise.all(getAllTheSupportedSnapTypes().map(async (bitcoinNetwork: BitcoinNetwork) => {
+      const network = getNetworkFromSnapType(bitcoinNetwork);
       return await Promise.all(Object.values(ScriptType).map(async (scriptType: ScriptType) => {
         const { node: accountNode, mfp } = await extractAccountPrivateKey(snap, network, scriptType);
         xfp = xfp || mfp;

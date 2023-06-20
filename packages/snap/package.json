@@ -43,7 +43,14 @@
     "test:snap": "mm-snap serve",
     "build:snap": "rm -rf build && mm-snap build",
     "build:tx": "rm -rf dist && tsdx build",
-    "test": "jest --watchAll=false"
+    "test": "jest --watchAll=false",
+    "setup-env": "./scripts/setup.sh",
+    "setup-env:mainnet": "./scripts/setup.sh mainnet",
+    "setup-env:testnet": "./scripts/setup.sh testnet",
+    "update-snap": "npx mm-snap manifest --fix",
+    "publish": "./scripts/publish-snap.sh",
+    "publish:mainnet": "yarn run publish mainnet",
+    "publish:testnet": "yarn run publish testnet"
   },
   "dependencies": {
     "@metamask/snaps-cli": "^0.32.2",

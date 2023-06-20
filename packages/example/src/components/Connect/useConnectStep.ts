@@ -8,7 +8,7 @@ export const useConnectStep = () => {
   const {
     current,
     persistDataLoaded,
-    runtime: { connected },
+    runtime: { connected, swapping },
     user: { LNWalletStep }
   } = useAppStore();
   const [step, setStep] = useState<ConnectStep>(ConnectStep.Done);
@@ -55,7 +55,7 @@ export const useConnectStep = () => {
     if(!shouldShowReady){
       totalStep.current -= 1;
     }
-  }, [current, setStep, persistDataLoaded, LNWalletStep]);
+  }, [current, setStep, persistDataLoaded, LNWalletStep, swapping]);
   
   return {
     step,

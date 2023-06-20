@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snapdao/btcsnap"
+  },
+  "source": {
+    "shasum": "FqpCfEm+/0lZym8CEVNFXplp9s+LG1wlVAWXUByj6YQ=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "packageName": "btcsnap",
+        "registry": "https://registry.npmjs.org"
+      }
+    }
+  },
+  "manifestVersion": "0.1"
+}

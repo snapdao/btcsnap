@@ -3,7 +3,7 @@ import { useAppStore } from '../../mobx';
 import { BitcoinNetwork, BitcoinScriptType } from '../../interface';
 import CloseIcon from '../Icons/CloseIcon';
 import NetworkIcon from '../Icons/Network';
-import { updateNetworkInSnap } from '../../lib/snap';
+import { updateNetworkInSnap, switchNetworkAndSnapIfNeeded } from '../../lib/snap';
 import { AppStatus } from '../../mobx/runtime';
 import {
   ModalHeader,
@@ -42,16 +42,17 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
   }, [open]);
 
   const switchNetworkAndUpdateState = async (netValue: BitcoinNetwork, currentAccount: typeof current, scriptType: BitcoinScriptType) => {
+    await switchNetworkAndSnapIfNeeded(netValue);
     const targetNetwork = await updateNetworkInSnap(netValue);
 
     if (targetNetwork) {
       setNetwork(netValue);
       currentAccount && switchToAccount(currentAccount.mfp, scriptType, netValue);
 
-      if (currentAccount && !!getAccountBy(currentAccount.mfp, scriptType, netValue)) {
-        setStatus(AppStatus.FetchBalance);
-      } else {
+      if (!(currentAccount && !!getAccountBy(currentAccount.mfp, scriptType, netValue))) {
         setStatus(AppStatus.Connect);
+      } else {
+        setStatus(AppStatus.FetchBalance);
       }
     }
   };
