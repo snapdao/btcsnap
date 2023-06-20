@@ -18,7 +18,7 @@ const getSnapInfoFromNetwork = (isTestnet = false) => {
   const store = getAppStore();
 
   return {
-    snap: `${snapId}-${isTestnet || store.settings.network === BitcoinNetwork.Test ? BitcoinNetwork.Test : BitcoinNetwork.Main}`,
+    snap: `${snapId}${isTestnet || store.settings.network === BitcoinNetwork.Test ? '-dev' : ''}`,
     version: '2.0.0',
   };
 };
