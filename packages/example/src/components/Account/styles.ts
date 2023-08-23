@@ -116,6 +116,9 @@ export const WalletNameContainer = styled.span`
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const AccountAsideRefresh = styled.div`

@@ -60,6 +60,9 @@ export const WalletCardName = styled(H4)`
   overflow: hidden;
   color: white;
   text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const WalletNotice = styled.div`
