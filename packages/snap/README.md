@@ -11,16 +11,6 @@ Snaps is a system that allows developers to safely build and expand the capabili
 
 Additional information can be found [here](https://docs.metamask.io/guide/snaps.html).
 
-### Select Environment Before Local Development
-
-Choose the desired environment before rebuilding the project locally. Use the following commands:
-
-```
-npm run setup-env // Default environment
-npm run setup-env:mainnet // Mainnet environment
-npm run setup-env:testnet // Testnet environment
-```
-
 ### Usage
 
 1. Enable `BitcoinSnap` in your dapp
@@ -70,6 +60,7 @@ const result: { txId:string, txHex:string } = await ethereum.request({
   }
 })
 ```
+
 
 ### Building
 

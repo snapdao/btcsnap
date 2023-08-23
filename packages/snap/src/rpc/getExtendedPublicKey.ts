@@ -1,17 +1,16 @@
 import * as bip32 from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
-import { ScriptType, SLIP10Node, Snap } from '../interface';
+import { BitcoinNetwork, ScriptType, SLIP10Node, Snap } from '../interface';
 import { convertXpub } from "../bitcoin/xpubConverter";
 import { getPersistedData, updatePersistedData, trimHexPrefix } from '../utils';
-import { getCoinType, getSnapTypeFromNetwork } from '../utils/network';
 import { RequestErrors, SnapError } from "../errors";
 import { heading, panel, text } from "@metamask/snaps-ui";
 
 export const pathMap: Record<ScriptType, string[]> = {
-    [ScriptType.P2PKH]: ['m', "44'", `${getCoinType()}'`],
-    [ScriptType.P2SH_P2WPKH]: ['m', "49'", `${getCoinType()}'`],
-    [ScriptType.P2WPKH]: ['m', "84'", `${getCoinType()}'`]
+    [ScriptType.P2PKH]: ['m', "44'", "0'"],
+    [ScriptType.P2SH_P2WPKH]: ['m', "49'", "0'"],
+    [ScriptType.P2WPKH]: ['m', "84'", "0'"]
 }
 
 export const CRYPTO_CURVE = "secp256k1";
@@ -72,7 +71,7 @@ export async function getExtendedPublicKey(origin: string, snap: Snap, scriptTyp
 
                 const snapNetwork = await getPersistedData(snap, "network", "");
                 if(!snapNetwork) {
-                    await updatePersistedData(snap, "network", getSnapTypeFromNetwork(network));
+                    await updatePersistedData(snap, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
                 }
 
                 return { mfp, xpub };

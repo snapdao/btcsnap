@@ -35,7 +35,6 @@ export const runtimeInitialState = {
   status: AppStatus.Ready,
   lightningAppStatus: LightningAppStatus.Ready,
   connected: false,
-  swapping: false,
   currencyRate: 0,
   wallets: [],
 };
@@ -47,7 +46,6 @@ const Runtime = types
     connected: types.boolean,
     currencyRate: types.number,
     wallets: types.array(Wallet),
-    swapping: types.boolean,
   })
   .views((self) => ({
     get isLoading() {
@@ -65,9 +63,6 @@ const Runtime = types
   .actions((self) => ({
     setStatus: (status: AppStatus) => {
       self.status = status;
-    },
-    setSwapping: (swapping: boolean) => {
-      self.swapping = swapping;
     },
     setConnected: (hasConnected: boolean) => {
       self.connected = hasConnected;
