@@ -78,7 +78,9 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
               }}>MAX</SendAmountMax>
             </SendAmountItem>
 
-            {!model.amountValid && (<SendTextError>Insufficient Funds</SendTextError>)}
+            {!model.amountValid && (<SendTextError>Insufficient funds{
+              model.isPendingFundEnough && ', some still in confirming'
+            }</SendTextError>)}
 
             <SendAmountItem>
               <SendAmountTransition><span>{model.sendAmountSecondary}</span><span>{model.secondaryUnit}</span></SendAmountTransition>

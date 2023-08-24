@@ -9,7 +9,7 @@ import { coinManager } from '../../services/CoinManager';
 
 export const useSendInfo = () => {
   const { current } = useAppStore();
-  const { utxoList, nextChange } = useUtxo();
+  const { utxoList, nextChange, pendingValue } = useUtxo();
   const { feeRate } = useFeeRate();
   const [sendInfo, setSendInfo] = useState<SendInfo | undefined>();
 
@@ -19,21 +19,21 @@ export const useSendInfo = () => {
       const { index } = fromHdPathToObj(nextChange);
       const changeAddressPubkey = coinManager.xpubToPubkey(current.xpub, Number(1), Number(index));
       const changeAddress = coinManager.deriveAddress(changeAddressPubkey, current.scriptType, current.network);
-      
+
       setSendInfo({
         masterFingerprint: Buffer.from(current.mfp, 'hex'),
         changeAddress,
         changeAddressPath: nextChange,
         changeAddressPubkey: changeAddressPubkey
       });
-      
+
     }
   }, [current, utxoList, nextChange]);
-  
-  
+
   return {
     feeRate,
     utxos: utxoList,
-    sendInfo
+    sendInfo,
+    pendingValue
   };
 };
