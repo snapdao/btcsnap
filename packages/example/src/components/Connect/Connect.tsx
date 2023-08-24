@@ -6,6 +6,7 @@ import ArrowRight from '../Icons/ArrowRight';
 import { connect } from '../../lib/snap';
 import { trackConnectClick, trackConnectSucceed } from '../../tracking';
 import { ModalContentContainer } from './styles';
+import { Link } from '../../kits/Link';
 
 interface ConnectProps {
   show: boolean;
@@ -37,16 +38,11 @@ const Connect = ({ onConnected, show }: ConnectProps) => {
           If you do not have Bitcoin Snap installed, you will be prompted to do
           so.
         </p>
-        <a
-          href='https://docs.metamask.io/guide/snaps.html#what-is-snaps'
-          className='Connect-snap-link'
-          target='_blank'
-          rel='noopener noreferrer'>
-          What is Snaps
-          <span>
-            <ArrowRight size={18}/>
-          </span>
-        </a>
+        <div style={{ flex: 1, alignItems: 'flex-start' }}>
+          <Link href='https://docs.metamask.io/guide/snaps.html#what-is-snaps'>
+            What is Snaps
+          </Link>
+        </div>
         <button
           className='Connect-button'
           disabled={isConnecting}
