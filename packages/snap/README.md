@@ -2,12 +2,15 @@
 
 [![0.3.1](https://badge.fury.io/js/btcsnap.png)](https://badge.fury.io/js/btcsnap)
 
-`BitcoinSnap` is the world's first application allowing users to directly manage Bitcoin within the MetaMask interface, without having to wrap tokens. Since Snaps is pre-release software, BitcoinSnap is currently live on [Metamask Flask](https://metamask.io/flask/) only, a canary distribution for developers that provides access to upcoming features.
-
-*Note: MetaMask Flask is an experimental playground for developers and is not to be confused with the normal [MetaMask wallet app](https://metamask.io/).
+`BitcoinSnap` is the world's first application allowing users to directly manage Bitcoin within the MetaMask interface,
+without having to wrap tokens. BitcoinSnap is currently live on [Metamask](https://metamask.io/).
 
 ## MetaMask Snaps Introduction
-Snaps is a system that allows developers to safely build and expand the capabilities of MetaMask. It is a program that is run in an isolated environment with a limited set of capabilities, that can customize and modify MetaMask's wallet experience for end users. For example, a snap can add new APIs to MetaMask thus adding support for different blockchains or modify existing functionalities using internal APIs.
+Snaps is a system that allows developers to safely build and expand the capabilities of MetaMask.
+It is a program that is run in an isolated environment with a limited set of capabilities,
+that can customize and modify MetaMask's wallet experience for end users.
+For example, a snap can add new APIs to MetaMask thus adding support for different blockchains
+or modify existing functionalities using internal APIs.
 
 Additional information can be found [here](https://docs.metamask.io/guide/snaps.html).
 

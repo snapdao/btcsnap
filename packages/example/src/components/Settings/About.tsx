@@ -33,7 +33,7 @@ const AboutBitcoinSnap = (({ open, close }: ConnectProps) => {
           <CloseIcon onClick={close} />
         </ModalHeader>
         <AboutBitcoinSnapContainer>
-          <p>BitcoinSnap is a program based off MetaMask Flask. Do note that Snaps are not currently supported in the official MetaMask release yet.</p>
+          <p>BitcoinSnap is a program based off MetaMask.</p>
           <p>BitcoinSnap is a web platform operated and developed by Yanssie HK Limited. Services include but not limited to, accessing any website or application on the platform, and any services offered through the BTCSnap platform.</p>
           <MaskArea />
         </AboutBitcoinSnapContainer>

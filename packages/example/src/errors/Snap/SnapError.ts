@@ -32,7 +32,7 @@ export const mapErrorToUserFriendlyError = (message: string) => {
           store.runtime.setConnected(false);
           store.resetStore();
         }
-        return { ...snapRequestError, message: 'This error is usually caused by resetting the recovery phrase, please try to reinstall MetaMask Flask' };
+        return { ...snapRequestError, message: 'This error is usually caused by resetting the recovery phrase, please try to reinstall MetaMask' };
       case 'SignInvalidPath':
         return { ...snapRequestError, message: 'Sign transaction failed' };
       case 'ScriptTypeNotSupport':

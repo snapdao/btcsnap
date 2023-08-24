@@ -121,7 +121,7 @@ export const GetAddress = observer(
     return (
       <>
         <ModalContentContainer show={show}>
-          <ConnectIcon className='Connect-flask-icon' />
+          <ConnectIcon className='Connect-MM-icon' />
           <h2>
             Get Addresses for <br /> Bitcoin Snap
           </h2>

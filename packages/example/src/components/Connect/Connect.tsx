@@ -32,7 +32,7 @@ const Connect = ({ onConnected, show }: ConnectProps) => {
   return (
     <>
       <ModalContentContainer show={show}>
-        <ConnectIcon className='Connect-flask-icon'/>
+        <ConnectIcon className='Connect-MM-icon'/>
         <h2>Connect to MetaMask Bitcoin Snap</h2>
         <p className='Connect-install'>
           If you do not have Bitcoin Snap installed, you will be prompted to do

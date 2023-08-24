@@ -10,7 +10,7 @@ interface InstallProps {
   show: boolean
 }
 
-const getFlaskInstallLink = () => {
+const getMetaMaskExtensionInstallLink = () => {
   return isFirefox(navigator.userAgent)
     ? 'https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/'
     : 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn';
@@ -19,7 +19,7 @@ const getFlaskInstallLink = () => {
 const Install = ({ show }: InstallProps) => {
   return (
     <ModalContentContainer show={show}>
-      <MetaMaskIcon className='Connect-flask-icon'/>
+      <MetaMaskIcon className='Connect-MM-icon'/>
       <h2>Install MetaMask</h2>
       <p className='Connect-install'>You will need to install the MetaMask extension in order to use Bitcoin Snap.</p>
       <div style={{ flex: 1, alignItems: 'flex-start' }}>
@@ -27,7 +27,7 @@ const Install = ({ show }: InstallProps) => {
       </div>
       <SubCaption style={{ marginBottom: 16, color: 'var(--c-n60)' }}>Refresh this page after the installation</SubCaption>
       <a
-        href={getFlaskInstallLink()}
+        href={getMetaMaskExtensionInstallLink()}
         className='Connect-button'
         target='_blank'
         rel='noopener noreferrer'
