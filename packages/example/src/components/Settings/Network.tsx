@@ -106,7 +106,7 @@ const Network = (({ open, close, parentNode }: ConnectProps) => {
         </NetworkItem>
       </NetworkContainer>
     </Modal>
-    ;
+  ;
 });
 
 export default Network;
