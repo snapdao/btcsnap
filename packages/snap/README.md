@@ -1,29 +1,22 @@
-# `BitcoinSnap`
+# `Zion`
 
 [![0.3.1](https://badge.fury.io/js/btcsnap.png)](https://badge.fury.io/js/btcsnap)
 
-`BitcoinSnap` is the world's first application allowing users to directly manage Bitcoin within the MetaMask interface, without having to wrap tokens. Since Snaps is pre-release software, BitcoinSnap is currently live on [Metamask Flask](https://metamask.io/flask/) only, a canary distribution for developers that provides access to upcoming features.
-
-*Note: MetaMask Flask is an experimental playground for developers and is not to be confused with the normal [MetaMask wallet app](https://metamask.io/).
+`Zion` is the world's first application allowing users to directly manage Bitcoin within the MetaMask interface,
+without having to wrap tokens. Zion is currently live on [Metamask](https://metamask.io/).
 
 ## MetaMask Snaps Introduction
-Snaps is a system that allows developers to safely build and expand the capabilities of MetaMask. It is a program that is run in an isolated environment with a limited set of capabilities, that can customize and modify MetaMask's wallet experience for end users. For example, a snap can add new APIs to MetaMask thus adding support for different blockchains or modify existing functionalities using internal APIs.
+Snaps is a system that allows developers to safely build and expand the capabilities of MetaMask.
+It is a program that is run in an isolated environment with a limited set of capabilities,
+that can customize and modify MetaMask's wallet experience for end users.
+For example, a snap can add new APIs to MetaMask thus adding support for different blockchains
+or modify existing functionalities using internal APIs.
 
 Additional information can be found [here](https://docs.metamask.io/guide/snaps.html).
 
-### Select Environment Before Local Development
-
-Choose the desired environment before rebuilding the project locally. Use the following commands:
-
-```
-npm run setup-env // Default environment
-npm run setup-env:mainnet // Mainnet environment
-npm run setup-env:testnet // Testnet environment
-```
-
 ### Usage
 
-1. Enable `BitcoinSnap` in your dapp
+1. Enable `btcsnap` in your dapp
 
 ```ts
 const result: boolean = await ethereum.request({
@@ -71,6 +64,7 @@ const result: { txId:string, txHex:string } = await ethereum.request({
 })
 ```
 
+
 ### Building
 
 Build the snap and test it locally with the following command:
@@ -95,4 +89,4 @@ yarn test
 
 ## Live Example
 
-If you would like to integrate BitcoinSnap into your dapp, you can use the following codes [here](https://github.com/snapdao/btcsnap/tree/master/packages/example).
+If you would like to integrate `btcsnap` into your dapp, you can use the following codes [here](https://github.com/snapdao/btcsnap/tree/master/packages/example).

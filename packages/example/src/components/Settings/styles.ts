@@ -202,9 +202,9 @@ export const TermsContainer = styled.div`
   }
 `;
 
-//----- AboutBitcoinSnap -----
-export const AboutBitcoinSnapContainer = styled.div`
-  height: 468px;
+//----- AboutSection -----
+export const AboutSectionContainer = styled.div`
+  height: 200px;
   margin: 20px 0;
   padding: 0 32px;
   overflow-y: hidden;

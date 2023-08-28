@@ -12,7 +12,7 @@ enum SettingOptions {
 }
 
 export const BitcoinSettings = observer(() => {
-  const { settings: { scriptType, dynamicAddress, setDynamicAddress } } = useAppStore();
+  const { settings: { scriptType, dynamicAddress, setDynamicAddress, changeAddress, setChangeAddress } } = useAppStore();
   const [currentVisible, setCurrentVisible] = useState<SettingOptions | null>();
   const [showSettingSuccessMessage, setShowSettingSuccessMessage] = useState<boolean>(false);
   const openDialog = (option: SettingOptions) => {
@@ -71,6 +71,24 @@ export const BitcoinSettings = observer(() => {
         </DynamicAddressContainer>
         <span>
           <SettingRadio toggle checked={dynamicAddress}/>
+        </span>
+      </SettingItem>
+
+      <SettingItem
+        onClick={() => {
+          setChangeAddress(!changeAddress);
+          showSettingChangedTips();
+        }}>
+        <DynamicAddressContainer>
+          Change Address
+          <Popup
+            wide
+            content={'When enabled, change address will be used when a transfer is made to maximize your privacy.'}
+            trigger={<span><InfoIcon /></span>}
+          />
+        </DynamicAddressContainer>
+        <span>
+          <SettingRadio toggle checked={changeAddress}/>
         </span>
       </SettingItem>
 

@@ -1,7 +1,6 @@
 import { ScriptType, BitcoinNetwork } from "../interface";
 import { Network, networks } from 'bitcoinjs-lib';
 import { encode, decode } from "bs58check";
-import { getSnapTypeFromNetwork } from '../utils/network';
 
 type XpubPrefix = "xpub" | "tpub" | "ypub" | "upub" | "zpub" | "vpub";
 
@@ -31,7 +30,8 @@ const scriptTypeToXpubPrefix: Record<ScriptType, Record<BitcoinNetwork, XpubPref
 }
 
 export const convertXpub = (xpub: string, to: ScriptType, network: Network): string => {
-  const xpubPrefix = scriptTypeToXpubPrefix[to][getSnapTypeFromNetwork(network)];
+  const net = network === networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test;
+  const xpubPrefix = scriptTypeToXpubPrefix[to][net];
 
   let data = decode(xpub);
   data = data.slice(4);

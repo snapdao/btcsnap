@@ -1,7 +1,5 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { BitcoinNetwork, BitcoinScriptType } from '../interface';
-import { register } from '../services/CryptoService/register';
-import { getAppStore } from '../mobx';
 import { SnapError } from '../errors';
 import { logger } from '../logger';
 
@@ -13,50 +11,26 @@ declare global {
 
 const { ethereum } = window;
 
-const getSnapInfoFromNetwork = (isTestnet = false) => {
-  const snapId = 'npm:btcsnap';
-  const store = getAppStore();
+const snapId = 'npm:btcsnap';
 
-  return {
-    snap: `${snapId}${isTestnet || store.settings.network === BitcoinNetwork.Test ? '-dev' : ''}`,
-    version: '2.0.0',
-  };
-};
-
-export async function connect(cb: (connected: boolean) => void, isTestnet = false) {
+export async function connect(cb: (connected: boolean) => void) {
   let connected = false;
-  const snapInfo = getSnapInfoFromNetwork(isTestnet);
   try {
     const result: any = await ethereum.request({
       method: 'wallet_requestSnaps',
       params: {
-        [snapInfo.snap]: {
-          version: snapInfo.version,
+        [snapId]: {
+          version: '2.0.0',
         },
       }
     });
 
-    const hasError = !!result?.snaps?.[getSnapInfoFromNetwork().snap]?.error;
+    const hasError = !!result?.snaps?.[snapId]?.error;
     connected = !hasError;
   } finally {
-    await cb(connected);
+    cb(connected);
   }
 }
-
-export const switchNetworkAndSnapIfNeeded = async (nextNetwork: BitcoinNetwork) => {
-  const isTestnet = nextNetwork === BitcoinNetwork.Test;
-  const store = getAppStore();
-  try {
-    store.runtime.setSwapping(true);
-    store.settings.setNetwork(nextNetwork);
-    await connect(async () => {
-      const { mfp, xpubs } = await getAllExtendedPublicKeys(isTestnet);
-      await register(xpubs, mfp);
-    }, isTestnet);
-  } finally {
-    store.runtime.setSwapping(false);
-  }
-};
 
 /**
  *
@@ -83,7 +57,7 @@ export async function getExtendedPublicKey(
     return (await ethereum.request({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork().snap,
+        snapId,
         request: {
           method: 'btc_getPublicExtendedKey',
           params: {
@@ -107,12 +81,12 @@ interface AllXpubs {
   xpubs: string[];
 }
 
-export async function getAllExtendedPublicKeys(isTestnet = false): Promise<AllXpubs> {
+export async function getAllExtendedPublicKeys(): Promise<AllXpubs> {
   try {
     return (await ethereum.request({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork(isTestnet).snap,
+        snapId,
         request: {
           method: 'btc_getAllXpubs',
           params: {},
@@ -133,7 +107,7 @@ export async function getMasterFingerprint() {
     return await ethereum.request({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork().snap,
+        snapId,
         request: {
           method: 'btc_getMasterFingerprint',
         },
@@ -154,7 +128,7 @@ export async function updateNetworkInSnap(network: BitcoinNetwork) {
     return await ethereum.request({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork().snap,
+        snapId,
         request: {
           method: 'btc_network',
           params: {
@@ -182,7 +156,7 @@ export async function signPsbt(
     return (await ethereum.request({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork().snap,
+        snapId,
         request: {
           method: 'btc_signPsbt',
           params: {
@@ -215,7 +189,7 @@ export async function getLNWalletData(
     return await ethereum.request<string>({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork().snap,
+        snapId,
         request: {
           method: 'btc_getLNDataFromSnap',
           params: {
@@ -247,7 +221,7 @@ export async function saveLNDataToSnap({
     return await ethereum.request<string>({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork().snap,
+        snapId,
         request: {
           method: 'btc_saveLNDataToSnap',
           params: {
@@ -272,7 +246,7 @@ export async function signLNInvoice(
     return ethereum.request<string>({
       method: 'wallet_invokeSnap',
       params: {
-        snapId: getSnapInfoFromNetwork().snap,
+        snapId,
         request: {
           method: 'btc_signLNInvoice',
           params: {

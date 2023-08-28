@@ -1,7 +1,7 @@
 import * as bip32 from 'bip32';
 import {BIP32Interface} from 'bip32';
-import {SLIP10Node, Snap} from '../interface';
-import {getNetworkFromCoinType} from '../utils/network';
+import {BitcoinNetwork, SLIP10Node, Snap} from '../interface';
+import {getNetwork} from '../bitcoin/getNetwork';
 import {parseLightningPath} from '../bitcoin/cryptoPath';
 import { trimHexPrefix } from '../utils/hexHelper';
 
@@ -10,7 +10,10 @@ const CRYPTO_CURVE = 'secp256k1';
 export const getHDNode = async (snap: Snap, hdPath: string) => {
   const {purpose, coinType, account, change, index} =
     parseLightningPath(hdPath);
-  const network = getNetworkFromCoinType(coinType.value);
+  const network =
+    coinType.value === '0'
+      ? getNetwork(BitcoinNetwork.Main)
+      : getNetwork(BitcoinNetwork.Test);
   const path = ['m', purpose.value, coinType.value];
 
   const slip10Node = (await snap.request({

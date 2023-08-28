@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useAppStore } from '../mobx';
 import { SupportedCoins } from '../constant/supportedCoins';
 import { NETWORK_SCRIPT_TO_COIN } from '../constant/bitcoin';
-import { queryCoinV1 } from '../api/';
 import { IAccount } from '../mobx/types';
 import { logger } from '../logger';
+import { queryAssetRate } from '../api';
 
 export const useCurrencyRate = () => {
   const {
@@ -22,8 +22,8 @@ export const useCurrencyRate = () => {
     const queryCurrencyRate = async (current: IAccount) => {
       const coinCode: SupportedCoins =
         NETWORK_SCRIPT_TO_COIN[current.network][current.scriptType];
-      const response = await queryCoinV1(coinCode);
-      const rate = Number(response.coins?.[coinCode]?.coinInfo?.rate) || 0;
+      const response = await queryAssetRate();
+      const rate = Number(response.rates.find(coinRate => coinRate.coin === coinCode)?.rate) || 0;
       return { rate };
     };
 

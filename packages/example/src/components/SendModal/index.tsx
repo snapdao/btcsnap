@@ -18,7 +18,7 @@ type ContainerProps = {
 };
 
 const SendContainer = ({ network, scriptType, close, unit, currencyRate }: ContainerProps) => {
-  const { feeRate, utxos, sendInfo } = useSendInfo();
+  const { feeRate, utxos, sendInfo, pendingValue } = useSendInfo();
 
   const model = useMemo(() => {
     return new SendViewModel(
@@ -28,6 +28,7 @@ const SendContainer = ({ network, scriptType, close, unit, currencyRate }: Conta
       network,
       unit,
       scriptType,
+      pendingValue,
       sendInfo,
     );
   }, []);
@@ -39,7 +40,8 @@ const SendContainer = ({ network, scriptType, close, unit, currencyRate }: Conta
       model.setSendInfo(sendInfo);
     }
     model.setNetwork(network);
-  }, [utxos, feeRate, sendInfo, network]);
+    model.setPendingValue(pendingValue);
+  }, [utxos, feeRate, sendInfo, network, pendingValue]);
 
   return <SendModal model={model} close={close} />;
 };

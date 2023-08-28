@@ -70,6 +70,7 @@ class SendViewModel {
     public network: BitcoinNetwork,
     public unit: BitcoinUnit,
     private scriptType: BitcoinScriptType,
+    private pendingValue: number,
     private sendInfo?: SendInfo,
   ) {
     this.sendMainUnit = unit;
@@ -108,6 +109,10 @@ class SendViewModel {
 
   setNetwork = (network: BitcoinNetwork) => {
     this.network = network;
+  };
+
+  setPendingValue = (pendingValue: number) => {
+    this.pendingValue = pendingValue;
   };
 
   setTo = (to: string) => {
@@ -235,7 +240,7 @@ class SendViewModel {
       return {
         ...result,
         [feeRate]: this.satoshiToCurrentMainUnit(
-          this.getSelectedUtxoFee(feeRate, true),
+          this.getSelectedUtxoFee(feeRate),
         ),
       };
     }, {} as FeeRate);
@@ -280,6 +285,11 @@ class SendViewModel {
   get amountValid() {
     if (this.isEmptyAmount) return true;
     return this.balanceInSatoshi.gte(this.sendSatoshis.plus(this.fee));
+  }
+
+  get isPendingFundEnough() {
+    const total = this.balanceInSatoshi.plus(this.pendingValue);
+    return total.gte(this.sendSatoshis.plus(this.fee));
   }
 
   get isEmptyTo() {
