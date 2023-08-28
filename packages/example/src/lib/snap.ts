@@ -11,7 +11,7 @@ declare global {
 
 const { ethereum } = window;
 
-const snapId = 'npm:btcsnap';
+const snapId = 'local:http://localhost:8081';
 
 export async function connect(cb: (connected: boolean) => void) {
   let connected = false;
