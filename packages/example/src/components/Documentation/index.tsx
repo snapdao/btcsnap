@@ -1,6 +1,6 @@
 import { Background } from '../Background';
 import ReactMarkdown from 'react-markdown';
-import { DocumentationContainer } from './styles';
+import { DocumentationContainer, Image } from './styles';
 import { Docs, Doctype } from './config';
 export { Doctype };
 
@@ -12,7 +12,11 @@ export const Documentation = ({ type }: DocumentationProps) => {
   return (
     <Background>
       <DocumentationContainer>
-        <ReactMarkdown>
+        <ReactMarkdown
+          components={{
+            img:(props) => <Image {...props} />
+          }}
+        >
           {Docs[type]}
         </ReactMarkdown>
       </DocumentationContainer>

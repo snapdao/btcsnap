@@ -16,3 +16,9 @@ export const DocumentationContainer = styled.div`
   overflow-y: scroll;
   ${hideScrollbar};
 `;
+
+
+export const Image = styled.img`
+  margin: 20px auto;
+  max-width: 80%;
+`;
