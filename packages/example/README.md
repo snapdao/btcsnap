@@ -1,16 +1,16 @@
-# BitcoinSnap
+# Zion
 
 The world's first application allowing users to directly manage Bitcoin within the MetaMask interface, without having to wrap it.
 The application is currently live on [Metamask](https://metamask.io/) only.
 
-## How to start testing BitcoinSnap
+## How to start testing Zion
 
 1. Download [MetaMask](https://metamask.io/)
-2. Head over to the [BitcoinSnap webpage](https://btc.justsnap.io), create a test wallet, connect it to MetMask and approve the installation of the BitcoinSnap app
+2. Head over to the [Zion webpage](https://btc.justsnap.io), create a test wallet, connect it to MetMask and approve the installation of the `btcsnap`
 3. Ensure you're connected to the 'Testnet' version of the app via settings
 4. Request for some testnet Bitcoin via [Coinfaucet](https://coinfaucet.eu/en/btc-testnet/) or [Bitcoinfaucet](https://bitcoinfaucet.uo1.net/) and start experimenting
 
-Check out this [video](https://youtu.be/pQwZRfHpXtI) to see how BitcoinSnap works.
+Check out this [video](https://youtu.be/pQwZRfHpXtI) to see how Zion works.
 
 ## How to build the application locally
 
