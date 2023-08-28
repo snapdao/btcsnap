@@ -7,7 +7,7 @@ import {
   ModalHeaderContainer,
   ModalHeaderLabel,
   MaskArea,
-  AboutBitcoinSnapContainer
+  AboutSectionContainer
 } from './styles';
 
 interface ConnectProps {
@@ -15,7 +15,7 @@ interface ConnectProps {
   close: () => void;
 }
 
-const AboutBitcoinSnap = (({ open, close }: ConnectProps) => {
+const AboutZion = (({ open, close }: ConnectProps) => {
 
   return (
     <TransitionablePortal
@@ -28,18 +28,18 @@ const AboutBitcoinSnap = (({ open, close }: ConnectProps) => {
       >
         <ModalHeader style={{ paddingLeft: 155 }}>
           <ModalHeaderContainer>
-            <ModalHeaderLabel>About BitcoinSnap</ModalHeaderLabel>
+            <ModalHeaderLabel>About Zion</ModalHeaderLabel>
           </ModalHeaderContainer>
           <CloseIcon onClick={close} />
         </ModalHeader>
-        <AboutBitcoinSnapContainer>
-          <p>BitcoinSnap is a program based off MetaMask.</p>
-          <p>BitcoinSnap is a web platform operated and developed by Yanssie HK Limited. Services include but not limited to, accessing any website or application on the platform, and any services offered through the BTCSnap platform.</p>
+        <AboutSectionContainer>
+          <p>Zion is a program based off MetaMask.</p>
+          <p>Zion is a web platform operated and developed by Yanssie HK Limited. Services include but not limited to, accessing any website or application on the platform, and any services offered through the btcsnap platform.</p>
           <MaskArea />
-        </AboutBitcoinSnapContainer>
+        </AboutSectionContainer>
       </Modal>
     </TransitionablePortal>
   );
 });
 
-export default AboutBitcoinSnap;
+export default AboutZion;

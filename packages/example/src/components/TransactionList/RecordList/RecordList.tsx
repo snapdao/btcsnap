@@ -33,7 +33,7 @@ interface RecordListProps {
   defaultRecords: HistoryRecord[];
 }
 
-const TRANSACTION_HISTORY_RECORD_TIPS = 'The previous transactions of addresses before using BitcoinSnap will not be displayed here.';
+const TRANSACTION_HISTORY_RECORD_TIPS = 'The previous transactions of addresses before using Zion will not be displayed here.';
 
 export const RecordList = observer(({ open, close, defaultRecords }: RecordListProps) => {
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);

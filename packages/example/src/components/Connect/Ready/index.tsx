@@ -34,7 +34,7 @@ export const Ready = observer(({ show, onClose }: {show: boolean; onClose: () =>
         <LastStepText>You’ve successfully setup your wallet!</LastStepText>
         <ButtonsContainer>
           <StartButton primary onClick={onClose}>
-              Start Using BitcoinSnap
+              Start Using Zion
           </StartButton>
         </ButtonsContainer>
       </LNSetupModalContent>
