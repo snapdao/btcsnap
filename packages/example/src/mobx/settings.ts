@@ -24,6 +24,9 @@ const Settings = types
     },
     setDynamicAddress:(isDynamic: boolean) => {
       self.dynamicAddress = isDynamic;
+      if (isDynamic) {
+        self.changeAddress = true;
+      }
     },
     setChangeAddress:(useChangeAddress: boolean) => {
       self.changeAddress = useChangeAddress;
