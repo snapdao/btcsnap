@@ -123,7 +123,7 @@ export const GetAddress = observer(
         <ModalContentContainer show={show}>
           <ConnectIcon className='Connect-MM-icon' />
           <h2>
-            Get Addresses for <br /> Bitcoin Snap
+            Get Addresses for <br /> Zion
           </h2>
           <p style={{ marginBottom: 82 }} className='Connect-install'>
             Your Bitcoin account addresses will be created along with your

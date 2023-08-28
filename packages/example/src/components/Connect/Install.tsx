@@ -21,7 +21,7 @@ const Install = ({ show }: InstallProps) => {
     <ModalContentContainer show={show}>
       <MetaMaskIcon className='Connect-MM-icon'/>
       <h2>Install MetaMask</h2>
-      <p className='Connect-install'>You will need to install the MetaMask extension in order to use Bitcoin Snap.</p>
+      <p className='Connect-install'>You will need to install the MetaMask extension in order to use Zion.</p>
       <div style={{ flex: 1, alignItems: 'flex-start' }}>
         <Link href='https://metamask.io/'>Learn More</Link>
       </div>

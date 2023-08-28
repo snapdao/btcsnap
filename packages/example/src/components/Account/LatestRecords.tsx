@@ -19,7 +19,7 @@ interface TxCardProps {
   refresh: () => void
 }
 
-const TRANSACTION_TIPS = 'The previous transactions of addresses before using BitcoinSnap will not be displayed here.';
+const TRANSACTION_TIPS = 'The previous transactions of addresses before using Zion will not be displayed here.';
 
 export const LatestRecords = observer(({ loading, historyList, refresh, error }: TxCardProps) => {
   const { current, currentWalletType } = useAppStore();
@@ -37,7 +37,7 @@ export const LatestRecords = observer(({ loading, historyList, refresh, error }:
   return (
     <TxListContainer>
       {
-        loading ? 
+        loading ?
           <TxListContent>
             {Array.from({ length: 5 })
               .map((_, index) => <StyledRecordCardSkeleton key={index} />)}
