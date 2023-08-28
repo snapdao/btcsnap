@@ -7,10 +7,11 @@
     "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "EDrxEcqqRyMCVcgn6Y9BpxRHqFjCfqXahKDC8jqiwuI=",
+    "shasum": "AmgiiB7b+aF+W4cORzAPjk+pdoSEK+IgLPguQ2S7L5k=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
+        "iconPath": "images/icon.svg",
         "packageName": "btcsnap",
         "registry": "https://registry.npmjs.org"
       }

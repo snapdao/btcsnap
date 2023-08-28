@@ -24,7 +24,7 @@ const AboutBitcoinSnap = (({ open, close }: ConnectProps) => {
     >
       <Modal
         open
-        style={{ width: '440px', height: '320px', marginTop: '370px', borderRadius: '20px' }}
+        style={{ width: '440px', height: 250, marginTop: 390, borderRadius: '20px' }}
       >
         <ModalHeader style={{ paddingLeft: 155 }}>
           <ModalHeaderContainer>

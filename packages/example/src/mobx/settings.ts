@@ -5,6 +5,7 @@ export const settingsInitialState = {
   network: BitcoinNetwork.Main,
   scriptType: BitcoinScriptType.P2WPKH,
   dynamicAddress: false,
+  changeAddress: false,
 };
 
 const Settings = types
@@ -12,6 +13,7 @@ const Settings = types
     network: types.enumeration(Object.values(BitcoinNetwork)),
     scriptType: types.enumeration(Object.values(BitcoinScriptType)),
     dynamicAddress: types.boolean,
+    changeAddress: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     setNetwork: (network: BitcoinNetwork) => {
@@ -22,6 +24,12 @@ const Settings = types
     },
     setDynamicAddress:(isDynamic: boolean) => {
       self.dynamicAddress = isDynamic;
+      if (isDynamic) {
+        self.changeAddress = true;
+      }
+    },
+    setChangeAddress:(useChangeAddress: boolean) => {
+      self.changeAddress = useChangeAddress;
     },
   }));
 

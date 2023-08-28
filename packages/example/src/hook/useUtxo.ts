@@ -12,6 +12,7 @@ export const useUtxo = () => {
   const { current } = useAppStore();
   const [utxoList, setUtxoList] = useState<Utxo[]>([]);
   const [nextChangePath, setNextChangePath] = useState<string>('');
+  const [pendingValue, setPendingValue] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -31,7 +32,9 @@ export const useUtxo = () => {
               pubkey,
             };
           });
-        return { utxoList, nextChange: data.unusedChangeAddressHdPath };
+        const pendingValue = data.pending.reduce((total, tx) => total + tx.value, 0);
+        setPendingValue(pendingValue);
+        return { utxoList, nextChange: data.unusedChangeAddressHdPath, pendingValue };
       }).then(data => {
         setLoading(false);
         return fetchRawTx(data['utxoList'], data['nextChange'], current.network);
@@ -51,7 +54,8 @@ export const useUtxo = () => {
   return {
     utxoList,
     nextChange: nextChangePath,
-    loading
+    loading,
+    pendingValue,
   };
 };
 
