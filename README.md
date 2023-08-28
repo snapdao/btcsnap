@@ -28,6 +28,11 @@ Navigate to the `example` folder under `packages`, launch our app locally by run
 yarn install && yarn start
 ```
 
+## Audit Report
+
+[Audited by SlowMist](https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf)
+
+
 ## License
 
 This project is dual-licensed under Apache 2.0 and MIT terms:

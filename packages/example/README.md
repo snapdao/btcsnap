@@ -42,3 +42,8 @@ It correctly bundles React in production mode and optimizes the best performance
 
 The build is minified and the filenames are included in the hashes.\
 Your app is ready to be deployed!
+
+
+## Audit Report
+
+[Audited by SlowMist](https://github.com/slowmist/Knowledge-Base/blob/master/open-report-V2/blockchain-application/SlowMist%20Audit%20Report%20-%20BTCSnap_en-us.pdf)
