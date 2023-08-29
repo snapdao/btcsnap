@@ -13,8 +13,8 @@ interface ValidateTxData {
   to: string;
 }
 
-export const validateTx = ({ psbt, utxoAmount, changeAddressPath, to }: ValidateTxData) => {
-  return isChangeAddressBelongsToCurrentAccount(psbt, changeAddressPath, to) &&
+export const validateTx = ({ psbt, utxoAmount, changeAddressPath }: ValidateTxData) => {
+  return isChangeAddressBelongsToCurrentAccount(psbt, changeAddressPath) &&
     !isFeeTooHigh(psbt, utxoAmount) &&
     !hasDustOutput(psbt);
 };
@@ -25,8 +25,9 @@ const isFeeTooHigh = (psbt: Psbt, utxoAmount: number) => {
   return fee >= MAX_FEE;
 };
 
-const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: string, to: string) => {
-  const changeAddress = psbt.txOutputs.find(output => output.address !== to);
+const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: string) => {
+  const changeAddressIndex = psbt.data.outputs.findIndex(output => output.bip32Derivation?.length);
+  const changeAddress = psbt.txOutputs[changeAddressIndex];
   const { current } = getAppStore();
   if(current) {
     // changeAddress exists
