@@ -30,6 +30,9 @@ const Settings = types
     },
     setChangeAddress:(useChangeAddress: boolean) => {
       self.changeAddress = useChangeAddress;
+      if (!useChangeAddress) {
+        self.dynamicAddress = false;
+      }
     },
   }));
 
