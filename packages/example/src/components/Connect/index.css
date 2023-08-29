@@ -16,32 +16,6 @@
   margin-bottom: 16px;
 }
 
-.Connect-button {
-  width: 280px;
-  height: 48px;
-  border-radius: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  color: #FFFFFF;
-  gap: 10px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.Connect-button:hover {
-  background-color: #F58300;
-  cursor: pointer;
-  color: #FFFFFF;
-  transition: 0.25s;
-}
-
-.Connect-button:hover svg path {
-  fill: #FFFFFF;
-}
-
 .Connect-button:not(:hover) {
   background: #111214;
   transition: 0.25s;

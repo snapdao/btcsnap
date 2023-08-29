@@ -58,3 +58,37 @@ export const StyledBrowsers = styled(Browsers)`
     }
   }
 `;
+
+export const ConnectButton = styled.button`
+  width: 280px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: #FFFFFF;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  background-color: #111214;
+  transition: 0.25s;
+
+  :hover {
+    background-color: #F58300;
+    cursor: pointer;
+    color: #FFFFFF;
+    transition: 0.25s;
+  }
+
+  :disabled {
+    background-color: #E1E6F0;
+  }
+`;
+
+export const StyledConnectButton = styled(ConnectButton)`
+  :hover svg path {
+    fill: #FFFFFF;
+  }
+`;

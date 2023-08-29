@@ -53,7 +53,7 @@ export const useSendInfo = () => {
         ...address
       });
     }
-  }, [current, utxoList, isChangeAddressEnabled]);
+  }, [current, utxoList, isChangeAddressEnabled, nextChange, receivePath, receiveAddress]);
 
   return {
     feeRate,
