@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactComponent as MetaMaskIcon } from './image/MetaMaskLogo.svg';
 import { ReactComponent as InstallIcon } from './image/install.svg';
 import { isFirefox } from '../../lib/helper';
-import { ModalContentContainer } from './styles';
+import { ModalContentContainer, StyledConnectButton } from './styles';
 import { SubCaption } from '../../kits';
 import { Link } from '../../kits/Link';
 
@@ -26,15 +26,15 @@ const Install = ({ show }: InstallProps) => {
         <Link href='https://metamask.io/'>Learn More</Link>
       </div>
       <SubCaption style={{ marginBottom: 16, color: 'var(--c-n60)' }}>Refresh this page after the installation</SubCaption>
-      <a
+      <StyledConnectButton
+        as='a'
         href={getMetaMaskExtensionInstallLink()}
-        className='Connect-button'
         target='_blank'
         rel='noopener noreferrer'
       >
         <InstallIcon />
         <span>Install MetaMask</span>
-      </a>
+      </StyledConnectButton>
     </ModalContentContainer>
   );
 };

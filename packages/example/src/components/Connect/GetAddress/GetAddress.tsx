@@ -10,11 +10,11 @@ import { observer } from 'mobx-react-lite';
 import { ErrorPage } from './ErrorPage';
 import { ErrorMessage, ErrorTipsContainer, LoadingContainer, ModalContainer } from './styles';
 import { logger } from '../../../logger';
-import { SnapError, SnapRequestErrors } from '../../../errors';
+import { SnapRequestErrors } from '../../../errors';
 import { Caption, Message, MessageType } from '../../../kits';
 import { Loader, Modal as SModal } from 'semantic-ui-react';
 import '../Modal.css';
-import { ModalContentContainer } from '../styles';
+import { ModalContentContainer, StyledConnectButton } from '../styles';
 import LoadingIcon from '../../Icons/Loading';
 
 export interface GetAddressProps {
@@ -129,14 +129,13 @@ export const GetAddress = observer(
             Your Bitcoin account addresses will be created along with your
             MetaMask public key.
           </p>
-          <button
-            className='Connect-button'
+          <StyledConnectButton
             disabled={isRevealing}
             onClick={getXpub}
           >
             <Reveal />
             <span>Get Addresses</span>
-          </button>
+          </StyledConnectButton>
           <ErrorTipsContainer>
             {
               shouldShowErrorMessage && <Message type={MessageType.Error}>{errorMessage}</Message>

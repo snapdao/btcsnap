@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { Loader, Modal as SModal } from 'semantic-ui-react';
 import { ReactComponent as ConnectIcon } from './image/connect.svg';
-import { ReactComponent as MetaMaskIcon } from './image/MetaMask.svg';
-import ArrowRight from '../Icons/ArrowRight';
+import { ReactComponent as MetaMaskIcon } from './image/MetaMaskLogo.svg';
 import { connect } from '../../lib/snap';
 import { trackConnectClick, trackConnectSucceed } from '../../tracking';
-import { ModalContentContainer } from './styles';
+import { ConnectButton, ModalContentContainer } from './styles';
 import { Link } from '../../kits/Link';
 
 interface ConnectProps {
@@ -33,7 +32,7 @@ const Connect = ({ onConnected, show }: ConnectProps) => {
     <>
       <ModalContentContainer show={show}>
         <ConnectIcon className='Connect-MM-icon'/>
-        <h2>Connect to MetaMask btcsnap</h2>
+        <h2>Connect to Zion: MetaMask Bitcoin snap</h2>
         <p className='Connect-install'>
           If you do not have btcsnap installed, you will be prompted to do
           so.
@@ -43,14 +42,13 @@ const Connect = ({ onConnected, show }: ConnectProps) => {
             What is Snaps
           </Link>
         </div>
-        <button
-          className='Connect-button'
+        <ConnectButton
           disabled={isConnecting}
           onClick={connectMetaMask}
         >
-          <MetaMaskIcon/>
+          <MetaMaskIcon width={25} height={25}/>
           <span>Connect MetaMask</span>
-        </button>
+        </ConnectButton>
       </ModalContentContainer>
       <SModal open={isConnecting}>
         <Loader inverted content={'Continue at MetaMask'} />
