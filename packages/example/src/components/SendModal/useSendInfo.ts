@@ -50,7 +50,8 @@ export const useSendInfo = () => {
 
       setSendInfo({
         masterFingerprint: Buffer.from(current.mfp, 'hex'),
-        ...address
+        ...address,
+        receiveAddress
       });
     }
   }, [current, utxoList, isChangeAddressEnabled, nextChange, receivePath, receiveAddress]);

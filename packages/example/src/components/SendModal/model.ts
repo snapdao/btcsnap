@@ -56,6 +56,7 @@ class SendViewModel {
 
   public errorMessage: {message: string, code: number} = { message: '', code: 0 };
   public isAddressValid = true;
+  public isSendAddressSameAsReceiveAddress = false;
 
   public confirmOpen = false;
 
@@ -299,13 +300,21 @@ class SendViewModel {
   get toValid() {
     if (this.isEmptyTo) {
       this.isAddressValid = true;
+      this.isSendAddressSameAsReceiveAddress = false;
       return true;
-    };
+    }
+
     const network =
       this.network === BitcoinNetwork.Main ? Network.mainnet : Network.testnet;
     const isValid = validate(this.to, network);
-    setTimeout(() => { this.isAddressValid = isValid; }, 500);
-    return isValid;
+    const isToAddrSameAsReceiveAddr = this.to == this.sendInfo?.receiveAddress;
+
+    setTimeout(() => {
+      // Show error message to user after 500ms
+      this.isAddressValid = isValid;
+      this.isSendAddressSameAsReceiveAddress = isToAddrSameAsReceiveAddr;
+    }, 500);
+    return isValid && !isToAddrSameAsReceiveAddr;
   }
 
   get valid() {

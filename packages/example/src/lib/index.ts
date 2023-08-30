@@ -91,6 +91,7 @@ export type SendInfo = {
   changeAddress: string | undefined;
   changeAddressPath: string;
   changeAddressPubkey: Buffer;
+  receiveAddress?: string;
 };
 
 export const generatePSBT = (
