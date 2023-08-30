@@ -122,6 +122,7 @@ const Initial: FunctionComponent<InitialProps> = observer(({ model, close }) => 
           </SendToInput>
 
           {!model.isAddressValid && (<SendTextError>Enter a Valid Wallet Address</SendTextError>)}
+          {model.isSendAddressSameAsReceiveAddress && (<SendTextError>Receiving address should be different from sending address.</SendTextError>)}
         </SendToContainer>
 
         <SendButtonContainer>
