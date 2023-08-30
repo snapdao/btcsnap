@@ -1,13 +1,13 @@
 {
   "version": "2.0.0",
-  "description": "btcsnap: Metamask Snap to manage your bitcoin",
-  "proposedName": "btcsnap",
+  "description": "Zion: Metamask snap to manage your Bitcoin",
+  "proposedName": "Zion",
   "repository": {
     "type": "git",
     "url": "https://github.com/snapdao/btcsnap"
   },
   "source": {
-    "shasum": "AmgiiB7b+aF+W4cORzAPjk+pdoSEK+IgLPguQ2S7L5k=",
+    "shasum": "Sw8XFIDWWEn++qJm7Q9tK9atU13h8CZ0SjJRM+tYZys=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
