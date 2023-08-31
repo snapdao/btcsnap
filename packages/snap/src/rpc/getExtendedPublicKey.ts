@@ -39,7 +39,7 @@ export async function extractAccountPrivateKey(snap: Snap, network: Network, scr
     // ignore checking since no function to set index for node
     node.__INDEX = slip10Node.index;
 
-    const mfp = slip10Node.masterFingerprint && slip10Node.masterFingerprint.toString(16)
+    const mfp = slip10Node.masterFingerprint && slip10Node.masterFingerprint.toString(16).padStart(8, '0')
     return {
         node: node.deriveHardened(0),
         mfp

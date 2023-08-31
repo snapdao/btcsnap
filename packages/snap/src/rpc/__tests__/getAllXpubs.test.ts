@@ -13,7 +13,7 @@ describe('getAllXpubs', () => {
   });
 
   beforeEach(() => {
-    snapStub.rpcStubs.snap_manageState.mockResolvedValue(bip44.slip10Node.parentFingerprint.toString(16));
+    snapStub.rpcStubs.snap_manageState.mockResolvedValue(bip44.slip10Node.parentFingerprint.toString(16).padStart(8, '0'));
   });
 
   it('should get all 6 extended public keys from wallet if user approve', async () => {

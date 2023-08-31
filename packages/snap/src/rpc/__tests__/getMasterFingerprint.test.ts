@@ -18,6 +18,18 @@ describe('getMasterFingerprint', () => {
       expect(xfp).toBe(mfp)
     })
 
+    it('should return masterFingerprint as 8 chars given mfp', async () => {
+      const mockMasterFingerprint = 0xfd124c1;
+      const mockNode = {
+        ...bip44.slip10Node,
+        masterFingerprint: mockMasterFingerprint
+      }
+      snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(mockNode);
+
+      const xfp = await getMasterFingerprint(snapStub)
+      expect(xfp).toBe("0fd124c1")
+    })
+
     it("should return undefined string if mfp doesn't exist", async () => {
       const {masterFingerprint, ...slip10NodeWithoutMFP} = bip44.slip10Node
       snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(slip10NodeWithoutMFP);
