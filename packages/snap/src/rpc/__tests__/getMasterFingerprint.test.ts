@@ -18,7 +18,7 @@ describe('getMasterFingerprint', () => {
       expect(xfp).toBe(mfp)
     })
 
-    it('should return masterFingerprint as 8 chars given mfp', async () => {
+    it('should return masterFingerprint as exactly 8 chars in hex string', async () => {
       const mockMasterFingerprint = 0xfd124c1;
       const mockNode = {
         ...bip44.slip10Node,
