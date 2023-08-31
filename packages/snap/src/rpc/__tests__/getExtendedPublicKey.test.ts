@@ -13,7 +13,7 @@ describe('getExtendedPublicKey', () => {
   })
 
   beforeEach(() => {
-    snapStub.rpcStubs.snap_manageState.mockResolvedValue(bip44.slip10Node.parentFingerprint.toString(16));
+    snapStub.rpcStubs.snap_manageState.mockResolvedValue(bip44.slip10Node.parentFingerprint.toString(16).padStart(8, '0'));
   })
 
   it('should get extended public key from wallet if user approve', async () => {

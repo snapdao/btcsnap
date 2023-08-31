@@ -8,7 +8,7 @@ import { BitcoinNetwork } from '../../interface';
 
 describe('masterFingerprint', () => {
   const snapStub = new SnapMock();
-  const mfp = bip44.slip10Node.parentFingerprint.toString(16);
+  const mfp = bip44.slip10Node.parentFingerprint.toString(16).padStart(8, '0');
   const network = 'test';
   const origin = 'www.justsnap.io'
 

@@ -10,5 +10,5 @@ export async function getMasterFingerprint(snap: Snap): Promise<string | void> {
     },
   }) as SLIP10Node;
 
-  return slip10Node.masterFingerprint && slip10Node.masterFingerprint.toString(16);
+  return slip10Node.masterFingerprint && slip10Node.masterFingerprint.toString(16).padStart(8, '0');
 }
