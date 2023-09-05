@@ -38,6 +38,7 @@ const EditWallet = observer(
     const [errorMessage, setErrorMessage] = useState('');
     const modalRef = useRef<any>(null);
     const [pendingSnap, setPendingSnap] = useState(false);
+    const [editCount, setEditCount] = useState(0);
 
     const {
       current,
@@ -67,9 +68,9 @@ const EditWallet = observer(
           name: bitcoinWalletName,
         });
       }
-    }, [id]);
+    }, [id, editCount]);
 
-    const shouldEnableSaveButton = useMemo(() => {
+    const shouldDisableSaveButton = useMemo(() => {
       return JSON.stringify(walletInfo) === JSON.stringify(backWalletInfo);
     }, [walletInfo, backWalletInfo]);
 
@@ -116,9 +117,8 @@ const EditWallet = observer(
         wallet?.setName(walletInfo.name);
       } else {
         updateUser(walletInfo.name);
+        setEditCount(editCount + 1);
       }
-
-      modalRef.current?.onClose();
     }
 
     async function onShowBackup() {
@@ -187,10 +187,12 @@ const EditWallet = observer(
           />
           <Modal.Container>
             <List>
-              <List.Form
+              <List.FormWithSaver
                 title='Wallet Name'
                 value={walletInfo?.name}
                 onInput={(ev) => onChangeWalletName(ev.target.value)}
+                onSave={onSave}
+                disabled={shouldDisableSaveButton}
               />
               <List.Field
                 title='Wallet Type'
@@ -223,14 +225,6 @@ const EditWallet = observer(
               {walletType === WalletType.BitcoinWallet && <BitcoinSettings />}
             </List>
           </Modal.Container>
-          <Modal.Footer>
-            <Button onClick={() => modalRef.current?.onClose()}>
-              <H3>Cancel</H3>
-            </Button>
-            <Button onClick={onSave} primary disabled={shouldEnableSaveButton}>
-              <H3>Save</H3>
-            </Button>
-          </Modal.Footer>
           {pendingSnap && <Modal.Loading content='Continue at MetaMask' />}
           <Modal.Confirm
             title='Delete Wallet'
