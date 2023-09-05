@@ -85,6 +85,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
     currentUnit === BitcoinUnit.BTC ? BitcoinUnit.Sats : BitcoinUnit.BTC,
   );
   const isTestNetwork = network === BitcoinNetwork.Test;
+  const shouldDisableTopUp = !current || isTestNetwork;
   const currentBalance =
     currentUnit === BitcoinUnit.BTC ? satoshiToBTC(balance) : balance;
 
@@ -193,7 +194,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
         <BalanceLeftItem hoverable={currentWalletType === WalletType.BitcoinWallet}>
           <BalanceLeftLabel
             onClick={() => {
-              if (currentWalletType !== WalletType.BitcoinWallet) return; 
+              if (currentWalletType !== WalletType.BitcoinWallet) return;
               openModal(MainModal.Details);
             }}>
             {balanceText} {unit[currentUnit]}
@@ -240,7 +241,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
         </MarketPrice>
 
         <Popup
-          open={topUpVisibleData.open}
+          open={!shouldDisableTopUp && topUpVisibleData.open}
           position={network === BitcoinNetwork.Main ? 'top right' : 'top center'}
           basic={network === BitcoinNetwork.Main}
           inverted={isTestNetwork}
@@ -250,6 +251,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
           closeOnPortalMouseLeave={false}
           closeOnTriggerClick={false}
           onClose={() => setTopUpPopupVisible(false)}
+          style={network === BitcoinNetwork.Main ? { borderRadius: 16 } : {}}
           trigger={
             currentWalletType !== WalletType.LightningWallet && (
               <span>
@@ -261,26 +263,26 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
                       color='var(--sk-color-pri50)'/>
                   }
                   onClick={() => {
-                    if (isTestNetwork) return;
+                    if (shouldDisableTopUp) return;
                     setTopUpPopupVisible(!topUpVisibleData.open);
                     setTopUpVisible();
                   }}
                   onMouseEnter={() => {
-                    if (!isTestNetwork) return;
+                    if (!shouldDisableTopUp) return;
                     setTopUpPopupVisible(true);
                   }}
                   onMouseLeave={() => {
-                    if (!isTestNetwork) return;
+                    if (!shouldDisableTopUp) return;
                     setTopUpPopupVisible(false);
                   }}
-                  className={isTestNetwork ? 'disabled' : ''}
+                  className={shouldDisableTopUp ? 'disabled' : ''}
                 >
                   <H4>TOP UP</H4>
                 </TopUpButton>
               </span>
             )
           }
-          style={network === BitcoinNetwork.Main ? { borderRadius: 16 } : {}}>
+        >
           {
             network === BitcoinNetwork.Main && currentWalletType === WalletType.LightningWallet
               ? <TopUpList>

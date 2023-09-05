@@ -18,19 +18,27 @@ export const useSendInfo = () => {
   const { path: receivePath, address: receiveAddress } = useReceiveAddress();
   const isChangeAddressEnabled = settings.changeAddress;
 
-  const getChangeAddress = useCallback((current: IAccount): ChangeAddress => {
-    const { index } = fromHdPathToObj(nextChange);
+  const getChangeAddress = useCallback((current: IAccount, nextChangeHDPath: string): ChangeAddress | undefined => {
+    if(!nextChangeHDPath){
+      return;
+    }
+
+    const { index } = fromHdPathToObj(nextChangeHDPath);
     const changeAddressPubkey = coinManager.xpubToPubkey(current.xpub, Number(1), Number(index));
     const changeAddress = coinManager.deriveAddress(changeAddressPubkey, current.scriptType, current.network);
 
     return {
-      changeAddressPath: nextChange,
+      changeAddressPath: nextChangeHDPath,
       changeAddressPubkey,
       changeAddress,
     };
-  }, [nextChange]);
+  }, []);
 
-  const getReceiveAddressAsChangeAddress = useCallback((current: IAccount): ChangeAddress => {
+  const getReceiveAddressAsChangeAddress = useCallback((current: IAccount, receivePath: string, receiveAddress: string): ChangeAddress | undefined => {
+    if(!receivePath || !receiveAddress){
+      return;
+    }
+
     const receivePathTair = receivePath.slice(1); // M/*/* to /*/*
     const receiveHDPath = `${current.path}${receivePathTair}`;
     const receiveAddressIndex = fromHdPathToObj(receiveHDPath).index;
@@ -40,19 +48,21 @@ export const useSendInfo = () => {
       changeAddressPubkey: coinManager.xpubToPubkey(current.xpub, Number(0), Number(receiveAddressIndex)),
       changeAddress: receiveAddress,
     };
-  }, [receivePath, receiveAddress]);
+  }, []);
 
   useEffect(() => {
     if(current && utxoList.length > 0) {
       const address = isChangeAddressEnabled
-        ? getChangeAddress(current)
-        : getReceiveAddressAsChangeAddress(current);
+        ? getChangeAddress(current, nextChange)
+        : getReceiveAddressAsChangeAddress(current, receivePath, receiveAddress);
 
-      setSendInfo({
-        masterFingerprint: Buffer.from(current.mfp, 'hex'),
-        ...address,
-        receiveAddress
-      });
+      if(address) {
+        setSendInfo({
+          masterFingerprint: Buffer.from(current.mfp, 'hex'),
+          ...address,
+          receiveAddress
+        });
+      }
     }
   }, [current, utxoList, isChangeAddressEnabled, nextChange, receivePath, receiveAddress]);
 

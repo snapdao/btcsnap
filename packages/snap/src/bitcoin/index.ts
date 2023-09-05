@@ -70,13 +70,14 @@ export class BtcTx {
     extractPsbtJson() {
         const psbtHelper = new PsbtHelper(this.tx, this.network);
         const changeAddress = psbtHelper.changeAddresses
+        const unit = this.network === BitcoinNetwork.Main ? 'sats' : 'tsats';
 
         const transaction = {
             from: psbtHelper.fromAddresses.join(","),
             to: psbtHelper.toAddresses.join(","),
-            value: psbtHelper.sendAmount,
-            fee: psbtHelper.fee,
-            network: this.network,
+            value: `${psbtHelper.sendAmount} ${unit}`,
+            fee: `${psbtHelper.fee} ${unit}`,
+            network: `${this.network}net`,
         }
 
         if(changeAddress.length > 0){

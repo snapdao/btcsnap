@@ -2,6 +2,7 @@ import { CSSProperties, ReactNode } from 'react';
 import { Container } from 'semantic-ui-react';
 import { ListField } from './ListField';
 import { ListForm } from './ListForm';
+import { ListFormWithSaver } from './ListForm/Saver';
 
 const List = ({
   children,
@@ -24,6 +25,7 @@ const List = ({
 };
 
 List.Form = ListForm;
+List.FormWithSaver = ListFormWithSaver;
 List.Field = ListField;
 
 export { List };
