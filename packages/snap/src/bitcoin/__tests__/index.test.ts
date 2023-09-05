@@ -65,9 +65,9 @@ describe('bitcoin', () => {
 
       expect(testJson.from).toBe('tb1qhs9xw5fv8qc4tkzcmkv6jelhssspvxk2wmtd0v',);
       expect(testJson.to).toBe('tb1qqkelutyrqmxgzd9nnfws2yk3dl600yvxagfqu7',);
-      expect(testJson.value).toBe(200000);
-      expect(testJson.fee).toBe(7458);
-      expect(testJson.network).toBe('test');
+      expect(testJson.value).toBe("200000 tsats");
+      expect(testJson.fee).toBe("7458 tsats");
+      expect(testJson.network).toBe('testnet');
     });
 
     it('should be able to extract PSBT info as JSON string', () => {
@@ -75,9 +75,9 @@ describe('bitcoin', () => {
       expect(tx.extractPsbtJsonString()).toBe(`
 from: tb1qhs9xw5fv8qc4tkzcmkv6jelhssspvxk2wmtd0v
 to: tb1qqkelutyrqmxgzd9nnfws2yk3dl600yvxagfqu7
-value: 200000
-fee: 7458
-network: test
+value: 200000 tsats
+fee: 7458 tsats
+network: testnet
 changeAddress: tb1qx5wzl3f27d6dgzk9u7h47pqdts60xdpax4w5rf
 `.trim() + '\n');
     });
