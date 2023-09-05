@@ -34,6 +34,28 @@ export const LatestRecords = observer(({ loading, historyList, refresh, error }:
     }
   }, [current, currentWalletType]);
 
+  const emptyRecordList = (
+    <TxListEmpty>
+      <TransactionsIcon/>
+      <EmptyTip>
+        <span>no transactions</span>
+        {
+          currentWalletType === WalletType.BitcoinWallet && (
+            <Popup
+              trigger={<div><InfoIcon/></div>}
+              content={TRANSACTION_TIPS}
+              style={{ width: '296px' }}
+            />
+          )
+        }
+      </EmptyTip>
+    </TxListEmpty>
+  );
+
+  if(!current) {
+    return <TxListContainer>{emptyRecordList}</TxListContainer>;
+  }
+
   return (
     <TxListContainer>
       {
@@ -60,23 +82,7 @@ export const LatestRecords = observer(({ loading, historyList, refresh, error }:
                   />
                 )}
               </TxListContent>
-            ) : (
-              <TxListEmpty>
-                <TransactionsIcon/>
-                <EmptyTip>
-                  <span>no transactions</span>
-                  {
-                    currentWalletType === WalletType.BitcoinWallet && (
-                      <Popup
-                        trigger={<div><InfoIcon/></div>}
-                        content={TRANSACTION_TIPS}
-                        style={{ width: '296px' }}
-                      />
-                    )
-                  }
-                </EmptyTip>
-              </TxListEmpty>
-            )
+            ) : emptyRecordList
       }
       {!!selectedRecord && (
         <RecordDetail
