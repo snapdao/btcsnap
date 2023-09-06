@@ -20,7 +20,7 @@ export async function connect(cb: (connected: boolean) => void) {
       method: 'wallet_requestSnaps',
       params: {
         [snapId]: {
-          version: '2.0.2',
+          version: '2.0.3',
         },
       }
     });
