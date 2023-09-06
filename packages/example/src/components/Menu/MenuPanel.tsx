@@ -51,7 +51,7 @@ const MenuPanel = ({ openSettingModal, close }: MenuPanelProps) => {
       </MenuItem>
       <MenuItem onClick={close}>
         <MenuItemLink
-          href='https://guild.xyz/justsnap'
+          href='https://discord.gg/P22cvXpybj'
           target='_blank'
           rel='noopener noreferrer'>
           <Discord />
