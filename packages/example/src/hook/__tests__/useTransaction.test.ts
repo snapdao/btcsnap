@@ -38,17 +38,17 @@ jest.mock('../../api/v1/activities', () => ({
     {
       'id': '694394178305540096',
       'txid': '1ebe5975480c13bf1b6a5418a14f91ee9113fe5af195fd7832527a398bc1a7c9',
-      'explorer_url': 'https://www.blockchain.com/btc-testnet/tx/1ebe5975480c13bf1b6a5418a14f91ee9113fe5af195fd7832527a398bc1a7c9',
+      'explorerUrl': 'https://www.blockchain.com/btc-testnet/tx/1ebe5975480c13bf1b6a5418a14f91ee9113fe5af195fd7832527a398bc1a7c9',
       'action': 'send_external',
       'amount': 110848,
       'memo': '',
       'status': 'complete',
-      'modified_time': 1665556473.328639,
-      'created_time': 1665556473.328601,
-      'sender_addresses': [
+      'modifiedTime': 1665556473.328639,
+      'createdTime': 1665556473.328601,
+      'senderAddresses': [
         'tb1qmu9n2csuk42dczlt6eek6x6sar9kghpacpqsnu'
       ],
-      'receiver_addresses': [
+      'receiverAddresses': [
         [
           '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
           100000,
@@ -60,10 +60,10 @@ jest.mock('../../api/v1/activities', () => ({
           'M/84\'/1\'/0\'/1/0'
         ]
       ],
-      'confirmed_num': 2,
-      'confirm_threshold': 2,
+      'confirmedNum': 2,
+      'confirmThreshold': 2,
       'fee': 10848,
-      'replaced_by': ''
+      'replacedBy': ''
     }
   ] }),
   ActivityStatus: jest.fn().mockReturnValue({
@@ -81,7 +81,7 @@ describe('useTransaction', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it('should return hasMore and txList when current exist ', async() => {
+  it('should return hasMore and txList when current exist', async() => {
     const { result, waitForNextUpdate } = renderHooksWithContext(() => useTransaction({ size:5 }));
     await waitForNextUpdate();
 
@@ -92,10 +92,10 @@ describe('useTransaction', () => {
         {
           'ID': 'f1b6b41b542482c3b522ce0c235358f897e8377c2ba96b81f9ab9a2b085e2a3d',
           'address': '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
-          'amount': 27232,
+          'amount': 20000,
           'confirmThreshold': 2,
           'confirmedNum': 2,
-          'date': 1665569961349.5369,
+          'date': 1665569961349,
           'fee': 7232,
           'from': 'tb1qfrzssvcwucgadrcp043yftnq34xk0a9wgy98rn',
           'marker': 1665569961.34958,
@@ -106,18 +106,18 @@ describe('useTransaction', () => {
         },
         {
           'ID': '1ebe5975480c13bf1b6a5418a14f91ee9113fe5af195fd7832527a398bc1a7c9',
-          'address': '',
-          'amount': 110848,
-          'confirmThreshold': undefined,
-          'confirmedNum': undefined,
-          'date': NaN,
+          'address': '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
+          'amount': 100000,
+          'confirmThreshold': 2,
+          'confirmedNum': 2,
+          'date': 1665556473328,
           'fee': 10848,
-          'from': '',
-          'marker': undefined,
+          'from': 'tb1qmu9n2csuk42dczlt6eek6x6sar9kghpacpqsnu',
+          'marker': 1665556473.328639,
           'status': 'pending',
-          'to': '',
+          'to': '2MyhDKPYhnYAnJWCu26Q6fhMCZGMRA8KjXD',
           'type': 'sent',
-          'url': undefined,
+          'url': 'https://www.blockchain.com/btc-testnet/tx/1ebe5975480c13bf1b6a5418a14f91ee9113fe5af195fd7832527a398bc1a7c9',
         },
       ],
     });
