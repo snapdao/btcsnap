@@ -43,7 +43,7 @@ export const useTransaction = ({ size, offset }: UseTransaction) => {
               status: tx.status === ActivityStatus.Complete ? TransactionStatus.Confirmed : TransactionStatus.Pending,
               amount: (isReceive ? Math.abs(tx.amount) : tx.receiverAddresses?.[0]?.[1]) || 0,
               address: (isReceive ? tx.senderAddresses?.[0] : tx.receiverAddresses?.[0]?.[0]) || '',
-              date: tx.createdTime * 1000,
+              date: Math.floor(tx.createdTime * 1000),
               fee: tx.fee,
               url: tx.explorerUrl,
               from: tx.senderAddresses?.[0] || '',
