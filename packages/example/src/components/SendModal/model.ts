@@ -51,6 +51,7 @@ class SendViewModel {
   private sendMainUnit: BitcoinUnit;
   private sendSecondaryUnit: BitcoinUnit = BitcoinUnit.Currency;
   private sendSatoshis = new BigNumber(0);
+  private isSendingMax = false;
 
   public status: 'initial' | 'success' | 'failed' = 'initial';
 
@@ -94,6 +95,7 @@ class SendViewModel {
     this.sendAmountText = '';
     this.sendSatoshis = new BigNumber(0);
     this.sendSecondaryUnit = BitcoinUnit.Currency;
+    this.isSendingMax = false;
   };
 
   setConfirmOpen = (flag: boolean) => {
@@ -177,6 +179,7 @@ class SendViewModel {
   }
 
   setFeeRate = (feeRate: FeeRate) => (this.feeRate = feeRate);
+  setSendMax = (isSendingMax: boolean) => (this.isSendingMax = isSendingMax);
 
   setSelectedFeeRate = (feeRate: keyof FeeRate) => {
     this.selectedFeeRate = feeRate;
@@ -193,6 +196,7 @@ class SendViewModel {
         this.sendSatoshis.toNumber(),
         this.feeRate[this.selectedFeeRate],
         this.utxos,
+        this.isSendingMax
       );
     }
     return {};
@@ -241,7 +245,7 @@ class SendViewModel {
       return {
         ...result,
         [feeRate]: this.satoshiToCurrentMainUnit(
-          this.getSelectedUtxoFee(feeRate),
+          this.getSelectedUtxoFee(feeRate, this.isSendingMax),
         ),
       };
     }, {} as FeeRate);
@@ -356,6 +360,7 @@ class SendViewModel {
     const totalFee = this.getSelectedUtxoFee(this.selectedFeeRate, true);
     const availableSatoshis = this.balanceInSatoshi.minus(totalFee);
     this.sendSatoshis = availableSatoshis;
+    this.isSendingMax = true;
     switch (this.sendMainUnit) {
       case BitcoinUnit.BTC:
         this.sendAmountText = satoshiToBTC(
