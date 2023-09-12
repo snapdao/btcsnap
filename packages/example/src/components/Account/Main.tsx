@@ -160,6 +160,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
 
   const balanceText = !loadingBalance && !loadingBalanceErrorMessage && current ? currentBalance : '--';
   const shouldShowImportantNotice = persistDataLoaded && hasLightningWallet && (!hasReadLightningNotice || currentWalletType === WalletType.LightningWallet);
+  const balanceInCurrency = current ? (satoshiToBTC(balance) * currencyRate) : 0;
 
   return (
     <AccountMain>
@@ -210,7 +211,7 @@ const Main = observer(({ balance, loadingBalance, loadingBalanceErrorMessage }: 
           </BalanceRightLabel>
         </BalanceRightItem>
         <CurrencyContainer isTestnet={isTestNetwork}>
-          ≈ {(satoshiToBTC(balance) * currencyRate).toFixed(2)} USD
+          ≈ {(balanceInCurrency).toFixed(2)} USD
         </CurrencyContainer>
       </BalanceContainer>
 
