@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { ReactComponent as ErrorIcon } from './images/error.svg';
 import { ReactComponent as SucceedIcon } from '../../assets/vector.svg';
 import { Transition } from 'semantic-ui-react';
+import InfoIcon from '../../components/Icons/InfoIcon';
 
 export enum MessageType {
   Error,
   Succeed,
+  Info,
 }
 
 interface MessageProps {
@@ -27,6 +29,7 @@ export const Message = ({
   const timeout = !duration ? {
     [MessageType.Succeed]: 1500,
     [MessageType.Error]: 2000,
+    [MessageType.Info]: 5000,
   }[type] : duration;
   useEffect(() => {
     if (visible) {
@@ -45,6 +48,8 @@ export const Message = ({
     case MessageType.Succeed:
       messageTypeIcon = <SucceedIcon />;
       break;
+    case MessageType.Info:
+      messageTypeIcon = <InfoIcon color='#1F69FF' />;
   }
 
   return (

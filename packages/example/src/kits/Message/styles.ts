@@ -32,6 +32,9 @@ export const MessageContent = styled.div`
 
 export const MessageCopy = styled.span<{ type: MessageType }>`
   font-weight: 600;
-  color: ${(props) =>
-    props.type === MessageType.Error ? '#F54814' : '#21A35D'};
+  color: ${(props) => ({
+    [MessageType.Error]: '#F54814',
+    [MessageType.Succeed]: '#21A35D',
+    [MessageType.Info]: '#1F69FF',
+  }[props.type])};
 `;

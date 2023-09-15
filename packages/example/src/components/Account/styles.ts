@@ -43,6 +43,13 @@ export const AccountLabel = styled.p`
   }
 `;
 
+export const AccountHeader = styled.div`
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 100%;
+`;
+
 export const AccountMain = styled.div`
   width: 560px;
   padding: 40px;
