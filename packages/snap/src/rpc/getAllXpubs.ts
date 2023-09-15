@@ -4,6 +4,7 @@ import { BitcoinNetwork, ScriptType, Snap } from '../interface';
 import { convertXpub } from '../bitcoin/xpubConverter';
 import { extractAccountPrivateKey } from './getExtendedPublicKey';
 import { RequestErrors, SnapError } from '../errors';
+import { getPersistedData, updatePersistedData } from "../utils";
 
 
 export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: string[], mfp: string}> {
@@ -29,6 +30,12 @@ export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: s
         return convertXpub(accountPublicKey.toBase58(), scriptType, network);
       }));
     }));
+
+    const snapNetwork = await getPersistedData(snap, "network", "");
+    if(!snapNetwork) {
+      await updatePersistedData(snap, "network", BitcoinNetwork.Main);
+    }
+
     return {
       mfp: xfp,
       xpubs: xpubsInNetworks.flatMap(xpub => xpub)
