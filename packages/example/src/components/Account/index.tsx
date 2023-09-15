@@ -5,12 +5,13 @@ import Main from './Main';
 import Aside from './Aside';
 import { useBalance } from '../../hook/useBalance';
 import { useAppStore } from '../../mobx';
-import { AccountLabel } from './styles';
+import { AccountHeader, AccountLabel } from './styles';
 import { useCurrencyRate } from '../../hook/useCurrencyRate';
 import { WalletType } from '../../interface';
 import { Message, MessageType } from '../../kits';
 import LightningAppStatus from '../Lightning/AppStatus';
 import { Background } from '../Background';
+import { useNetworkCheck } from '../../hook/useNetworkCheck';
 
 const Account = observer(() => {
   const {
@@ -20,9 +21,17 @@ const Account = observer(() => {
   const { balance, refresh, loadingBalance, errorMessage } = useBalance();
   useCurrencyRate();
   useRegisterXpub();
+  const { isSettingNetwork, networkMessage } = useNetworkCheck();
 
   return (
-    <Background loading={isLoading}>
+    <Background
+      loading={isLoading || isSettingNetwork}
+      loadingTip={isSettingNetwork ? <div><p>Continue at MetaMask</p><p>Please confirm your network type.</p></div> : ''}
+    >
+      <AccountHeader>
+        {networkMessage && <Message type={MessageType.Info}>{networkMessage}</Message>}
+      </AccountHeader>
+
       <Main balance={balance} loadingBalance={loadingBalance} loadingBalanceErrorMessage={errorMessage} />
       <Aside refreshBalance={refresh} loadingBalance={loadingBalance} />
 

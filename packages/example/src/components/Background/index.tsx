@@ -7,9 +7,10 @@ import { Loader, Modal, Transition } from 'semantic-ui-react';
 interface BackgroundProps {
   children: React.ReactNode
   loading?: boolean
+  loadingTip?: React.ReactNode
 }
 
-export const Background = observer(({ children, loading = false }: BackgroundProps) => {
+export const Background = observer(({ children, loading = false, loadingTip = '' }: BackgroundProps) => {
   const loadingModalParent = useRef<HTMLDivElement | null>(null);
   const {
     persistDataLoaded,
@@ -20,7 +21,7 @@ export const Background = observer(({ children, loading = false }: BackgroundPro
     <>
       <div ref={loadingModalParent}>
         <Modal open={loading} mountNode={loadingModalParent.current}>
-          <Loader inverted />
+          <Loader inverted content={loadingTip} />
         </Modal>
       </div>
 

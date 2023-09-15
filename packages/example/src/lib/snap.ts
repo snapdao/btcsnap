@@ -145,6 +145,27 @@ export async function updateNetworkInSnap(network: BitcoinNetwork) {
   }
 }
 
+export async function getNetworkInSnap() {
+  try {
+    return await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: {
+        snapId,
+        request: {
+          method: 'btc_network',
+          params: {
+            action: 'get',
+          },
+        },
+      },
+    });
+  } catch (err: any) {
+    const error = new SnapError(err?.message || 'Get Snap Network failed');
+    logger.error(error);
+    throw error;
+  }
+}
+
 export async function signPsbt(
   base64Psbt: string,
   network: BitcoinNetwork,
