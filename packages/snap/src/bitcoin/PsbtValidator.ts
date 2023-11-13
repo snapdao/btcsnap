@@ -10,6 +10,12 @@ const BITCOIN_TESTNET_COIN_TYPE = 1;
 const BITCOIN_MAIN_NET_ADDRESS_PATTERN = /^(1|3|bc1)/;
 const BITCOIN_TEST_NET_ADDRESS_PATTERN = /^(m|n|2|tb1)/;
 
+function checkForInput<PsbtInput>(inputs: PsbtInput[], inputIndex: number): PsbtInput {
+  const input = inputs[inputIndex];
+  if (input === undefined) throw new Error(`No input #${inputIndex}`);
+  return input;
+}
+
 export class PsbtValidator {
   static FEE_THRESHOLD = 10000000;
   private readonly tx: Psbt;
@@ -36,12 +42,17 @@ export class PsbtValidator {
   }
 
   everyInputMatchesNetwork() {
-    const result = this.tx.data.inputs.every(input =>
-      input.bip32Derivation.every(derivation => {
-        const {coinType} = fromHdPathToObj(derivation.path)
-        return Number(coinType) === this.coinType
-      })
-    )
+    const result = this.tx.data.inputs.every(input => {
+      if (!input.bip32Derivation || input.bip32Derivation.length === 0) {
+        // ignore if we don't have the derivation path
+        return true;
+      } else {
+        return input.bip32Derivation.every(derivation => {
+          const {coinType} = fromHdPathToObj(derivation.path);
+          return Number(coinType) === this.coinType;
+        });
+      }
+    });
     if (!result) {
       this.error = SnapError.of(PsbtValidateErrors.InputsNetworkNotMatch);
     }
@@ -69,9 +80,15 @@ export class PsbtValidator {
   }
 
   allInputsBelongToCurrentAccount(accountSigner: AccountSigner) {
-    const result = this.tx.txInputs.every((_, index) =>
-      this.tx.inputHasHDKey(index, accountSigner),
-    );
+    const result = this.tx.txInputs.every((_, index) => {
+      const input = checkForInput(this.tx.data.inputs, index);
+      if (!input.bip32Derivation || input.bip32Derivation.length === 0) {
+        // ignore if we don't have the derivation path
+        return true;
+      } else {
+        return this.tx.inputHasHDKey(index, accountSigner);
+      }
+    });
     if (!result) {
       this.error = SnapError.of(PsbtValidateErrors.InputNotSpendable);
     }

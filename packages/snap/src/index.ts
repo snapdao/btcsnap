@@ -4,6 +4,7 @@ import {
   getExtendedPublicKey,
   getAllXpubs,
   signPsbt,
+  signInput,
   getMasterFingerprint,
   manageNetwork,
   validateRequest,
@@ -12,6 +13,8 @@ import {
   signLNInvoice,
 } from './rpc';
 import { SnapError, RequestErrors } from './errors';
+import * as ecc from "@bitcoin-js/tiny-secp256k1-asmjs";
+import { initEccLib } from 'bitcoinjs-lib';
 
 // @ts-ignore
 globalThis.Buffer = require('buffer/').Buffer;
@@ -25,6 +28,7 @@ export type RpcRequest = {
 
 export const onRpcRequest = async ({origin, request}: RpcRequest) => {
   await validateRequest(snap, origin, request);
+  initEccLib(ecc);
 
   switch (request.method) {
     case 'btc_getPublicExtendedKey':
@@ -40,14 +44,23 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         snap,
       );
     case 'btc_signPsbt':
-      const psbt = request.params.psbt;
       return signPsbt(
         origin,
         snap,
-        psbt,
+        request.params.psbt,
         request.params.network,
         request.params.scriptType,
       );
+    case 'btc_signInput':
+      return signInput(
+        origin,
+        snap,
+        request.params.psbt,
+        request.params.network,
+        request.params.scriptType,
+        request.params.inputIndex,
+        request.params.path,
+      );  
     case 'btc_getMasterFingerprint':
       return getMasterFingerprint(snap);
     case 'btc_network':

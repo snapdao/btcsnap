@@ -7,3 +7,4 @@ export { manageNetwork } from './manageNetwork';
 export { saveLNDataToSnap } from './saveLNDataToSnap';
 export { getLNDataFromSnap } from './getLNDataFromSnap';
 export { signLNInvoice } from './signLNInvoice';
+export { signInput } from './signInput';

@@ -1,12 +1,12 @@
 import secp256k1 from 'secp256k1';
 import { BIP32Interface } from 'bip32';
-import { HDSigner, Psbt } from 'bitcoinjs-lib';
+import { HDSigner, Psbt, Signer } from 'bitcoinjs-lib';
 import { BitcoinNetwork } from '../interface';
 import { PsbtValidator } from '../bitcoin/PsbtValidator';
 import { PsbtHelper } from '../bitcoin/PsbtHelper';
 import { getNetwork } from './getNetwork';
 
-export class AccountSigner implements HDSigner {
+export class AccountSigner implements HDSigner, Signer {
     publicKey: Buffer;
     fingerprint: Buffer;
 
@@ -45,13 +45,15 @@ export class AccountSigner implements HDSigner {
     sign(hash: Buffer): Buffer {
         return this.node.sign(hash)
     }
-}
 
+    signSchnorr(hash: Buffer): Buffer {
+        return this.node.signSchnorr(hash)
+    }
+}
 
 const validator = (pubkey: Buffer, msghash: Buffer, signature: Buffer) => {
     return secp256k1.ecdsaVerify(new Uint8Array(signature), new Uint8Array(msghash), new Uint8Array(pubkey))
 }
-
 
 export class BtcTx {
     private tx: Psbt;
@@ -90,6 +92,15 @@ export class BtcTx {
         return Object.entries(this.extractPsbtJson()).map(([key, value]) => `${key}: ${value}\n`).join('')
     }
 
+    signInput(inputIndex: number, accountSigner: AccountSigner, path: string) {
+        try {
+            this.tx.signInput(inputIndex, accountSigner.derivePath(path));
+            return this.tx.toBase64();
+        } catch (e) {
+            console.log(e);
+            throw new Error(e);
+        }
+    }
 
     signTx(accountSigner: AccountSigner) {
         try {

@@ -20,6 +20,17 @@ export interface SignPsbt {
   };
 }
 
+export interface SignInput {
+  method: 'btc_signInput';
+  params: {
+    psbt: string;
+    network: BitcoinNetwork;
+    scriptType: ScriptType;
+    inputIndex: number,
+    path: string,
+  };
+}
+
 export interface GetMasterFingerprint {
   method: 'btc_getMasterFingerprint';
 }
@@ -61,6 +72,7 @@ export type MetamaskBTCRpcRequest =
   | GetAllXpubsRequest
   | GetPublicExtendedKeyRequest
   | SignPsbt
+  | SignInput
   | GetMasterFingerprint
   | ManageNetwork
   | SaveLNDataToSnap

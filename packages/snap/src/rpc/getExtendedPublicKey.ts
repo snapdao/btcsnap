@@ -1,4 +1,4 @@
-import * as bip32 from 'bip32';
+import BIP32Factory from 'bip32';
 import { BIP32Interface } from 'bip32';
 import { Network, networks } from 'bitcoinjs-lib';
 import { BitcoinNetwork, ScriptType, SLIP10Node, Snap } from '../interface';
@@ -6,6 +6,7 @@ import { convertXpub } from "../bitcoin/xpubConverter";
 import { getPersistedData, updatePersistedData, trimHexPrefix } from '../utils';
 import { RequestErrors, SnapError } from "../errors";
 import { heading, panel, text } from "@metamask/snaps-ui";
+import * as ecc from "@bitcoin-js/tiny-secp256k1-asmjs";
 
 export const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
@@ -31,7 +32,7 @@ export async function extractAccountPrivateKey(snap: Snap, network: Network, scr
 
     const privateKeyBuffer = Buffer.from(trimHexPrefix(slip10Node.privateKey), "hex")
     const chainCodeBuffer = Buffer.from(trimHexPrefix(slip10Node.chainCode), "hex")
-    const node: BIP32Interface = bip32.fromPrivateKey(privateKeyBuffer, chainCodeBuffer, network)
+    const node: BIP32Interface = BIP32Factory(ecc).fromPrivateKey(privateKeyBuffer, chainCodeBuffer, network)
     //@ts-ignore
     // ignore checking since no function to set depth for node
     node.__DEPTH = slip10Node.depth;
