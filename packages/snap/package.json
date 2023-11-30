@@ -2,7 +2,16 @@
   "name": "btcsnap",
   "version": "2.0.3",
   "description": "btcsnap: Metamask snap to manage your bitcoin",
-  "author": "aaronisme <aarondongchen@gmail.com>",
+  "contributors": [
+    {
+      "name": "aaronisme",
+      "email": "aarondongchen@gmail.com"
+    },
+    {
+      "name": "bob-collective",
+      "url": "https://github.com/bob-collective"
+    }
+  ],
   "homepage": "",
   "repository": {
     "type": "git",
