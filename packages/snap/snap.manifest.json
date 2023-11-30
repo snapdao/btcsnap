@@ -1,18 +1,18 @@
 {
   "version": "2.0.3",
-  "description": "Zion: Metamask snap to manage your Bitcoin",
-  "proposedName": "Zion",
+  "description": "BOB: Metamask snap to manage your Bitcoin",
+  "proposedName": "BOB",
   "repository": {
     "type": "git",
-    "url": "https://github.com/snapdao/btcsnap"
+    "url": "https://github.com/bob-collective/btcsnap"
   },
   "source": {
-    "shasum": "rd9o2R2wXo80Q22ehHYdEpTl3UVKOQvm7TDyZQzmNHA=",
+    "shasum": "OoCvBaWzHsG6zH3QHS0OWQO15V1R8gkicHNxXp0Didc=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "btcsnap",
+        "packageName": "@gobob/btcsnap",
         "registry": "https://registry.npmjs.org"
       }
     }
@@ -26,51 +26,27 @@
     },
     "snap_getBip32Entropy": [
       {
-        "path": [
-          "m",
-          "44'",
-          "0'"
-        ],
+        "path": ["m", "44'", "0'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "44'",
-          "1'"
-        ],
+        "path": ["m", "44'", "1'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "49'",
-          "0'"
-        ],
+        "path": ["m", "49'", "0'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "49'",
-          "1'"
-        ],
+        "path": ["m", "49'", "1'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "84'",
-          "0'"
-        ],
+        "path": ["m", "84'", "0'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "84'",
-          "1'"
-        ],
+        "path": ["m", "84'", "1'"],
         "curve": "secp256k1"
       }
     ]

@@ -1,1 +1,0 @@
-export { BitcoinSettings } from './BitcoinSettings';
