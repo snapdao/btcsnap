@@ -1,5 +1,5 @@
 {
-  "version": "2.0.6",
+  "version": "2.0.5",
   "description": "BOB: Metamask snap to manage your Bitcoin",
   "proposedName": "BOB",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/bob-collective/btcsnap"
   },
   "source": {
-    "shasum": "xOj+q4VZZnwlf6iGAKkXH/YllxrAaH3AiTAmkcRtsXc=",
+    "shasum": "OoCvBaWzHsG6zH3QHS0OWQO15V1R8gkicHNxXp0Didc=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -26,51 +26,27 @@
     },
     "snap_getBip32Entropy": [
       {
-        "path": [
-          "m",
-          "44'",
-          "0'"
-        ],
+        "path": ["m", "44'", "0'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "44'",
-          "1'"
-        ],
+        "path": ["m", "44'", "1'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "49'",
-          "0'"
-        ],
+        "path": ["m", "49'", "0'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "49'",
-          "1'"
-        ],
+        "path": ["m", "49'", "1'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "84'",
-          "0'"
-        ],
+        "path": ["m", "84'", "0'"],
         "curve": "secp256k1"
       },
       {
-        "path": [
-          "m",
-          "84'",
-          "1'"
-        ],
+        "path": ["m", "84'", "1'"],
         "curve": "secp256k1"
       }
     ]
