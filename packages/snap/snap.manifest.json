@@ -11,7 +11,7 @@
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "iconPath": "images/icon.svg",
+        "iconPath": "images/bob-logo.svg",
         "packageName": "@gobob/btcsnap",
         "registry": "https://registry.npmjs.org"
       }
