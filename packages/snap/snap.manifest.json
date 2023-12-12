@@ -1,5 +1,5 @@
 {
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "BOB: Metamask snap to manage your Bitcoin",
   "proposedName": "BOB",
   "repository": {
@@ -11,7 +11,7 @@
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "iconPath": "images/icon.svg",
+        "iconPath": "images/bob-logo.svg",
         "packageName": "@gobob/btcsnap",
         "registry": "https://registry.npmjs.org"
       }
