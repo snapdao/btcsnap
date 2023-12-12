@@ -7,12 +7,12 @@
     "url": "https://github.com/bob-collective/btcsnap"
   },
   "source": {
-    "shasum": "OoCvBaWzHsG6zH3QHS0OWQO15V1R8gkicHNxXp0Didc=",
+    "shasum": "qOCTFze3QEVhWiX5K1Xv0NlP2bwcEzwBQmsQbmsrEek=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/bob-logo.svg",
-        "packageName": "@gobob/btcsnap",
+        "packageName": "btcsnap",
         "registry": "https://registry.npmjs.org"
       }
     }
@@ -26,27 +26,51 @@
     },
     "snap_getBip32Entropy": [
       {
-        "path": ["m", "44'", "0'"],
+        "path": [
+          "m",
+          "44'",
+          "0'"
+        ],
         "curve": "secp256k1"
       },
       {
-        "path": ["m", "44'", "1'"],
+        "path": [
+          "m",
+          "44'",
+          "1'"
+        ],
         "curve": "secp256k1"
       },
       {
-        "path": ["m", "49'", "0'"],
+        "path": [
+          "m",
+          "49'",
+          "0'"
+        ],
         "curve": "secp256k1"
       },
       {
-        "path": ["m", "49'", "1'"],
+        "path": [
+          "m",
+          "49'",
+          "1'"
+        ],
         "curve": "secp256k1"
       },
       {
-        "path": ["m", "84'", "0'"],
+        "path": [
+          "m",
+          "84'",
+          "0'"
+        ],
         "curve": "secp256k1"
       },
       {
-        "path": ["m", "84'", "1'"],
+        "path": [
+          "m",
+          "84'",
+          "1'"
+        ],
         "curve": "secp256k1"
       }
     ]
