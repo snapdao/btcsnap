@@ -1,6 +1,6 @@
 {
   "name": "btcsnap",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "btcsnap: Metamask snap to manage your bitcoin",
   "contributors": [
     {
@@ -22,7 +22,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/bundle.js",
-    "images/icon.svg",
+    "images/bob-icon.svg",
     "snap.manifest.json"
   ],
   "jest": {
