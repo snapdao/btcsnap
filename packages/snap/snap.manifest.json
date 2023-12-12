@@ -7,12 +7,12 @@
     "url": "https://github.com/bob-collective/btcsnap"
   },
   "source": {
-    "shasum": "qOCTFze3QEVhWiX5K1Xv0NlP2bwcEzwBQmsQbmsrEek=",
+    "shasum": "xOj+q4VZZnwlf6iGAKkXH/YllxrAaH3AiTAmkcRtsXc=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/bob-logo.svg",
-        "packageName": "btcsnap",
+        "packageName": "@gobob/btcsnap",
         "registry": "https://registry.npmjs.org"
       }
     }
