@@ -44,7 +44,7 @@ export const fromHdPathToObj = (hdPath: string): HdPath => {
 export const parseLightningPath = (hdPath: string): LightningPath => {
   const regex = /(\d'?)+/g;
   const numbers = hdPath.match(regex);
-  const isHardened = (str:string) => {
+  const isHardened = (str: string) => {
     return str.indexOf("'") !== -1
   }
 

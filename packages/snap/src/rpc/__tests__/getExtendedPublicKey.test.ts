@@ -20,7 +20,7 @@ describe('getExtendedPublicKey', () => {
     snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(bip44.slip10Node);
 
-    const {xpub} = await getExtendedPublicKey(domain, snapStub, ScriptType.P2PKH, networks.bitcoin)
+    const { xpub } = await getExtendedPublicKey(domain, snapStub, ScriptType.P2PKH, networks.bitcoin)
 
     expect(snapStub.rpcStubs.snap_getBip32Entropy).toBeCalledTimes(1);
     expect(xpub).toBe(bip44.xpub)

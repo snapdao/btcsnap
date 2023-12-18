@@ -12,6 +12,6 @@ describe('getNetwork', () => {
   });
 
   it('should throw error given invalid network', () => {
-    expect(() => {getNetwork('litcoin' as any)}).toThrowError('Network net exist')
+    expect(() => { getNetwork('litcoin' as any) }).toThrowError('Network net exist')
   });
 });

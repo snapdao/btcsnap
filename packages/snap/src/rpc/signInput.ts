@@ -1,6 +1,6 @@
-import { BitcoinNetwork, ScriptType, Snap } from '../interface';
+import { BitcoinNetwork, ScriptType, SignInputOptions, Snap } from '../interface';
 import { extractAccountPrivateKey } from './getExtendedPublicKey';
-import { AccountSigner, BtcTx } from '../bitcoin';
+import { AccountSigner, BtcPsbt } from '../bitcoin';
 import { getPersistedData } from '../utils/manageState';
 import { getNetwork } from '../bitcoin/getNetwork';
 import { SnapError, RequestErrors } from "../errors";
@@ -13,15 +13,15 @@ export async function signInput(
   network: BitcoinNetwork,
   scriptType: ScriptType,
   inputIndex: number,
-  path: string
+  opts?: SignInputOptions,
 ): Promise<string> {
   const snapNetwork = await getPersistedData<BitcoinNetwork>(snap, "network", '' as BitcoinNetwork);
-  if (snapNetwork != network){
+  if (snapNetwork != network) {
     throw SnapError.of(RequestErrors.NetworkNotMatch);
   }
 
-  const btcTx = new BtcTx(psbt, snapNetwork);
-  const txDetails = btcTx.extractPsbtJson()
+  const btcPsbt = new BtcPsbt(psbt, snapNetwork);
+  const txDetails = btcPsbt.extractPsbtJson()
 
   const result = await snap.request({
     method: 'snap_dialog',
@@ -37,10 +37,10 @@ export async function signInput(
   });
 
   if (result) {
-    const {node: accountPrivateKey, mfp} = await extractAccountPrivateKey(snap, getNetwork(snapNetwork), scriptType)
+    const { node: accountPrivateKey, mfp } = await extractAccountPrivateKey(snap, getNetwork(snapNetwork), scriptType);
     const signer = new AccountSigner(accountPrivateKey, Buffer.from(mfp, 'hex'));
-    btcTx.validateTx(signer);
-    return btcTx.signInput(inputIndex, signer, path);
+    btcPsbt.validatePsbt(signer);
+    return btcPsbt.signInput(inputIndex, signer, opts);
   } else {
     throw SnapError.of(RequestErrors.RejectSign);
   }

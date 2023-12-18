@@ -27,6 +27,10 @@ const scriptTypeToXpubPrefix: Record<ScriptType, Record<BitcoinNetwork, XpubPref
     main: 'zpub',
     test: 'vpub'
   },
+  [ScriptType.P2TR]: {
+    main: 'xpub',
+    test: 'tpub'
+  },
 }
 
 export const convertXpub = (xpub: string, to: ScriptType, network: Network): string => {

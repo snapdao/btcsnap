@@ -1,19 +1,26 @@
-import { BitcoinNetwork, ScriptType, Snap } from '../interface';
+import { BitcoinNetwork, ScriptType, SignPsbtOptions, Snap } from '../interface';
 import { extractAccountPrivateKey } from './getExtendedPublicKey';
-import { AccountSigner, BtcTx } from '../bitcoin';
+import { AccountSigner, BtcPsbt } from '../bitcoin';
 import { getPersistedData } from '../utils/manageState';
 import { getNetwork } from '../bitcoin/getNetwork';
 import { SnapError, RequestErrors } from "../errors";
 import { heading, panel, text, divider } from "@metamask/snaps-ui";
 
-export async function signPsbt(domain: string, snap: Snap, psbt: string, network: BitcoinNetwork, scriptType: ScriptType): Promise<{ txId: string, txHex: string }> {
+export async function signPsbt(
+  domain: string,
+  snap: Snap,
+  psbt: string,
+  network: BitcoinNetwork,
+  scriptType: ScriptType,
+  opts?: SignPsbtOptions
+): Promise<{ txId: string, txHex: string }> {
   const snapNetwork = await getPersistedData<BitcoinNetwork>(snap, "network", '' as BitcoinNetwork);
-  if (snapNetwork != network){
+  if (snapNetwork != network) {
     throw SnapError.of(RequestErrors.NetworkNotMatch);
   }
 
-  const btcTx = new BtcTx(psbt, snapNetwork);
-  const txDetails = btcTx.extractPsbtJson()
+  const btcPsbt = new BtcPsbt(psbt, snapNetwork);
+  const txDetails = btcPsbt.extractPsbtJson()
 
   const result = await snap.request({
     method: 'snap_dialog',
@@ -29,10 +36,10 @@ export async function signPsbt(domain: string, snap: Snap, psbt: string, network
   });
 
   if (result) {
-    const {node: accountPrivateKey, mfp} = await extractAccountPrivateKey(snap, getNetwork(snapNetwork), scriptType)
+    const { node: accountPrivateKey, mfp } = await extractAccountPrivateKey(snap, getNetwork(snapNetwork), scriptType)
     const signer = new AccountSigner(accountPrivateKey, Buffer.from(mfp, 'hex'));
-    btcTx.validateTx(signer);
-    return btcTx.signTx(signer);
+    btcPsbt.validatePsbt(signer);
+    return btcPsbt.signPsbt(signer, opts);
   } else {
     throw SnapError.of(RequestErrors.RejectSign);
   }

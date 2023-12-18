@@ -6,7 +6,7 @@ import { extractAccountPrivateKey } from './getExtendedPublicKey';
 import { RequestErrors, SnapError } from '../errors';
 
 
-export async function getAllXpubs(origin: string, snap: Snap): Promise<{xpubs: string[], mfp: string}> {
+export async function getAllXpubs(origin: string, snap: Snap): Promise<{ xpubs: string[], mfp: string }> {
   const result = await snap.request({
     method: 'snap_dialog',
     params: {

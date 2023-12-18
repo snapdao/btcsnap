@@ -1,7 +1,7 @@
-import {SnapMock} from '../__mocks__/snap';
-import {getLNDataFromSnap} from '../getLNDataFromSnap';
-import {KeyOptions} from '../../interface';
-import {bip44, LNDataFromSnap, LNDataToSnap} from './fixtures/bitcoinNode';
+import { SnapMock } from '../__mocks__/snap';
+import { getLNDataFromSnap } from '../getLNDataFromSnap';
+import { KeyOptions } from '../../interface';
+import { bip44, LNDataFromSnap, LNDataToSnap } from './fixtures/bitcoinNode';
 
 describe('getLNDataFromSnap', () => {
   const snapStub = new SnapMock();

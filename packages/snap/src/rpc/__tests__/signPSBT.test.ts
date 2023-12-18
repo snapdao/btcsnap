@@ -1,18 +1,20 @@
 import { networks } from 'bitcoinjs-lib';
-import * as bip32 from 'bip32';
+import BIP32Factory from 'bip32';
 import { BitcoinNetwork, ScriptType } from '../../interface';
 import { signPsbt } from '../../rpc';
 import { SnapMock } from '../__mocks__/snap';
 import { extractAccountPrivateKey } from '../../rpc/getExtendedPublicKey';
+import * as ecc from "@bitcoin-js/tiny-secp256k1-asmjs";
+import { RequestErrors } from '../../errors';
 
 jest.mock('../../rpc/getExtendedPublicKey');
 
 const mockSignPsbt = jest.fn();
 jest.mock("../../bitcoin", () => {
   return {
-    BtcTx: jest.fn().mockImplementation(() => {
+    BtcPsbt: jest.fn().mockImplementation(() => {
       return {
-        validateTx: () => true,
+        validatePsbt: () => true,
         extractPsbtJson: jest.fn().mockReturnValue({
           from: "mx5m68zHiGnFEoMjTdkWinmBAYsWyp9DJk",
           to: "mx5m68zHiGnFEoMjTdkWinmBAYsWyp9DJk",
@@ -20,7 +22,7 @@ jest.mock("../../bitcoin", () => {
           fee: 500,
           network: "test"
         }),
-        signTx: mockSignPsbt
+        signPsbt: mockSignPsbt
       };
     }),
     AccountSigner: jest.fn()
@@ -35,22 +37,22 @@ describe('signPsbt', () => {
 
   beforeAll(() => {
     (extractAccountPrivateKey as jest.Mock).mockResolvedValue({
-      node: bip32.fromBase58(testAccountPrivateKey, networks.regtest),
+      node: BIP32Factory(ecc).fromBase58(testAccountPrivateKey, networks.regtest),
       mfp: 'fd3e418b'
     })
-  })
+  });
 
   afterEach(() => {
     snapStub.reset()
-  })
+  });
 
-  it('should call BtcTx to sign psbt if user approved', async () => {
+  it('should call BtcPsbt to sign psbt if user approved', async () => {
     snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
-    snapStub.rpcStubs.snap_manageState.mockResolvedValue({network: BitcoinNetwork.Test});
+    snapStub.rpcStubs.snap_manageState.mockResolvedValue({ network: BitcoinNetwork.Test });
 
     await signPsbt(domain, snapStub, testPsbtBase64, BitcoinNetwork.Test, ScriptType.P2PKH)
     await expect(mockSignPsbt).toHaveBeenCalled();
-  })
+  });
 
   it('should reject the sign request and throw error if user reject the sign the pbst', async () => {
     snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
@@ -59,5 +61,12 @@ describe('signPsbt', () => {
       .rejects
       .toThrowError('User reject the sign request');
     expect(snapStub.rpcStubs.snap_getBip32Entropy).not.toHaveBeenCalled();
-  })
+  });
+
+  it('should reject if network is wrong', async () => {
+    await expect(signPsbt(domain, snapStub, testPsbtBase64, BitcoinNetwork.Main, ScriptType.P2PKH))
+      .rejects
+      .toThrowError(RequestErrors.NetworkNotMatch.message);
+    expect(snapStub.rpcStubs.snap_getBip32Entropy).not.toHaveBeenCalled();
+  });
 });

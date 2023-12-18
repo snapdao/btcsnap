@@ -1,15 +1,15 @@
 import BIP32Factory from 'bip32';
-import {BIP32Interface} from 'bip32';
-import {BitcoinNetwork, SLIP10Node, Snap} from '../interface';
-import {getNetwork} from '../bitcoin/getNetwork';
-import {parseLightningPath} from '../bitcoin/cryptoPath';
+import { BIP32Interface } from 'bip32';
+import { BitcoinNetwork, SLIP10Node, Snap } from '../interface';
+import { getNetwork } from '../bitcoin/getNetwork';
+import { parseLightningPath } from '../bitcoin/cryptoPath';
 import { trimHexPrefix } from '../utils/hexHelper';
 import * as ecc from "@bitcoin-js/tiny-secp256k1-asmjs";
 
 const CRYPTO_CURVE = 'secp256k1';
 
 export const getHDNode = async (snap: Snap, hdPath: string) => {
-  const {purpose, coinType, account, change, index} =
+  const { purpose, coinType, account, change, index } =
     parseLightningPath(hdPath);
   const network =
     coinType.value === '0'

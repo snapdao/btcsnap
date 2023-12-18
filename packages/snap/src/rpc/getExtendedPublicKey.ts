@@ -8,15 +8,18 @@ import { RequestErrors, SnapError } from "../errors";
 import { heading, panel, text } from "@metamask/snaps-ui";
 import * as ecc from "@bitcoin-js/tiny-secp256k1-asmjs";
 
+// m / purpose' / coinType'
 export const pathMap: Record<ScriptType, string[]> = {
     [ScriptType.P2PKH]: ['m', "44'", "0'"],
     [ScriptType.P2SH_P2WPKH]: ['m', "49'", "0'"],
-    [ScriptType.P2WPKH]: ['m', "84'", "0'"]
+    [ScriptType.P2WPKH]: ['m', "84'", "0'"],
+    [ScriptType.P2TR]: ['m', "86'", "0'"]
 }
 
 export const CRYPTO_CURVE = "secp256k1";
 
-export async function extractAccountPrivateKey(snap: Snap, network: Network, scriptType: ScriptType): Promise<{node:BIP32Interface, mfp: string}> {
+// m / purpose' / coinType' / 0'
+export async function extractAccountPrivateKey(snap: Snap, network: Network, scriptType: ScriptType): Promise<{ node: BIP32Interface, mfp: string }> {
     const path = [...pathMap[scriptType]]
     if (network != networks.bitcoin) {
         path[path.length - 1] = "1'";
@@ -47,13 +50,13 @@ export async function extractAccountPrivateKey(snap: Snap, network: Network, scr
     };
 }
 
-
-export async function getExtendedPublicKey(origin: string, snap: Snap, scriptType: ScriptType, network: Network): Promise<{xpub: string, mfp: string}> {
+export async function getExtendedPublicKey(origin: string, snap: Snap, scriptType: ScriptType, network: Network): Promise<{ xpub: string, mfp: string }> {
     const networkName = network == networks.bitcoin ? "mainnet" : "testnet";
     switch (scriptType) {
         case ScriptType.P2PKH:
         case ScriptType.P2WPKH:
         case ScriptType.P2SH_P2WPKH:
+        case ScriptType.P2TR:
             const result = await snap.request({
                 method: 'snap_dialog',
                 params: {
@@ -65,13 +68,13 @@ export async function getExtendedPublicKey(origin: string, snap: Snap, scriptTyp
                 },
             });
 
-            if(result) {
+            if (result) {
                 const { node: accountNode, mfp } = await extractAccountPrivateKey(snap, network, scriptType)
                 const accountPublicKey = accountNode.neutered();
                 const xpub = convertXpub(accountPublicKey.toBase58(), scriptType, network);
 
                 const snapNetwork = await getPersistedData(snap, "network", "");
-                if(!snapNetwork) {
+                if (!snapNetwork) {
                     await updatePersistedData(snap, "network", network == networks.bitcoin ? BitcoinNetwork.Main : BitcoinNetwork.Test);
                 }
 
