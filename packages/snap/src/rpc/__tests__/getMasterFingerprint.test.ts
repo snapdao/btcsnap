@@ -31,7 +31,7 @@ describe('getMasterFingerprint', () => {
     })
 
     it("should return undefined string if mfp doesn't exist", async () => {
-      const {masterFingerprint, ...slip10NodeWithoutMFP} = bip44.slip10Node
+      const { masterFingerprint, ...slip10NodeWithoutMFP } = bip44.slip10Node
       snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(slip10NodeWithoutMFP);
 
       const xfp = await getMasterFingerprint(snapStub)

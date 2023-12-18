@@ -51,6 +51,7 @@
     "@metamask/snaps-cli": "^0.32.2",
     "@metamask/snaps-ui": "^0.32.2",
     "bip32": "^4.0.0",
+    "bip174": "^2.1.1",
     "bitcoinjs-lib": "^6.1.5",
     "bitcoinjs-message": "^2.2.0",
     "bn.js": "^5.2.1",

@@ -19,14 +19,14 @@ describe('masterFingerprint', () => {
 
   describe("manageNetwork", () => {
     it('should return network if it exists', async () => {
-      snapStub.rpcStubs.snap_manageState.mockResolvedValue({mfp, network});
+      snapStub.rpcStubs.snap_manageState.mockResolvedValue({ mfp, network });
 
       const storedNetwork = await manageNetwork(origin, snapStub, "get");
       expect(storedNetwork).toBe('test')
     })
 
     it("should return empty string if network doesn't exist", async () => {
-      snapStub.rpcStubs.snap_manageState.mockResolvedValue({mfp});
+      snapStub.rpcStubs.snap_manageState.mockResolvedValue({ mfp });
 
       const storedNetwork = await manageNetwork(origin, snapStub, "get")
       expect(storedNetwork).toBe("")
@@ -41,7 +41,7 @@ describe('masterFingerprint', () => {
     })
 
     it("should set network to target when user approves given target network", async () => {
-      snapStub.rpcStubs.snap_manageState.mockResolvedValue({mfp, network});
+      snapStub.rpcStubs.snap_manageState.mockResolvedValue({ mfp, network });
       snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
       jest.spyOn(manageState, 'updatePersistedData');
       await manageNetwork(origin, snapStub, "set", BitcoinNetwork.Main);
@@ -50,7 +50,7 @@ describe('masterFingerprint', () => {
     })
 
     it("should not set network to target when user not approve given target network", async () => {
-      snapStub.rpcStubs.snap_manageState.mockResolvedValue({mfp, network});
+      snapStub.rpcStubs.snap_manageState.mockResolvedValue({ mfp, network });
       snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
       jest.spyOn(manageState, 'updatePersistedData');
       await manageNetwork(origin, snapStub, "set", BitcoinNetwork.Main);

@@ -1,6 +1,6 @@
-import {Snap, LNHdPath} from '../interface';
-import {getHDNode} from '../utils/getHDNode';
-import {getPersistedData, updatePersistedData} from '../utils/manageState';
+import { Snap, LNHdPath } from '../interface';
+import { getHDNode } from '../utils/getHDNode';
+import { getPersistedData, updatePersistedData } from '../utils/manageState';
 import CryptoJs from 'crypto-js';
 
 export async function saveLNDataToSnap(
@@ -20,7 +20,7 @@ export async function saveLNDataToSnap(
   });
 
   const iv = CryptoJs.lib.WordArray.random(16);
-  const encrypted = CryptoJs.AES.encrypt(credential, key, {iv: iv});
+  const encrypted = CryptoJs.AES.encrypt(credential, key, { iv: iv });
   const encryptText = salt.toString() + iv.toString() + encrypted.toString();
   const result = await getPersistedData(snap, 'lightning', {});
   const newLightning = {

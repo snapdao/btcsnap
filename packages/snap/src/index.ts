@@ -1,5 +1,5 @@
-import {getNetwork} from './bitcoin/getNetwork';
-import {Snap, MetamaskBTCRpcRequest} from './interface';
+import { getNetwork } from './bitcoin/getNetwork';
+import { Snap, MetamaskBTCRpcRequest } from './interface';
 import {
   getExtendedPublicKey,
   getAllXpubs,
@@ -26,7 +26,7 @@ export type RpcRequest = {
   request: MetamaskBTCRpcRequest;
 };
 
-export const onRpcRequest = async ({origin, request}: RpcRequest) => {
+export const onRpcRequest = async ({ origin, request }: RpcRequest) => {
   await validateRequest(snap, origin, request);
   initEccLib(ecc);
 
@@ -43,6 +43,7 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         origin,
         snap,
       );
+    // keep this for backwards compatibility
     case 'btc_signPsbt':
       return signPsbt(
         origin,
@@ -50,6 +51,7 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         request.params.psbt,
         request.params.network,
         request.params.scriptType,
+        request.params.opts,
       );
     case 'btc_signInput':
       return signInput(
@@ -59,8 +61,8 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         request.params.network,
         request.params.scriptType,
         request.params.inputIndex,
-        request.params.path,
-      );  
+        request.params.opts,
+      );
     case 'btc_getMasterFingerprint':
       return getMasterFingerprint(snap);
     case 'btc_network':
@@ -84,8 +86,8 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         snap,
         {
           key: request.params.key,
-          ...(request.params.walletId && {walletId: request.params.walletId}),
-          ...(request.params.type && {type: request.params.type}),
+          ...(request.params.walletId && { walletId: request.params.walletId }),
+          ...(request.params.type && { type: request.params.type }),
         }
       );
     case 'btc_signLNInvoice':

@@ -1,13 +1,14 @@
-import * as bip32 from 'bip32';
+import BIP32Factory from 'bip32';
 import { networks, Psbt } from 'bitcoinjs-lib';
 import { PsbtValidator } from '../PsbtValidator';
 import { AccountSigner } from '../index';
 import { BitcoinNetwork } from '../../interface';
 import { psbtFixture } from './fixtures/psbt';
+import * as ecc from "@bitcoin-js/tiny-secp256k1-asmjs";
 
 const getAccountSigner = () => {
   const testPrivateAccountKey = "tprv8gwYx7tEWpLxdJhEa7R8ofchqzRgme6iiuyJpegZ71XNhnAqeMjT6GV4wm3jqsUjXgXj99GB4kDminso5kxnLa6VXt3WVRzfmhbDSrfbCDv";
-  const accountNode = bip32.fromBase58(testPrivateAccountKey, networks.testnet);
+  const accountNode = BIP32Factory(ecc).fromBase58(testPrivateAccountKey, networks.testnet);
   return new AccountSigner(accountNode, Buffer.from("f812d139", 'hex'));
 }
 
@@ -27,21 +28,36 @@ describe('psbtValidator', () => {
 
   it('should throw error when not all inputs have nonWitnessUtxo', () => {
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
-    expect(() => {psbtValidator.validate(signer)}).toThrowError('Not all inputs have prev Tx raw hex');
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Not all inputs have prev Tx raw hex');
   });
 
   it('should throw error when not all inputs matches network', () => {
-    psbt.updateInput(0,{
+    psbt.updateInput(0, {
       nonWitnessUtxo: psbtFixture.data.inputs[0].nonWitnessUtxo,
       bip32Derivation: psbtFixture.data.inputs[0].bip32Derivation,
     })
 
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Main);
-    expect(() => {psbtValidator.validate(signer)}).toThrowError('Not every input matches network');
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Not every input matches network');
+  });
+
+  it('should throw error when not all inputs matches network (taproot)', () => {
+    psbt.updateInput(0, {
+      nonWitnessUtxo: psbtFixture.data.inputs[0].nonWitnessUtxo,
+      tapBip32Derivation: [{
+        masterFingerprint: Buffer.alloc(4, 0),
+        pubkey: Buffer.alloc(32, 0),
+        path: "m/86'/1'/0'/1/10",
+        leafHashes: [],
+      }],
+    })
+
+    const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Main);
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Not every input matches network');
   });
 
   it('should throw error when not all outputs matches network', () => {
-    psbt.updateInput(0,{
+    psbt.updateInput(0, {
       nonWitnessUtxo: psbtFixture.data.inputs[0].nonWitnessUtxo,
       bip32Derivation: psbtFixture.data.inputs[0].bip32Derivation,
     })
@@ -56,11 +72,31 @@ describe('psbtValidator', () => {
     })
 
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
-    expect(() => {psbtValidator.validate(signer)}).toThrowError('Not every output matches network');
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Not every output matches network');
+  });
+
+  it('should throw error when not all outputs matches network (taproot)', () => {
+    psbt.updateInput(0, {
+      nonWitnessUtxo: psbtFixture.data.inputs[0].nonWitnessUtxo,
+      bip32Derivation: psbtFixture.data.inputs[0].bip32Derivation,
+    })
+    psbt.addOutput({
+      script: Buffer.from('0014198d799580d87fb6c0341b1e9619a20ef47cd5f8', 'hex'),
+      value: 10000,
+      tapBip32Derivation: [{
+        masterFingerprint: Buffer.alloc(4, 0),
+        pubkey: Buffer.alloc(32, 0),
+        path: `m/86'/0'/0'/1/1`,
+        leafHashes: [],
+      }],
+    })
+
+    const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Not every output matches network');
   });
 
   it('should throw error when not all inputs belong to current account', () => {
-    psbt.updateInput(0,{
+    psbt.updateInput(0, {
       nonWitnessUtxo: psbtFixture.data.inputs[0].nonWitnessUtxo,
       bip32Derivation: [{
         masterFingerprint: Buffer.from('d1f83912', 'hex'),
@@ -70,11 +106,27 @@ describe('psbtValidator', () => {
     })
 
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
-    expect(() => {psbtValidator.validate(signer)}).toThrowError('Not all inputs belongs to current account');
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Not all inputs belongs to current account');
+  });
+
+  it('should throw error when not all inputs belong to current account (taproot)', () => {
+    psbt.updateInput(0, {
+      nonWitnessUtxo: psbtFixture.data.inputs[0].nonWitnessUtxo,
+      tapInternalKey: Buffer.alloc(32, 0),
+      tapBip32Derivation: [{
+        masterFingerprint: Buffer.alloc(4, 0),
+        pubkey: Buffer.alloc(32, 0),
+        path: `m/86'/1'/0'/1/0`,
+        leafHashes: [],
+      }],
+    })
+
+    const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Not all inputs belongs to current account');
   });
 
   it('should throw error when not all change addresses belong to current account', () => {
-    psbt.updateInput(0,{
+    psbt.updateInput(0, {
       nonWitnessUtxo: psbtFixture.data.inputs[0].nonWitnessUtxo,
       bip32Derivation: psbtFixture.data.inputs[0].bip32Derivation,
     })
@@ -87,7 +139,7 @@ describe('psbtValidator', () => {
     })
 
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
-    expect(() => {psbtValidator.validate(signer)}).toThrowError(`Change address doesn't belongs to current account`);
+    expect(() => { psbtValidator.validate(signer) }).toThrowError(`Change address doesn't belongs to current account`);
   });
 
   it('should throw error when fee is too high', () => {
@@ -105,7 +157,7 @@ describe('psbtValidator', () => {
     psbt.addOutputs(psbtFixture.tx.outputs);
 
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
-    expect(() => {psbtValidator.validate(signer)}).toThrowError('Too much fee');
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Too much fee');
   });
 
   it('should throw error given witnessUtxo value not equals to nonWitnessUtxo value', () => {
@@ -123,11 +175,11 @@ describe('psbtValidator', () => {
     psbt.addOutputs(psbtFixture.tx.outputs);
 
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
-    expect(() => {psbtValidator.validate(signer)}).toThrowError('Transaction input amount not match');
+    expect(() => { psbtValidator.validate(signer) }).toThrowError('Transaction input amount not match');
   });
 
-  it('should return true given a valid psbt', function() {
-    const psbt = Psbt.fromBase64(psbtFixture.base64, { network: networks.testnet})
+  it('should return true given a valid psbt', function () {
+    const psbt = Psbt.fromBase64(psbtFixture.base64, { network: networks.testnet })
     const psbtValidator = new PsbtValidator(psbt, BitcoinNetwork.Test);
 
     expect(psbtValidator.validate(signer)).toBe(true);
