@@ -15,14 +15,14 @@ interface ValidateTxData {
 
 export const validateTx = ({ psbt, utxoAmount, changeAddressPath }: ValidateTxData) => {
   return isChangeAddressBelongsToCurrentAccount(psbt, changeAddressPath) &&
-    !isFeeTooHigh(psbt, utxoAmount) &&
+    isFeeValid(psbt, utxoAmount) &&
     !hasDustOutput(psbt);
 };
 
-const isFeeTooHigh = (psbt: Psbt, utxoAmount: number) => {
+const isFeeValid = (psbt: Psbt, utxoAmount: number) => {
   const outputAmount = psbt.txOutputs.reduce((amount, output) => amount + output.value, 0);
   const fee = utxoAmount - outputAmount;
-  return fee >= MAX_FEE;
+  return fee > 0 && fee < MAX_FEE;
 };
 
 const isChangeAddressBelongsToCurrentAccount = (psbt: Psbt, changeAddressPath: string) => {
