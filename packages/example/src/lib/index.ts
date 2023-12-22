@@ -167,7 +167,7 @@ const composePsbt = (
 
   const psbt = new Psbt({ network: networkConfig });
 
-  if (!inputs) throw new Error('Utxo selections error please retry');
+  if (!inputs) throw new Error('No suitable UTXOs available for constructing the transaction');
 
   inputs.forEach((each) => {
     const commonFields = {
