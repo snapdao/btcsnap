@@ -19,9 +19,9 @@ describe('getAllXpubs', () => {
   it('should get all 6 extended public keys from wallet if user approve', async () => {
     snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(bip44.slip10Node);
-    const {xpubs} = await getAllXpubs(domain, snapStub);
+    const { xpubs } = await getAllXpubs(domain, snapStub);
 
-    expect(snapStub.rpcStubs.snap_getBip32Entropy).toBeCalledTimes(6);
+    expect(snapStub.rpcStubs.snap_getBip32Entropy).toBeCalledTimes(8);
     expect(xpubs).toEqual(expect.arrayContaining([
       expect.stringMatching(/^xpub/),
       expect.stringMatching(/^ypub/),

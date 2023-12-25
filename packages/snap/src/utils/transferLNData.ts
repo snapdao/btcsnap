@@ -9,9 +9,9 @@ export const formatTime = (sec: number) => {
   return `${hours}H ${minutes}M`;
 };
 
-const getBoltField = (invoice: Record<string, any>, key: string) => invoice.find((item:any) => item.name === key);
+const getBoltField = (invoice: Record<string, any>, key: string) => invoice.find((item: any) => item.name === key);
 
-const formatInvoice = (invoice:string) => {
+const formatInvoice = (invoice: string) => {
   const decodedInvoice = require('light-bolt11-decoder').decode(invoice).sections;
   const expireDatetime = getBoltField(decodedInvoice, 'timestamp').value + getBoltField(decodedInvoice, 'expiry').value;
   return {

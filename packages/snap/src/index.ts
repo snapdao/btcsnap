@@ -1,9 +1,10 @@
-import {getNetwork} from './bitcoin/getNetwork';
-import {Snap, MetamaskBTCRpcRequest} from './interface';
+import { getNetwork } from './bitcoin/getNetwork';
+import { Snap, MetamaskBTCRpcRequest } from './interface';
 import {
   getExtendedPublicKey,
   getAllXpubs,
   signPsbt,
+  signInput,
   getMasterFingerprint,
   manageNetwork,
   validateRequest,
@@ -12,6 +13,8 @@ import {
   signLNInvoice,
 } from './rpc';
 import { SnapError, RequestErrors } from './errors';
+import * as ecc from "@bitcoin-js/tiny-secp256k1-asmjs";
+import { initEccLib } from 'bitcoinjs-lib';
 
 // @ts-ignore
 globalThis.Buffer = require('buffer/').Buffer;
@@ -23,8 +26,9 @@ export type RpcRequest = {
   request: MetamaskBTCRpcRequest;
 };
 
-export const onRpcRequest = async ({origin, request}: RpcRequest) => {
+export const onRpcRequest = async ({ origin, request }: RpcRequest) => {
   await validateRequest(snap, origin, request);
+  initEccLib(ecc);
 
   switch (request.method) {
     case 'btc_getPublicExtendedKey':
@@ -39,14 +43,25 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         origin,
         snap,
       );
+    // keep this for backwards compatibility
     case 'btc_signPsbt':
-      const psbt = request.params.psbt;
       return signPsbt(
         origin,
         snap,
-        psbt,
+        request.params.psbt,
         request.params.network,
         request.params.scriptType,
+        request.params.opts,
+      );
+    case 'btc_signInput':
+      return signInput(
+        origin,
+        snap,
+        request.params.psbt,
+        request.params.network,
+        request.params.scriptType,
+        request.params.inputIndex,
+        request.params.opts,
       );
     case 'btc_getMasterFingerprint':
       return getMasterFingerprint(snap);
@@ -71,8 +86,8 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         snap,
         {
           key: request.params.key,
-          ...(request.params.walletId && {walletId: request.params.walletId}),
-          ...(request.params.type && {type: request.params.type}),
+          ...(request.params.walletId && { walletId: request.params.walletId }),
+          ...(request.params.type && { type: request.params.type }),
         }
       );
     case 'btc_signLNInvoice':

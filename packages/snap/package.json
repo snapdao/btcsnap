@@ -47,10 +47,12 @@
     "test": "jest --watchAll=false"
   },
   "dependencies": {
+    "@bitcoin-js/tiny-secp256k1-asmjs": "^2.2.3",
     "@metamask/snaps-cli": "^0.32.2",
     "@metamask/snaps-ui": "^0.32.2",
-    "bip32": "^2.0.6",
-    "bitcoinjs-lib": "^6.0.1",
+    "bip32": "^4.0.0",
+    "bip174": "^2.1.1",
+    "bitcoinjs-lib": "^6.1.5",
     "bitcoinjs-message": "^2.2.0",
     "bn.js": "^5.2.1",
     "bs58check": "^2.1.2",

@@ -11,12 +11,33 @@ export interface GetAllXpubsRequest {
   params: Record<string, never>
 }
 
+export interface SignPsbtOptions {
+  signInputOpts?: SignInputOptions[];
+}
+
 export interface SignPsbt {
   method: 'btc_signPsbt';
   params: {
     psbt: string;
     network: BitcoinNetwork;
     scriptType: ScriptType;
+    opts?: SignPsbtOptions;
+  };
+}
+
+export interface SignInputOptions {
+  sighashTypes?: number[];
+  disableTweakSigner?: boolean;
+}
+
+export interface SignInput {
+  method: 'btc_signInput';
+  params: {
+    psbt: string;
+    network: BitcoinNetwork;
+    scriptType: ScriptType;
+    inputIndex: number,
+    opts?: SignInputOptions,
   };
 }
 
@@ -61,6 +82,7 @@ export type MetamaskBTCRpcRequest =
   | GetAllXpubsRequest
   | GetPublicExtendedKeyRequest
   | SignPsbt
+  | SignInput
   | GetMasterFingerprint
   | ManageNetwork
   | SaveLNDataToSnap
@@ -84,6 +106,7 @@ export enum ScriptType {
   P2PKH = 'P2PKH',
   P2SH_P2WPKH = 'P2SH-P2WPKH',
   P2WPKH = 'P2WPKH',
+  P2TR = 'P2TR',
 }
 
 export enum BitcoinNetwork {

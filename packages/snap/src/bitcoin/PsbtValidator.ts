@@ -4,11 +4,19 @@ import { BitcoinNetwork } from '../interface';
 import { PsbtHelper } from '../bitcoin/PsbtHelper';
 import { fromHdPathToObj } from './cryptoPath';
 import { PsbtValidateErrors, SnapError } from "../errors";
+import { isTaprootInput } from 'bitcoinjs-lib/src/psbt/bip371';
+import { tapInputHasHDKey, tapOutputHasHDKey } from './tapSigner';
 
 const BITCOIN_MAINNET_COIN_TYPE = 0;
 const BITCOIN_TESTNET_COIN_TYPE = 1;
 const BITCOIN_MAIN_NET_ADDRESS_PATTERN = /^(1|3|bc1)/;
 const BITCOIN_TEST_NET_ADDRESS_PATTERN = /^(m|n|2|tb1)/;
+
+function checkForInput<PsbtInput>(inputs: PsbtInput[], inputIndex: number): PsbtInput {
+  const input = inputs[inputIndex];
+  if (input === undefined) throw new Error(`No input #${inputIndex}`);
+  return input;
+}
 
 export class PsbtValidator {
   static FEE_THRESHOLD = 10000000;
@@ -23,8 +31,8 @@ export class PsbtValidator {
     this.psbtHelper = new PsbtHelper(this.tx, network);
   }
 
-  get coinType(){
-    return this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAINNET_COIN_TYPE: BITCOIN_TESTNET_COIN_TYPE;
+  get coinType() {
+    return this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAINNET_COIN_TYPE : BITCOIN_TESTNET_COIN_TYPE;
   }
 
   allInputsHaveRawTxHex() {
@@ -36,12 +44,19 @@ export class PsbtValidator {
   }
 
   everyInputMatchesNetwork() {
-    const result = this.tx.data.inputs.every(input =>
-      input.bip32Derivation.every(derivation => {
-        const {coinType} = fromHdPathToObj(derivation.path)
-        return Number(coinType) === this.coinType
-      })
-    )
+    const result = this.tx.data.inputs.every(input => {
+      if (isTaprootInput(input)) {
+        return input.tapBip32Derivation.every(derivation => {
+          const { coinType } = fromHdPathToObj(derivation.path);
+          return Number(coinType) === this.coinType;
+        });
+      } else {
+        return input.bip32Derivation.every(derivation => {
+          const { coinType } = fromHdPathToObj(derivation.path);
+          return Number(coinType) === this.coinType;
+        });
+      }
+    });
     if (!result) {
       this.error = SnapError.of(PsbtValidateErrors.InputsNetworkNotMatch);
     }
@@ -51,15 +66,20 @@ export class PsbtValidator {
   everyOutputMatchesNetwork() {
     const addressPattern = this.snapNetwork === BitcoinNetwork.Main ? BITCOIN_MAIN_NET_ADDRESS_PATTERN : BITCOIN_TEST_NET_ADDRESS_PATTERN;
     const result = this.tx.data.outputs.every((output, index) => {
-     if(output.bip32Derivation){
-       return output.bip32Derivation.every(derivation => {
-         const {coinType} = fromHdPathToObj(derivation.path)
-         return Number(coinType) === this.coinType
-       })
-     } else {
-       const address = this.tx.txOutputs[index].address;
-       return addressPattern.test(address);
-     }
+      if (output.tapBip32Derivation) {
+        return output.tapBip32Derivation.every(derivation => {
+          const { coinType } = fromHdPathToObj(derivation.path)
+          return Number(coinType) === this.coinType
+        })
+      } else if (output.bip32Derivation) {
+        return output.bip32Derivation.every(derivation => {
+          const { coinType } = fromHdPathToObj(derivation.path)
+          return Number(coinType) === this.coinType
+        })
+      } else {
+        const address = this.tx.txOutputs[index].address;
+        return addressPattern.test(address);
+      }
     })
 
     if (!result) {
@@ -69,9 +89,14 @@ export class PsbtValidator {
   }
 
   allInputsBelongToCurrentAccount(accountSigner: AccountSigner) {
-    const result = this.tx.txInputs.every((_, index) =>
-      this.tx.inputHasHDKey(index, accountSigner),
-    );
+    const result = this.tx.txInputs.every((_, index) => {
+      const input = checkForInput(this.tx.data.inputs, index);
+      if (isTaprootInput(input)) {
+        return tapInputHasHDKey(input, accountSigner);
+      } else {
+        return this.tx.inputHasHDKey(index, accountSigner);
+      }
+    });
     if (!result) {
       this.error = SnapError.of(PsbtValidateErrors.InputNotSpendable);
     }
@@ -80,7 +105,9 @@ export class PsbtValidator {
 
   changeAddressBelongsToCurrentAccount(accountSigner: AccountSigner) {
     const result = this.tx.data.outputs.every((output, index) => {
-      if (output.bip32Derivation) {
+      if (output.tapBip32Derivation) {
+        return tapOutputHasHDKey(output, accountSigner);
+      } else if (output.bip32Derivation) {
         return this.tx.outputHasHDKey(index, accountSigner);
       }
       return true;
@@ -120,12 +147,12 @@ export class PsbtValidator {
     this.error = null;
 
     this.allInputsHaveRawTxHex() &&
-    this.everyInputMatchesNetwork() &&
-    this.everyOutputMatchesNetwork() &&
-    this.allInputsBelongToCurrentAccount(accountSigner) &&
-    this.changeAddressBelongsToCurrentAccount(accountSigner) &&
-    this.feeUnderThreshold() &&
-    this.witnessUtxoValueMatchesNoneWitnessOnes();
+      this.everyInputMatchesNetwork() &&
+      this.everyOutputMatchesNetwork() &&
+      this.allInputsBelongToCurrentAccount(accountSigner) &&
+      this.changeAddressBelongsToCurrentAccount(accountSigner) &&
+      this.feeUnderThreshold() &&
+      this.witnessUtxoValueMatchesNoneWitnessOnes();
 
     if (this.error) {
       throw this.error

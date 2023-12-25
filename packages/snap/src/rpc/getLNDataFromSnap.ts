@@ -1,6 +1,6 @@
-import {getHDNode} from '../utils/getHDNode';
-import {Snap, PersistedData, KeyOptions, LNHdPath} from '../interface';
-import {getPersistedData} from '../utils/manageState';
+import { getHDNode } from '../utils/getHDNode';
+import { Snap, PersistedData, KeyOptions, LNHdPath } from '../interface';
+import { getPersistedData } from '../utils/manageState';
 import CryptoJs from 'crypto-js';
 import { RequestErrors, SnapError } from "../errors";
 import { heading, panel, text } from "@metamask/snaps-ui";
@@ -68,7 +68,7 @@ export async function getLNDataFromSnap(
           keySize: 512 / 32,
           iterations: 1000,
         });
-        const credential = CryptoJs.AES.decrypt(encrypted, key, {iv: iv});
+        const credential = CryptoJs.AES.decrypt(encrypted, key, { iv: iv });
 
         return credential.toString(CryptoJs.enc.Utf8);
       } else {

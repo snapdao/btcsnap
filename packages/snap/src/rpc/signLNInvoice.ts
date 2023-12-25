@@ -1,6 +1,6 @@
-import {Snap, LNHdPath} from '../interface';
-import {getHDNode} from '../utils/getHDNode';
-import {transferInvoiceContent} from '../utils/transferLNData';
+import { Snap, LNHdPath } from '../interface';
+import { getHDNode } from '../utils/getHDNode';
+import { transferInvoiceContent } from '../utils/transferLNData';
 import bitcoinMessage from 'bitcoinjs-message';
 import { RequestErrors, SnapError } from '../errors';
 import { divider, heading, panel, text } from "@metamask/snaps-ui";
