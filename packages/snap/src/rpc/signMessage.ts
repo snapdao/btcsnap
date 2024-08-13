@@ -1,0 +1,77 @@
+import bitcoinMessage from 'bitcoinjs-message';
+import {SnapError, RequestErrors} from '../errors';
+import {BitcoinNetwork, ScriptType, Snap} from '../interface';
+import {getPersistedData} from '../utils';
+import {heading, panel, text, divider} from '@metamask/snaps-ui';
+import {pathMap} from '../rpc/getExtendedPublicKey';
+import {getNetwork} from '../bitcoin/getNetwork';
+import * as bitcoin from 'bitcoinjs-lib';
+import { getHDNode } from '../utils/getHDNode';
+
+
+export const signMessage = async (
+  domain: string,
+  snap: Snap,
+  message: string,
+  // TODO: implement bip322 message signing
+  protocol: 'ecdsa' | 'bip322' = 'ecdsa',
+) => {
+  if (protocol !== 'ecdsa') {
+    throw SnapError.of(RequestErrors.ActionNotSupport);
+  }
+
+  const snapNetwork = await getPersistedData<BitcoinNetwork>(
+    snap,
+    'network',
+    '' as BitcoinNetwork,
+  );
+
+  const btcNetwork = getNetwork(snapNetwork);
+  const path = [...pathMap[ScriptType.P2SH_P2WPKH], "0'", '0', '0'];
+
+  if (snapNetwork !== BitcoinNetwork.Main) {
+    path[2] = "1'";
+  }
+
+  const {publicKey, privateKey} = await getHDNode(snap, path.join('/'));
+
+  const address = bitcoin.payments.p2sh({
+    redeem: bitcoin.payments.p2wpkh({
+      pubkey: publicKey,
+      network: btcNetwork,
+    }),
+    network: btcNetwork,
+  }).address as string;
+
+  const result = await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'confirmation',
+      content: panel([
+        heading('Sign Bitcoin Message'),
+        text(`Please verify this sign message request from ${domain}`),
+        divider(),
+        panel([
+          text(`**Address**:\n ${address}`),
+          text(`**Network**:\n ${snapNetwork === BitcoinNetwork.Main ? 'Mainnet' : 'Testnet'}`),
+          text(`**Message**:\n ${message}`),
+        ]),
+        divider(),
+        text(`By signing this message, you verify that you own the account without broadcasting any on-chain transactions. This signature does not allow transactions to be broadcast on your behalf. Only sign messages that you trust.`)
+      ]),
+    },
+  });
+
+  if (!result) {
+    throw SnapError.of(RequestErrors.RejectSign);
+  }
+
+    const signature = bitcoinMessage.sign(message, privateKey, true, {
+      segwitType: "p2sh(p2wpkh)"
+    });
+
+    return {
+      signature: signature.toString('base64'),
+      address,
+    };
+  };

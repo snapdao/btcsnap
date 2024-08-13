@@ -1,6 +1,6 @@
 {
   "name": "btcsnap",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "btcsnap: Metamask snap to manage your bitcoin",
   "author": "aaronisme <aarondongchen@gmail.com>",
   "homepage": "",
@@ -67,6 +67,7 @@
     "@types/bs58check": "^2.1.0",
     "@types/create-hash": "^1.2.2",
     "@types/crypto-js": "^4.1.1",
+    "@types/secp256k1": "4.0.6",
     "prettier": "^2.7.1",
     "through2": "^4.0.2"
   }
