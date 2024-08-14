@@ -7,6 +7,7 @@ describe('signMessage', () => {
   const snapStub = new SnapMock();
   const domain = 'www.justsnap.io';
   const message = 'test message';
+  const derivationPath = ['m', "49'", "0'", "0'", '0', '0'].join('/');
 
   beforeEach(() => {
     snapStub.rpcStubs.snap_manageState.mockResolvedValue({network: 'test'});
@@ -20,7 +21,7 @@ describe('signMessage', () => {
     snapStub.rpcStubs.snap_dialog.mockResolvedValue(true);
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(bip44.slip10Node);
 
-    const result = await signMessage(domain, snapStub, message);
+    const result = await signMessage(domain, snapStub, message, derivationPath);
 
     expect(
       bitcoinMessage.verify(message, result.address, result.signature),
@@ -31,14 +32,14 @@ describe('signMessage', () => {
     snapStub.rpcStubs.snap_dialog.mockResolvedValue(false);
 
     await expect(
-       signMessage(domain, snapStub, message, 'ecdsa'),
+       signMessage(domain, snapStub, message, derivationPath, 'ecdsa'),
     ).rejects.toThrowError('User reject the sign request');
   });
 
 
   it('should throw error if protocol is not supported', async () => {
     await expect(
-      signMessage(domain, snapStub, message, 'bip322'),
+      signMessage(domain, snapStub, message, derivationPath, 'bip322'),
     ).rejects.toThrowError('Action not supported');
   });
 
@@ -47,7 +48,7 @@ describe('signMessage', () => {
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(bip44.slip10Node);
     snapStub.rpcStubs.snap_manageState.mockResolvedValue({network: 'main'});
 
-    const result = await signMessage(domain, snapStub, message);
+    const result = await signMessage(domain, snapStub, message, derivationPath);
 
     expect(result.address.startsWith('3')).toBeTruthy();
   });
@@ -57,7 +58,7 @@ describe('signMessage', () => {
     snapStub.rpcStubs.snap_getBip32Entropy.mockResolvedValue(bip44.slip10Node);
     snapStub.rpcStubs.snap_manageState.mockResolvedValue({network: 'test'});
 
-    const result = await signMessage(domain, snapStub, message);
+    const result = await signMessage(domain, snapStub, message, derivationPath);
 
     expect(result.address.startsWith('2')).toBeTruthy();
   });

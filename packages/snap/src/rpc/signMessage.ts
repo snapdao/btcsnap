@@ -3,20 +3,20 @@ import {SnapError, RequestErrors} from '../errors';
 import {BitcoinNetwork, ScriptType, Snap} from '../interface';
 import {getPersistedData} from '../utils';
 import {heading, panel, text, divider} from '@metamask/snaps-ui';
-import {pathMap} from '../rpc/getExtendedPublicKey';
 import {getNetwork} from '../bitcoin/getNetwork';
 import * as bitcoin from 'bitcoinjs-lib';
 import { getHDNode } from '../utils/getHDNode';
+import { getScriptType } from '../utils/getScriptType';
+import { SignMessageErrors } from '../errors/constant/SignMessageErrors';
 
 
 export const signMessage = async (
   domain: string,
   snap: Snap,
   message: string,
-  // TODO: implement bip322 message signing
+  derivationPath: string,
+    // TODO: implement bip322 message signing
   protocol: 'ecdsa' | 'bip322' = 'ecdsa',
-  scriptType: ScriptType = ScriptType.P2SH_P2WPKH,
-  
 ) => {
   if (protocol !== 'ecdsa') {
     throw SnapError.of(RequestErrors.ActionNotSupport);
@@ -28,8 +28,14 @@ export const signMessage = async (
     '' as BitcoinNetwork,
   );
 
+  const scriptType = getScriptType(derivationPath);
+
+  if (!scriptType || ![ScriptType.P2PKH, ScriptType.P2SH_P2WPKH].includes(scriptType)) {
+    throw SnapError.of(SignMessageErrors.DerivationPathNotSupported);
+  }
+
+  const path = derivationPath.split('/');
   const btcNetwork = getNetwork(snapNetwork);
-  const path = [...pathMap[scriptType], "0'", '0', '0'];
 
   if (snapNetwork !== BitcoinNetwork.Main) {
     path[2] = "1'";

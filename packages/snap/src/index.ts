@@ -84,8 +84,8 @@ export const onRpcRequest = async ({origin, request}: RpcRequest) => {
         origin,
         snap,
         request.params.message,
+        request.params.derivationPath,
         request.params.protocol,
-        request.params.scriptType
       );
 
     default:

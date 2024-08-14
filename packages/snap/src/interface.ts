@@ -62,7 +62,7 @@ export interface SignMessage {
   params: {
     message: string;
     protocol: 'ecdsa' | 'bip322'
-    scriptType?: ScriptType.P2SH_P2WPKH | ScriptType.P2WPKH;
+    derivationPath?: string;
   };
 }
 
