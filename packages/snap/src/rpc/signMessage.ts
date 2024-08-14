@@ -15,6 +15,8 @@ export const signMessage = async (
   message: string,
   // TODO: implement bip322 message signing
   protocol: 'ecdsa' | 'bip322' = 'ecdsa',
+  scriptType: ScriptType = ScriptType.P2SH_P2WPKH,
+  
 ) => {
   if (protocol !== 'ecdsa') {
     throw SnapError.of(RequestErrors.ActionNotSupport);
@@ -27,7 +29,7 @@ export const signMessage = async (
   );
 
   const btcNetwork = getNetwork(snapNetwork);
-  const path = [...pathMap[ScriptType.P2SH_P2WPKH], "0'", '0', '0'];
+  const path = [...pathMap[scriptType], "0'", '0', '0'];
 
   if (snapNetwork !== BitcoinNetwork.Main) {
     path[2] = "1'";
@@ -48,9 +50,10 @@ export const signMessage = async (
     params: {
       type: 'confirmation',
       content: panel([
-        heading('Sign Bitcoin Message'),
+        heading('Signature Request'),
         text(`Please verify this sign message request from ${domain}`),
         divider(),
+        text("Only confirm this message if you approve the content and trust the requesting site."),
         panel([
           text(`**Address**:\n ${address}`),
           text(`**Network**:\n ${snapNetwork === BitcoinNetwork.Main ? 'Mainnet' : 'Testnet'}`),
@@ -67,7 +70,7 @@ export const signMessage = async (
   }
 
     const signature = bitcoinMessage.sign(message, privateKey, true, {
-      segwitType: "p2sh(p2wpkh)"
+      segwitType: scriptType === ScriptType.P2WPKH ? "p2wpkh" : "p2sh(p2wpkh)",
     });
 
     return {
