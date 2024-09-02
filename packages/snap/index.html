@@ -33,6 +33,7 @@
     <button class="saveData">Save data to Snap</button>
     <button class="getData">Get data from Snap</button>
     <button class="signLNInvoice">Sign LN Invoice</button>
+    <button class="signMessage">Sign Message</button>
 
     <div id="extendedPubKey" style="margin-top:5px"></div>
     <div id="mfp" style="margin-top:5px"></div>
@@ -51,6 +52,7 @@
     const saveDataButton = document.querySelector('button.saveData')
     const getDataButton = document.querySelector('button.getData')
     const signLNInvoiceButton = document.querySelector('button.signLNInvoice')
+    const signMessageButton = document.querySelector('button.signMessage')
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', getPubKey)
@@ -60,6 +62,8 @@
     saveDataButton.addEventListener('click', saveData)
     getDataButton.addEventListener('click', getData)
     signLNInvoiceButton.addEventListener('click', signLNInvoice)
+    signMessageButton.addEventListener('click', signMessage);
+
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -232,5 +236,28 @@
         alert('Problem happened: ' + err.message || err)
       }
     }
+
+    async function signMessage () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: {
+            snapId,
+            request: {
+              method: 'btc_signMessage',
+              params: {
+                message: "Hello, world!",
+                derivationPath: "m/49'/0'/0'/0/0",
+              }
+            }
+          }
+        })
+
+        console.log(response);
+      } catch(err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    } 
   </script>
 </html>
